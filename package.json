@@ -6,7 +6,8 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "push": "git push origin master:master && git push gitee master:master"
   },
   "hexo": {
     "version": "7.1.1"
