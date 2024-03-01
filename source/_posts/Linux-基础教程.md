@@ -1,7 +1,8 @@
 ---
 title: Linux 基础教程
 date: 2024-02-26 15:17:10
-tags: Linux
+tags: linux
+category: linux
 ---
 
 ## 简介

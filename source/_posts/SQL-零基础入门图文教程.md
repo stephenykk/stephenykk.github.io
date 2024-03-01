@@ -1,7 +1,8 @@
 ---
 title: SQL 零基础入门图文教程
 date: 2024-02-26 15:15:00
-tags: SQL
+tags: sql
+category: sql
 ---
 
 > 原文地址[❤️ SQL 零基础入门图文教程！ - 掘金](https://juejin.cn/post/7017619911153287182?searchId=20240113214612C4340640798DFAE8DE8D)

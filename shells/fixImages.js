@@ -10,7 +10,7 @@ function main() {
       return /\.html/.test(filename);
     },
     callback(absPath) {
-      console.log("🚀 ~ callback ~ absPath:", absPath);
+      // console.log("🚀 ~ callback ~ absPath:", absPath);
       addAttrAboutReferrer(absPath);
     },
   });
