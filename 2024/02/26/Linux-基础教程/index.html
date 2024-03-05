@@ -1,0 +1,493 @@
+
+<!DOCTYPE html><html lang="zh_CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Linux 基础教程 - 云淡风轻的天空</title>
+
+  
+    <meta name="description" content="简介Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。 Linux 的发行版Linux 的发行版简单说就是 linux 内核和应用软件的打包目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、Blue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 基础教程">
+<meta property="og:url" content="https://stephenykk.github.io/2024/02/26/Linux-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="云淡风轻的天空">
+<meta property="og:description" content="简介Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。 Linux 的发行版Linux 的发行版简单说就是 linux 内核和应用软件的打包目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、Blue">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-26T07:17:10.000Z">
+<meta property="article:modified_time" content="2024-02-27T11:57:03.163Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="Linux">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">云淡风轻的天空</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">TOC</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E7%9A%84%E5%8F%91%E8%A1%8C%E7%89%88"><span class="toc-text">Linux 的发行版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">系统启动过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E5%85%B3%E6%9C%BA"><span class="toc-text">linux 关机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">linux 系统目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E6%96%87%E4%BB%B6%E5%9F%BA%E6%9C%AC%E5%B1%9E%E6%80%A7"><span class="toc-text">linux 文件基本属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7"><span class="toc-text">更改文件属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="toc-text">linux 文件和目录管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86"><span class="toc-text">磁盘管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-text">定时任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/05/pnpm-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">pnpm 使用教程</span></a><a class="item title" href="/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL 零基础入门图文教程</span></a><a class="item title" href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">python 基础教程</span></a><a class="item title active" href="/2024/02/26/Linux-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Linux 基础教程</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2024-02-26T07:17:10.000Z">2024-02-26</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2024-02-27T11:57:03.163Z">2024-02-27</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>Linux 基础教程</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个基于 POSIX 和 UNIX 的多用户、多任务、支持多线程和多 CPU 的操作系统。</p>
+<h2 id="Linux-的发行版"><a href="#Linux-的发行版" class="headerlink" title="Linux 的发行版"></a>Linux 的发行版</h2><p>Linux 的发行版简单说就是 linux 内核和应用软件的打包<br>目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare 等。</p>
+<h2 id="系统启动过程"><a href="#系统启动过程" class="headerlink" title="系统启动过程"></a>系统启动过程</h2><ul>
+<li><p>内核引导<br>BIOS 自检，由设置的启动设备启动，操作系统接管硬件，读&#x2F;boot 目录的内核文件</p>
+</li>
+<li><p>运行 init 进程<br>读取配置 &#x2F;etc&#x2F;inittab</p>
+</li>
+<li><p>运行级别<br>许多程序需要开机启动。它们在 Windows 叫做”服务”（service），在 Linux 就叫做”守护进程”（daemon）。不同的场合需要启动不同的程序，所以就有了运行级别</p>
+</li>
+</ul>
+<p>init 进程的一大任务，就是去运行这些开机启动的程序。</p>
+<p>Linux 系统有 7 个运行级别(runlevel)：</p>
+<pre><code>+ 运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动
++ 运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆
++ 运行级别2：多用户状态(没有NFS)
++ 运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式
++ 运行级别4：系统未使用，保留
++ 运行级别5：X11控制台，登陆后进入图形GUI模式
++ 运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动
+</code></pre>
+<ul>
+<li><p>系统初始化<br>真正的 rc 启动脚本，放在 init.d 目录，它们有类似的用法，一般都能接受 <code>start</code>, <code>stop</code>, <code>restart</code>, <code>status</code>等参数<br>&#x2F;etc&#x2F;rc5.d 中的 rc 脚本，通常都是 K 或 S 开头的链接文件，S 开头则用<code>start</code>参数运行, K 开头的则用<code>stop</code>参数运行</p>
+</li>
+<li><p>建立终端<br>rc 脚本执行完后，init 会接着打开 6 个终端, 以便用户登录</p>
+</li>
+<li><p>用户登录<br>用户有三种登录方式:</p>
+<ul>
+<li>命令行登录</li>
+<li>ssh 登录</li>
+<li>图形界面登录 <em>运行级别为 5，登录后进入 KDE Gnome 等窗口管理器</em></li>
+</ul>
+</li>
+<li><p>终端切换<br><code>ctrl+alt+F1-F6</code> 切换终端 1-6, <code>ctrl+alt+F7</code>返回图形界面</p>
+</li>
+</ul>
+<h2 id="linux-关机"><a href="#linux-关机" class="headerlink" title="linux 关机"></a>linux 关机</h2><p>正确的关机流程: sync &gt; shutdown &gt; reboot &gt; halt<br>关机指令 <code>shutdown</code>, <code>man shutdown</code> 查看帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">shutdown -h 1 &#x27;machine will shutdown in 1 minute&#x27; # -h halt</span><br><span class="line">shutdown now # 马上关机</span><br><span class="line">shutdown -r now # 马上重启 同 reboot</span><br><span class="line">shutdown -r +5 # 5分钟后重启</span><br><span class="line">shutdown -h 20:24 # 某时间点关机</span><br><span class="line">shutdown -h now # 马上关机 同 halt</span><br><span class="line">shutdown -c # 取消定时关机</span><br><span class="line">poweroff # 关机</span><br><span class="line">init 0 # 关机</span><br><span class="line">init 6 # 重启</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>shutdown 和 halt 的区别<br>halt 执行时﹐杀死应用进程﹐执行 sync 系统调用﹐文件系统写操作完成后就会停止内核，要手动关闭电源<br>shutdown 会停止应用进程 卸载文件系统 然后关闭电源</p>
+</blockquote>
+<h2 id="linux-系统目录结构"><a href="#linux-系统目录结构" class="headerlink" title="linux 系统目录结构"></a>linux 系统目录结构</h2><ul>
+<li><p><code>/bin</code><br>bin 是 binary 的缩写，该目录存放最常用的命令</p>
+</li>
+<li><p><code>/boot</code><br>存放启动 linux 时用到的核心文件</p>
+</li>
+<li><p><code>/dev</code><br>dev 是 device 的缩写, 存放外部设备 <em>linux 中访问设备的方式和访问文件相同</em></p>
+</li>
+<li><p><code>/etc</code><br>存放系统的配置文件</p>
+</li>
+<li><p><code>/home</code><br>用户的主目录，每个用户都有自己的主目录 <em>通常和用户名同名</em></p>
+</li>
+<li><p><code>/lib</code><br>存放系统的动态链接共享库, 类似于 windows 中的 dll 文件,几乎所有应用程序都需要这些共享库</p>
+</li>
+<li><p><code>/lost+found</code><br>一般为空，非法关机后，会存放一些文件</p>
+</li>
+<li><p><code>/media</code><br>把识别的媒体设备挂载到该目录</p>
+</li>
+<li><p><code>/mnt</code><br>用户挂载的其他文件系统</p>
+</li>
+<li><p><code>/opt</code><br>存放额外安装的软件</p>
+</li>
+<li><p><code>/proc</code><br>该目录是虚拟目录，是系统内存的映射，可以从中获取系统信息, 可直接修改里面的某些文件</p>
+</li>
+<li><p><code>/root</code><br>超级管理员的主目录</p>
+</li>
+<li><p><code>/sbin</code><br>存放系统管理相关的程序</p>
+</li>
+<li><p><code>selinux</code><br>Redhat&#x2F;CentOS 特有的，安全相关的文件</p>
+</li>
+<li><p><code>/srv</code><br>存放服务启动后需提取的数据</p>
+</li>
+<li><p><code>/sys</code><br>内核设备树的直观反映，创建内核对象时，会在这里新增对应的文件</p>
+</li>
+<li><p><code>/tmp</code><br>存放临时文件</p>
+</li>
+<li><p><code>usr</code><br>非常重要的目录，用户的程序和文件都放这里，类似 windows 的 <code>program files</code> 文件夹</p>
+</li>
+<li><p><code>usr/bin</code><br>普通用户使用的程序</p>
+</li>
+<li><p><code>/usr/sbin</code><br>超级管理员使用的程序</p>
+</li>
+<li><p><code>/usr/src</code><br>存放源码的目录</p>
+</li>
+<li><p><code>/var</code><br>存放经常被修改的文件，如 日志</p>
+</li>
+<li><p><code>/run</code><br>临时文件系统，存储系统启动以来的信息。系统重启时，会清空</p>
+</li>
+</ul>
+<p>忘记密码的解决办法: 单用户模式 或 rescue 模式</p>
+<p>linux 远程登录<br>window 下远程登录客户端有 <code>secureCRT</code>, <code>Putty</code>, <code>SSH Secure Shell</code>, <code>Xshell</code>等</p>
+<h2 id="linux-文件基本属性"><a href="#linux-文件基本属性" class="headerlink" title="linux 文件基本属性"></a>linux 文件基本属性</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -al <span class="comment"># 长列表格式 显示所有文件 包括 . ..</span></span><br><span class="line"><span class="built_in">ls</span> -R <span class="comment"># 递归地显示子目录内容</span></span><br><span class="line">ll <span class="comment"># 同 ls -l</span></span><br></pre></td></tr></table></figure>
+
+<p>文件类型|属主权限|属组权限|其他用户的权限</p>
+<p>文件类型:</p>
+<ul>
+<li><code>d</code> 文件夹</li>
+<li><code>-</code> 文件</li>
+<li><code>l</code> 链接文件</li>
+<li><code>b</code> 二进制文件&#x2F;可执行文件&#x2F;接口设备</li>
+<li><code>c</code> 字符文件&#x2F;串行端口设备</li>
+</ul>
+<p>文件归属</p>
+<ul>
+<li>文件属主 文件所有者</li>
+<li>文件属组 所有者的同组用户</li>
+<li>其他用户</li>
+</ul>
+<blockquote>
+<p>文件所有者,文件所有组和其他用户的权限。 对于 root 用户来说，一般情况下，文件的权限对其不起作用。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/group | <span class="built_in">sort</span>  <span class="comment"># 查看用户组 (sort表示按字母排序) group_name:passwd:GID:user_list (passwd 为 x 表示加密)</span></span><br><span class="line"><span class="built_in">cat</span> /etc/passwd | <span class="built_in">sort</span> <span class="comment"># 查看用户信息 user_name:passwd:uid:gid:group_name:home_dir:default_shell</span></span><br><span class="line"><span class="built_in">cat</span> /etc/gshadow  <span class="comment"># 用户组的密码文件 group_name:passwd 密码是加密的</span></span><br><span class="line"><span class="built_in">cat</span> /etc/shadow  <span class="comment"># 用户的密码文件 user_name:passwd</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">whoami</span> <span class="comment"># 查看当前登录用户</span></span><br><span class="line"><span class="built_in">groups</span> &lt;user&gt; <span class="comment"># 查看当前登录用户/指定用户 属于哪些组 如 groups root</span></span><br><span class="line"><span class="built_in">ls</span> /etc/sudoers.d <span class="comment">#sudo用户列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不同用户有不同权限 若没有x权限不能打开目录</span></span><br><span class="line">sudo adduser <span class="built_in">test</span> <span class="comment"># 创建用户test</span></span><br><span class="line"><span class="comment"># sudo deluser test --remove-home  删除用户和用户的主目录</span></span><br><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line"><span class="built_in">mkdir</span> myfolder</span><br><span class="line">ll <span class="comment"># 查看</span></span><br><span class="line"><span class="built_in">chown</span> pan myfolder <span class="comment"># 修改所有者为pan</span></span><br><span class="line"><span class="built_in">chmod</span> g-x,o-x myfolder <span class="comment"># 同组和其他组的用户 取消执行权限</span></span><br><span class="line">su <span class="built_in">test</span> <span class="comment"># 切换到test用户</span></span><br><span class="line"><span class="built_in">cd</span> myfolder <span class="comment"># test用户没有myfolder的执行权限 所以打不开文件夹</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">alias</span> <span class="comment"># 查看别名</span></span><br><span class="line"></span><br><span class="line">su - &lt;user&gt; <span class="comment"># 切换用户 工作目录也切换到目标用户的home目录</span></span><br><span class="line">su &lt;user&gt; <span class="comment"># 只切换用户</span></span><br><span class="line"></span><br><span class="line">tar -cvzf demo.tgz demoDir <span class="comment"># 压缩文件夹</span></span><br><span class="line">tar -zxvf demo.tar.gz -C /home/pan <span class="comment"># 解压到指定路径下(该路径需要真实存在)</span></span><br><span class="line">tar -tvf demo.tar  <span class="comment"># 查看压缩包内容</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="更改文件属性"><a href="#更改文件属性" class="headerlink" title="更改文件属性"></a>更改文件属性</h3><p>chgrp 更改文件属组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chgrp [-R] 属组名 文件名</span></span><br><span class="line"><span class="built_in">chgrp</span> pan tmpdir</span><br></pre></td></tr></table></figure>
+
+<p>chown 更改文件所有者，也可同时属组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chown [–R] 属主名 文件名</span></span><br><span class="line"><span class="comment"># chown [-R] 属主名:属组名 文件名</span></span><br><span class="line"><span class="built_in">chown</span> <span class="built_in">test</span>:<span class="built_in">test</span> tmpdir</span><br></pre></td></tr></table></figure>
+
+<p>chmod 更改文件权限<br>Linux 文件属性有两种设置方法，一种是数字，一种是符号。</p>
+<p>符号:</p>
+<ul>
+<li>a &#x3D; all</li>
+<li>u &#x3D; user 所有者</li>
+<li>g &#x3D; group</li>
+<li>o &#x3D; other</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -R 700 hello <span class="comment"># 用数字指定权限 相对方便</span></span><br><span class="line"><span class="built_in">chmod</span> -R u+x hello <span class="comment"># 属主+x权限</span></span><br><span class="line"><span class="built_in">chmod</span> -R o-x hello <span class="comment"># 其他用户-x权限</span></span><br><span class="line">chomd -R g+w hello <span class="comment"># 属组+w权限</span></span><br><span class="line"><span class="built_in">chmod</span> -R a+w hello <span class="comment"># 所有用户+w权限</span></span><br><span class="line"><span class="built_in">chmod</span> -R u=rxw hello <span class="comment"># 设置所有者的权限</span></span><br><span class="line"><span class="built_in">chmod</span> -R u=rxw,g=r,o=w hello <span class="comment"># 设置三种用户的权限 (注意逗号分隔)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="linux-文件和目录管理"><a href="#linux-文件和目录管理" class="headerlink" title="linux 文件和目录管理"></a>linux 文件和目录管理</h2><p>Linux 的目录结构为树状结构，最顶级的目录为根目录 &#x2F;</p>
+<ul>
+<li><strong>绝对路径</strong> 从根目录开始 <code>/home/pan</code>, <code>/media/pan</code></li>
+<li><strong>相对路径</strong> <code>./pan</code> or <code>../pan</code></li>
+</ul>
+<p>目录管理命令</p>
+<ul>
+<li><code>ls</code> 列出目录内容</li>
+<li><code>cd</code> 切换目录</li>
+<li><code>pwd</code> 显示当前目录</li>
+<li><code>mkdir</code> 创建目录</li>
+<li><code>rmdir</code> 删除空目录</li>
+<li><code>rm</code> 删除文件或目录</li>
+<li><code>cp</code> 复制文件或目录 <code>cp -r folder folder2</code> 复制目录要加 <code>-r</code></li>
+<li><code>mv</code> 移动文件或目录, 也可以用来重命名文件或目录</li>
+</ul>
+<blockquote>
+<p>man ls 查看帮助文档</p>
+</blockquote>
+<p>列出目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -a  <span class="comment"># 全部文件，连同.开头的隐藏文件</span></span><br><span class="line"><span class="built_in">ls</span> -d <span class="comment"># 显示目录自身，而不是目录的内容</span></span><br><span class="line"><span class="built_in">ls</span> -l <span class="comment"># 长格式显示文件内容，包含文件的权限、大小和修改时间等</span></span><br></pre></td></tr></table></figure>
+
+<p>切换目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /root/hello</span><br><span class="line"><span class="built_in">cd</span> ./foo</span><br><span class="line"><span class="built_in">cd</span> ~ <span class="comment"># 用户的主目录</span></span><br><span class="line"><span class="built_in">cd</span>   <span class="comment"># 不带参数 同上 则返回用户主目录</span></span><br><span class="line"><span class="built_in">cd</span> - <span class="comment"># 返回之前的目录</span></span><br><span class="line"><span class="built_in">cd</span> .. <span class="comment"># 上级目录</span></span><br></pre></td></tr></table></figure>
+
+<p>显示当前目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pwd</span></span><br><span class="line"><span class="built_in">pwd</span> -P <span class="comment"># 显示真实路径，而非链接文件的路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 例子</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">ln</span> -s Music mp3 <span class="comment"># 创建软链接 mp3</span></span><br><span class="line"><span class="built_in">cd</span> mp3</span><br><span class="line"><span class="built_in">pwd</span> -P</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="built_in">dirname</span></span><br><span class="line"><span class="built_in">mkdir</span> -m 711 <span class="built_in">dirname</span> <span class="comment"># 配置文件的权限喔！直接配置，不需要看默认权限 (umask) 的脸色～</span></span><br><span class="line"><span class="built_in">mkdir</span> -p path/to/you/want <span class="comment"># 创建多层目录</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> path/to/you/want</span><br><span class="line"><span class="built_in">touch</span> hello</span><br><span class="line"><span class="built_in">rm</span> -rf path/to/you/wan/*</span><br><span class="line"><span class="built_in">rmdir</span> -p path/to/you/want <span class="comment"># rmdir 不能删除非空目录 所以要先用 rm</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h2><ul>
+<li><p>df 列出磁盘使用量<br><code>df [-ahHikmT] [目录或文件名]</code></p>
+<ul>
+<li><code>-a</code>：列出所有的文件系统，包括系统特有的 &#x2F;proc 等文件系统;</li>
+<li><code>-k</code>：以 KBytes 的容量显示各文件系统;</li>
+<li><code>-m</code>：以 MBytes 的容量显示各文件系统;</li>
+<li><code>-h</code>：以人们较易阅读的 GBytes，MBytes，KBytes 等格式自行显示;</li>
+<li><code>-H</code>：以 M &#x3D; 1000K 取代 M &#x3D; 1024K 的进位方式;</li>
+<li><code>-T</code>：显示文件系统类型，连同该分区的文件系统名称（例如 ext3）也列出;</li>
+<li><code>-i</code>：不用硬盘容量，而以 inode 的数量来显示</li>
+</ul>
+</li>
+<li><p>du 查看文件&#x2F;目录的使用空间<br><code>du [-ahskm] [文件或目录]</code></p>
+<ul>
+<li><code>-a</code>：列出所有的文件与目录容量，因为默认仅统计目录底下的文件量而已。</li>
+<li><code>-h</code>：以人们较易读的容量格式（G &#x2F; M）显示;</li>
+<li><code>-s</code>：列出总量而已，而不列出每个各别的目录占用容量;</li>
+<li><code>-S</code>：不包括子目录下的总计(<em>当前目录下文件的总大小</em>)，与-s 有点差别。</li>
+<li><code>-k</code>：以 KBytes 列出容量显示;</li>
+<li><code>-m</code>：以 MBytes 列出容量显示;</li>
+</ul>
+<blockquote>
+<p>直接输入 du 没有加任何选项时，则 du 会分析当前所在目录的文件与目录所占用的硬盘空间。</p>
+</blockquote>
+</li>
+<li><p>fdisk 分区工具<br><code>fdisk -l 【设备]</code> 显示指定设备&#x2F;当前目录所在设备的分区信息<br><code>fdisk /dev/sda1</code> 对指定设备分区, (<em>q 退出，w 保存</em>)</p>
+</li>
+<li><p>mkfs 分区格式化<br><code>mkfs -t 文件系统类型 设备</code>， 例如： mkfs -t mkfs.ext4 &#x2F;dev&#x2F;sda2</p>
+</li>
+<li><p>fsck 文件系统检查<br>若系统掉电或磁盘发生问题，可用 fsck 进行检查, 详细用法见 <code>fsck -h</code></p>
+</li>
+<li><p>磁盘挂载(mount)或卸载(umount)<br><code>mount -L label -t 文件系统类型 挂载点 </code>umount -fn 设备文件名或挂载点</p>
+</li>
+</ul>
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><p>crontab 命令(cron table)，它是 cron 的配置文件，也可以叫它作业列表，我们可以在以下文件夹内找到相关配置文件。</p>
+<ul>
+<li>&#x2F;var&#x2F;spool&#x2F;cron&#x2F; 目录下存放的是每个用户包括 root 的 crontab 任务，每个任务以创建者的名字命名</li>
+<li>&#x2F;etc&#x2F;crontab 这个文件负责调度各种管理和维护任务。</li>
+<li>&#x2F;etc&#x2F;cron.d&#x2F; 这个目录用来存放任何要执行的 crontab 文件或脚本。</li>
+</ul>
+<blockquote>
+<p>我们还可以把脚本放在&#x2F;etc&#x2F;cron.hourly、&#x2F;etc&#x2F;cron.daily、&#x2F;etc&#x2F;cron.weekly、&#x2F;etc&#x2F;cron.monthly 目录中，让它每小时&#x2F;天&#x2F;星期、月执行一次。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">crontab [-u username]　　　　<span class="comment"># 省略用户 表示操作当前用户的crontab</span></span><br><span class="line">    -e      (编辑工作表)</span><br><span class="line">    -l      (列出工作表里的命令)</span><br><span class="line">    -r      (删除工作作)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">crontab -e  <span class="comment"># 编辑定时任务</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 语法</span></span><br><span class="line">分 时 日 月 周 cmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 例子</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每1分钟执行一次myCommand</span></span><br><span class="line"><span class="comment"># 默认不支持秒级别执行频率</span></span><br><span class="line">* * * * * myCommand</span><br><span class="line"><span class="comment"># 每小时的第3和第15分钟执行</span></span><br><span class="line">3,15 * * * * myCommand</span><br><span class="line"><span class="comment"># 在上午8点到11点的第3和第15分钟执行</span></span><br><span class="line">3,15 8-11 * * * myCommand</span><br><span class="line"><span class="comment"># 每隔两天的上午8点到11点的第3和第15分钟执行</span></span><br><span class="line"><span class="comment"># * == */1 执行30次 每天1次 ,  而 */2 代表 12次，每2天执行1次</span></span><br><span class="line">3,15 8-11 */2  *  * myCommand</span><br><span class="line"><span class="comment"># 每周一上午8点到11点的第3和第15分钟执行</span></span><br><span class="line">3,15 8-11 * * 1 myCommand</span><br><span class="line"><span class="comment"># 每晚的21:30重启smb</span></span><br><span class="line">30 21 * * * /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 每月1、10、22日的4 : 45重启smb</span></span><br><span class="line">45 4 1,10,22 * * /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 每周六、周日的1 : 10重启smb</span></span><br><span class="line">10 1 * * 6,0 /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 每天18 : 00至23 : 00之间每隔30分钟重启smb</span></span><br><span class="line">0,30 18-23 * * * /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 每星期六的晚上11 : 00 pm重启smb</span></span><br><span class="line">0 23 * * 6 /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 每一小时重启smb</span></span><br><span class="line">* */1 * * * /etc/init.d/smb restart</span><br><span class="line"><span class="comment"># 晚上11点到早上7点之间，每隔一小时重启smb</span></span><br><span class="line">* 23-7/1 * * * /etc/init.d/smb restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> curl <span class="comment"># 查看命令的类型 *可以用来确认有没有这个命令*</span></span><br><span class="line"><span class="built_in">type</span> <span class="built_in">echo</span></span><br><span class="line"><span class="built_in">type</span> ifconfig</span><br><span class="line"></span><br><span class="line"><span class="built_in">which</span> mongo <span class="comment"># 查看应用安装在哪里</span></span><br><span class="line">whereis mongo</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kaituorensheng/p/3980334.html">linux 后台运行和关闭、查看后台任务</a></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>License</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2024/03/05/pnpm-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">pnpm 使用教程</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/">SQL 零基础入门图文教程</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: 'Just',
+      min: 'minutes ago',
+      hour: 'hours ago',
+      day: 'days ago',
+      month: 'months ago',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
