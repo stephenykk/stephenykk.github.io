@@ -10,7 +10,7 @@
     "push:master": "git push origin master:master && git push gh master:master",
     "push:blog": "git push origin blog:blog && git push gh blog:blog",
     "merge:blog": "git checkout blog && git merge master",
-    "p": "pnpm merge:blog && pnpm push:master && pnpm push:blog",
+    "p": "pnpm push:master",
     "fix-images": "node scripts/fixImages",
     "d": "npm run clean && npm run build && npm run fix-images && hexo d"
   },
