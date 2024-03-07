@@ -7,8 +7,11 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "push": "git push origin master:master && git push gitee master:master",
-    "fix-images": "node shells/fixImages",
+    "push:master": "git push origin master:master && git push gh master:master",
+    "push:blog": "git push origin blog:blog && git push gh blog:blog",
+    "merge:blog": "git checkout blog && git merge master",
+    "p": "pnpm push:master",
+    "fix-images": "node scripts/fixImages",
     "d": "npm run clean && npm run build && npm run fix-images && hexo d"
   },
   "hexo": {
@@ -16,6 +19,7 @@
   },
   "dependencies": {
     "hexo": "^7.0.0",
+    "hexo-fs": "^4.1.1",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
     "hexo-generator-index": "^3.0.0",
@@ -24,7 +28,8 @@
     "hexo-renderer-marked": "^6.0.0",
     "hexo-renderer-stylus": "^3.0.0",
     "hexo-server": "^3.0.0",
-    "hexo-theme-stellar": "^1.26.8"
+    "hexo-theme-stellar": "^1.26.8",
+    "hexo-util": "^3.2.0"
   },
   "devDependencies": {
     "hexo-deployer-git": "^4.0.0"
