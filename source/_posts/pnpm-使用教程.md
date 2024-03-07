@@ -96,4 +96,10 @@ console.log("down command starting..");
 
 更多 `--filter` 参数的用法可查帮助信息 `pnpm help run`
 
-在 root project 下执行, `pnpm down` 可测试子项目的命令，实现脚本工具(`down-cli`)的开发调试
+在 root project 下执行, `pnpm down` 可测试子项目的命令，实现脚本工具(`down-cli`)的开发调试  
+
+在 root project 下，按照指定子项目的依赖: `pnpm add lodash --filter app`  
+
+同理，发布某个子工程对应的package, `pnpm publish --filter app` or `pnpm publish --F app`  
+
+
