@@ -1,0 +1,993 @@
+
+<!DOCTYPE html><html lang="zh_CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>2023再看React状态管理库 - 云淡风轻的天空</title>
+
+  
+    <meta name="description" content="原文地址2023 再看 React 状态管理库 - 掘金  什么是状态管理？状态状态是表示组件当前状况的 JS 对象。在 React 中，可以使用 useState 或者 this.state 维护组件内部状态，通过 props 传递给子组件使用。 为了避免状态传递过程中出现混乱，React 引入了“单向数据流”的理念。主要思想是组件不会改变接收的数据，只会监听数据的变化，当数据发生变化时他们会">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2023再看React状态管理库">
+<meta property="og:url" content="https://stephenykk.github.io/2024/02/28/2023%E5%86%8D%E7%9C%8BReact%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%BA%93/index.html">
+<meta property="og:site_name" content="云淡风轻的天空">
+<meta property="og:description" content="原文地址2023 再看 React 状态管理库 - 掘金  什么是状态管理？状态状态是表示组件当前状况的 JS 对象。在 React 中，可以使用 useState 或者 this.state 维护组件内部状态，通过 props 传递给子组件使用。 为了避免状态传递过程中出现混乱，React 引入了“单向数据流”的理念。主要思想是组件不会改变接收的数据，只会监听数据的变化，当数据发生变化时他们会">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b0ae4f6b2bd4f7081170216163821f5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b329102b3d454d0887a53cd6b8f6d0af~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5aad8931489b4118b0d61518a59c92b5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/713f854973f8446690a68342aed0e05a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b3237134ee24c03998f4715ebc6fad2~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b08330a8937b4a37914f75ab85615a5f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f76308b8c1f14e398ecbf316639a9b53~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="article:published_time" content="2024-02-28T04:46:23.000Z">
+<meta property="article:modified_time" content="2024-03-08T15:11:59.242Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b0ae4f6b2bd4f7081170216163821f5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+  
+  
+  
+  <meta name="keywords" content="react">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">云淡风轻的天空</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">TOC</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81"><span class="toc-text">状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%BC%8F"><span class="toc-text">常见模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">要解决的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E6%99%BA%E6%A8%A1%E5%9E%8B"><span class="toc-text">心智模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Context-%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">Context 的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%A7%88"><span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-%E6%97%B6%E4%BB%A3"><span class="toc-text">Class 时代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redux"><span class="toc-text">Redux</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-text">单向数据流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="toc-text">三大原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E5%BC%82%E6%AD%A5"><span class="toc-text">如何处理异步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E9%97%B4%E8%81%94%E5%8A%A8"><span class="toc-text">如何处理数据间联动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9-1"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9-1"><span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dva"><span class="toc-text">Dva</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icestore"><span class="toc-text">icestore</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mobx"><span class="toc-text">Mobx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="toc-text">设计思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%83%E6%99%BA%E6%A8%A1%E5%9E%8B-1"><span class="toc-text">心智模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mobx-vs-Redux"><span class="toc-text">Mobx vs Redux</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%82%B9-2"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9-2"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E4%B8%8B%E8%80%8C%E4%B8%8A%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%B4%9B%E8%B5%B7"><span class="toc-text">自下而上模式的崛起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Recoil"><span class="toc-text">Recoil</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3-1"><span class="toc-text">设计思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95"><span class="toc-text">核心方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9-3"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%BD%E5%8A%9B%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="toc-text">能力对照表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Zustand"><span class="toc-text">Zustand</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zustand-vs-Redux"><span class="toc-text">Zustand vs Redux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jotai"><span class="toc-text">Jotai</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Recoil-vs-Jotai"><span class="toc-text">Recoil vs Jotai</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zustand-vs-Jotai"><span class="toc-text">Zustand vs Jotai</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Valtio"><span class="toc-text">Valtio</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-3"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Valtio-vs-Zustand"><span class="toc-text">Valtio vs Zustand</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Valtio-vs-Mobx"><span class="toc-text">Valtio vs Mobx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hox"><span class="toc-text">Hox</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%88%B0%E7%8A%B6%E6%80%81%E5%85%B1%E4%BA%AB"><span class="toc-text">从状态管理到状态共享</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-text">优势</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Python 基础教程</span></a><a class="item title" href="/2024/03/01/%E5%86%99%E7%BB%995%E5%B9%B4%E5%89%8D%E7%AB%AF%E5%A6%B9%E5%AD%90%E7%9A%84%E4%B8%89%E4%B8%87%E5%AD%97%E8%84%9A%E6%89%8B%E6%9E%B6%E6%95%99%E7%A8%8B/"><span class="title">写给5年前端妹子的三万字脚手架教程</span></a><a class="item title" href="/2024/03/05/pnpm-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">pnpm 使用教程</span></a><a class="item title" href="/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL 零基础入门图文教程</span></a><a class="item title" href="/2024/03/01/SQL-%E6%A6%82%E5%BF%B5%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><span class="title">SQL 概念及数据库表的基本操作</span></a><a class="item title" href="/2024/02/28/React%E8%BF%9B%E9%98%B6-React%E5%85%A8%E9%83%A8api%E8%A7%A3%E8%AF%BB-%E5%9F%BA%E7%A1%80%E5%AE%9E%E8%B7%B5%E5%A4%A7%E5%85%A8-%E5%A4%AF%E5%AE%9E%E5%9F%BA%E7%A1%802%E4%B8%87%E5%AD%97%E6%80%BB%E7%BB%93/"><span class="title">[React进阶] React全部api解读+基础实践大全(夯实基础2万字总结)</span></a><a class="item title" href="/2024/03/01/PHP-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP 基础知识总结</span></a><a class="item title" href="/2024/03/01/Nginx%E5%92%8CPHP%E7%9A%84%E9%85%8D%E7%BD%AE/"><span class="title">Nginx和PHP的配置</span></a><a class="item title" href="/2024/03/08/Nginx%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">Nginx使用教程</span></a><a class="item title" href="/2024/03/01/MySQL-%E9%AB%98%E7%BA%A7-%E8%BF%9B%E9%98%B6-SQL%E8%AF%AD%E5%8F%A5/"><span class="title">MySQL 高级(进阶)SQL语句</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/react/">react</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2024-02-28T04:46:23.000Z">2024-02-28</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2024-03-08T15:11:59.242Z">2024-03-08</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>2023再看React状态管理库</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>原文地址<a target="_blank" rel="noopener" href="https://juejin.cn/post/7195513281228898363?searchId=2024022812341241274B98744BCB602F1E">2023 再看 React 状态管理库 - 掘金</a></p>
+</blockquote>
+<h1 id="什么是状态管理？"><a href="#什么是状态管理？" class="headerlink" title="什么是状态管理？"></a>什么是状态管理？</h1><h2 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h2><p>状态是表示组件当前状况的 JS 对象。在 React 中，可以使用 useState 或者 this.state 维护组件内部状态，通过 props 传递给子组件使用。</p>
+<p>为了避免状态传递过程中出现混乱，React 引入了“单向数据流”的理念。主要思想是组件不会改变接收的数据，只会监听数据的变化，当数据发生变化时他们会使用接收到的新值，而不是修改已有的值。当组件的更新机制触发后，他们只是使用新值进行重新渲染。</p>
+<p>父子组件通信可以直接使用 props 和回调方式；深层次、远距离组件则要通过“状态提升”和 props 层层传递。</p>
+<h2 id="常见模式"><a href="#常见模式" class="headerlink" title="常见模式"></a>常见模式</h2><p>React 状态管理的常见模式有：</p>
+<ul>
+<li>状态提升：兄弟组件间是没法直接共享状态的，可以通过将状态提升到最近的祖先组件中，所有兄弟组件就可以通过 props 一级级传递获取状态；</li>
+<li>状态组合：某些状态可能只在应用程序的特定子树中需要。最好将状态存储在尽可能接近实际需要的位置，这有助于优化渲染行为；</li>
+<li>属性下钻：将父组件的状态以属性的形式一级级显示传递给嵌套子组件；</li>
+<li>Provider：React Context 通过 Provider 包裹组件，被包裹的所有嵌套子组件都可以不用通过属性下钻而是通过 context 直接获取状态。</li>
+</ul>
+<p>层层传递的 value onChange 会对一个优质代码库带来的毁灭性影响，粗暴地把数据塞在 redux 中也并不能让一个应用得到很好的拓展性和可维护性。</p>
+<h2 id="要解决的问题"><a href="#要解决的问题" class="headerlink" title="要解决的问题"></a>要解决的问题</h2><p>状态管理库要解决的问题：</p>
+<ol>
+<li>从组件树的「任何地方」读取存储的状态</li>
+<li>写入存储状态的能力</li>
+<li>提供「优化渲染」的机制</li>
+<li>提供「优化内存使用」的机制</li>
+<li>与「并发模式的兼容性」</li>
+<li>数据的「持久化」</li>
+<li>「上下文丢失」问题</li>
+<li>「props失效」问题</li>
+<li>「孤儿」问题</li>
+</ol>
+<h2 id="心智模型"><a href="#心智模型" class="headerlink" title="心智模型"></a>心智模型</h2><p>状态更新有两种心智模型：</p>
+<ul>
+<li><p>不可变状态模型</p>
+</li>
+<li><p>可变状态模型</p>
+</li>
+<li><p>主要好处是可以使用原生 JS 方法；</p>
+</li>
+<li><p>基于 Proxy 的状态管理的一个缺点是状态不可预测，难以 debug。</p>
+</li>
+</ul>
+<p>因为 React 没有官方的状态管理方案，React 生态中状态管理库，百花齐放，演进出很多设计思想和心智模式。如何选择状态管理库就变得十分令人抓狂。</p>
+<h1 id="React-Context"><a href="#React-Context" class="headerlink" title="React Context"></a>React Context</h1><p>在多级嵌套组件场景下，使用“属性下钻”方式进行组件通信是一件成本极高的事情。为了解决这个问题，React 官方提供 Context 用于避免一级级属性传递。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b0ae4f6b2bd4f7081170216163821f5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<h2 id="Context-的问题"><a href="#Context-的问题" class="headerlink" title="Context 的问题"></a>Context 的问题</h2><p>Context存在的问题也是老生常谈。在 react 里，context 是个反模式的东西，不同于 redux 等的细粒度响应式更新，context的值一旦变化，所有依赖该context的组件全部都会 force update，因为 context API 并不能细粒度地分析某个组件依赖了context 里的哪个属性，并且它可以穿透 React.memo 和 shouldComponentUpdate 的对比，把所有涉事组件强制刷新。</p>
+<p>React官方文档在 <a href="https://reactjs.org/docs/context.html#when-to-use-context" title="https://link.juejin.cn?target=https%3A%2F%2Freactjs.org%2Fdocs%2Fcontext.html%23when-to-use-context">When to Use Context</a>一节中写道：</p>
+<p>Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言。</p>
+<p>综上，在系统中跟业务相关、会频繁变动的数据在共享时，应谨慎使用 context。</p>
+<p>如果决定使用context，可以在一些场景中，将多个子组件依赖的不同context属性提升到一个父组件中，由父组件订阅context并以prop的方式下发，这样可以使用子组件的memo、shouldComponentUpdate生效。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b329102b3d454d0887a53cd6b8f6d0af~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>此外，官方文档还提到了<a href="https://zh-hans.reactjs.org/docs/context.html#caveats" title="https://link.juejin.cn?target=https%3A%2F%2Fzh-hans.reactjs.org%2Fdocs%2Fcontext.html%23caveats">另外一个坑</a>，使用的时候也应该注意。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>作为React内置的hook，不需要引入第三方库；</li>
+<li>书写还算方便。</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>Context 只能存储单一值，当数据量大起来时，你可能需要使用createContext创建大量context；</li>
+<li>直接使用的话，会有一定的性能问题：每一次对state的某个值变更，都会导致其他使用该state的组件re-render，即使没有使用该值。 你可以通过useMemo来解决这个问题，但是就需要一定的成本来定制一个通用的解决方案；</li>
+<li>无法处理异步请求。对于异步的逻辑，Context API并没有提供任何API，需要自己做封装；</li>
+<li>无法处理数据间的联动。Context API并没有提供API来生成派生状态，同样也需要自行去封装一些方法来实现。</li>
+</ul>
+<h1 id="React-外部状态管理库"><a href="#React-外部状态管理库" class="headerlink" title="React 外部状态管理库"></a>React 外部状态管理库</h1><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>React 的外部状态管理库一直以来是 React 生态中非常内卷的一个领域。目前比较常见的状态管理库有 Redux（包括基于 Redux 的 Dva、Icestore）、Mobx、Zustand、Recoil、Jotai、Valtio、Hox 等。</p>
+<p>从 npm trends 看各个状态管理库近一年的<a target="_blank" rel="noopener" href="https://npmtrends.com/hox-vs-jotai-vs-mobx-vs-recoil-vs-redux-vs-valtio-vs-zustand" title="https://npmtrends.com/hox-vs-jotai-vs-mobx-vs-recoil-vs-redux-vs-valtio-vs-zustand">下载量趋势</a>：</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5aad8931489b4118b0d61518a59c92b5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>我们可以看到 Redux 作为 React 状态管理的老大哥，下载量上依然遥遥领先其他库。Mobx 作为往年热度仅次于 Redux 的状态管理库，位置正逐步有被 zustand 超越的趋势。recoil&#x2F;jotai&#x2F;valtio 作为这两年热门的新兴库热度也在逐步上升。hox 则处于不温不火的尴尬地位。</p>
+<p>将以上状态管理库按心智模型、诞生时间、star 数，绘制气泡图。以 React v16.8 版本为分水岭，状态管理库可分为 Class 时代和 Hooks 时代。Class 时代中 Redux 和 Mobx 都是非常优秀的状态库。随着 Hooks 时代的到来，状态管理的心智模型也逐步发生着演变。整体呈现从中心化到去中心化，从单一状态到原子状态，从 Provider 到拥抱 Hooks 等演变趋势。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/713f854973f8446690a68342aed0e05a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>下面，我们对上述状态管理库进行逐一对比介绍。</p>
+<h2 id="Class-时代"><a href="#Class-时代" class="headerlink" title="Class 时代"></a>Class 时代</h2><h3 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a><a target="_blank" rel="noopener" href="https://cn.redux.js.org/introduction/getting-started" title="https://cn.redux.js.org/introduction/getting-started">Redux</a></h3><p>Redux 的灵感来源于 Flux 架构和函数式编程原理，状态更新可预测、可跟踪，提倡使用「单一存储」。这通常会「导致将所有的东西存储在一个大的单体存储中」。将UI和远程实体状态之间的所有东西都放在一个地方管理，这变得非常难以管理。对性能造成了不小的压力。</p>
+<h4 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h4><p>他的工作流程大致如下：</p>
+<ul>
+<li>用户在view层触发某个事件，通过dispatch发送了action和payload</li>
+<li>action和payload被传入reducer函数，返回一个新的state</li>
+<li>store拿到reducer返回的state并做更新，同时通知view层进行re-render</li>
+</ul>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b3237134ee24c03998f4715ebc6fad2~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>由此可看出 Redux 遵循“单向数据流”和“不可变状态模型”的设计思想。这使得 Redux 的状态变化是可预测、可调式的。</p>
+<h4 id="三大原则"><a href="#三大原则" class="headerlink" title="三大原则"></a>三大原则</h4><p>此外，Redux 还遵循三大原则：</p>
+<ul>
+<li>单一数据源</li>
+</ul>
+<p>整个应用的 <a target="_blank" rel="noopener" href="https://cn.redux.js.org/understanding/thinking-in-redux/glossary#state" title="https://cn.redux.js.org/understanding/thinking-in-redux/glossary#state">全局 state</a>被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 <a target="_blank" rel="noopener" href="https://cn.redux.js.org/understanding/thinking-in-redux/glossary#store" title="https://cn.redux.js.org/understanding/thinking-in-redux/glossary#store">store</a>中。</p>
+<ul>
+<li>state 是只读的</li>
+</ul>
+<p>唯一改变 state 的方法就是触发 <a target="_blank" rel="noopener" href="https://cn.redux.js.org/understanding/thinking-in-redux/glossary" title="https://cn.redux.js.org/understanding/thinking-in-redux/glossary">action</a>，action 是一个用于描述已发生事件的普通对象。</p>
+<ul>
+<li>纯函数修改</li>
+</ul>
+<p>通过 reducer 修改状态，reducer 是纯函数，它接收之前的 state 和 action，并返回新的 state。记住，一定要返回一个新的对象，而不是修改之前的 state。</p>
+<h4 id="如何处理异步"><a href="#如何处理异步" class="headerlink" title="如何处理异步"></a>如何处理异步</h4><p>redux没有规定如何处理异步数据流，最原始的方式就是使用Action Creators，也就是在制造action之前进行各种的异步操作，你可以把要复用的操作抽离出来。</p>
+<p>当然这样并不优雅，在实际项目中我们通常使用类似redux-thunk、redux-saga这些中间件来支持处理异步。</p>
+<h4 id="如何处理数据间联动"><a href="#如何处理数据间联动" class="headerlink" title="如何处理数据间联动"></a>如何处理数据间联动</h4><p>react-redux的useSelector获取状态后，你可以编写一些逻辑来处理派生状态。如果派生状态需要复用，记得给抽离出来。</p>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>繁荣的社区，像不支持异步这种问题是由成熟的中间件可以解决的，你遇到的问题多多少少可以在社区找到答案;</li>
+<li>可扩展性高，中间件模式让你可以随心所欲的武装你的dispatch;</li>
+<li>单一数据源且是树形结构，这让redux支持回溯，在调试上也更方便;</li>
+<li>有成熟的开发调试工具 <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd" title="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">redux devtools</a>。</li>
+</ul>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>陡峭的学习曲线。将副作用扔给中间件来处理，导致社区一堆中间件，学习成本陡然增加。比如处理异步请求的 Redux-saga、计算衍生状态的 reselect；</li>
+<li>大量的模版代码。使用 redux，开发者要编写大量和业务逻辑无关的模板代码，这给开发和后期维护都带来了额外的成本；</li>
+<li>大状态量情况下，性能较差。state 更新会影响所有组件。每个 action 都会调用所有 reducer；</li>
+<li>reducer 要返回新的对象，如果更新的值层级较深，更新成本也很高；</li>
+<li>更多的内存占用，由于采用单一数据源，所有状态存储在一个 state 中，当某些状态不再需要使用时，也不会被垃圾回收释放内存；</li>
+</ul>
+<p>当然，redux 也在致力于解决上述缺点。比如，<a target="_blank" rel="noopener" href="https://cn.redux.js.org/introduction/why-rtk-is-redux-today" title="https://cn.redux.js.org/introduction/why-rtk-is-redux-today">redux toolkit</a>就旨在让开发者使用标准方式编写 redux 逻辑。主要解决 redux 的 3 个问题：</p>
+<ul>
+<li>配置 redux store 过于麻烦；</li>
+<li>必须手动额外添加很多包才能正常使用 redux；</li>
+<li>redux 需要太多模板代码。</li>
+</ul>
+<p>不过，即使有 redux toolkit 的加持，redux 的学习成本依旧不低。</p>
+<h3 id="Dva"><a href="#Dva" class="headerlink" title="Dva"></a><a target="_blank" rel="noopener" href="https://dvajs.com/" title="https://dvajs.com/">Dva</a></h3><p>dva 首先是一个基于 <a target="_blank" rel="noopener" href="https://github.com/reduxjs/redux" title="https://github.com/reduxjs/redux">redux</a>和 <a target="_blank" rel="noopener" href="https://github.com/redux-saga/redux-saga" title="https://github.com/redux-saga/redux-saga">redux-saga</a>的数据流方案，然后为了简化开发体验，dva 还额外内置了 <a target="_blank" rel="noopener" href="https://github.com/ReactTraining/react-router" title="https://github.com/ReactTraining/react-router">react-router</a>和 <a target="_blank" rel="noopener" href="https://github.com/github/fetch" title="https://github.com/github/fetch">fetch</a>，所以也可以理解为一个轻量级的应用框架。</p>
+<p>Dva 的特点：</p>
+<ul>
+<li>易学易用，仅有 6 个 api，对 redux 用户尤其友好，<a target="_blank" rel="noopener" href="https://umijs.org/guide/with-dva.html" title="https://umijs.org/guide/with-dva.html">配合 umi 使用</a>后更是降低为 0 API</li>
+<li>elm 概念，通过 reducers, effects 和 subscriptions 组织 model</li>
+<li>插件机制，比如 <a target="_blank" rel="noopener" href="https://github.com/dvajs/dva/tree/master/packages/dva-loading" title="https://github.com/dvajs/dva/tree/master/packages/dva-loading">dva-loading</a>可以自动处理 loading 状态，不用一遍遍地写 showLoading 和 hideLoading</li>
+<li>支持 HMR，基于 <a target="_blank" rel="noopener" href="https://github.com/dvajs/babel-plugin-dva-hmr" title="https://github.com/dvajs/babel-plugin-dva-hmr">babel-plugin-dva-hmr</a>实现 components、routes 和 models 的 HMR</li>
+</ul>
+<p>Dva 大幅降低了 Redux 的上手成本，过去也在社区拥有了拥趸，github star 数 16.1k。不过，从 2019.11 开始就没有新的版本发布，看起来已经处于不维护状态。</p>
+<h3 id="icestore"><a href="#icestore" class="headerlink" title="icestore"></a><a target="_blank" rel="noopener" href="https://github.com/ice-lab/icestore" title="https://github.com/ice-lab/icestore">icestore</a></h3><p>icestore 是 <a target="_blank" rel="noopener" href="https://ice3.alibaba-inc.com/v3/docs/guide/advanced/store" title="https://ice3.alibaba-inc.com/v3/docs/guide/advanced/store">IceJs</a>内置状态管理库。icestore 是面向 React 应用的、简单友好的状态管理方案。</p>
+<p>它包含以下核心特征：</p>
+<ul>
+<li>简单、熟悉的 API：不需要额外的学习成本，只需要了解 React Hooks，对 Redux 用户友好。</li>
+<li>集成异步处理：记录异步操作时的执行状态，简化视图中对于等待或错误的处理逻辑。</li>
+<li>支持组件 Class 写法：友好的兼容策略可以让老项目享受轻量状态管理的乐趣。</li>
+<li>良好的 TypeScript 支持：提供完整的 TypeScript 类型定义，在 VS Code 中能获得完整的类型检查和推断。</li>
+</ul>
+<p>icestore 的灵感来自于 <a target="_blank" rel="noopener" href="https://github.com/rematch/rematch" title="https://github.com/rematch/rematch">rematch</a>和 <a target="_blank" rel="noopener" href="https://github.com/diegohaz/constate" title="https://github.com/diegohaz/constate">constate</a>。整体实现和 rematch 基本一致。rematch 是一个没有模板代码的 redux 最佳实践。icestore 整体配置简单，解决了 redux 学习成本高、大量模板代码等问题，同时又很好的支持了异步处理、TypeScript 和 SSR。</p>
+<p>IceJS 自己给出的能力对照表：</p>
+<ul>
+<li>O: 支持</li>
+<li>X: 不支持</li>
+<li>+: 需要额外地进行能力扩展</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>功能&#x2F;库</th>
+<th>redux</th>
+<th>constate</th>
+<th>zustand</th>
+<th>react-tracked</th>
+<th>icestore</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>框架</td>
+<td>Any</td>
+<td>React</td>
+<td>React</td>
+<td>React</td>
+<td>React</td>
+</tr>
+<tr>
+<td>简单性</td>
+<td>★★</td>
+<td>★★★★</td>
+<td>★★★</td>
+<td>★★★</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>更少的模板代码</td>
+<td>★</td>
+<td>★★</td>
+<td>★★★</td>
+<td>★★★</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>可配置性</td>
+<td>★★</td>
+<td>★★★</td>
+<td>★★★</td>
+<td>★★★</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>共享状态</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>复用状态</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>状态联动</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>O</td>
+</tr>
+<tr>
+<td>Class 组件支持</td>
+<td>O</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>O</td>
+</tr>
+<tr>
+<td>Function 组件支持</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>异步更新的状态</td>
+<td>+</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>SSR</td>
+<td>O</td>
+<td>O</td>
+<td>X</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>持久化</td>
+<td>+</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>+</td>
+</tr>
+<tr>
+<td>懒加载模型</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>O</td>
+</tr>
+<tr>
+<td>中心化</td>
+<td>+</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>中间件或插件机制</td>
+<td>O</td>
+<td>X</td>
+<td>O</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>开发者工具</td>
+<td>O</td>
+<td>X</td>
+<td>O</td>
+<td>X</td>
+<td>O</td>
+</tr>
+</tbody></table>
+<h2 id="Mobx"><a href="#Mobx" class="headerlink" title="Mobx"></a><a target="_blank" rel="noopener" href="https://zh.mobx.js.org/react-integration.html" title="https://zh.mobx.js.org/react-integration.html">Mobx</a></h2><h3 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h3><p>MobX 的主要思想是用「函数响应式编程」和「可变状态模型」使得状态管理变得简单和可扩展。</p>
+<p>MobX背后的哲学很简单:</p>
+<p>任何源自应用状态的东西都应该自动地获得。其中包括UI、数据序列化、服务器通讯，等等。</p>
+<p>React 和 MobX 是一对强力组合。React 通过提供机制把应用状态转换为可渲染组件树并对其进行渲染。而MobX提供机制来存储和更新应用状态供 React 使用。</p>
+<p>对于应用开发中的常见问题，React 和 MobX 都提供了最优和独特的解决方案。React 提供了优化UI渲染的机制， 这种机制就是通过使用虚拟DOM来减少昂贵的DOM变化的数量。MobX 提供了优化应用状态与 React 组件同步的机制，这种机制就是使用响应式虚拟依赖状态图表，它只有在真正需要的时候才更新并且永远保持是最新的。</p>
+<h3 id="心智模型-1"><a href="#心智模型-1" class="headerlink" title="心智模型"></a>心智模型</h3><p>Mobx的心智模型和react很像，它区分了应用程序的三个概念：</p>
+<ul>
+<li>State(状态)</li>
+<li>Actions(动作)</li>
+<li>Derivations(派生)</li>
+</ul>
+<p>首先创建可观察的状态（Observable State），通过Action更新State，然后自动更新所有的派生（Derivations）。派生包括Computed value（类似useMemo或useSelector）、副作用函数(类似useEffect)和UI（render）。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b08330a8937b4a37914f75ab85615a5f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>Mobx虽然心智模型像 react，但是实现却是完完全全的 vue：mutable + proxy（为了兼容性，proxy实际上使用Object.defineProperty实现）。</p>
+<p>使用反react的数据流模式，注定会有成本：</p>
+<ul>
+<li>Mobx的响应式脱离了react自身的生命周期，就不得不显式声明其派生的作用时机和范围。比如副作用触发需要在useEffect里再跑一个autorun&#x2F;reaction，要给DOM render包一层useObserver&#x2F;Observer，都加大了开发成本。</li>
+<li>Mobx会在组件挂载时收集依赖，和state建立联系，这个方式在即将到来的react 18的并发模式（Concurrent Mode）中，可能无法平滑地迁移。为此，react专门开发了<a href="https://github.com/facebook/react/tree/main/packages/create-subscription" title="https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Ffacebook%2Freact%2Ftree%2Fmain%2Fpackages%2Fcreate-subscription">create-subscription</a>方法用于在组件中订阅外部源，但是实际的应用效果还未可知。</li>
+</ul>
+<p>尤大本人也盖过章：React + MobX 本质上就是一个更繁琐的Vue。</p>
+<h3 id="Mobx-vs-Redux"><a href="#Mobx-vs-Redux" class="headerlink" title="Mobx vs Redux"></a>Mobx vs Redux</h3><p>Mobx和Redux的对比，实际上可以归结为 面向对象 vs 函数式和 Mutable vs Immutable。</p>
+<ul>
+<li>相比于redux的广播遍历dispatch，然后遍历判断引用来决定组件是否更新，mobx基于proxy可以精确收集依赖、局部更新组件（类似vue），理论上会有更好的性能，但redux认为这可能不是一个问题（<a href="https://redux.js.org/faq/performance#wont-calling-all-my-reducers-for-each-action-be-slow" title="https://link.juejin.cn?target=https%3A%2F%2Fredux.js.org%2Ffaq%2Fperformance%23wont-calling-all-my-reducers-for-each-action-be-slow">Won’t calling “all my reducers” for each action be slow?</a>）</li>
+<li>Mobx因为数据只有一份引用，没有回溯能力，不像redux每次更新都相当于打了一个快照，调试时搭配<a href="https://www.npmjs.com/package/redux-logger" title="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fredux-logger">redux-logger</a>这样的中间件，可以很直观地看到数据流变化历史。</li>
+<li>Mobx的学习成本更低，没有全家桶。</li>
+<li>Mobx在更新state中深层嵌套属性时更方便，直接赋值就好了，redux则需要更新所有途经层级的引用（当然搭配<a href="https://www.npmjs.com/package/immer" title="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fimmer">immer</a>也不麻烦）。</li>
+</ul>
+<h2 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>简单易用，没有模板代码；</li>
+<li>精准更新，性能更好；</li>
+</ul>
+<h2 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>难以调试。由于采用可变状态模型，状态不可预测和追溯，难以 debug；</p>
+</li>
+<li><p>太过灵活，更容易导致 bug；</p>
+</li>
+<li><p>响应式是基于 Proxy 实现的，希望传递的是一个数组，拿到的却是一个 Proxy。排查问题时有点痛苦。</p>
+</li>
+</ul>
+<h1 id="Hooks-时代"><a href="#Hooks-时代" class="headerlink" title="Hooks 时代"></a>Hooks 时代</h1><p>Hooks  是 React 16.8 新增的特性，使得我们可以在函数组件中使用 state 以及其他 React 特性。</p>
+<p>Hooks 的引入主要是为了解决 React Class 组件的以下问题：</p>
+<ul>
+<li>在组件之间复用状态逻辑很难</li>
+</ul>
+<p>Class 组件会将视图和状态逻辑糅杂在一起，如果想复用组件中的状态逻辑，需要使用 render props 和高阶组件，但是这类方案需要重新组织组件结构，会形成组件的嵌套地狱，代码逻辑也会变得难以理解。</p>
+<ul>
+<li>复杂组件的理解成本很高</li>
+</ul>
+<p>Class 组件的状态逻辑会充斥在各个生命周期中，完全不相关的代码出现在同一个生命周期函数中，逻辑难以理解，容易引发 bug，且在多数情况下，很难将组件拆分成更小的粒度。</p>
+<p>Hooks 是一种开发理念和组织理念的革新，有 3 个特性：</p>
+<ul>
+<li>primitive。元数据化，将混沌的 state 打散为一个个元数据；</li>
+<li>decentralization。去中心化，Class 时代的理念是“顶层下发”，Hooks 带来了强烈的“组件自治”理念；</li>
+<li>algebraic effects。代数效应，剥离组件中的副作用，让开发者更专注业务逻辑。</li>
+</ul>
+<p>代数效应是函数式编程中的一个概念，用于将副作用从函数调用中分离。</p>
+<h2 id="自下而上模式的崛起"><a href="#自下而上模式的崛起" class="headerlink" title="自下而上模式的崛起"></a>自下而上模式的崛起</h2><p>我们可以看到以前的状态管理解决方案，如Redux，设计理念是状态 「自上而下」流动。它「倾向于在组件树的顶端吸走所有的状态」。状态被维护在组件树的高处，下面的组件通过选择器拉取他们需要的状态。</p>
+<p>在新的组件构建理念中，一种「自下而上」的观点对构建具有组合模式的应用具有很好的指导作用。</p>
+<p>而hook就是这种理念的践行者，即把可组合的部件放在一起形成一个更大的整体。</p>
+<p>通过 hook，我们可以从具有巨大全局存储的「单体状态管理」转变为向自下而上的 「微状态管理」，通过hook消费更小的状态片。</p>
+<p>像接下来要介绍的 Recoil 和 Jotai 这样的流行库以其 「原子状态」的概念体现了这种自下而上的理念。「原子是一个最小但完整的状态单位」。它们是小块的状态，可以连接在一起形成新的衍生状态。最终形成了一个应用状态图。</p>
+<p>这个模型允许你自下而上地建立起「状态图」。并通过仅使图中已更新的原子失效来优化渲染。</p>
+<p>这与拥有一个大的单体状态球形成鲜明对比，你可以「订阅并试图避免不必要的渲染」。</p>
+<p>接下来我们要介绍 5 个 Hooks 时代的状态库，分别是 recoil、zustand、jotai、valtio、hox。比较有趣的是其中 3 个都是 <a target="_blank" rel="noopener" href="https://github.com/dai-shi" title="https://github.com/dai-shi">Daishi Kato</a>开发的，采用了不同的设计思想，但是都在短期内取得不错的社区热度，这 3 个库分别是 zustand、jotai、valtio，这三个词其实是“状态”在 3 种语言中的不同发音。</p>
+<p>zustand 🇩🇪 德语 “状态”，jotai 🇯🇵 日语 “状态”、valtio 🇫🇮 芬兰语 “状态”。</p>
+<h2 id="Recoil"><a href="#Recoil" class="headerlink" title="Recoil"></a><a target="_blank" rel="noopener" href="https://recoiljs.org/zh-hans/" title="https://recoiljs.org/zh-hans/">Recoil</a></h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><a target="_blank" rel="noopener" href="https://recoiljs.org/zh-hans/" title="https://recoiljs.org/zh-hans/">Recoil</a> 是在React Europe 2020 Conference上 facebook 官方推出的专为 react 打造的状态管理库，动机是解决react 状态共享模式的局限性：</p>
+<ul>
+<li>以往只能将state提升到公共祖先来实现状态共享，并且一旦这么做了，基本就无法将组件树的顶层（state 必须存在的地方）与叶子组件 (使用 state 的地方) 进行代码分割</li>
+<li>Context 只能存储单一值，无法存储多个各自拥有消费者的值的集合</li>
+</ul>
+<h3 id="设计思想-1"><a href="#设计思想-1" class="headerlink" title="设计思想"></a>设计思想</h3><p>Recoil的状态集是一个有向图 (directed graph)，正交且天然连结于React组件树。状态的变化从该图的顶点（atom）开始，流经纯函数 (selector) 再传入组件。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f76308b8c1f14e398ecbf316639a9b53~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>Recoil 定义了一个有向图 (directed graph)，正交同时又天然连结于你的 React 树上。状态的变化从该图的顶点（我们称之为 atom）开始，流经纯函数 (我们称之为 selector) 再传入组件。基于这样的实现：</p>
+<ul>
+<li>我们可以定义无需模板代码的 API，共享的状态拥有与 React 本地 state 一样简单的 get&#x2F;set 接口 (当然如果需要，也可以使用 reducer 等进行封装)；</li>
+<li>我们有了与 Concurrent 模式及其他 React 新特性兼容的可能性；</li>
+<li>状态的定义是渐进式和分布式的，这使代码分割成为可能；</li>
+<li>无需修改对应的组件，就能将它们本地的 state 用派生数据替换；</li>
+<li>无需修改对应的组件，就能将派生数据在同步与异步间切换；</li>
+<li>我们能将导航视为头等概念，甚至可以将状态的转变编码进链接中；</li>
+<li>可以很轻松地以可回溯的方式持久化整个应用的状态，持久化的状态不会因为应用的改变而丢失。</li>
+</ul>
+<p>正交：相互独立，相互间不可替代，并且可以组合起来实现其它功能</p>
+<p>Recoil每一次状态变更都会生成一个不可变的快照，利用这个特性，可以快速实现应用导航相关的功能，例如状态回溯、跳转等。</p>
+<h3 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h3><p>Recoil中定义状态的两个核心方法：</p>
+<ul>
+<li>atom: 定义原子状态，即组件的某个状态最小集，</li>
+<li>selector: 定义派生状态，其实就是computed value</li>
+</ul>
+<p>消费状态的方法有 useRecoilState、useRecoilValue、useSetRecoilState 等，用法和 react 的 useState 类似，几乎没有上手成本。另外值得注意的是，recoil目前只支持FC的hook用法，Class组件想用的话可以通过HOC的方式获取状态并注入组件。</p>
+<h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>状态原子化（atom），自由组合和订阅；并且状态定义是渐进式和分布式的，使代码分割成为可能；</li>
+<li>没有模板代码，天然是 hook 模式，让 react 尽量保持原来的样子；</li>
+<li>兼容并发模式（Concurrent Mode）；</li>
+<li>提供对状态流的快照（snapshot）支持，可以轻松回溯应用状态，甚至将snopshot编码放进url，让任何人打开应用都能进入到同样的状态；</li>
+</ul>
+<h3 id="能力对照表"><a href="#能力对照表" class="headerlink" title="能力对照表"></a>能力对照表</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>学习成本</th>
+<th>编码成本</th>
+<th>TS友好</th>
+<th>SSR</th>
+<th>Code Split</th>
+<th>并发模式兼容</th>
+<th>可调试性</th>
+<th>生态繁荣</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Redux</td>
+<td>高</td>
+<td>高</td>
+<td>一般</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>好</td>
+<td>高</td>
+</tr>
+<tr>
+<td>Mobx</td>
+<td>中</td>
+<td>中</td>
+<td>好</td>
+<td>支持</td>
+<td>支持</td>
+<td>未知</td>
+<td>差</td>
+<td>中</td>
+</tr>
+<tr>
+<td>Recoil</td>
+<td>低</td>
+<td>低</td>
+<td>好</td>
+<td>实践较少</td>
+<td>支持</td>
+<td>支持</td>
+<td>好</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<h2 id="Zustand"><a href="#Zustand" class="headerlink" title="Zustand"></a><a target="_blank" rel="noopener" href="https://github.com/pmndrs/zustand" title="https://github.com/pmndrs/zustand">Zustand</a></h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>zustand 是一个轻量级状态管理库，和 redux 一样都是基于不可变状态模型和单向数据流的，状态对象 state 不可被修改，只能被替换。渲染优化要手动通过 selectors 进行。</p>
+<h3 id="Zustand-vs-Redux"><a href="#Zustand-vs-Redux" class="headerlink" title="Zustand vs Redux"></a>Zustand vs Redux</h3><ul>
+<li>zustand 和 redux 是非常像的，都基于不可变状态模型，都基于单向数据流。</li>
+<li>不过，redux 需要应用被 Context Provider 包裹，zustand 则不需要。</li>
+<li>二者更新数据的方式不同，redux 基于 reducers，更新状态的 reducers 是严格的方法，这就使得状态更加可预测。zustand 不使用 reducers 而是通过更灵活的方法来更新状态。</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>zustand 的特点：</p>
+<ul>
+<li>轻量级；</li>
+<li>中心化，单一 store；</li>
+<li>不可变状态模型；</li>
+<li>不固执。很少限制，非常开放。</li>
+</ul>
+<h2 id="Jotai"><a href="#Jotai" class="headerlink" title="Jotai"></a><a target="_blank" rel="noopener" href="https://github.com/pmndrs/jotai" title="https://github.com/pmndrs/jotai">Jotai</a></h2><h3 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h3><p>jotai 是一个小型全局状态管理库，它模仿了 useState、useReducer。jotai 有个叫做 atom 的概念，用于表示小的状态片段。和 zustand 不同的是，他是一个组件级别的状态管理库。和 zustand 相同的是同样都基于不可变状态模型。</p>
+<p>jotai 是 Context 和订阅机制的结合，是面向 React 的一种全局状态管理库。如果你的需求是一个没有额外重复渲染的 Context，那 jotai 是个不错的选择。</p>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><p>jotai 有两个特点：</p>
+<ul>
+<li>语法简单</li>
+<li>jotai 的状态不是全局状态</li>
+</ul>
+<p>atom 可以在 React 组件的生命周期里创建和销毁。这通过多个 Context 是无法实现的，因为使用 Context 增加一个新的 state 意味着增加一个新的 Provider 组件，如果新增一个组件，它所有的子组件都会被重新挂载，会失去所有状态。</p>
+<ul>
+<li>衍生 atom</li>
+</ul>
+<p>atom 可以像积木一样被组合，生成新的 atom，从而实现复杂逻辑。</p>
+<p>jotai 通过 atom 之间的依赖来实现自动渲染优化。</p>
+<p>推荐场景：组件为中心的应用。</p>
+<h3 id="Recoil-vs-Jotai"><a href="#Recoil-vs-Jotai" class="headerlink" title="Recoil vs Jotai"></a>Recoil vs Jotai</h3><p>jotai 深受 recoil 启发，设计理念基本相同。但有以下不同：</p>
+<ul>
+<li>最大的不同是是否需要键字符串，开发 jotai 的一大动力就是要省略键字符串。因为键属性必须是唯一的，键命名是一项艰巨的任务；</li>
+<li>另一个不同是 jotai 不需要使用 Provider 包裹组件，这对开发者来说可以大幅降低开发成本和心理负担。</li>
+</ul>
+<h3 id="Zustand-vs-Jotai"><a href="#Zustand-vs-Jotai" class="headerlink" title="Zustand vs Jotai"></a>Zustand vs Jotai</h3><p>Zustand 和 Jotai 之间有两个主要不同：</p>
+<ul>
+<li>Zustand 是单一 store，Jotai 由原子 atom 组合而成；</li>
+<li>Zustand 的 store 存储在 React 外部，Jotai 的 store 存储在 React 内部。</li>
+</ul>
+<h2 id="Valtio"><a href="#Valtio" class="headerlink" title="Valtio"></a><a target="_blank" rel="noopener" href="https://github.com/pmndrs/valtio" title="https://github.com/pmndrs/valtio">Valtio</a></h2><h3 id="简介-3"><a href="#简介-3" class="headerlink" title="简介"></a>简介</h3><p>基于可变状态模型，利用 Proxy 获取一个和 React 集成在一起的不可变快照。</p>
+<p>利用 Proxy 自动进行重新渲染优化，这个过程使用了状态使用跟踪技术。通过状态使用跟踪，可以检测到状态的哪部分被使用，让组件实现按使用重新渲染。同时，开发者也可以编写更少的代码。</p>
+<h3 id="Valtio-vs-Zustand"><a href="#Valtio-vs-Zustand" class="headerlink" title="Valtio vs Zustand"></a>Valtio vs Zustand</h3><p>zustand 基于不可变状态模型，valtio 基于可变状态模型。</p>
+<p>valtio 通过属性访问自动进行渲染优化，zustand 推荐使用 selectors 手动进行渲染优化。</p>
+<h3 id="Valtio-vs-Mobx"><a href="#Valtio-vs-Mobx" class="headerlink" title="Valtio vs Mobx"></a>Valtio vs Mobx</h3><p>渲染优化上，valtio 使用 hook，mobx 使用高阶组件。</p>
+<h2 id="Hox"><a href="#Hox" class="headerlink" title="Hox"></a><a target="_blank" rel="noopener" href="https://github.com/umijs/hox" title="https://github.com/umijs/hox">Hox</a></h2><h3 id="从状态管理到状态共享"><a href="#从状态管理到状态共享" class="headerlink" title="从状态管理到状态共享"></a>从状态管理到状态共享</h3><p>redux、zustand、recoil 这些状态管理库，它们虽然在一定程度上也可以帮我们解决数据共享的问题，但它们最本质的能力还是对数据的操作。它们被称做也确实应该被称做”状态管理”工具。</p>
+<p>而 Hox 想解决的问题，不是如何组织和操作数据，不是数据流的分层、异步、细粒度，我们希望 Hox 只聚焦于一个痛点：在多个组件间共享状态。</p>
+<p>如果你也意识到了，层层传递的 value onChange 会对一个优质代码库带来的毁灭性影响，粗暴地把数据塞在 redux 中也并不能让一个应用得到很好的拓展性和可维护性，那么 Hox 或许会是一个适合你的”状态共享”方案，它简单、轻量、可靠，适合无论大小的几乎所有项目。</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>直接复用已有的 React 知识，几乎没有学习成本，你怎么写 React 组件，就可以怎么写 Store</li>
+<li>为灵活重构而设计，在 Store 和组件中使用同一套 DSL 可以让你几乎 0 成本的将组件的局部状态转化为一个组件间共享的状态</li>
+<li>同时支持局部状态和全局状态，在灵活和简单之间做到了很好的平衡</li>
+<li>优秀的性能和 TypeScript 支持</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>简单场景使用原生的useState、useReducer、useContext就能满足；还可以用 <a href="https://www.npmjs.com/package/hox" title="https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fhox">Hox</a>这样小而美的库将hook的状态直接拓展成持久化状态，几乎没有额外的心智负担。</p>
+<p>复杂场景的应用，redux、mobx都是经受过千锤百炼的库，社区生态也很完备。</p>
+<p>Redux高度模板化、分层化，职责划分清晰，塑造了其状态在可回溯、可维护性方面的优势；搭配thunk、saga这些中间件几乎是无所不能。</p>
+<p>Mobx的优势是写法简单和高性能，但状态的可维护性不如redux，在并发模式中的兼容性也有待观察。</p>
+<p>随着hook和有官方背景的recoil的出现，状态管理似乎在朝原子化、组件化的方向发展，这也符合react的组件化哲学。Redux的暴力遍历和分发或许已经是逆潮流的解法。</p>
+<p>没有最好的状态管理库，只有最合适的状态管理库。</p>
+<p>详细状态库能力对照表：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Class 时代</th>
+<th>Hooks 时代</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>传统流派</td>
+<td>响应式流派</td>
+<td>原子状态流派</td>
+<td>传统流派</td>
+<td>响应式流派</td>
+<td>原子状态流派</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/reduxjs/redux" title="https://github.com/reduxjs/redux">redux</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/dvajs/dva" title="https://github.com/dvajs/dva">dvajs</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/ice-lab/icestore" title="https://github.com/ice-lab/icestore">icestore（ice内置）</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/mobxjs/mobx" title="https://github.com/mobxjs/mobx">mobx</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/facebookexperimental/Recoil" title="https://github.com/facebookexperimental/Recoil">recoil</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/pmndrs/zustand" title="https://github.com/pmndrs/zustand">zustand</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/pmndrs/valtio" title="https://github.com/pmndrs/valtio">Valtio</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/pmndrs/jotai" title="https://github.com/pmndrs/jotai">Jotai</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/umijs/hox" title="https://github.com/umijs/hox">hox</a></td>
+</tr>
+<tr>
+<td>STAR数</td>
+<td>59k</td>
+<td>16.1k</td>
+<td>387</td>
+<td>26k</td>
+<td>18.1k</td>
+<td>24.5k</td>
+<td>5.9k</td>
+<td>11.3k</td>
+<td>1.3k</td>
+</tr>
+<tr>
+<td>诞生时间</td>
+<td>2011</td>
+<td>2016.12</td>
+<td>2019.3</td>
+<td>2015.3</td>
+<td>2019</td>
+<td>2018</td>
+<td>2020.11</td>
+<td>2020.3</td>
+<td>2019.1</td>
+</tr>
+<tr>
+<td>特性</td>
+<td>全局一棵状态树，利用context，通过action 触发变动，reducer纯函数修改store，最后导致props 变动，进而组件重新渲染</td>
+<td>深度整合 redux、redux-saga，便于 redux 用户快速切换</td>
+<td>类 dvajs，创造 icestore 的灵感来自于 rematch 和 constate。</td>
+<td>基于ES6 proxy ，使用观察者&#x2F;可观察模式的，当你修改一个值时，任何使用该值的组件都会自动重新渲染。</td>
+<td>原子化管理状态，进行精确渲染。使用 Recoil 会为你创建一个数据流向图，从 atom（共享状态）到 selector（纯函数），再流向 React 组件。Atom 是组件可以订阅的 state 单位。selector 可以同步或异步改变此 state。</td>
+<td>基于观察者&#x2F;可观察模式，内部对通过 state 绑定的组件，添加到了订阅者队列，store中的属性相当于一个被观察者，当属性状态变更后，通知所有订阅了该数属性的组件进行更新</td>
+<td>利用 Proxy 自动进行重新渲染优化，这个过程使用了状态使用跟踪技术。通过状态使用跟踪，可以检测到状态的哪部分被使用，让组件实现按使用重新渲染。同时，开发者也可以编写更少的代码。</td>
+<td>jotai 是一个小型全局状态管理库，它模仿了 useState、useReducer。jotai 有个叫做 atom 的概念，用于表示小的状态片段。和 zustand 不同的是，他是一个组件级别的状态管理库。和 zustand 相同的是同样都基于不可变状态模型。</td>
+<td>类似于自定义hook，利用useState 能力，state状态变化触发组件重新渲染</td>
+</tr>
+<tr>
+<td>学习成本</td>
+<td>很高</td>
+<td>低</td>
+<td>低</td>
+<td>中</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+</tr>
+<tr>
+<td>使用成本</td>
+<td>很高，模板代码多</td>
+<td>低，仅有6个API</td>
+<td>低</td>
+<td>中</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+<td>低</td>
+</tr>
+<tr>
+<td>Typescript友好</td>
+<td>友好</td>
+<td>不友好，没有清晰的依赖关系，类型支持很差</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+</tr>
+<tr>
+<td>状态拆分</td>
+<td>react&#x2F;toolkit createSlice</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>中等</td>
+<td>中等</td>
+<td>中等</td>
+<td>好</td>
+<td>好</td>
+<td>中等</td>
+<td>好</td>
+<td>好</td>
+<td>好</td>
+</tr>
+<tr>
+<td>异步支持</td>
+<td>不友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+<td>友好</td>
+</tr>
+<tr>
+<td>React concurrent 模式支持</td>
+<td>支持</td>
+<td></td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td></td>
+</tr>
+<tr>
+<td>易于调试</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td>devtools</td>
+<td>有</td>
+<td>有</td>
+<td>有</td>
+<td>无</td>
+<td>无</td>
+<td>有</td>
+<td>无</td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>SSR</td>
+<td>支持</td>
+<td></td>
+<td>支持</td>
+<td>支持</td>
+<td>支持，但可能不健全</td>
+<td>支持，但可能不健全</td>
+<td>支持，但可能不健全</td>
+<td>支持，但可能不健全</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://medium.com/javascript-scene/do-react-hooks-replace-redux-210bab340672" title="https://medium.com/javascript-scene/do-react-hooks-replace-redux-210bab340672">Do React Hooks Replace Redux?</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1044636" title="https://developer.aliyun.com/article/1044636">React 状态管理工具：我是这样选择的</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367" title="https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367">You Might Not Need Redux</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/394106764" title="https://zhuanlan.zhihu.com/p/394106764">各流派 React 状态管理对比和原理实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7106312479185043463" title="https://juejin.cn/post/7106312479185043463">盘点React常见的状态管理方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7063054916234772517" title="https://juejin.cn/post/7063054916234772517">2022 年，我们再来谈谈 React 状态管理</a></li>
+<li><a target="_blank" rel="noopener" href="https://dvajs.com/" title="https://dvajs.com/">DvaJS</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sorrycc/blog/issues/6" title="https://github.com/sorrycc/blog/issues/6">支付宝前端应用架构的发展和选择</a></li>
+<li><a target="_blank" rel="noopener" href="https://hox.js.org/zh/" title="https://hox.js.org/zh/">HoxJS</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackshare.io/stackups/reduxjs-vs-zustand" title="https://stackshare.io/stackups/reduxjs-vs-zustand">Redux vs Zustand</a></li>
+<li><a target="_blank" rel="noopener" href="https://maimai.cn/article/detail?fid=1751803241&efid=i0f7DoHdYDIBq6kGhnbyMg" title="https://maimai.cn/article/detail?fid=1751803241&amp;efid=i0f7DoHdYDIBq6kGhnbyMg">React 状态管理新浪潮</a></li>
+<li><a target="_blank" rel="noopener" href="https://mdnice.com/writing/43163f11504d4938897e0975a18c75b8" title="https://mdnice.com/writing/43163f11504d4938897e0975a18c75b8">React-全局状态管理的群魔乱舞</a></li>
+<li><a target="_blank" rel="noopener" href="https://mdnice.com/writing/123bc03401d44b22ade8f0bbce7638f6#writing-title" title="https://mdnice.com/writing/123bc03401d44b22ade8f0bbce7638f6#writing-title">各流派 React 状态管理对比和原理实现 - mdnice 墨滴</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.redux.org.cn/" title="https://www.redux.org.cn/">自述 · Redux</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/141576138" title="https://zhuanlan.zhihu.com/p/141576138">Recoil - Facebook 官方 React 状态管理器</a></li>
+<li><a target="_blank" rel="noopener" href="https://toutiao.io/posts/ttvrzlk/preview" title="https://toutiao.io/posts/ttvrzlk/preview">[译] React 状态管理的前世，今生和未来 - 开发者头条</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7026232873233416223" title="https://juejin.cn/post/7026232873233416223">2021年的React状态管理 - 掘金</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sweetalkos.com/post/202" title="https://www.sweetalkos.com/post/202">状态管理方案发展概览</a></li>
+<li><a target="_blank" rel="noopener" href="https://react-community-tools-practices-cheatsheet.netlify.app/state-management/overview" title="https://react-community-tools-practices-cheatsheet.netlify.app/state-management/overview">State Management: Overview | React Common Tools and Practices</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.isquaredsoftware.com/2021/01/context-redux-differences/" title="https://blog.isquaredsoftware.com/2021/01/context-redux-differences/">Blogged Answers: Why React Context is Not a “State Management” Tool (and Why It Doesn’t Replace Redux)</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.pmnd.rs/zustand/getting-started/comparison#redux" title="https://docs.pmnd.rs/zustand/getting-started/comparison#redux">zustand vs redux</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88738712" title="https://zhuanlan.zhihu.com/p/88738712">hox - 下一代 React 状态管理器</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.spec-india.com/blog/mobx-vs-redux" title="https://www.spec-india.com/blog/mobx-vs-redux">MobX vs Redux: Evaluating Two Popular Libraries For State Management | SPEC INDIA</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/6Er2IQEXXNc8Sb5vVJZZOQ" title="https://mp.weixin.qq.com/s/6Er2IQEXXNc8Sb5vVJZZOQ">React 状态管理的新浪潮</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.redux.org.cn/docs/faq/Performance.html" title="https://www.redux.org.cn/docs/faq/Performance.html">Redux 的性能问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.spec-india.com/blog/mobx-vs-redux" title="https://www.spec-india.com/blog/mobx-vs-redux">mobx vs redux</a></li>
+<li><a target="_blank" rel="noopener" href="https://react-community-tools-practices-cheatsheet.netlify.app/state-management/poimandres/" title="https://react-community-tools-practices-cheatsheet.netlify.app/state-management/poimandres/">zustand vs jotai vs valtio</a></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>License</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2024/03/01/PHP-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">PHP 基础知识总结</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2024/02/28/React%E8%BF%9B%E9%98%B6-React%E5%85%A8%E9%83%A8api%E8%A7%A3%E8%AF%BB-%E5%9F%BA%E7%A1%80%E5%AE%9E%E8%B7%B5%E5%A4%A7%E5%85%A8-%E5%A4%AF%E5%AE%9E%E5%9F%BA%E7%A1%802%E4%B8%87%E5%AD%97%E6%80%BB%E7%BB%93/">[React进阶] React全部api解读+基础实践大全(夯实基础2万字总结)</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: 'Just',
+      min: 'minutes ago',
+      hour: 'hours ago',
+      day: 'days ago',
+      month: 'months ago',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
