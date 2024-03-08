@@ -5,7 +5,6 @@ tags: python
 category: python
 ---
 
-
 [python 基础教程](http://www.runoob.com/python/python-tutorial.html)
 [python 教程 廖雪峰](https://www.liaoxuefeng.com/wiki/1016959663602400)
 
@@ -52,7 +51,7 @@ python 有多种解释器:
 -   Jython 把 python 编译成 java 字节码执行
 -   IronPython 运行在.NET 平台的 pyton 解释器
 
-## Hello World
+#### 命令行交互环境
 
 可在命令行交互环境执行，或保存为 hello.py 文件
 
@@ -878,7 +877,7 @@ while True:
         break
 ```
 
-## 函数式编程
+### 函数式编程
 
 我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元
 
@@ -1098,7 +1097,7 @@ max2(5,6)
 
 当函数的参数个数太多，需要简化时，使用`functools.partial`可以创建一个新的函数，这个新函数可以固定住原函数的部分参数，从而在调用时更简单。
 
-## 模块
+### 模块
 
 为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在 Python 中，一个.py 文件就称之为一个模块（Module）。
 
@@ -1116,7 +1115,7 @@ max2(5,6)
 
 包也可以有多级结构，如`mycompanry.web.util`
 
-### 使用模块
+#### 使用模块
 
 Python 本身就内置了很多非常有用的模块
 
@@ -1172,4 +1171,3 @@ def greeting(name):
 `pip install Pillow`
 
 [更多内容](https://www.liaoxuefeng.com/wiki/1016959663602400/1017495723838528)
-
