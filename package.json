@@ -12,7 +12,8 @@
     "merge:blog": "git checkout blog && git merge master",
     "p": "pnpm push:master",
     "fix-images": "node builder/fixImages",
-    "d": "npm run clean && npm run build && npm run fix-images && hexo d"
+    "d": "npm run clean && npm run build && npm run fix-images && hexo d",
+    "pd": "npm run p && npm run d"
   },
   "hexo": {
     "version": "7.1.1"
