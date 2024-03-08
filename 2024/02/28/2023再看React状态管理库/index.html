@@ -143,13 +143,13 @@
 </ul>
 <p>因为 React 没有官方的状态管理方案，React 生态中状态管理库，百花齐放，演进出很多设计思想和心智模式。如何选择状态管理库就变得十分令人抓狂。</p>
 <h1 id="React-Context"><a href="#React-Context" class="headerlink" title="React Context"></a>React Context</h1><p>在多级嵌套组件场景下，使用“属性下钻”方式进行组件通信是一件成本极高的事情。为了解决这个问题，React 官方提供 Context 用于避免一级级属性传递。</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b0ae4f6b2bd4f7081170216163821f5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b0ae4f6b2bd4f7081170216163821f5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="Context-的问题"><a href="#Context-的问题" class="headerlink" title="Context 的问题"></a>Context 的问题</h2><p>Context存在的问题也是老生常谈。在 react 里，context 是个反模式的东西，不同于 redux 等的细粒度响应式更新，context的值一旦变化，所有依赖该context的组件全部都会 force update，因为 context API 并不能细粒度地分析某个组件依赖了context 里的哪个属性，并且它可以穿透 React.memo 和 shouldComponentUpdate 的对比，把所有涉事组件强制刷新。</p>
 <p>React官方文档在 <a href="https://reactjs.org/docs/context.html#when-to-use-context" title="https://link.juejin.cn?target=https%3A%2F%2Freactjs.org%2Fdocs%2Fcontext.html%23when-to-use-context">When to Use Context</a>一节中写道：</p>
 <p>Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言。</p>
 <p>综上，在系统中跟业务相关、会频繁变动的数据在共享时，应谨慎使用 context。</p>
 <p>如果决定使用context，可以在一些场景中，将多个子组件依赖的不同context属性提升到一个父组件中，由父组件订阅context并以prop的方式下发，这样可以使用子组件的memo、shouldComponentUpdate生效。</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b329102b3d454d0887a53cd6b8f6d0af~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b329102b3d454d0887a53cd6b8f6d0af~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>此外，官方文档还提到了<a href="https://zh-hans.reactjs.org/docs/context.html#caveats" title="https://link.juejin.cn?target=https%3A%2F%2Fzh-hans.reactjs.org%2Fdocs%2Fcontext.html%23caveats">另外一个坑</a>，使用的时候也应该注意。</p>
 <h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
 <li>作为React内置的hook，不需要引入第三方库；</li>
@@ -163,10 +163,10 @@
 </ul>
 <h1 id="React-外部状态管理库"><a href="#React-外部状态管理库" class="headerlink" title="React 外部状态管理库"></a>React 外部状态管理库</h1><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>React 的外部状态管理库一直以来是 React 生态中非常内卷的一个领域。目前比较常见的状态管理库有 Redux（包括基于 Redux 的 Dva、Icestore）、Mobx、Zustand、Recoil、Jotai、Valtio、Hox 等。</p>
 <p>从 npm trends 看各个状态管理库近一年的<a target="_blank" rel="noopener" href="https://npmtrends.com/hox-vs-jotai-vs-mobx-vs-recoil-vs-redux-vs-valtio-vs-zustand" title="https://npmtrends.com/hox-vs-jotai-vs-mobx-vs-recoil-vs-redux-vs-valtio-vs-zustand">下载量趋势</a>：</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5aad8931489b4118b0d61518a59c92b5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5aad8931489b4118b0d61518a59c92b5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>我们可以看到 Redux 作为 React 状态管理的老大哥，下载量上依然遥遥领先其他库。Mobx 作为往年热度仅次于 Redux 的状态管理库，位置正逐步有被 zustand 超越的趋势。recoil&#x2F;jotai&#x2F;valtio 作为这两年热门的新兴库热度也在逐步上升。hox 则处于不温不火的尴尬地位。</p>
 <p>将以上状态管理库按心智模型、诞生时间、star 数，绘制气泡图。以 React v16.8 版本为分水岭，状态管理库可分为 Class 时代和 Hooks 时代。Class 时代中 Redux 和 Mobx 都是非常优秀的状态库。随着 Hooks 时代的到来，状态管理的心智模型也逐步发生着演变。整体呈现从中心化到去中心化，从单一状态到原子状态，从 Provider 到拥抱 Hooks 等演变趋势。</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/713f854973f8446690a68342aed0e05a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/713f854973f8446690a68342aed0e05a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>下面，我们对上述状态管理库进行逐一对比介绍。</p>
 <h2 id="Class-时代"><a href="#Class-时代" class="headerlink" title="Class 时代"></a>Class 时代</h2><h3 id="Redux"><a href="#Redux" class="headerlink" title="Redux"></a><a target="_blank" rel="noopener" href="https://cn.redux.js.org/introduction/getting-started" title="https://cn.redux.js.org/introduction/getting-started">Redux</a></h3><p>Redux 的灵感来源于 Flux 架构和函数式编程原理，状态更新可预测、可跟踪，提倡使用「单一存储」。这通常会「导致将所有的东西存储在一个大的单体存储中」。将UI和远程实体状态之间的所有东西都放在一个地方管理，这变得非常难以管理。对性能造成了不小的压力。</p>
 <h4 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h4><p>他的工作流程大致如下：</p>
@@ -175,7 +175,7 @@
 <li>action和payload被传入reducer函数，返回一个新的state</li>
 <li>store拿到reducer返回的state并做更新，同时通知view层进行re-render</li>
 </ul>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b3237134ee24c03998f4715ebc6fad2~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7b3237134ee24c03998f4715ebc6fad2~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>由此可看出 Redux 遵循“单向数据流”和“不可变状态模型”的设计思想。这使得 Redux 的状态变化是可预测、可调式的。</p>
 <h4 id="三大原则"><a href="#三大原则" class="headerlink" title="三大原则"></a>三大原则</h4><p>此外，Redux 还遵循三大原则：</p>
 <ul>
@@ -389,7 +389,7 @@
 <li>Derivations(派生)</li>
 </ul>
 <p>首先创建可观察的状态（Observable State），通过Action更新State，然后自动更新所有的派生（Derivations）。派生包括Computed value（类似useMemo或useSelector）、副作用函数(类似useEffect)和UI（render）。</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b08330a8937b4a37914f75ab85615a5f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b08330a8937b4a37914f75ab85615a5f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>Mobx虽然心智模型像 react，但是实现却是完完全全的 vue：mutable + proxy（为了兼容性，proxy实际上使用Object.defineProperty实现）。</p>
 <p>使用反react的数据流模式，注定会有成本：</p>
 <ul>
@@ -448,7 +448,7 @@
 <li>Context 只能存储单一值，无法存储多个各自拥有消费者的值的集合</li>
 </ul>
 <h3 id="设计思想-1"><a href="#设计思想-1" class="headerlink" title="设计思想"></a>设计思想</h3><p>Recoil的状态集是一个有向图 (directed graph)，正交且天然连结于React组件树。状态的变化从该图的顶点（atom）开始，流经纯函数 (selector) 再传入组件。</p>
-<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f76308b8c1f14e398ecbf316639a9b53~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f76308b8c1f14e398ecbf316639a9b53~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>Recoil 定义了一个有向图 (directed graph)，正交同时又天然连结于你的 React 树上。状态的变化从该图的顶点（我们称之为 atom）开始，流经纯函数 (我们称之为 selector) 再传入组件。基于这样的实现：</p>
 <ul>
 <li>我们可以定义无需模板代码的 API，共享的状态拥有与 React 本地 state 一样简单的 get&#x2F;set 接口 (当然如果需要，也可以使用 reducer 等进行封装)；</li>
