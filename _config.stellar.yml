@@ -1,0 +1,10 @@
+article:
+    type: tech # tech | story
+    auto_cover: true
+    
+    auto_banner: true  # not works
+
+    related_posts:
+        enable: true
+        title: 您可能感兴趣的文章
+
