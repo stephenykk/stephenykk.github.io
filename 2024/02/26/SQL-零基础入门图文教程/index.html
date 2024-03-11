@@ -1,9 +1,9 @@
 
-<!DOCTYPE html><html lang="zh_CN">
+<!DOCTYPE html><html lang="zh-CN">
 
 <head>
   <meta charset="utf-8">
-  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
   
   <meta name="generator" content="Hexo 7.1.1">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -16,14 +16,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>SQL 零基础入门图文教程 - 云淡风轻的天空</title>
+  <title>SQL 零基础入门图文教程 - JKK随笔</title>
 
   
     <meta name="description" content="原文地址❤️ SQL 零基础入门图文教程！ - 掘金  本文已参与「掘力星计划」，赢取创作大礼包，挑战创作激励金。 📚 前言SQL 语言有 40 多年的历史，从它被应用至今几乎无处不在。我们消费的每一笔支付记录，收集的每一条用户信息，发出去的每一条消息，都会使用数据库或与其相关的产品来存储，而操纵数据库的语言正是 SQL ！  SQL 对于现在的互联网公司生产研发等岗位几乎是一个必备技能，如果">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL 零基础入门图文教程">
 <meta property="og:url" content="https://stephenykk.github.io/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/index.html">
-<meta property="og:site_name" content="云淡风轻的天空">
+<meta property="og:site_name" content="JKK随笔">
 <meta property="og:description" content="原文地址❤️ SQL 零基础入门图文教程！ - 掘金  本文已参与「掘力星计划」，赢取创作大礼包，挑战创作激励金。 📚 前言SQL 语言有 40 多年的历史，从它被应用至今几乎无处不在。我们消费的每一笔支付记录，收集的每一条用户信息，发出去的每一条消息，都会使用数据库或与其相关的产品来存储，而操纵数据库的语言正是 SQL ！  SQL 对于现在的互联网公司生产研发等岗位几乎是一个必备技能，如果">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4019eac765c64a8fb6bf27b62acf65a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
@@ -108,39 +108,31 @@
   <!-- feed -->
   
 
-  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
 
   
 
   
 
-  
   
 </head>
 <body>
 
-<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">云淡风轻的天空</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img  referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div></a></div></header>
 
 <div class="nav-area">
-<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">TOC</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%91%89%F0%9F%8F%BB-%E7%82%B9%E6%88%91%E8%B7%B3%E8%BD%AC%E5%88%B0-SQL-%E6%B5%8B%E9%AA%8C%EF%BC%81"><span class="toc-text">👉🏻 点我跳转到 SQL 测验！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC-%E4%BB%80%E4%B9%88%E6%98%AF-SQL"><span class="toc-text">🌼 什么是 SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%80-SQL-%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">🌀 SQL 的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%B5-%E5%AD%A6%E4%B9%A0-SQL-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">🌵 学习 SQL 的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%84-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">🍄 数据库是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%A4-CREATE-TABLE-%E2%80%93-%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="toc-text">🐤 CREATE TABLE – 创建表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%91-INSERT-%E2%80%93-%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">🐑 INSERT – 插入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%BC-SELECT-%E2%80%93-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-text">🐼 SELECT – 查询数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%AB-DISTINCT-%E2%80%93-%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC"><span class="toc-text">🐫 DISTINCT – 去除重复值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B8-WHERE-%E2%80%93-%E6%9D%A1%E4%BB%B6%E8%BF%87%E6%BB%A4"><span class="toc-text">🐸 WHERE – 条件过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B9-AND-OR-%E2%80%93-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">🐹 AND &amp; OR – 运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B0-ORDER-BY-%E2%80%93-%E6%8E%92%E5%BA%8F"><span class="toc-text">🐰 ORDER BY – 排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B1-UPDATE-%E2%80%93-%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="toc-text">🐱 UPDATE – 更新数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%A8-DELETE-%E2%80%93-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">🐨 DELETE – 删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B5-TRUNCATE-TABLE-%E2%80%93-%E6%B8%85%E9%99%A4%E8%A1%A8%E6%95%B0%E6%8D%AE"><span class="toc-text">🐵 TRUNCATE TABLE – 清除表数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%AF-DROP-TABLE-%E2%80%93-%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-text">🐯 DROP TABLE – 删除表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A2-LIKE-%E2%80%93-%E6%9F%A5%E6%89%BE%E7%B1%BB%E4%BC%BC%E5%80%BC"><span class="toc-text">🚢 LIKE – 查找类似值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A4-IN-%E2%80%93-%E9%94%81%E5%AE%9A%E5%A4%9A%E4%B8%AA%E5%80%BC"><span class="toc-text">🚤 IN – 锁定多个值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9B%B5%EF%B8%8F-BETWEEN-%E2%80%93-%E9%80%89%E5%8F%96%E5%8C%BA%E9%97%B4%E6%95%B0%E6%8D%AE"><span class="toc-text">⛵️ BETWEEN – 选取区间数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%82-AS-%E2%80%93-%E5%88%AB%E5%90%8D"><span class="toc-text">🚂 AS – 别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%81-JOIN-%E2%80%93-%E5%A4%9A%E8%A1%A8%E5%85%B3%E8%81%94"><span class="toc-text">🚁 JOIN – 多表关联</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%9C-UNION-%E2%80%93-%E5%90%88%E5%B9%B6%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-text">🚜 UNION – 合并结果集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%8C-NOT-NULL-%E2%80%93-%E9%9D%9E%E7%A9%BA"><span class="toc-text">🚌 NOT NULL – 非空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%90-VIEW-%E2%80%93-%E8%A7%86%E5%9B%BE"><span class="toc-text">🚐 VIEW – 视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-AVG-%E2%80%93-%E5%B9%B3%E5%9D%87%E5%80%BC"><span class="toc-text">🍔 AVG – 平均值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%95-COUNT-%E2%80%93-%E6%B1%87%E6%80%BB%E8%A1%8C%E6%95%B0"><span class="toc-text">🍕 COUNT – 汇总行数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%98-MAX-%E2%80%93-%E6%9C%80%E5%A4%A7%E5%80%BC"><span class="toc-text">🍘 MAX – 最大值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%A2-MIN-%E2%80%93-%E6%9C%80%E5%B0%8F%E5%80%BC"><span class="toc-text">🍢 MIN – 最小值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B0-SUM-%E2%80%93-%E6%B1%82%E5%92%8C"><span class="toc-text">🍰 SUM – 求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%AA-GROUP-BY-%E2%80%93-%E5%88%86%E7%BB%84"><span class="toc-text">🍪 GROUP BY – 分组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%AD-HAVING-%E2%80%93-%E5%8F%A5%E5%B0%BE%E8%BF%9E%E6%8E%A5"><span class="toc-text">🍭 HAVING – 句尾连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B7-UCASE-UPPER-%E2%80%93-%E5%A4%A7%E5%86%99"><span class="toc-text">🍷 UCASE&#x2F;UPPER – 大写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B6-LCASE-LOWER-%E2%80%93-%E5%B0%8F%E5%86%99"><span class="toc-text">🍶 LCASE&#x2F;LOWER – 小写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%91%9B-LEN-LENGTH-%E2%80%93-%E8%8E%B7%E5%8F%96%E9%95%BF%E5%BA%A6"><span class="toc-text">👛 LEN&#x2F;LENGTH – 获取长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%97-ROUND-%E2%80%93-%E6%95%B0%E5%80%BC%E5%8F%96%E8%88%8D"><span class="toc-text">🍗 ROUND – 数值取舍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%9E-NOW-SYSDATE-%E2%80%93-%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="toc-text">🍞 NOW&#x2F;SYSDATE – 当前时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%90%EF%B8%8F-%E5%B0%86%E4%BD%A0%E7%9A%84%E5%BE%97%E5%88%86%E5%86%99%E5%9C%A8%E4%B8%8B%E6%96%B9%E7%9A%84-%E8%AF%84%E8%AE%BA%E5%8C%BA-%E4%B8%AD%E5%90%A7%EF%BC%8C%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B%E5%A4%A7%E5%AE%B6%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%A6%82%E4%BD%95%EF%BC%9F%E2%AD%90%EF%B8%8F"><span class="toc-text">⭐️ 将你的得分写在下方的 评论区 中吧，让我看看大家的水平如何？⭐️</span></a></li></ol></li></ol></div></div></widget>
 
-
-
-
-
-
-
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Python 基础教程</span></a><a class="item title" href="/2024/03/01/%E5%86%99%E7%BB%995%E5%B9%B4%E5%89%8D%E7%AB%AF%E5%A6%B9%E5%AD%90%E7%9A%84%E4%B8%89%E4%B8%87%E5%AD%97%E8%84%9A%E6%89%8B%E6%9E%B6%E6%95%99%E7%A8%8B/"><span class="title">写给5年前端妹子的三万字脚手架教程</span></a><a class="item title" href="/2024/03/05/pnpm-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">pnpm 使用教程</span></a><a class="item title active" href="/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL 零基础入门图文教程</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/01/SQL-%E6%A6%82%E5%BF%B5%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><span class="title">SQL 概念及数据库表的基本操作</span></a><a class="item title" href="/2024/02/28/React%E8%BF%9B%E9%98%B6-React%E5%85%A8%E9%83%A8api%E8%A7%A3%E8%AF%BB-%E5%9F%BA%E7%A1%80%E5%AE%9E%E8%B7%B5%E5%A4%A7%E5%85%A8-%E5%A4%AF%E5%AE%9E%E5%9F%BA%E7%A1%802%E4%B8%87%E5%AD%97%E6%80%BB%E7%BB%93/"><span class="title">[React进阶] React全部api解读+基础实践大全(夯实基础2万字总结)</span></a><a class="item title" href="/2024/03/01/PHP-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP 基础知识总结</span></a><a class="item title" href="/2024/03/01/Nginx%E5%92%8CPHP%E7%9A%84%E9%85%8D%E7%BD%AE/"><span class="title">Nginx和PHP的配置</span></a><a class="item title" href="/2024/03/08/Nginx%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">Nginx使用教程</span></a><a class="item title" href="/2024/03/01/MySQL-%E9%AB%98%E7%BA%A7-%E8%BF%9B%E9%98%B6-SQL%E8%AF%AD%E5%8F%A5/"><span class="title">MySQL 高级(进阶)SQL语句</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Python 基础教程</span></a><a class="item title" href="/2024/03/01/%E5%86%99%E7%BB%995%E5%B9%B4%E5%89%8D%E7%AB%AF%E5%A6%B9%E5%AD%90%E7%9A%84%E4%B8%89%E4%B8%87%E5%AD%97%E8%84%9A%E6%89%8B%E6%9E%B6%E6%95%99%E7%A8%8B/"><span class="title">写给5年前端妹子的三万字脚手架教程</span></a><a class="item title" href="/2024/03/05/pnpm-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">pnpm 使用教程</span></a><a class="item title" href="/2024/02/26/SQL-%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL 零基础入门图文教程</span></a><a class="item title" href="/2024/03/01/SQL-%E6%A6%82%E5%BF%B5%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><span class="title">SQL 概念及数据库表的基本操作</span></a><a class="item title" href="/2024/02/28/React%E8%BF%9B%E9%98%B6-React%E5%85%A8%E9%83%A8api%E8%A7%A3%E8%AF%BB-%E5%9F%BA%E7%A1%80%E5%AE%9E%E8%B7%B5%E5%A4%A7%E5%85%A8-%E5%A4%AF%E5%AE%9E%E5%9F%BA%E7%A1%802%E4%B8%87%E5%AD%97%E6%80%BB%E7%BB%93/"><span class="title">[React进阶] React全部api解读+基础实践大全(夯实基础2万字总结)</span></a><a class="item title" href="/2024/03/01/PHP-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP 基础知识总结</span></a><a class="item title" href="/2024/03/01/Nginx%E5%92%8CPHP%E7%9A%84%E9%85%8D%E7%BD%AE/"><span class="title">Nginx和PHP的配置</span></a><a class="item title" href="/2024/03/08/Nginx%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">Nginx使用教程</span></a><a class="item title" href="/2024/03/01/MySQL-%E9%AB%98%E7%BA%A7-%E8%BF%9B%E9%98%B6-SQL%E8%AF%AD%E5%8F%A5/"><span class="title">MySQL 高级(进阶)SQL语句</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -151,16 +143,15 @@
 
 <div class="article banner top">
   <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/sql/">sql</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-02-26T07:15:00.000Z">2024-02-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-08T15:11:59.253Z">2024-03-08</time></span></div></div></div>
     
-<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/sql/">sql</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2024-02-26T07:15:00.000Z">2024-02-26</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2024-03-08T15:11:59.253Z">2024-03-08</time></span></div></div>
-</div>
-
-    
-    <div class="bottom">
+    <div class="bottom only-title">
+      
       <div class="text-area">
         <h1 class="text title"><span>SQL 零基础入门图文教程</span></h1>
+        
       </div>
     </div>
     
@@ -170,16 +161,16 @@
 </blockquote>
 <p>本文已参与「<a target="_blank" rel="noopener" href="https://juejin.cn/post/7012210233804079141/" title="https://juejin.cn/post/7012210233804079141/">掘力星计划</a>」，赢取创作大礼包，挑战创作激励金。</p>
 <h1 id="📚-前言"><a href="#📚-前言" class="headerlink" title="📚 前言"></a>📚 前言</h1><p>SQL 语言有 40 多年的历史，从它被应用至今几乎无处不在。我们消费的每一笔支付记录，收集的每一条用户信息，发出去的每一条消息，都会使用数据库或与其相关的产品来存储，而操纵数据库的语言正是 SQL ！</p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4019eac765c64a8fb6bf27b62acf65a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4019eac765c64a8fb6bf27b62acf65a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>SQL 对于现在的互联网公司生产研发等岗位几乎是一个必备技能，如果不会 SQL 的话，可能什么都做不了。你可以把 SQL 当做是一种工具，利用它可以帮助你完成你的工作，创造价值。</p>
-<p><strong><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb8b49a1eeb94d298c9ac04077c2fbd3~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> 文章结尾有 SQL 小测验哦！看看你能得几分？</strong></p>
+<p><strong><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb8b49a1eeb94d298c9ac04077c2fbd3~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> 文章结尾有 SQL 小测验哦！看看你能得几分？</strong></p>
 <h2 id="👉🏻-点我跳转到-SQL-测验！"><a href="#👉🏻-点我跳转到-SQL-测验！" class="headerlink" title="👉🏻 点我跳转到 SQL 测验！"></a><strong>👉🏻 <a href="#jump_100" title="#jump_100">点我跳转到 SQL 测验！</a></strong></h2><h1 id="🌴-SQL-介绍"><a href="#🌴-SQL-介绍" class="headerlink" title="🌴 SQL 介绍"></a>🌴 SQL 介绍</h1><h2 id="🌼-什么是-SQL"><a href="#🌼-什么是-SQL" class="headerlink" title="🌼 什么是 SQL"></a>🌼 什么是 SQL</h2><p>SQL 是用于访问和处理数据库的标准的计算机语言。</p>
 <ul>
 <li>SQL 指结构化查询语言</li>
 <li>SQL 使我们有能力访问数据库</li>
 <li>SQL 是一种 ANSI 的标准计算机语言</li>
 </ul>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bedc56fb52394887a1d6387af2d8bc67~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> SQL 可与数据库程序协同工作，比如 MS Access、DB2、Informix、MS SQL Server、Oracle、Sybase 以及其他数据库系统。但是由于各种各样的数据库出现，导致很多不同版本的 SQL 语言，为了与 ANSI 标准相兼容，它们必须以相似的方式共同地来支持一些主要的关键词（比如 SELECT、UPDATE、DELETE、INSERT、WHERE 等等），这些就是我们要学习的 SQL 基础。</p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bedc56fb52394887a1d6387af2d8bc67~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> SQL 可与数据库程序协同工作，比如 MS Access、DB2、Informix、MS SQL Server、Oracle、Sybase 以及其他数据库系统。但是由于各种各样的数据库出现，导致很多不同版本的 SQL 语言，为了与 ANSI 标准相兼容，它们必须以相似的方式共同地来支持一些主要的关键词（比如 SELECT、UPDATE、DELETE、INSERT、WHERE 等等），这些就是我们要学习的 SQL 基础。</p>
 <h2 id="🌀-SQL-的类型"><a href="#🌀-SQL-的类型" class="headerlink" title="🌀 SQL 的类型"></a>🌀 SQL 的类型</h2><p>可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。</p>
 <ul>
 <li>数据查询语言（DQL: Data Query Language）</li>
@@ -199,9 +190,9 @@
 <li>SQL 可以设置表、存储过程和视图的权限</li>
 </ul>
 <h2 id="🍄-数据库是什么"><a href="#🍄-数据库是什么" class="headerlink" title="🍄 数据库是什么"></a>🍄 数据库是什么</h2><p><strong>顾名思义，你可以理解为数据库是用来存放数据的一个容器。</strong></p>
-<p>打个比方，每个人家里都会有冰箱，冰箱是用来干什么的？冰箱是用来存放食物的地方。 <img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ee24307a1a54c9a87ada94536497446~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> 同样的，数据库是存放数据的地方。正是因为有了数据库后，我们可以直接查找数据。例如你每天使用余额宝查看自己的账户收益，就是从数据库读取数据后给你的。</p>
+<p>打个比方，每个人家里都会有冰箱，冰箱是用来干什么的？冰箱是用来存放食物的地方。 <img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ee24307a1a54c9a87ada94536497446~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> 同样的，数据库是存放数据的地方。正是因为有了数据库后，我们可以直接查找数据。例如你每天使用余额宝查看自己的账户收益，就是从数据库读取数据后给你的。</p>
 <p><strong>最常见的数据库类型是关系型数据库管理系统（RDBMS）：</strong></p>
-<p>RDBMS 是 SQL 的基础，同样也是所有现代数据库系统的基础，比如 MS SQL Server, IBM DB2, Oracle, MySQL 以及 Microsoft Access 等等。 <img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ed88e9dd7824a5a93a1f02518a2fdc8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <code>RDBMS</code> 中的数据存储在被称为表（tables）的数据库对象中。<code>表</code> 是相关的数据项的集合，它由列和行组成。</p>
+<p>RDBMS 是 SQL 的基础，同样也是所有现代数据库系统的基础，比如 MS SQL Server, IBM DB2, Oracle, MySQL 以及 Microsoft Access 等等。 <img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ed88e9dd7824a5a93a1f02518a2fdc8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <code>RDBMS</code> 中的数据存储在被称为表（tables）的数据库对象中。<code>表</code> 是相关的数据项的集合，它由列和行组成。</p>
 <p>由于本文主要讲解 SQL 基础，因此对数据库不做过多解释，只需要大概了解即可。<strong>咱们直接开始学习 SQL！</strong></p>
 <h1 id="🐥-SQL-基础语言学习"><a href="#🐥-SQL-基础语言学习" class="headerlink" title="🐥 SQL 基础语言学习"></a>🐥 SQL 基础语言学习</h1><p>在了解 SQL 基础语句使用之前，我们先讲一下 <code>表</code> 是什么？</p>
 <p>一个数据库通常包含一个或多个表。每个表由一个名字标识（例如“客户”或者“订单”）。表包含带有数据的记录(行)。</p>
@@ -279,9 +270,9 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons</span><br><span class="line">(</span><br><span class="line">Id_P <span class="type">int</span>,</span><br><span class="line">LastName <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">FirstName <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">Address <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">City <span class="type">varchar</span>(<span class="number">255</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
 <p>Id_P 列的数据类型是 int，包含整数。其余 4 列的数据类型是 varchar，最大长度为 255 个字符。</p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eafbf74ac4d844f792082ebc4bb2bc3f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2bda3690d14f4f1c89da7def6ad8f1fc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eafbf74ac4d844f792082ebc4bb2bc3f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2bda3690d14f4f1c89da7def6ad8f1fc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>空的 “Persons” 表类似这样：</strong></p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5569f01614844c41a99f400923cc349c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5569f01614844c41a99f400923cc349c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>可使用 INSERT INTO 语句向空表写入数据。</p>
 <h2 id="🐑-INSERT-–-插入数据"><a href="#🐑-INSERT-–-插入数据" class="headerlink" title="🐑 INSERT – 插入数据"></a>🐑 INSERT – 插入数据</h2><p>INSERT INTO 语句用于向表格中插入新的行。</p>
 <p><strong>语法：</strong></p>
@@ -298,9 +289,9 @@
 <p><strong>2、在指定的列中插入数据</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons (LastName, Address) <span class="keyword">VALUES</span> (<span class="string">&#x27;Wilson&#x27;</span>, <span class="string">&#x27;Champs-Elysees&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a461df9f14574ba9bf46e43fbe8e218e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a461df9f14574ba9bf46e43fbe8e218e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>插入成功后，数据如下：</strong></p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4914b92332ec4ab39fa260b4d5185e16~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4914b92332ec4ab39fa260b4d5185e16~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>这个数据插入之后，是通过 <code>SELECT</code> 语句进行查询出来的，别急马上讲！</p>
 <h2 id="🐼-SELECT-–-查询数据"><a href="#🐼-SELECT-–-查询数据" class="headerlink" title="🐼 SELECT – 查询数据"></a>🐼 SELECT – 查询数据</h2><p>SELECT 语句用于从表中选取数据，结果被存储在一个结果表中（称为结果集）。</p>
 <p><strong>语法：</strong></p>
@@ -314,12 +305,12 @@
 <p><strong>SQL SELECT * 实例：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77bf43b2d6264514b0af013e04648c23~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77bf43b2d6264514b0af013e04648c23~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 星号（*）是选取所有列的快捷方式。</p>
 <p>如需获取名为 “LastName” 和 “FirstName” 的列的内容（从名为 “Persons” 的数据库表），请使用类似这样的 SELECT 语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> LastName,FirstName <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5c2eefe9bdd74344a638685850a1a527~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5c2eefe9bdd74344a638685850a1a527~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🐫-DISTINCT-–-去除重复值"><a href="#🐫-DISTINCT-–-去除重复值" class="headerlink" title="🐫 DISTINCT – 去除重复值"></a>🐫 DISTINCT – 去除重复值</h2><p>如果一张表中有多行重复数据，如何去重显示呢？可以了解下 <code>DISTINCT</code> 。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 列名称 <span class="keyword">FROM</span> 表名称;</span><br></pre></td></tr></table></figure>
@@ -328,12 +319,12 @@
 <p>如果要从 “LASTNAME” 列中选取所有的值，我们需要使用 <code>SELECT</code> 语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> LASTNAME <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ca5afee076c4243b38cf910dc312607~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ca5afee076c4243b38cf910dc312607~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>可以发现，在结果集中，Wilson 被列出了多次。</p>
 <p>如需从 “LASTNAME” 列中仅选取唯一不同的值，我们需要使用 SELECT DISTINCT 语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> LASTNAME <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/879f245f617c47fe98df86712353aee0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/879f245f617c47fe98df86712353aee0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>通过上述查询，结果集中只显示了一列 Wilson，显然已经去除了重复列。</p>
 <h2 id="🐸-WHERE-–-条件过滤"><a href="#🐸-WHERE-–-条件过滤" class="headerlink" title="🐸 WHERE – 条件过滤"></a>🐸 WHERE – 条件过滤</h2><p>如果需要从表中选取指定的数据，可将 WHERE 子句添加到 SELECT 语句。</p>
 <p><strong>语法：</strong></p>
@@ -385,7 +376,7 @@
 <p>如果只希望选取居住在城市 “Beijing” 中的人，我们需要向 SELECT 语句添加 WHERE 子句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> City<span class="operator">=</span><span class="string">&#x27;Beijing&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55994edc954a4f759aaf05937007b8c9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55994edc954a4f759aaf05937007b8c9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> SQL 使用单引号来环绕文本值（大部分数据库系统也接受双引号）。如果是数值，请不要使用引号。</p>
 <h2 id="🐹-AND-OR-–-运算符"><a href="#🐹-AND-OR-–-运算符" class="headerlink" title="🐹 AND &amp; OR – 运算符"></a>🐹 AND &amp; OR – 运算符</h2><p>AND 和 OR 可在 WHERE 子语句中把两个或多个条件结合起来。</p>
 <ul>
@@ -403,22 +394,22 @@
 <p>由于 Persons 表数据太少，因此增加几条记录：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">&#x27;Adams&#x27;</span>, <span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Oxford Street&#x27;</span>, <span class="string">&#x27;London&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">&#x27;Bush&#x27;</span>, <span class="string">&#x27;George&#x27;</span>, <span class="string">&#x27;Fifth Avenue&#x27;</span>, <span class="string">&#x27;New York&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">4</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;Thomas&#x27;</span>, <span class="string">&#x27;Changan Street&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">5</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;William&#x27;</span>, <span class="string">&#x27;Xuanwumen 10&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9572e9c3a7ec41dca89c7544c5944b30~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9572e9c3a7ec41dca89c7544c5944b30~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>AND 运算符实例：</strong></p>
 <p>使用 AND 来显示所有姓为 “Carter” 并且名为 “Thomas” 的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> FirstName<span class="operator">=</span><span class="string">&#x27;Thomas&#x27;</span> <span class="keyword">AND</span> LastName<span class="operator">=</span><span class="string">&#x27;Carter&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1db1de4e8dc43a88907c05487dd4f0a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1db1de4e8dc43a88907c05487dd4f0a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>OR 运算符实例：</strong></p>
 <p>使用 OR 来显示所有姓为 “Carter” 或者名为 “Thomas” 的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> firstname<span class="operator">=</span><span class="string">&#x27;Thomas&#x27;</span> <span class="keyword">OR</span> lastname<span class="operator">=</span><span class="string">&#x27;Carter&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1f2ab8a914974468a1a1998e0567e9cb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1f2ab8a914974468a1a1998e0567e9cb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>结合 AND 和 OR 运算符：</strong></p>
 <p>我们也可以把 AND 和 OR 结合起来（使用圆括号来组成复杂的表达式）:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> (FirstName<span class="operator">=</span><span class="string">&#x27;Thomas&#x27;</span> <span class="keyword">OR</span> FirstName<span class="operator">=</span><span class="string">&#x27;William&#x27;</span>) <span class="keyword">AND</span> LastName<span class="operator">=</span><span class="string">&#x27;Carter&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/06ad7a980bbd47fb84f30dd3b4085f14~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/06ad7a980bbd47fb84f30dd3b4085f14~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🐰-ORDER-BY-–-排序"><a href="#🐰-ORDER-BY-–-排序" class="headerlink" title="🐰 ORDER BY – 排序"></a>🐰 ORDER BY – 排序</h2><p>ORDER BY 语句用于根据指定的列对结果集进行排序，默认按照升序对记录进行排序，如果您希望按照降序对记录进行排序，可以使用 DESC 关键字。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名称 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 列<span class="number">1</span>,列<span class="number">2</span> <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
@@ -428,16 +419,16 @@
 <p>以字母顺序显示 <code>LASTNAME</code> 名称：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">ORDER</span> <span class="keyword">BY</span> LASTNAME;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d475ffec1204d398333745437c99fd4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d475ffec1204d398333745437c99fd4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>空值（NULL）默认排序在有值行之后。</p>
 <p>以数字顺序显示<code>ID_P</code>，并以字母顺序显示 <code>LASTNAME</code> 名称：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">ORDER</span> <span class="keyword">BY</span> ID_P,LASTNAME;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0e89a49a07a44947a0146707a84af766~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0e89a49a07a44947a0146707a84af766~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>以数字降序显示<code>ID_P</code>：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">ORDER</span> <span class="keyword">BY</span> ID_P <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dabf32a064d547f9918179e08728e222~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dabf32a064d547f9918179e08728e222~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 在第一列中有相同的值时，第二列是以升序排列的。如果第一列中有些值为 null 时，情况也是这样的。</p>
 <h2 id="🐱-UPDATE-–-更新数据"><a href="#🐱-UPDATE-–-更新数据" class="headerlink" title="🐱 UPDATE – 更新数据"></a>🐱 UPDATE – 更新数据</h2><p>Update 语句用于修改表中的数据。</p>
 <p><strong>语法：</strong></p>
@@ -448,11 +439,11 @@
 <p>目前 <code>Persons</code> 表有很多字段为 <code>null</code> 的数据，可以通过 <code>UPDATE</code> 为 LASTNAME 是 “Wilson” 的人添加 FIRSTNAME：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Persons <span class="keyword">SET</span> FirstName <span class="operator">=</span> <span class="string">&#x27;Fred&#x27;</span> <span class="keyword">WHERE</span> LastName <span class="operator">=</span> <span class="string">&#x27;Wilson&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01f36ea281da4254baff535040dd2be5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01f36ea281da4254baff535040dd2be5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>更新某一行中的若干列：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Persons <span class="keyword">SET</span> ID_P <span class="operator">=</span> <span class="number">6</span>,city<span class="operator">=</span> <span class="string">&#x27;London&#x27;</span> <span class="keyword">WHERE</span> LastName <span class="operator">=</span> <span class="string">&#x27;Wilson&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5483d5392dc34e43a857f09d6b0ecc4d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5483d5392dc34e43a857f09d6b0ecc4d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🐨-DELETE-–-删除数据"><a href="#🐨-DELETE-–-删除数据" class="headerlink" title="🐨 DELETE – 删除数据"></a>🐨 DELETE – 删除数据</h2><p>DELETE 语句用于删除表中的行。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 表名称 <span class="keyword">WHERE</span> 列名称 <span class="operator">=</span> 值;</span><br></pre></td></tr></table></figure>
@@ -462,12 +453,12 @@
 <p>删除 <code>Persons</code> 表中 LastName 为 “Fred Wilson” 的行：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> LastName <span class="operator">=</span> <span class="string">&#x27;Wilson&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f783bce6bd294926a39abb373a32cf32~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f783bce6bd294926a39abb373a32cf32~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>删除所有行：</strong></p>
 <p>可以在不删除表的情况下删除所有的行。这意味着表的结构、属性和索引都是完整的：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd6675f8b687401cbf1ccade6296de3e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd6675f8b687401cbf1ccade6296de3e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🐵-TRUNCATE-TABLE-–-清除表数据"><a href="#🐵-TRUNCATE-TABLE-–-清除表数据" class="headerlink" title="🐵 TRUNCATE TABLE – 清除表数据"></a>🐵 TRUNCATE TABLE – 清除表数据</h2><p>如果我们仅仅需要除去表内的数据，但并不删除表本身，那么我们该如何做呢？</p>
 <p>可以使用 TRUNCATE TABLE 命令（仅仅删除表格中的数据）：</p>
 <p><strong>语法：</strong></p>
@@ -485,7 +476,7 @@
 <p>本例演示如何删除名为 “Persons” 的表。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/06a7b676c0be4a9db6720a7df0a3183a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/06a7b676c0be4a9db6720a7df0a3183a~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>从上图可以看出，第一次执行删除时，成功删除了表 <code>persons</code>，第二次执行删除时，报错找不到表 <code>persons</code>，说明表已经被删除了。</p>
 <h1 id="🚀-SQL-高级言语学习"><a href="#🚀-SQL-高级言语学习" class="headerlink" title="🚀 SQL 高级言语学习"></a>🚀 SQL 高级言语学习</h1><h2 id="🚢-LIKE-–-查找类似值"><a href="#🚢-LIKE-–-查找类似值" class="headerlink" title="🚢 LIKE – 查找类似值"></a>🚢 LIKE – 查找类似值</h2><p>LIKE 操作符用于在 WHERE 子句中搜索列中的指定模式。</p>
 <p><strong>语法：</strong></p>
@@ -495,23 +486,23 @@
 <p><code>Persons</code> 表插入数据：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">&#x27;Gates&#x27;</span>, <span class="string">&#x27;Bill&#x27;</span>, <span class="string">&#x27;Xuanwumen 10&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">&#x27;Adams&#x27;</span>, <span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Oxford Street&#x27;</span>, <span class="string">&#x27;London&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">&#x27;Bush&#x27;</span>, <span class="string">&#x27;George&#x27;</span>, <span class="string">&#x27;Fifth Avenue&#x27;</span>, <span class="string">&#x27;New York&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">4</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;Thomas&#x27;</span>, <span class="string">&#x27;Changan Street&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons <span class="keyword">VALUES</span> (<span class="number">5</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;William&#x27;</span>, <span class="string">&#x27;Xuanwumen 10&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03e6931c532b47978b6d29a13fe99c83~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03e6931c532b47978b6d29a13fe99c83~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>1、现在，我们希望从上面的 “Persons” 表中选取居住在以 “N” 开头的城市里的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> City <span class="keyword">LIKE</span> <span class="string">&#x27;N%&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbad3838842c4834b84709849b3f13e7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbad3838842c4834b84709849b3f13e7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>2、接下来，我们希望从 “Persons” 表中选取居住在以 “g” 结尾的城市里的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> City <span class="keyword">LIKE</span> <span class="string">&#x27;%g&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ea280fcd29741c2a019ef79bd319d2c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ea280fcd29741c2a019ef79bd319d2c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>3、接下来，我们希望从 “Persons” 表中选取居住在包含 “lon” 的城市里的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> City <span class="keyword">LIKE</span> <span class="string">&#x27;%on%&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a8b5a09d75144835b89b7381589a13cb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a8b5a09d75144835b89b7381589a13cb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>4、通过使用 NOT 关键字，我们可以从 “Persons” 表中选取居住在不包含 “lon” 的城市里的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> City <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;%on%&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bafd0513393e42a1967d2f5ee8327fae~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bafd0513393e42a1967d2f5ee8327fae~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> “%” 可用于定义通配符（模式中缺少的字母）。</p>
 <h2 id="🚤-IN-–-锁定多个值"><a href="#🚤-IN-–-锁定多个值" class="headerlink" title="🚤 IN – 锁定多个值"></a>🚤 IN – 锁定多个值</h2><p>IN 操作符允许我们在 WHERE 子句中规定多个值。</p>
 <p><strong>语法：</strong></p>
@@ -521,7 +512,7 @@
 <p>现在，我们希望从 <code>Persons</code> 表中选取姓氏为 Adams 和 Carter 的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> LastName <span class="keyword">IN</span> (<span class="string">&#x27;Adams&#x27;</span>,<span class="string">&#x27;Carter&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/28520d2c1c1b4296b5763993cb6e1e20~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/28520d2c1c1b4296b5763993cb6e1e20~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="⛵️-BETWEEN-–-选取区间数据"><a href="#⛵️-BETWEEN-–-选取区间数据" class="headerlink" title="⛵️ BETWEEN – 选取区间数据"></a>⛵️ BETWEEN – 选取区间数据</h2><p>操作符 BETWEEN … AND 会选取介于两个值之间的数据范围。这些值可以是数值、文本或者日期。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 列名<span class="operator">/</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> 表名称 <span class="keyword">WHERE</span> 列名称 <span class="keyword">BETWEEN</span> 值<span class="number">1</span> <span class="keyword">AND</span> 值<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
@@ -530,11 +521,11 @@
 <p>1、查询以字母顺序显示介于 “Adams”（包括）和 “Carter”（不包括）之间的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> LastName <span class="keyword">BETWEEN</span> <span class="string">&#x27;Adams&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;Carter&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03c7b92a21e247528d7a19c6daf1e273~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03c7b92a21e247528d7a19c6daf1e273~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>2、查询上述结果相反的结果，可以使用 NOT：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> LastName <span class="keyword">NOT</span> <span class="keyword">BETWEEN</span> <span class="string">&#x27;Adams&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;Carter&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2582e0555e2d4b39a9ee5db8ca623745~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2582e0555e2d4b39a9ee5db8ca623745~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 不同的数据库对 BETWEEN…AND 操作符的处理方式是有差异的。</p>
 <blockquote>
 <p>某些数据库会列出介于 “Adams” 和 “Carter” 之间的人，但不包括 “Adams” 和 “Carter” ；某些数据库会列出介于 “Adams” 和 “Carter” 之间并包括 “Adams” 和 “Carter” 的人；而另一些数据库会列出介于 “Adams” 和 “Carter” 之间的人，包括 “Adams” ，但不包括 “Carter” 。</p>
@@ -552,25 +543,25 @@
 <p><strong>使用表名称别名：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> p.LastName, p.FirstName</span><br><span class="line"><span class="keyword">FROM</span> Persons p</span><br><span class="line"><span class="keyword">WHERE</span> p.LastName<span class="operator">=</span><span class="string">&#x27;Adams&#x27;</span> <span class="keyword">AND</span> p.FirstName<span class="operator">=</span><span class="string">&#x27;John&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cb79f31ea6684397b66de85fab7a7d92~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cb79f31ea6684397b66de85fab7a7d92~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>使用列名别名：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> LastName &quot;Family&quot;, FirstName &quot;Name&quot; <span class="keyword">FROM</span> Persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71b245b232f34d00ac603042b81935b4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71b245b232f34d00ac603042b81935b4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 实际应用时，这个 <code>AS</code> 可以省略，但是列别名需要加上 <code>&quot; &quot;</code>。</p>
 <h2 id="🚁-JOIN-–-多表关联"><a href="#🚁-JOIN-–-多表关联" class="headerlink" title="🚁 JOIN – 多表关联"></a>🚁 JOIN – 多表关联</h2><p><code>JOIN</code> 用于根据两个或多个表中的列之间的关系，从这些表中查询数据。</p>
 <p>有时为了得到完整的结果，我们需要从两个或更多的表中获取结果。我们就需要执行 <code>join</code>。</p>
 <p>数据库中的表可通过键将彼此联系起来。主键（Primary Key）是一个列，在这个列中的每一行的值都是唯一的。在表中，每个主键的值都是唯一的。这样做的目的是在不重复每个表中的所有数据的情况下，把表间的数据交叉捆绑在一起。</p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95f027b472994d698c049d6ff936bca1~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95f027b472994d698c049d6ff936bca1~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>如图，”Id_P” 列是 Persons 表中的的主键。这意味着没有两行能够拥有相同的 Id_P。即使两个人的姓名完全相同，Id_P 也可以区分他们。</p>
 <p><strong>❤️ 为了下面实验的继续，我们需要再创建一个表：Orders。</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> orders (id_o number,orderno number,id_p number);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders <span class="keyword">values</span>(<span class="number">1</span>,<span class="number">11111</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders <span class="keyword">values</span>(<span class="number">2</span>,<span class="number">22222</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders <span class="keyword">values</span>(<span class="number">3</span>,<span class="number">33333</span>,<span class="number">3</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders <span class="keyword">values</span>(<span class="number">4</span>,<span class="number">44444</span>,<span class="number">4</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders <span class="keyword">values</span>(<span class="number">6</span>,<span class="number">66666</span>,<span class="number">6</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62c7b5ed55e94689bcac0e4941985933~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62c7b5ed55e94689bcac0e4941985933~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>如图，”Id_O” 列是 Orders 表中的的主键，同时，”Orders” 表中的 “Id_P” 列用于引用 “Persons” 表中的人，而无需使用他们的确切姓名。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons p,orders o <span class="keyword">where</span> p.id_p<span class="operator">=</span>o.id_p;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7f6f453a93c247f6b543c8a6587effe6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7f6f453a93c247f6b543c8a6587effe6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>可以看到，”Id_P” 列把上面的两个表联系了起来。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 列名</span><br><span class="line"><span class="keyword">from</span> 表A</span><br><span class="line"><span class="keyword">INNER</span><span class="operator">|</span><span class="keyword">LEFT</span><span class="operator">|</span><span class="keyword">RIGHT</span><span class="operator">|</span><span class="keyword">FULL</span> <span class="keyword">JOIN</span> 表B</span><br><span class="line"><span class="keyword">ON</span> 表A主键列 <span class="operator">=</span> 表B外键列;</span><br></pre></td></tr></table></figure>
@@ -588,7 +579,7 @@
 <p>如果我们希望列出所有人的定购，可以使用下面的 SELECT 语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> p.LastName, p.FirstName, o.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> Persons p</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Orders o</span><br><span class="line"><span class="keyword">ON</span> p.Id_P <span class="operator">=</span> o.Id_P</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> p.LastName <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/590b9ca27bf344389b9ea4f0134cd912~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/590b9ca27bf344389b9ea4f0134cd912~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🚜-UNION-–-合并结果集"><a href="#🚜-UNION-–-合并结果集" class="headerlink" title="🚜 UNION – 合并结果集"></a>🚜 UNION – 合并结果集</h2><p><code>UNION</code> 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
 <p><strong>UNION 语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 列名 <span class="keyword">FROM</span> 表A</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> 列名 <span class="keyword">FROM</span> 表B;</span><br></pre></td></tr></table></figure>
@@ -601,13 +592,13 @@
 <p>为了实验所需，创建 Person_b 表：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Persons_b</span><br><span class="line">(</span><br><span class="line">Id_P <span class="type">int</span>,</span><br><span class="line">LastName <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">FirstName <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">Address <span class="type">varchar</span>(<span class="number">255</span>),</span><br><span class="line">City <span class="type">varchar</span>(<span class="number">255</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons_b <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">&#x27;Bill&#x27;</span>, <span class="string">&#x27;Gates&#x27;</span>, <span class="string">&#x27;Xuanwumen 10&#x27;</span>, <span class="string">&#x27;Londo&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons_b <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Adams&#x27;</span>, <span class="string">&#x27;Oxford Street&#x27;</span>, <span class="string">&#x27;nBeijing&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons_b <span class="keyword">VALUES</span> (<span class="number">3</span>, <span class="string">&#x27;George&#x27;</span>, <span class="string">&#x27;Bush&#x27;</span>, <span class="string">&#x27;Fifth Avenue&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons_b <span class="keyword">VALUES</span> (<span class="number">4</span>, <span class="string">&#x27;Thomas&#x27;</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;Changan Street&#x27;</span>, <span class="string">&#x27;New York&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons_b <span class="keyword">VALUES</span> (<span class="number">5</span>, <span class="string">&#x27;William&#x27;</span>, <span class="string">&#x27;Carter&#x27;</span>, <span class="string">&#x27;Xuanwumen 10&#x27;</span>, <span class="string">&#x27;Beijing&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons_b;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/474d5137bbdb4966a75261944bc78b55~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/474d5137bbdb4966a75261944bc78b55~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>实例：</strong></p>
 <p><strong>使用 UNION 命令：</strong></p>
 <p>列出 persons 和 persons_b 中不同的人：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons_b;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a2566fcc5b4a18960a74a87a3c4722~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a2566fcc5b4a18960a74a87a3c4722~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</p>
 <h2 id="🚌-NOT-NULL-–-非空"><a href="#🚌-NOT-NULL-–-非空" class="headerlink" title="🚌 NOT NULL – 非空"></a>🚌 NOT NULL – 非空</h2><p><code>NOT NULL</code> 约束强制列不接受 NULL 值。</p>
 <p>NOT NULL 约束强制字段始终包含值。这意味着，如果不向字段添加值，就无法插入新记录或者更新记录。</p>
@@ -618,12 +609,12 @@
 <p><strong>实例：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> lucifer (id number <span class="keyword">not</span> <span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> lucifer <span class="keyword">values</span> (<span class="keyword">NULL</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d68965bb49994a0cbc7d44f3d9fdd523~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d68965bb49994a0cbc7d44f3d9fdd523~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 如果插入 <code>NULL</code> 值，则会报错 <code>ORA-01400</code> 提示无法插入！</p>
 <p><strong>⭐️ 拓展小知识：</strong><code>NOT NULL</code> 也可以用于查询条件：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons <span class="keyword">where</span> FirstName <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a69e36894046cf8ef3838ee31fd7db~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/85a69e36894046cf8ef3838ee31fd7db~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>同理，<code>NULL</code> 也可：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons <span class="keyword">where</span> FirstName <span class="keyword">is</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
 
@@ -638,9 +629,9 @@
 <p>下面，我们将 Persons 表中住在 Beijing 的人筛选出来创建视图：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> persons_beijing <span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons <span class="keyword">where</span> city<span class="operator">=</span><span class="string">&#x27;Beijing&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d577beb6cd1c463a80a00c282ef5f3b8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d577beb6cd1c463a80a00c282ef5f3b8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>查询上面这个视图：</p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8677cafb3413439faecbff87a24a5e99~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8677cafb3413439faecbff87a24a5e99~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>如果需要更新视图中的列或者其他信息，无需删除，使用 <code>CREATE OR REPLACE VIEW</code> 选项：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> REPLACE <span class="keyword">VIEW</span> 视图名 <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> 列名</span><br><span class="line"><span class="keyword">FROM</span> 表名</span><br><span class="line"><span class="keyword">WHERE</span> 查询条件;</span><br></pre></td></tr></table></figure>
 
@@ -648,11 +639,11 @@
 <p>现在需要筛选出，LASTNAME 为 Gates 的记录：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">view</span> persons_beijing <span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> persons <span class="keyword">where</span> lastname<span class="operator">=</span><span class="string">&#x27;Gates&#x27;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e3986885dbf8410489f4d21aff6b9e72~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc0e8938e9f24b08a67faa2c212834ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e3986885dbf8410489f4d21aff6b9e72~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc0e8938e9f24b08a67faa2c212834ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>删除视图就比较简单，跟表差不多，使用 <code>DROP</code> 即可：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> persons_beijing;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c89150ed77c14b42b0c4464f45c29390~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c89150ed77c14b42b0c4464f45c29390~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>❤️ 本章要讲的高级语言就先到此为止，不宜一次性介绍太多~</strong></p>
 <h1 id="🎯-SQL-常用函数学习"><a href="#🎯-SQL-常用函数学习" class="headerlink" title="🎯 SQL 常用函数学习"></a>🎯 SQL 常用函数学习</h1><p>SQL 拥有很多可用于计数和计算的内建函数。</p>
 <p><strong>函数的使用语法：</strong></p>
@@ -667,11 +658,11 @@
 <p>计算 “orderno” 字段的平均值。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">avg</span>(orderno) <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/808115ad57354c9e829b42cc2ffe61e9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/808115ad57354c9e829b42cc2ffe61e9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>当然，也可以用在查询条件中，例如查询低于平均值的记录：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders <span class="keyword">where</span> orderno <span class="operator">&lt;</span> (<span class="keyword">select</span> <span class="built_in">avg</span>(orderno) <span class="keyword">from</span> orders);</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abcb84b54ead4aa2b7001c99c9aa1bf4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abcb84b54ead4aa2b7001c99c9aa1bf4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍕-COUNT-–-汇总行数"><a href="#🍕-COUNT-–-汇总行数" class="headerlink" title="🍕 COUNT – 汇总行数"></a>🍕 COUNT – 汇总行数</h2><p>COUNT() 函数返回匹配指定条件的行数。</p>
 <p><strong>语法：</strong></p>
 <p><code>count()</code> 中可以有不同的语法：</p>
@@ -686,15 +677,15 @@
 <p><strong>COUNT(*) ：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/46478f79c1fc4668b13b582857e3c9ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/46478f79c1fc4668b13b582857e3c9ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>COUNT(DISTINCT 列名) ：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="keyword">distinct</span> city) <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7aef1b1b82b449a9e07c966d881ca0b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7aef1b1b82b449a9e07c966d881ca0b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>COUNT(列名) ：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(city) <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d43e521d2fde4dbe88524cdf6a7a628e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d43e521d2fde4dbe88524cdf6a7a628e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍘-MAX-–-最大值"><a href="#🍘-MAX-–-最大值" class="headerlink" title="🍘 MAX – 最大值"></a>🍘 MAX – 最大值</h2><p><code>MAX</code> 函数返回一列中的最大值。NULL 值不包括在计算中。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">MAX</span>(列名) <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -703,7 +694,7 @@
 <p><strong>实例：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">max</span>(orderno) <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbf1e08282f84e479dd3f7c6af9edf55~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbf1e08282f84e479dd3f7c6af9edf55~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍢-MIN-–-最小值"><a href="#🍢-MIN-–-最小值" class="headerlink" title="🍢 MIN – 最小值"></a>🍢 MIN – 最小值</h2><p><code>MIN</code> 函数返回一列中的最小值。NULL 值不包括在计算中。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">MIN</span>(列名) <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -711,7 +702,7 @@
 <p><strong>实例：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">min</span>(orderno) <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6699f738c6554386a547586a0b906250~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6699f738c6554386a547586a0b906250~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍰-SUM-–-求和"><a href="#🍰-SUM-–-求和" class="headerlink" title="🍰 SUM – 求和"></a>🍰 SUM – 求和</h2><p><code>SUM</code> 函数返回数值列的总数（总额）。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">SUM</span>(列名) <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -719,7 +710,7 @@
 <p><strong>实例：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">sum</span>(orderno) <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fbfdb9d086d4b7ca3db7588520688f6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fbfdb9d086d4b7ca3db7588520688f6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍪-GROUP-BY-–-分组"><a href="#🍪-GROUP-BY-–-分组" class="headerlink" title="🍪 GROUP BY – 分组"></a>🍪 GROUP BY – 分组</h2><p>GROUP BY 语句用于结合合计函数，根据一个或多个列对结果集进行分组。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 列名A, 统计函数(列名B)</span><br><span class="line"><span class="keyword">FROM</span> 表名</span><br><span class="line"><span class="keyword">WHERE</span> 查询条件</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> 列名A;</span><br></pre></td></tr></table></figure>
@@ -728,9 +719,9 @@
 <p>获取 Persons 表中住在北京的总人数，根据 LASTNAME 分组：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> lastname,<span class="built_in">count</span>(city) <span class="keyword">from</span> persons</span><br><span class="line"><span class="keyword">where</span> city<span class="operator">=</span><span class="string">&#x27;Beijing&#x27;</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> lastname;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e0a1788ea3cf489d938299826b8f53dd~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e0a1788ea3cf489d938299826b8f53dd~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>如果不加 <code>GROUP BY</code> 则会报错：</p>
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75061370b9d64986b9bcb568ebfc50da~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75061370b9d64986b9bcb568ebfc50da~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>也就是常见的 <code>ORA-00937</code> 不是单组分组函数的错误。</p>
 <h2 id="🍭-HAVING-–-句尾连接"><a href="#🍭-HAVING-–-句尾连接" class="headerlink" title="🍭 HAVING – 句尾连接"></a>🍭 HAVING – 句尾连接</h2><p>在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与合计函数一起使用。</p>
 <p><strong>语法：</strong></p>
@@ -740,7 +731,7 @@
 <p>获取 Persons 表中住在北京的总人数大于 1 的 LASTNAME，根据 LASTNAME 分组：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> lastname,<span class="built_in">count</span>(city) <span class="keyword">from</span> persons</span><br><span class="line"><span class="keyword">where</span> city<span class="operator">=</span><span class="string">&#x27;Beijing&#x27;</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> lastname</span><br><span class="line"><span class="keyword">having</span> <span class="built_in">count</span>(city) <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5ac4d916647542b49165a78f56d11639~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5ac4d916647542b49165a78f56d11639~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍷-UCASE-UPPER-–-大写"><a href="#🍷-UCASE-UPPER-–-大写" class="headerlink" title="🍷 UCASE&#x2F;UPPER – 大写"></a>🍷 UCASE&#x2F;UPPER – 大写</h2><p><code>UCASE/UPPER</code> 函数把字段的值转换为大写。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">upper</span>(列名) <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -749,7 +740,7 @@
 <p>选取 “LastName” 和 “FirstName” 列的内容，然后把 “LastName” 列转换为大写：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">upper</span>(lastname),firstname <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eff20ec933d14debbd2e857baee41acd~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eff20ec933d14debbd2e857baee41acd~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍶-LCASE-LOWER-–-小写"><a href="#🍶-LCASE-LOWER-–-小写" class="headerlink" title="🍶 LCASE&#x2F;LOWER – 小写"></a>🍶 LCASE&#x2F;LOWER – 小写</h2><p><code>LCASE/LOWER</code> 函数把字段的值转换为小写。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">lower</span>(列名) <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -758,7 +749,7 @@
 <p>选取 “LastName” 和 “FirstName” 列的内容，然后把 “LastName” 列转换为小写：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">lower</span>(lastname),firstname <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93924cb4b3094b329d09f818479206d4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93924cb4b3094b329d09f818479206d4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="👛-LEN-LENGTH-–-获取长度"><a href="#👛-LEN-LENGTH-–-获取长度" class="headerlink" title="👛 LEN&#x2F;LENGTH – 获取长度"></a>👛 LEN&#x2F;LENGTH – 获取长度</h2><p><code>LEN/LENGTH</code> 函数返回文本字段中值的长度。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> length(列名) <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -767,7 +758,7 @@
 <p>获取 LASTNAME 的值字符长度：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> length(lastname),lastname <span class="keyword">from</span> persons;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/317bf2e7c66a43e7980bf2882a459eef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/317bf2e7c66a43e7980bf2882a459eef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍗-ROUND-–-数值取舍"><a href="#🍗-ROUND-–-数值取舍" class="headerlink" title="🍗 ROUND – 数值取舍"></a>🍗 ROUND – 数值取舍</h2><p><code>ROUND</code> 函数用于把数值字段舍入为指定的小数位数。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> round(列名,精度) <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -776,12 +767,12 @@
 <p><strong>保留 2 位：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> round(<span class="number">1.1314</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> round(<span class="number">1.1351</span>,<span class="number">2</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bb2334f55c264015b98e9a87c1bc0883~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abb8481ad0f448b9a9978ca1c9944c9d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bb2334f55c264015b98e9a87c1bc0883~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"> <img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abb8481ad0f448b9a9978ca1c9944c9d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p>📢 注意：<code>ROUND</code> 取舍是 <strong>四舍五入</strong> 的！</p>
 <p><strong>取整：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> round(<span class="number">1.1351</span>,<span class="number">0</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> round(<span class="number">1.56</span>,<span class="number">0</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e473c7b6a51449e09db7f5095a69a790~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e473c7b6a51449e09db7f5095a69a790~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <h2 id="🍞-NOW-SYSDATE-–-当前时间"><a href="#🍞-NOW-SYSDATE-–-当前时间" class="headerlink" title="🍞 NOW&#x2F;SYSDATE – 当前时间"></a>🍞 NOW&#x2F;SYSDATE – 当前时间</h2><p><code>NOW/SYSDATE</code> 函数返回当前的日期和时间。</p>
 <p><strong>语法：</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> sysdate <span class="keyword">from</span> 表名;</span><br></pre></td></tr></table></figure>
@@ -790,7 +781,7 @@
 <p>获取当前时间：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> sysdate <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure>
 
-<p><img  referrerpolicy="no-referrer"  referrerpolicy="no-referrer"  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1ba785917214eabab846108b4413c9b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p><img  referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a1ba785917214eabab846108b4413c9b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
 <p><strong>📢 注意：</strong> 如果您在使用 Sql Server 数据库，请使用 <code>getdate()</code> 函数来获得当前的日期时间。</p>
 <h1 id="🍺-写在最后"><a href="#🍺-写在最后" class="headerlink" title="🍺 写在最后"></a>🍺 写在最后</h1><p>**上述如果都学完了的话，可以来做个小测验：<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql" title="https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql">SQL 测验</a>**，看看掌握的怎么样！ <strong>❤️ 测验会被记分：</strong></p>
 <p>每道题的分值是 1 分。在您完成全部的 20 道题之后，系统会为您的测验打分，并提供您做错的题目的正确答案。其中，绿色为正确答案，而红色为错误答案。</p>
@@ -798,31 +789,74 @@
 <h3 id="⭐️-将你的得分写在下方的-评论区-中吧，让我看看大家的水平如何？⭐️"><a href="#⭐️-将你的得分写在下方的-评论区-中吧，让我看看大家的水平如何？⭐️" class="headerlink" title="⭐️ 将你的得分写在下方的 评论区 中吧，让我看看大家的水平如何？⭐️"></a><strong>⭐️ 将你的得分写在下方的 <code>评论区</code> 中吧，让我看看大家的水平如何？⭐️</strong></h3>
 <div class="article-footer fs14">
     <section id="license">
-      <div class="header"><span>License</span></div>
+      <div class="header"><span>许可协议</span></div>
       <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
 </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2024/02/26/Linux-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">Linux 基础教程</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">Python 基础教程</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/02/26/Linux-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">Linux 基础教程</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/02/26/python-%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">Python 基础教程</a></div></section></div>
 
 
 
 
 
 
-<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
-<div class='float-panel mobile-only blur' style='display:none'>
-  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%9A-%E5%89%8D%E8%A8%80"><span class="toc-text">📚 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%91%89%F0%9F%8F%BB-%E7%82%B9%E6%88%91%E8%B7%B3%E8%BD%AC%E5%88%B0-SQL-%E6%B5%8B%E9%AA%8C%EF%BC%81"><span class="toc-text">👉🏻 点我跳转到 SQL 测验！</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8C%B4-SQL-%E4%BB%8B%E7%BB%8D"><span class="toc-text">🌴 SQL 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%BC-%E4%BB%80%E4%B9%88%E6%98%AF-SQL"><span class="toc-text">🌼 什么是 SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%80-SQL-%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">🌀 SQL 的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8C%B5-%E5%AD%A6%E4%B9%A0-SQL-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">🌵 学习 SQL 的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%84-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">🍄 数据库是什么</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%90%A5-SQL-%E5%9F%BA%E7%A1%80%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0"><span class="toc-text">🐥 SQL 基础语言学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%A4-CREATE-TABLE-%E2%80%93-%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="toc-text">🐤 CREATE TABLE – 创建表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%91-INSERT-%E2%80%93-%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">🐑 INSERT – 插入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%BC-SELECT-%E2%80%93-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-text">🐼 SELECT – 查询数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%AB-DISTINCT-%E2%80%93-%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC"><span class="toc-text">🐫 DISTINCT – 去除重复值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B8-WHERE-%E2%80%93-%E6%9D%A1%E4%BB%B6%E8%BF%87%E6%BB%A4"><span class="toc-text">🐸 WHERE – 条件过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B9-AND-OR-%E2%80%93-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">🐹 AND &amp; OR – 运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B0-ORDER-BY-%E2%80%93-%E6%8E%92%E5%BA%8F"><span class="toc-text">🐰 ORDER BY – 排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B1-UPDATE-%E2%80%93-%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="toc-text">🐱 UPDATE – 更新数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%A8-DELETE-%E2%80%93-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">🐨 DELETE – 删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%B5-TRUNCATE-TABLE-%E2%80%93-%E6%B8%85%E9%99%A4%E8%A1%A8%E6%95%B0%E6%8D%AE"><span class="toc-text">🐵 TRUNCATE TABLE – 清除表数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%90%AF-DROP-TABLE-%E2%80%93-%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-text">🐯 DROP TABLE – 删除表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%9A%80-SQL-%E9%AB%98%E7%BA%A7%E8%A8%80%E8%AF%AD%E5%AD%A6%E4%B9%A0"><span class="toc-text">🚀 SQL 高级言语学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A2-LIKE-%E2%80%93-%E6%9F%A5%E6%89%BE%E7%B1%BB%E4%BC%BC%E5%80%BC"><span class="toc-text">🚢 LIKE – 查找类似值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A4-IN-%E2%80%93-%E9%94%81%E5%AE%9A%E5%A4%9A%E4%B8%AA%E5%80%BC"><span class="toc-text">🚤 IN – 锁定多个值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9B%B5%EF%B8%8F-BETWEEN-%E2%80%93-%E9%80%89%E5%8F%96%E5%8C%BA%E9%97%B4%E6%95%B0%E6%8D%AE"><span class="toc-text">⛵️ BETWEEN – 选取区间数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%82-AS-%E2%80%93-%E5%88%AB%E5%90%8D"><span class="toc-text">🚂 AS – 别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%81-JOIN-%E2%80%93-%E5%A4%9A%E8%A1%A8%E5%85%B3%E8%81%94"><span class="toc-text">🚁 JOIN – 多表关联</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%9C-UNION-%E2%80%93-%E5%90%88%E5%B9%B6%E7%BB%93%E6%9E%9C%E9%9B%86"><span class="toc-text">🚜 UNION – 合并结果集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%8C-NOT-NULL-%E2%80%93-%E9%9D%9E%E7%A9%BA"><span class="toc-text">🚌 NOT NULL – 非空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%90-VIEW-%E2%80%93-%E8%A7%86%E5%9B%BE"><span class="toc-text">🚐 VIEW – 视图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8E%AF-SQL-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E5%AD%A6%E4%B9%A0"><span class="toc-text">🎯 SQL 常用函数学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%94-AVG-%E2%80%93-%E5%B9%B3%E5%9D%87%E5%80%BC"><span class="toc-text">🍔 AVG – 平均值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%95-COUNT-%E2%80%93-%E6%B1%87%E6%80%BB%E8%A1%8C%E6%95%B0"><span class="toc-text">🍕 COUNT – 汇总行数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%98-MAX-%E2%80%93-%E6%9C%80%E5%A4%A7%E5%80%BC"><span class="toc-text">🍘 MAX – 最大值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%A2-MIN-%E2%80%93-%E6%9C%80%E5%B0%8F%E5%80%BC"><span class="toc-text">🍢 MIN – 最小值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B0-SUM-%E2%80%93-%E6%B1%82%E5%92%8C"><span class="toc-text">🍰 SUM – 求和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%AA-GROUP-BY-%E2%80%93-%E5%88%86%E7%BB%84"><span class="toc-text">🍪 GROUP BY – 分组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%AD-HAVING-%E2%80%93-%E5%8F%A5%E5%B0%BE%E8%BF%9E%E6%8E%A5"><span class="toc-text">🍭 HAVING – 句尾连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B7-UCASE-UPPER-%E2%80%93-%E5%A4%A7%E5%86%99"><span class="toc-text">🍷 UCASE&#x2F;UPPER – 大写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%B6-LCASE-LOWER-%E2%80%93-%E5%B0%8F%E5%86%99"><span class="toc-text">🍶 LCASE&#x2F;LOWER – 小写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%91%9B-LEN-LENGTH-%E2%80%93-%E8%8E%B7%E5%8F%96%E9%95%BF%E5%BA%A6"><span class="toc-text">👛 LEN&#x2F;LENGTH – 获取长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%97-ROUND-%E2%80%93-%E6%95%B0%E5%80%BC%E5%8F%96%E8%88%8D"><span class="toc-text">🍗 ROUND – 数值取舍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8D%9E-NOW-SYSDATE-%E2%80%93-%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4"><span class="toc-text">🍞 NOW&#x2F;SYSDATE – 当前时间</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8D%BA-%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-text">🍺 写在最后</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%90%EF%B8%8F-%E5%B0%86%E4%BD%A0%E7%9A%84%E5%BE%97%E5%88%86%E5%86%99%E5%9C%A8%E4%B8%8B%E6%96%B9%E7%9A%84-%E8%AF%84%E8%AE%BA%E5%8C%BA-%E4%B8%AD%E5%90%A7%EF%BC%8C%E8%AE%A9%E6%88%91%E7%9C%8B%E7%9C%8B%E5%A4%A7%E5%AE%B6%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%A6%82%E4%BD%95%EF%BC%9F%E2%AD%90%EF%B8%8F"><span class="toc-text">⭐️ 将你的得分写在下方的 评论区 中吧，让我看看大家的水平如何？⭐️</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
   </button>
 </div>
-<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+</div><div class="scripts">
 <script type="text/javascript">
-  const stellar = {
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
-    loadCSS: (href, before, media, attributes) => {
+    css: (href, before, media, attributes) => {
       var doc = window.document;
       var ss = doc.createElement("link");
       var ref;
@@ -880,11 +914,10 @@
       return ss;
     },
 
-    // 从 butterfly 和 volantis 获得灵感
-    loadScript: (src, opt) => new Promise((resolve, reject) => {
+    js: (src, opt) => new Promise((resolve, reject) => {
       var script = document.createElement('script');
       if (src.startsWith('/')){
-        src = stellar.config.root + src.substring(1);
+        src = ctx.root + src.substring(1);
       }
       script.src = src;
       if (opt) {
@@ -905,78 +938,247 @@
       document.head.appendChild(script)
     }),
 
-    // https://github.com/jerryc127/hexo-theme-butterfly
-    jQuery: (fn) => {
+    jq: (fn) => {
       if (typeof jQuery === 'undefined') {
-        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+        utils.js(deps.jquery).then(fn)
       } else {
         fn()
       }
-    }
-  };
-  stellar.version = '1.26.8';
-  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
-  stellar.config = {
-    date_suffix: {
-      just: 'Just',
-      min: 'minutes ago',
-      hour: 'hours ago',
-      day: 'days ago',
-      month: 'months ago',
     },
-    root : '/',
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
   };
+</script>
 
-  // required plugins (only load if needs)
-  stellar.plugins = {
-    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
-  };
-
-  if ('local_search') {
-    stellar.search = {};
-    stellar.search.service = 'local_search';
-    if (stellar.search.service == 'local_search') {
-      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
-      stellar.search[stellar.search.service] = service_obj;
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
     }
-  }
-
-  // stellar js
-  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
-
-  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
-  // optional plugins
-  if ('true' == 'true') {
-    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
-  }
-  if ('true' == 'true') {
-    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
-  }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
-  }
-  if ('true' == 'true') {
-    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
-  }
-  if ('true' == 'true') {
-    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
-  }
-  if ('false' == 'true') {
-    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
-  }
-  if ('true' == 'true') {
-    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
   }
 </script>
 
 <!-- required -->
-<script src="/js/main.js?v=1.26.8" async></script>
+<script src="/js/main.js?v=1.27.0" async></script>
 
 <!-- optional -->
 
 
 
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
 
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
 
 
 <!-- inject -->
