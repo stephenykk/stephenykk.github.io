@@ -8,6 +8,7 @@
     "dev": "hexo server",
     "push:master": "git push origin master:master && git push gh master:master",
     "fix-images": "node builder/fixImages",
+    "c": "hexo clean",
     "p": "pnpm push:master",
     "d": "hexo g && npm run fix-images && hexo d",
     "pd": "npm run p && npm run d"

@@ -1,5 +1,5 @@
 ---
-title: SQL 零基础入门图文教程
+title: SQL零基础入门图文教程
 date: 2024-02-26 15:15:00
 tags: sql
 category: sql

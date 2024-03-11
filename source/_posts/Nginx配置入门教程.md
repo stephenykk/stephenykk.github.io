@@ -1,5 +1,5 @@
 ---
-title: Nginx使用教程
+title: Nginx配置入门教程
 date: 2024-03-08 08:36:30
 tags: nginx
 categories: nginx
@@ -14,29 +14,27 @@ categories: nginx
 
 ## Nginx 简介
 
-### 背景
+### 产生背景
 
 在互联网产业远没有现在这么红火的时候，每个网站或者应用所需要支持的并发量不需要太大，所以最开始的服务器是 Apache，它对高并发并不支持，所以它不是高性能的 Web 服务器，因为并发量上万之后，会导致服务器消耗大量内存，操作系统对其进行进程或线程间的切换也会消耗大量的 CPU 资源，导致 Http 请求的平均响应速度降低。
 
 但是现在的互联网流量已经远远不是当时所能想象的，所以迫切需要一种高性能的，稳定的 Web 服务器。于是 Nginx 诞生了。
 
-### 优点
+### 主要优点
 
 1. **开源免费**
-2. **事件驱动** Nginx 使用基于事件驱动架构，使得其可以支持数以百万级别的 TCP 连接
-3. **跨平台** Nginx 是一个跨平台服务器，可以运行在 Linxu，Windows，MacOS 等主流的操作系统中
-4. **稳定**
+2. **事件驱动**  
+   Nginx 使用基于事件驱动架构，使得其可以支持数以百万级别的 TCP 连接
+3. **跨平台**  
+   Nginx 是一个跨平台服务器，可以运行在 Linxu，Windows，MacOS 等主流的操作系统中
+4. **高性能并且稳定**
 
 ### 应用场景
 
-Nginx 是一个高性能且开源的 HTTP 和反向代理 Web 服务器，同时也是一个 IMAP、POP3、SMTP 代理服务器；Nginx 可以作为一个 HTTP 服务器进行网站的发布处理，另外 Nginx 可以作为反向代理进行负载均衡的实现。
-
-使用场景：
-
-- web服务器
-- 反向代理
-- 负载均衡服务器
-- 邮件代理服务器
+-   web 服务器
+-   反向代理
+-   负载均衡服务器
+-   邮件代理服务器
 
 ## Nginx 的配置
 
@@ -44,10 +42,10 @@ Nginx 是一个高性能且开源的 HTTP 和反向代理 Web 服务器，同时
 
 配置文件分 4 部分:
 
-- main（全局设置）：设置的指令将影响其他所有设置；
-- server（主机设置）：指令主要用于指定主机和端口、
-- upstream（负载均衡服务器设置）：指令主要用于负载均衡，设置一系列的后端服务器
-- location（URL 匹配特定位置的设置）：用于匹配网页位置。
+-   main（全局设置）：设置的指令将影响其他所有设置；
+-   server（主机设置）：指令主要用于指定主机和端口、
+-   upstream（负载均衡服务器设置）：指令主要用于负载均衡，设置一系列的后端服务器
+-   location（URL 匹配特定位置的设置）：用于匹配网页位置。
 
 ![server 块配置](https://upload-images.jianshu.io/upload_images/658641-02caaa1bc69a795f.png)
 
@@ -79,6 +77,7 @@ http {
   }
 }
 ```
+
 ### location 块
 
 URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持正则表达式匹配，也支持条件判断匹配，用户可以通过 location 指令实现 Nginx 对动、静态网页进行过滤处理。使用 location URL 匹配配置还可以实现反向代理，用于实现 PHP 动态解析或者负载负载均衡。
@@ -87,8 +86,8 @@ URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持�
 
 #### alias 与 root 的区别
 
-- root 配置根目录，在根目录中查找 *$document_uri* 对应的文件 `$request_filename = $document_root + $document_uri`
-- alias 配置别名目录，在别名目录中查找 *$document_uri - 匹配路径* 对应的文件 
+-   root 配置根目录，在根目录中查找 _$document_uri_ 对应的文件 `$request_filename = $document_root + $document_uri`
+-   alias 配置别名目录，在别名目录中查找 _$document_uri - 匹配路径_ 对应的文件
 
 ```ini
     location  /blogs  {
@@ -100,7 +99,7 @@ URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持�
     # curl localhost/blogshi/a.html 也会匹配到 -> /home/jie/blogshi/a.html
 
     location /comics {
-      alias /home/pan/manhua; 
+      alias /home/pan/manhua;
       autoindex on;
     }
     # 定位文件时，aliasValue 替换 $document_uri 中与 locationValue 匹配的部分
@@ -111,12 +110,12 @@ URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持�
 
 #### location 配置示例
 
-多条 location 配置当前 `$document_uri` 时，会采用权重最高的匹配 （*精确匹配 > 开始位置正则匹配 > 普通正则匹配 > 普通匹配 > 最长字符串匹配*）
+多条 location 配置当前 `$document_uri` 时，会采用权重最高的匹配 （_精确匹配 > 开始位置正则匹配 > 普通正则匹配 > 普通匹配 > 最长字符串匹配_）
 
 ```ini
     # 普通匹配：普通 location，无任何前缀符号
     # $document_uri 开始位置匹配
-    location  /blogs  { 
+    location  /blogs  {
         root /home/jie; # 会在root下查找blogs目录，所以要先新建blogs文件夹
         autoindex on;
     }
@@ -125,7 +124,7 @@ URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持�
 
     # 精确匹配：带 = 号前缀符号的严格匹配
     location = /comics {
-      alias /home/pan/manhua; 
+      alias /home/pan/manhua;
       autoindex on;
     }
 
@@ -164,17 +163,17 @@ URL 地址匹配是进行 Nginx 配置中最灵活的部分。 location 支持�
 
 `location [=|~|~*|^~] /uri/ { … }`
 
-- `=` 精确匹配
+-   `=` 精确匹配
 
-- `^~` 开始位置正则匹配（区分大小写）
+-   `^~` 开始位置正则匹配（区分大小写）
 
-- `~` 正则匹配（区分大小写）
+-   `~` 正则匹配（区分大小写）
 
-- `~*` 不区分大小写的正则匹配
+-   `~*` 不区分大小写的正则匹配
 
-- `!~` 和 `!~*` 正则不匹配(*区分/不区分 大小写*) **不用在 location 后面**
+-   `!~` 和 `!~*` 正则不匹配(_区分/不区分 大小写_) **不用在 location 后面**
 
-- `/` 通用匹配，任何请求都会匹配到。
+-   `/` 通用匹配，任何请求都会匹配到。
 
 首先匹配 `=`，其次匹配 `^~` , 其次是按文件中顺序的正则匹配，最后是交给 `/` 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。
 
@@ -217,7 +216,7 @@ location / {
 
 ### rewrite 重写请求
 
-重写请求uri的简单例子  
+重写请求 uri 的简单例子
 
 ```ini
 server {
@@ -231,7 +230,6 @@ server {
 }
 ```
 
-
 重写请求防盗链
 
 ```ini
@@ -243,30 +241,30 @@ location ~* \.(gif|jpg|swf)$ {
 }
 ```
 
-- `last`  基本上都用这个 Flag。
-- `break`  中止 Rewirte，不再继续匹配
-- `permanent`  返回永久重定向的 HTTP 状态 301
-- `redirect`  返回临时重定向的 HTTP 状态 302
+-   `last` 基本上都用这个 Flag。
+-   `break` 中止 Rewirte，不再继续匹配
+-   `permanent` 返回永久重定向的 HTTP 状态 301
+-   `redirect` 返回临时重定向的 HTTP 状态 302
 
-**last 和 break 关键字的区别** 
+**last 和 break 关键字的区别**
 
-- last 和 break 当出现在 location 之外时，两者的作用是一致的没有任何差异
+-   last 和 break 当出现在 location 之外时，两者的作用是一致的没有任何差异
 
-- last 和 break 当出现在 location 内部时：
-  - `last` 使用了 last 指令，rewrite 后会跳出 location 作用域，**用rewrite的结果**重新开始再走一次刚才的行为
-  - `break` 使用了 break 指令，rewrite 后不会跳出 location 作用域，它的生命也在这个 location 中终结
+-   last 和 break 当出现在 location 内部时：
+    -   `last` 使用了 last 指令，rewrite 后会跳出 location 作用域，**用 rewrite 的结果**重新开始再走一次刚才的行为
+    -   `break` 使用了 break 指令，rewrite 后不会跳出 location 作用域，它的生命也在这个 location 中终结
 
-**permanent 和 redirect 关键字的区别**  
+**permanent 和 redirect 关键字的区别**
 
-- `permanent` 永久性重定向，请求日志中的状态码为 301
-- `redirect` 临时重定向，请求日志中的状态码为 302
+-   `permanent` 永久性重定向，请求日志中的状态码为 301
+-   `redirect` 临时重定向，请求日志中的状态码为 302
 
 ### 判断表达式
 
-- `-f` 和 `!-f` 用来判断是否存在文件
-- `-d` 和 `!-d` 用来判断是否存在目录
-- `-e` 和 `!-e` 用来判断是否存在文件或目录
-- `-x` 和 `!-x` 用来判断文件是否可执行
+-   `-f` 和 `!-f` 用来判断是否存在文件
+-   `-d` 和 `!-d` 用来判断是否存在目录
+-   `-e` 和 `!-e` 用来判断是否存在文件或目录
+-   `-x` 和 `!-x` 用来判断文件是否可执行
 
 根据文件类型设置过期时间
 
@@ -287,28 +285,29 @@ location ~* \.(txt|doc)${
   deny all;
 }
 ```
+
 ### 全局变量
 
-- `$args`
-- `$content_length`
-- `$content_type`
-- `$document_root`
-- `$document_uri`
-- `$host`
-- `$query`
-- `$http_origin`
-- `$http_user_agent`
-- `$http_cookie`
-- `$limit_rate`
-- `$request_body_file`
-- `$request_method`
-- `$request_uri`
-- `$request_filename`
-- `$remote_addr`
-- `$remote_port`
-- `$remote_user`
+-   `$args`
+-   `$content_length`
+-   `$content_type`
+-   `$document_root`
+-   `$document_uri`
+-   `$host`
+-   `$query`
+-   `$http_origin`
+-   `$http_user_agent`
+-   `$http_cookie`
+-   `$limit_rate`
+-   `$request_body_file`
+-   `$request_method`
+-   `$request_uri`
+-   `$request_filename`
+-   `$remote_addr`
+-   `$remote_port`
+-   `$remote_user`
 
-常用的全局变量  
+常用的全局变量
 
 ```ini
 # 例：http://localhost:88/test1/test2/test.php
@@ -325,11 +324,10 @@ $request_filename：D:\nginx/html/test1/test2/test.php
 
 [负载均衡的 5 种策略](https://www.cnblogs.com/andashu/p/6377323.html)
 
-nginx的upstream目前支持的5种方式的分配
-
+nginx 的 upstream 目前支持的 5 种方式的分配
 
 1、普通轮询（默认）
-每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。
+每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器 down 掉，能自动剔除。
 
 ```ini
 upstream backserver {
@@ -339,7 +337,7 @@ upstream backserver {
 ```
 
 2、加权轮询
-指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。
+指定轮询几率，weight 和访问比率成正比，用于后端服务器性能不均的情况。
 
 ```ini
 upstream backserver {
@@ -349,8 +347,9 @@ upstream backserver {
 
 ```
 
-3、IP绑定 ip_hash
-每个请求按访问ip的hash结果分配，这样*每个访客固定访问一个后端服务器，可以解决session的问题*。
+3、IP 绑定 ip_hash
+每个请求按访问 ip 的 hash 结果分配，这样*每个访客固定访问一个后端服务器，可以解决 session 的问题*。
+
 ```ini
 upstream backserver {
   server 192.168.0.14:88;
@@ -358,8 +357,10 @@ upstream backserver {
   ip_hash;
 }
 ```
+
 4、fair（公平轮询）
 按后端服务器的响应时间来分配请求，响应时间短的优先分配。
+
 ```ini
 upstream backserver {
   server 192.168.0.14:88;
@@ -367,8 +368,9 @@ upstream backserver {
   fair;
 }
 ```
+
 5、url_hash（第三方）
-按访问url的hash结果来分配请求，使*每个url定向到同一个后端服务器，后端服务器为缓存时比较有用*。
+按访问 url 的 hash 结果来分配请求，使*每个 url 定向到同一个后端服务器，后端服务器为缓存时比较有用*。
 
 ```ini
 upstream backserver {
@@ -412,48 +414,52 @@ http {
 ```
 
 ## 反向代理
-在nginx中配置proxy_pass代理转发时： 
-- proxyPassValue 是路径  
-  `$document_uri - locationValue` 追加到路径后面，得到最终转发的目标路径
-- proxyPassValue 是域名  
-  `$document_uri` 追加到域名后面，得到最终转发的目标路径
- 
+
+在 nginx 中配置 proxy_pass 代理转发时：
+
+-   proxyPassValue 是路径  
+    `$document_uri - locationValue` 追加到路径后面，得到最终转发的目标路径
+-   proxyPassValue 是域名  
+    `$document_uri` 追加到域名后面，得到最终转发的目标路径
 
 假设下面四种情况分别用 http://192.168.1.1/proxy/test.html 进行访问。
- 
- 
+
 第一种：
+
 ```ini
 location /proxy/ {
     proxy_pass http://127.0.0.1/; # 转发目标是路径
 }
 ```
-代理到URL：http://127.0.0.1/test.html
- 
- 
+
+代理到 URL：http://127.0.0.1/test.html
+
 第二种（相对于第一种，最后少一个 / ）
+
 ```ini
 location /proxy/ {
     proxy_pass http://127.0.0.1; # 转发目标是域名
 }
 ```
-代理到URL：http://127.0.0.1/proxy/test.html
- 
- 
+
+代理到 URL：http://127.0.0.1/proxy/test.html
+
 第三种：
+
 ```ini
 location /proxy/ {
     proxy_pass http://127.0.0.1/aaa/; # 转发目标是路径
 }
 ```
-代理到URL：http://127.0.0.1/aaa/test.html
- 
- 
+
+代理到 URL：http://127.0.0.1/aaa/test.html
+
 第四种（相对于第三种，最后少一个 / ）
+
 ```ini
 location /proxy/ {
     proxy_pass http://127.0.0.1/aaa; # 转发目标是路径
 }
 ```
-代理到URL：http://127.0.0.1/aaatest.html
 
+代理到 URL：http://127.0.0.1/aaatest.html

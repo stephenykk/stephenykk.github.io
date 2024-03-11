@@ -1,11 +1,10 @@
 ---
-title: Grid布局最强大的CSS布局方案
+title: Grid布局详解
 date: 2024-03-07 14:36:20
 tags:
 ---
 
 > 原文地址[最强大的 CSS 布局 —— Grid 布局 - 掘金](https://juejin.cn/post/6854573220306255880)
-
 
 ## Grid 布局是什么？
 
@@ -19,7 +18,7 @@ tags:
 
 **`Grid` 布局远比 `flex` 布局强大！**
 
-flex布局示例:
+flex 布局示例:
 
 ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/28/173945aadff842d1~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp#?w=486&h=70&s=5844&e=png&b=e6e6e6)
 
@@ -33,49 +32,49 @@ Grid 布局示例：
 
 ```html
 <div class="wrapper">
-  <div class="one item">One</div>
-  <div class="two item">Two</div>
-  <div class="three item">Three</div>
-  <div class="four item">Four</div>
-  <div class="five item">Five</div>
-  <div class="six item">Six</div>
+    <div class="one item">One</div>
+    <div class="two item">Two</div>
+    <div class="three item">Three</div>
+    <div class="four item">Four</div>
+    <div class="five item">Five</div>
+    <div class="six item">Six</div>
 </div>
 ```
 
 ```css
 .wrapper {
-  margin: 60px;
-  /* 声明一个容器 */
-  display: grid;
-  /*  声明列的宽度  */
-  grid-template-columns: repeat(3, 200px);
-  /*  声明行间距和列间距  */
-  grid-gap: 20px;
-  /*  声明行的高度  */
-  grid-template-rows: 100px 200px;
+    margin: 60px;
+    /* 声明一个容器 */
+    display: grid;
+    /*  声明列的宽度  */
+    grid-template-columns: repeat(3, 200px);
+    /*  声明行间距和列间距  */
+    grid-gap: 20px;
+    /*  声明行的高度  */
+    grid-template-rows: 100px 200px;
 }
 .one {
-  background: #19CAAD;
+    background: #19caad;
 }
-.two { 
-  background: #8CC7B5;
+.two {
+    background: #8cc7b5;
 }
 .three {
-  background: #D1BA74;
+    background: #d1ba74;
 }
 .four {
-  background: #BEE7E9;
+    background: #bee7e9;
 }
 .five {
-  background: #E6CEAC;
+    background: #e6ceac;
 }
 .six {
-  background: #ECAD9E;
+    background: #ecad9e;
 }
 .item {
-  text-align: center;
-  font-size: 200%;
-  color: #fff;
+    text-align: center;
+    font-size: 200%;
+    color: #fff;
 }
 ```
 
@@ -131,12 +130,12 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  display: grid;
-  /*  声明了三列，宽度分别为 200px 100px 200px */
-  grid-template-columns: 200px 100px 200px;
-  grid-gap: 5px;
-  /*  声明了两行，行高分别为 50px 50px  */
-  grid-template-rows: 50px 50px;
+    display: grid;
+    /*  声明了三列，宽度分别为 200px 100px 200px */
+    grid-template-columns: 200px 100px 200px;
+    grid-gap: 5px;
+    /*  声明了两行，行高分别为 50px 50px  */
+    grid-template-rows: 50px 50px;
 }
 ```
 
@@ -148,11 +147,11 @@ Grid 布局示例：
 
 ```css
 .wrapper-1 {
-  display: grid;
-  grid-template-columns: 200px 100px 200px;
-  grid-gap: 5px;
-  /*  2行，而且行高都为 50px  */
-  grid-template-rows: repeat(2, 50px);
+    display: grid;
+    grid-template-columns: 200px 100px 200px;
+    grid-gap: 5px;
+    /*  2行，而且行高都为 50px  */
+    grid-template-rows: repeat(2, 50px);
 }
 ```
 
@@ -186,10 +185,10 @@ Grid 布局示例：
 
 ```css
 .wrapper-4 {
-  display: grid;
-  grid-template-columns: 1fr 1fr minmax(300px, 2fr);
-  grid-gap: 5px;
-  grid-auto-rows: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(300px, 2fr);
+    grid-gap: 5px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -199,10 +198,10 @@ Grid 布局示例：
 
 ```css
 .wrapper-5 {
-  display: grid;
-  grid-template-columns: 100px auto 100px;
-  grid-gap: 5px;
-  grid-auto-rows: 50px;
+    display: grid;
+    grid-template-columns: 100px auto 100px;
+    grid-gap: 5px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -241,7 +240,7 @@ Grid 布局示例：
 
 ### grid-template-areas 属性
 
-[grid-area 以及 grid-template-areas演示地址](https://codepen.io/gpingfeng/pen/RwrObEJ?editors=1100 "https://codepen.io/gpingfeng/pen/RwrObEJ?editors=1100")
+[grid-area 以及 grid-template-areas 演示地址](https://codepen.io/gpingfeng/pen/RwrObEJ?editors=1100 "https://codepen.io/gpingfeng/pen/RwrObEJ?editors=1100")
 
 `grid-template-areas` 属性用于定义区域，一个区域由一个或者多个单元格组成
 
@@ -264,15 +263,15 @@ Grid 布局示例：
 
 ```css
 .sidebar {
-  grid-area: sidebar;
+    grid-area: sidebar;
 }
 
 .content {
-  grid-area: content;
+    grid-area: content;
 }
 
 .header {
-  grid-area: header;
+    grid-area: header;
 }
 ```
 
@@ -288,11 +287,11 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  display: grid;
-  grid-template-columns: 100px 200px 100px;
-  grid-auto-flow: row;
-  grid-gap: 5px;
-  grid-auto-rows: 50px;
+    display: grid;
+    grid-template-columns: 100px 200px 100px;
+    grid-auto-flow: row;
+    grid-gap: 5px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -346,21 +345,24 @@ Grid 布局示例：
 其代码实现以及效果如下：
 
 ```css
-.wrapper, .wrapper-1, .wrapper-2, .wrapper-3 {
-  display: grid;
-  grid-template-columns: 100px 200px 100px;
-  grid-gap: 5px;
-  grid-auto-rows: 50px;
-  justify-items: start;
+.wrapper,
+.wrapper-1,
+.wrapper-2,
+.wrapper-3 {
+    display: grid;
+    grid-template-columns: 100px 200px 100px;
+    grid-gap: 5px;
+    grid-auto-rows: 50px;
+    justify-items: start;
 }
 .wrapper-1 {
-  justify-items: end;
+    justify-items: end;
 }
 .wrapper-2 {
-  justify-items: center;
+    justify-items: center;
 }
 .wrapper-3 {
-  justify-items: stretch;
+    justify-items: stretch;
 }
 ```
 
@@ -388,8 +390,10 @@ Grid 布局示例：
 
 ```css
 .container {
-  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
-  align-content: start | end | center | stretch | space-around | space-between | space-evenly;  
+    justify-content: start | end | center | stretch | space-around |
+        space-between | space-evenly;
+    align-content: start | end | center | stretch | space-around | space-between
+        | space-evenly;
 }
 ```
 
@@ -400,18 +404,24 @@ Grid 布局示例：
 -   center - 容器内部居中
 
 ```css
-.wrapper, .wrapper-1, .wrapper-2, .wrapper-3, .wrapper-4, .wrapper-5, .wrapper-6 {
-  display: grid;
-  grid-template-columns: 100px 200px 100px;
-  grid-gap: 5px;
-  grid-auto-rows: 50px;
-  justify-content: start;
+.wrapper,
+.wrapper-1,
+.wrapper-2,
+.wrapper-3,
+.wrapper-4,
+.wrapper-5,
+.wrapper-6 {
+    display: grid;
+    grid-template-columns: 100px 200px 100px;
+    grid-gap: 5px;
+    grid-auto-rows: 50px;
+    justify-content: start;
 }
 .wrapper-1 {
-  justify-content: end;
+    justify-content: end;
 }
 .wrapper-2 {
-  justify-content: center;
+    justify-content: center;
 }
 ```
 
@@ -424,16 +434,16 @@ Grid 布局示例：
 
 ```css
 .wrapper-3 {
-  justify-content: space-around;
+    justify-content: space-around;
 }
 .wrapper-4 {
-  justify-content: space-between;
+    justify-content: space-between;
 }
 .wrapper-5 {
-  justify-content: space-evenly;
+    justify-content: space-evenly;
 }
 .wrapper-6 {
-  justify-content: stretch;
+    justify-content: stretch;
 }
 ```
 
@@ -451,12 +461,12 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  display: grid;
-  grid-template-columns: 200px 100px;
-/*  只设置了两行，但实际的数量会超出两行，超出的行高会以 grid-auto-rows 算 */
-  grid-template-rows: 100px 100px;
-  grid-gap: 10px 20px;
-  grid-auto-rows: 50px;
+    display: grid;
+    grid-template-columns: 200px 100px;
+    /*  只设置了两行，但实际的数量会超出两行，超出的行高会以 grid-auto-rows 算 */
+    grid-template-rows: 100px 100px;
+    grid-gap: 10px 20px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -466,7 +476,7 @@ Grid 布局示例：
 
 ## 项目属性介绍
 
-### grid-column-start 属性、grid-column-end 属性、grid-row-start 属性以及grid-row-end 属性
+### grid-column-start 属性、grid-column-end 属性、grid-row-start 属性以及 grid-row-end 属性
 
 [演示地址](https://codepen.io/gpingfeng/pen/PoZgopr "https://codepen.io/gpingfeng/pen/PoZgopr")
 
@@ -479,54 +489,54 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  grid-auto-rows: minmax(100px, auto);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: minmax(100px, auto);
 }
 .one {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  background: #19CAAD;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    background: #19caad;
 }
-.two { 
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  /*   如果有重叠，就使用 z-index */
-  z-index: 1;
-  background: #8CC7B5;
+.two {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    /*   如果有重叠，就使用 z-index */
+    z-index: 1;
+    background: #8cc7b5;
 }
 .three {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 4;
-  background: #D1BA74;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    background: #d1ba74;
 }
 .four {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 2;
-  grid-row-end: 5;
-  background: #BEE7E9;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 5;
+    background: #bee7e9;
 }
 .five {
-  grid-column-start: 2;
-  grid-column-end: 2;
-  grid-row-start: 2;
-  grid-row-end: 5;
-  background: #E6CEAC;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 5;
+    background: #e6ceac;
 }
 .six {
-  grid-column: 3;
-  grid-row: 4;
-  background: #ECAD9E;
+    grid-column: 3;
+    grid-row: 4;
+    background: #ecad9e;
 }
 ```
 
-上面代码中，类 `.two` 所在的网格项目，垂直网格线是从 2 到 4，水平网格线是从 1 到 2。其中它跟 `.three` （垂直网格线是从3 到 4，水平网格线是从 1 到 4） 是有冲突的。可以设置 `z-index` 去决定它们的层级关系
+上面代码中，类 `.two` 所在的网格项目，垂直网格线是从 2 到 4，水平网格线是从 1 到 2。其中它跟 `.three` （垂直网格线是从 3 到 4，水平网格线是从 1 到 4） 是有冲突的。可以设置 `z-index` 去决定它们的层级关系
 
 ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/26/173895928bc7e88e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp#?w=1240&h=685&s=126434&e=png&b=f5e2dc)
 
@@ -542,29 +552,29 @@ Grid 布局示例：
 
 `justify-self` 属性设置单元格内容的水平位置（左中右），跟 `justify-items` 属性的用法完全一致，但只作用于单个项目
 
-`align-self` 属性设置单元格内容的垂直位置（上中下），跟align-items属性的用法完全一致，也是只作用于单个项目
+`align-self` 属性设置单元格内容的垂直位置（上中下），跟 align-items 属性的用法完全一致，也是只作用于单个项目
 
 两者很相像，这里只拿 `justify-self` 属性演示，`align-self` 属性同理，只是作用于垂直方向
 
 ```css
 .item {
-  justify-self: start | end | center | stretch;
-  align-self: start | end | center | stretch;
+    justify-self: start | end | center | stretch;
+    align-self: start | end | center | stretch;
 }
 ```
 
 ```css
 .item {
-  justify-self: start;
+    justify-self: start;
 }
 .item-1 {
-  justify-self: end;
+    justify-self: end;
 }
 .item-2 {
-  justify-self: center;
+    justify-self: center;
 }
 .item-3 {
-  justify-self: stretch;
+    justify-self: stretch;
 }
 ```
 
@@ -577,9 +587,7 @@ Grid 布局示例：
 ![image](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/26/17389592a0d5a3c0~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp#?w=435&h=187&s=11937&e=png&b=fefdfd)
 
 -   center：单元格内部居中 ![image](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/26/17389592b1378c8d~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp#?w=431&h=183&s=12087&e=png&b=fefdfd)
-    
 -   stretch：拉伸，占满单元格的整个宽度（默认值） ![image](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/7/26/17389592b895f0ed~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp#?w=426&h=177&s=12559&e=png&b=f3dfd9)
-    
 
 ## Grid 实战——实现响应式布局
 
@@ -593,11 +601,11 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  margin: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px 20px;
-  grid-auto-rows: 50px;
+    margin: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px 20px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -613,11 +621,11 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  margin: 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 200px);
-  grid-gap: 10px 20px;
-  grid-auto-rows: 50px;
+    margin: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-gap: 10px 20px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -631,11 +639,11 @@ Grid 布局示例：
 
 ```css
 .wrapper {
-  margin: 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 10px 20px;
-  grid-auto-rows: 50px;
+    margin: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px 20px;
+    grid-auto-rows: 50px;
 }
 ```
 
@@ -647,7 +655,7 @@ Grid 布局示例：
 
 ```css
 .item-3 {
-  grid-column-start: span 3;
+    grid-column-start: span 3;
 }
 ```
 
@@ -658,16 +666,17 @@ Grid 布局示例：
 不对，怎么右侧又有空白了？原来是有一些长度太长了，放不下，这个时候就到我们的 `dense` 关键字出场了。`grid-auto-flow: row dense` 表示尽可能填充，而不留空白，代码以及效果如下所示：
 
 ```css
-.wrapper, .wrapper-1 {
-  margin: 50px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 10px 20px;
-  grid-auto-rows: 50px;
+.wrapper,
+.wrapper-1 {
+    margin: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px 20px;
+    grid-auto-rows: 50px;
 }
 
 .wrapper-1 {
-  grid-auto-flow: row dense;
+    grid-auto-flow: row dense;
 }
 ```
 

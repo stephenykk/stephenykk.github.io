@@ -1,5 +1,5 @@
 ---
-title: Python 基础教程
+title: Python基础教程
 date: 2024-02-26 14:59:10
 tags: python
 category: python

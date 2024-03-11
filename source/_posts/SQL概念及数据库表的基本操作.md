@@ -1,13 +1,11 @@
 ---
-title: SQL 概念及数据库表的基本操作
+title: SQL概念及数据库表的基本操作
 date: 2024-03-01 09:02:51
 tags: sql
 category: sql
 ---
 
-
 > 原文地址[SQL 概念及数据库表的基本操作 - 掘金](https://juejin.cn/post/7025782136103927839?searchId=20240113213147D815B2FA122EBCE4D555)
-
 
 介绍`SQL`之前，先来了解一下关于数据库的一些概念。
 
@@ -227,4 +225,3 @@ INSERT INTO persons(name,age,gender,address) VALUES ('Bob',25,'male','Shanghai')
 **原创不易，如果小伙伴们觉得有帮助，麻烦点个赞再走呗~**
 
 **最后，感谢女朋友在工作和生活中的包容、理解与支持 ！** ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84505e3c967e43bfb7900f08e9ff110d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
-

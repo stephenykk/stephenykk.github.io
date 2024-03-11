@@ -1,36 +1,39 @@
 ---
-title: PHP 基础知识总结
+title: PHP基础知识总结
 date: 2024-03-01 08:56:45
 tags: php
 category: php
 ---
-- PHP 代表 PHP: Hypertext Preprocessor
-- PHP 文件可包含文本、HTML、JavaScript代码和 PHP 代码
-- PHP 代码在服务器上执行，结果以纯 HTML 形式返回给浏览器
-- PHP 文件的默认文件扩展名是 ".php"
 
-## PHP能做什么
-- PHP 可以生成动态页面内容
-- PHP 可以创建、打开、读取、写入、关闭服务器上的文件
-- PHP 可以收集表单数据
-- PHP 可以发送和接收 cookies
-- PHP 可以添加、删除、修改您的数据库中的数据
-- PHP 可以限制用户访问您的网站上的一些页面
-- PHP 可以加密数据
+-   PHP 代表 PHP: Hypertext Preprocessor
+-   PHP 文件可包含文本、HTML、JavaScript 代码和 PHP 代码
+-   PHP 代码在服务器上执行，结果以纯 HTML 形式返回给浏览器
+-   PHP 文件的默认文件扩展名是 ".php"
+
+## PHP 能做什么
+
+-   PHP 可以生成动态页面内容
+-   PHP 可以创建、打开、读取、写入、关闭服务器上的文件
+-   PHP 可以收集表单数据
+-   PHP 可以发送和接收 cookies
+-   PHP 可以添加、删除、修改您的数据库中的数据
+-   PHP 可以限制用户访问您的网站上的一些页面
+-   PHP 可以加密数据
 
 ## 安装
+
 如果您的服务器不支持 PHP，您必须：
 
 1. 安装 Web 服务器
 2. 安装 PHP
 3. 安装数据库，比如 MySQL
-官方 PHP 网站（PHP.net）有 PHP 的安装说明： http://php.net/manual/en/install.php
+   官方 PHP 网站（PHP.net）有 PHP 的安装说明： http://php.net/manual/en/install.php
 
 **集成开发环境推荐 WAMP：http://www.wampserver.com/**
 
-## PHP基本语法
+## PHP 基本语法
 
-***PHP 脚本可以放在文档中的任何位置。***
+**_PHP 脚本可以放在文档中的任何位置。_**
 
 PHP 脚本以 <?php 开始，以 ?> 结束：
 
@@ -62,7 +65,7 @@ PHP 中的每个代码行都必须以分号结束
 
 两种在浏览器输出文本的基础指令：echo 和 print。
 
-### PHP变量
+### PHP 变量
 
 变量以 $ 符号开始，后面跟着变量的名称
 
@@ -70,22 +73,22 @@ PHP 没有声明变量的命令。
 
 变量在您第一次赋值给它的时候被创建：
 
-**PHP 是一门弱类型语言** 
+**PHP 是一门弱类型语言**
 PHP 会根据变量的值，自动把变量转换为正确的数据类型。
 
 在强类型的编程语言中，我们必须在使用变量前先声明（定义）变量的类型和名称。
 
+### PHP 变量的作用域
 
-### PHP变量的作用域
 PHP 有四种不同的变量作用域：
 
-- ***local***
-- ***global***
-- ***static***
-- ***parameter***
+-   **_local_**
+-   **_global_**
+-   **_static_**
+-   **_parameter_**
 
-**局部和全局作用域**
------
+## **局部和全局作用域**
+
 在所有函数外部定义的变量，拥有全局作用域。除了函数外，全局变量可以被脚本中的任何部分访问，要在一个函数中访问一个全局变量，需要使用 global 关键字。
 
 在 PHP 函数内部声明的变量是局部变量，仅能在函数内部访问：
@@ -101,7 +104,7 @@ echo "<p>Test variables inside the function:<p>";
 echo "Variable x is: $x";
 echo "<br>";
 echo "Variable y is: $y";
-} 
+}
 
 myTest();
 
@@ -140,15 +143,15 @@ $y=10;
 function myTest()
 {
 $GLOBALS['y']=$GLOBALS['x']+$GLOBALS['y'];
-} 
+}
 
 myTest();
 echo $y;
 ?>
 ```
 
-**Static 作用域**
------
+## **Static 作用域**
+
 当一个函数完成时，它的所有变量通常都会被删除。然而，有时候您希望某个局部变量不要被删除,可以使用 **static**关键字
 
 ```php
@@ -168,8 +171,8 @@ myTest();
 ?>
 ```
 
-**参数作用域**
-------
+## **参数作用域**
+
 参数是通过调用代码将值传递给函数的局部变量。
 
 参数是在参数列表中声明的，作为函数声明的一部分：
@@ -189,10 +192,10 @@ myTest(5);
 
 ### PHP echo 和 print 语句
 
-- echo - 可以输出一个或多个字符串
-- print - 只允许输出一个字符串，返回值总为 1
+-   echo - 可以输出一个或多个字符串
+-   print - 只允许输出一个字符串，返回值总为 1
 
-**提示：echo 输出的速度比 print 快， echo 没有返回值，print有返回值1。**
+**提示：echo 输出的速度比 print 快， echo 没有返回值，print 有返回值 1。**
 echo 和 print 都是一个语言结构，使用的时候可以不用加括号，也可以加上括号： echo 或 echo() print print()。
 
 ```php
@@ -234,17 +237,18 @@ print "My car is a {$cars[0]}";
 ?>
 ```
 
-### PHP5数据类型
+### PHP5 数据类型
+
 String（字符串）, Integer（整型）, Float（浮点型）, Boolean（布尔型）, Array（数组）, Object（对象）, NULL（空值）。
 
 **字符串**
 你可以将任何文本放在单引号和双引号中：
 
 ```php
-<?php 
+<?php
 $x = "Hello world!";
 echo $x;
-echo "<br>"; 
+echo "<br>";
 $x = 'Hello world!'; //单引号 包括字符串字面量 双引号包含的字符串 可包含变量
 echo $x;
 ?>
@@ -254,13 +258,13 @@ echo $x;
 在以下实例中我们将测试不同的数字。 PHP **var_dump()** 函数返回变量的数据类型和值：
 
 ```php
-<?php 
+<?php
 $x = 5985;
 var_dump($x);
-echo "<br>"; 
-$x = -345; // negative number 
+echo "<br>";
+$x = -345; // negative number
 var_dump($x);
-echo "<br>"; 
+echo "<br>";
 $x = 0x8C; // hexadecimal number
 var_dump($x);
 echo "<br>";
@@ -272,13 +276,13 @@ var_dump($x);
 **浮点型**
 
 ```php
-<?php 
+<?php
 $x = 10.365;
 var_dump($x);
-echo "<br>"; 
+echo "<br>";
 $x = 2.4e3;
 var_dump($x);
-echo "<br>"; 
+echo "<br>";
 $x = 8E-5;
 var_dump($x);
 ?>
@@ -293,7 +297,7 @@ var_dump($x);
 数组可以在一个变量中存储多个值
 
 ```php
-<?php 
+<?php
 $cars=array("Volvo","BMW","Toyota");
 var_dump($cars);
 ?>
@@ -303,7 +307,7 @@ var_dump($cars);
 
 在 PHP 中，对象必须声明。
 
-首先，你必须使用class关键字声明类对象。类是可以包含属性和方法的结构。
+首先，你必须使用 class 关键字声明类对象。类是可以包含属性和方法的结构。
 然后我们在类中定义数据类型，然后在实例化的类中使用数据类型：
 
 ```php
@@ -332,7 +336,7 @@ $herbie = new Car("white");
 echo "\herbie: Properties\n";
 print_vars($herbie);
 
-?>  
+?>
 ```
 
 **NULL 值**
@@ -350,16 +354,16 @@ var_dump($x);
 
 常量是一个简单值的标识符。该值在脚本中不能改变。 (常量名不需要加 $ 修饰符)。
 
-*注意： 常量在整个脚本中都可以使用。*
+_注意： 常量在整个脚本中都可以使用。_
 
 设置常量，使用 define() 函数，函数语法如下：
 
 define(string constant_name, mixed value, case_sensitive = true)
 该函数有三个参数:
 
-- constant_name：必选参数，常量名称，即标志符。
-- value：必选参数，常量的值。
-- case_sensitive：可选参数，指定是否大小写敏感，设定为 true 表示不敏感。
+-   constant_name：必选参数，常量名称，即标志符。
+-   value：必选参数，常量的值。
+-   case_sensitive：可选参数，指定是否大小写敏感，设定为 true 表示不敏感。
 
 以下实例我们创建一个 区分大小写的常量, 常量值为 "Welcome to W3CSchool.cc!"：
 
@@ -391,8 +395,8 @@ echo strpos("Hello world!","world"); //获取子串位置
 //其他运算符略..
 //逻辑运算符 ! && || and or xor
 //数组运算符 合并: + 比较：== != === !==
-$x = array("a" => "red", "b" => "green"); 
-$y = array("c" => "blue", "d" => "yellow"); 
+$x = array("a" => "red", "b" => "green");
+$y = array("c" => "blue", "d" => "yellow");
 $z = $x + $y; // $x 和 $y 数组合并
 var_dump($z);
 var_dump($x == $y);
@@ -403,7 +407,7 @@ var_dump($x !== $y);
 ?>
 ```
 
-### 流程控制语句 同js
+### 流程控制语句 同 js
 
 ```php
 <?php
@@ -489,7 +493,7 @@ echo $value . "<br>";
 ?>
 ```
 
-###  数组
+### 数组
 
 ```php
 <?php
@@ -526,12 +530,13 @@ echo "<br>";
 #### 数组排序
 
 PHP - 数组排序函数
-- sort() - 对数组进行升序排列
-- rsort() - 对数组进行降序排列
-- asort() - 根据关联数组的值，对数组进行升序排列
-- ksort() - 根据关联数组的键，对数组进行升序排列
-- arsort() - 根据关联数组的值，对数组进行降序排列
-- krsort() - 根据关联数组的键，对数组进行降序排列
+
+-   sort() - 对数组进行升序排列
+-   rsort() - 对数组进行降序排列
+-   asort() - 根据关联数组的值，对数组进行升序排列
+-   ksort() - 根据关联数组的键，对数组进行升序排列
+-   arsort() - 根据关联数组的值，对数组进行降序排列
+-   krsort() - 根据关联数组的键，对数组进行降序排列
 
 ```php
 //sort()
@@ -545,9 +550,9 @@ for($x=0;$x<$clength;$x++)
    echo "<br>";
    }
 
-//rsort()   
+//rsort()
 $cars=array("Volvo","BMW","Toyota");
-rsort($cars);   
+rsort($cars);
 
 //asort() arsort() 关联数组排序 value
 $age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
@@ -563,42 +568,42 @@ krsort($age);
 
 ### 超级全局变量
 
-PHP中预定义了几个超级全局变量（superglobals） ，这意味着它们在一个脚本的全部作用域中都可用。
+PHP 中预定义了几个超级全局变量（superglobals） ，这意味着它们在一个脚本的全部作用域中都可用。
 
-- $GLOBALS
-- $_SERVER
-- $_REQUEST
-- $_POST
-- $_GET
-- $_COOKIE
-- $_FILES
-- $_ENV
-- $_SESSION
+-   $GLOBALS
+-   $\_SERVER
+-   $\_REQUEST
+-   $\_POST
+-   $\_GET
+-   $\_COOKIE
+-   $\_FILES
+-   $\_ENV
+-   $\_SESSION
 
 $GLOBAL 是一个包含了全部变量的全局组合数组。变量的名字就是数组的键。
 
 ```php
-<?php 
-$x = 75; 
+<?php
+$x = 75;
 $y = 25;
- 
-function addition() 
-{ 
-$GLOBALS['z'] = $GLOBALS['x'] + $GLOBALS['y']; 
+
+function addition()
+{
+$GLOBALS['z'] = $GLOBALS['x'] + $GLOBALS['y'];
 }
- 
-addition(); 
-echo $z; 
+
+addition();
+echo $z;
 ?>
 ```
 
-$_SERVER 是一个包含了诸如头信息(header)、路径(path)、以及脚本位置(script locations)等等信息的数组。这个数组中的项目由 Web 服务器创建。不能保证每个服务器都提供全部项目；
+$\_SERVER 是一个包含了诸如头信息(header)、路径(path)、以及脚本位置(script locations)等等信息的数组。这个数组中的项目由 Web 服务器创建。不能保证每个服务器都提供全部项目；
 
 ```php
-<?php 
+<?php
 echo $_SERVER['PHP_SELF']; // /try/demo_source/demo_global_server.php
 echo "<br>";
-echo $_SERVER['SERVER_NAME']; // w3cschool.cc 
+echo $_SERVER['SERVER_NAME']; // w3cschool.cc
 echo "<br>";
 echo $_SERVER['HTTP_HOST']; // www.w3cschool.cc
 echo "<br>";
@@ -613,7 +618,7 @@ echo $_SERVER['SCRIPT_NAME']; // /try/demo_source/demo_global_server.php
 ?>
 ```
 
-$_REQUEST 用于收集HTML表单提交的数据。
+$\_REQUEST 用于收集 HTML 表单提交的数据。
 
 ```php
 <html>
@@ -624,16 +629,16 @@ Name: <input type="text" name="fname">
 <input type="submit">
 </form>
 
-<?php 
-$name = $_REQUEST['fname']; 
-echo $name; 
+<?php
+$name = $_REQUEST['fname'];
+echo $name;
 ?>
 
 </body>
 </html>
 ```
 
-$_POST 被广泛应用于收集表单数据，在HTML form标签的指定该属性："method="post"
+$\_POST 被广泛应用于收集表单数据，在 HTML form 标签的指定该属性："method="post"
 
 ```php
 <html>
@@ -644,18 +649,18 @@ Name: <input type="text" name="fname">
 <input type="submit">
 </form>
 
-<?php 
-$name = $_POST['fname']; 
-echo $name; 
+<?php
+$name = $_POST['fname'];
+echo $name;
 ?>
 
 </body>
 </html>
 ```
 
-$_GET 同样被广泛应用于收集表单数据，在HTML form标签的指定该属性："method="get"。
+$\_GET 同样被广泛应用于收集表单数据，在 HTML form 标签的指定该属性："method="get"。
 
-$_GET 也可以收集URL中发送的数据。
+$\_GET 也可以收集 URL 中发送的数据。
 
 ```php
 <html>
@@ -671,7 +676,7 @@ $_GET 也可以收集URL中发送的数据。
 <html>
 <body>
 
-<?php 
+<?php
 echo "Study " . $_GET['subject'] . " at " . $_GET['web'];
 ?>
 
@@ -724,15 +729,17 @@ echo "1 + 16 = " . add(1,16);
 ```
 
 ### 魔术变量
+
 有八个魔术常量它们的值随着它们在代码中的位置改变而改变。
-- _LINE__
-文件中的当前行号。
-- __FILE__
-文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。
-- __DIR__
-文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。
-- __FUNCTION__
-函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。
+
+-   \_LINE\_\_
+    文件中的当前行号。
+-   **FILE**
+    文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。
+-   **DIR**
+    文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。
+-   **FUNCTION**
+    函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。
 
 ```php
 <?php
@@ -742,9 +749,10 @@ function test() {
 test();
 ?>
 ```
-- __CLASS__ 类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。
 
-在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 __CLASS__ 对 trait 也起作用。当用在 trait 方法中时，__CLASS__ 是调用 trait 方法的类的名字。
+-   **CLASS** 类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。
+
+在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 **CLASS** 对 trait 也起作用。当用在 trait 方法中时，**CLASS** 是调用 trait 方法的类的名字。
 
 ```php
 <?php
@@ -759,7 +767,7 @@ $t->_print();
 ?>
 ```
 
-- __TRAIT__ Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。
+-   **TRAIT** Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。
 
 Trait 名包括其被声明的作用区域（例如 Foo\Bar）。
 
@@ -789,7 +797,7 @@ $o->sayHello();
 ?>
 ```
 
-- __METHOD__ 类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）
+-   **METHOD** 类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）
 
 ```php
 <?php
@@ -800,7 +808,7 @@ test();
 ?>
 ```
 
-- __NAMESPACE__ 当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。
+-   **NAMESPACE** 当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。
 
 ```php
 <?php
@@ -811,39 +819,41 @@ echo '命名空间为："', __NAMESPACE__, '"'; // 输出 "MyProject"
 ```
 
 ### 命名空间
-PHP 命名空间(namespace)是在PHP 5.3中加入的，如果你学过C#和Java，那命名空间就不算什么新事物。 不过在PHP当中还是有着相当重要的意义。
+
+PHP 命名空间(namespace)是在 PHP 5.3 中加入的，如果你学过 C#和 Java，那命名空间就不算什么新事物。 不过在 PHP 当中还是有着相当重要的意义。
 
 PHP 命名空间可以解决以下两类问题：
 
-- 用户代码与PHP内部的类/函数/常量之间的名字冲突。
-- 创建别名（或简短）的名称，提高源代码的可读性。
+-   用户代码与 PHP 内部的类/函数/常量之间的名字冲突。
+-   创建别名（或简短）的名称，提高源代码的可读性。
 
-默认情况下，所有常量、类和函数名都放在全局空间下，就和PHP支持命名空间之前一样。
+默认情况下，所有常量、类和函数名都放在全局空间下，就和 PHP 支持命名空间之前一样。
 如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间
 
 ```php
-< ?php  
-// 定义代码在 'MyProject' 命名空间中  
-namespace MyProject;  
- 
-// ... 代码 ...  
+< ?php
+// 定义代码在 'MyProject' 命名空间中
+namespace MyProject;
+
+// ... 代码 ...
 
 //也可以在同一个文件中定义不同的命名空间代码
-namespace MyProject1;  
-// MyProject1 命名空间中的PHP代码  
- 
-namespace MyProject2;  
-// MyProject2 命名空间中的PHP代码    
- 
+namespace MyProject1;
+// MyProject1 命名空间中的PHP代码
+
+namespace MyProject2;
+// MyProject2 命名空间中的PHP代码
+
 // 另一种语法
-namespace MyProject3 {  
- // MyProject3 命名空间中的PHP代码    
-}  
+namespace MyProject3 {
+ // MyProject3 命名空间中的PHP代码
+}
 
 ?>
 ```
 
 在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前。
+
 ```php
 <?php
 declare(encoding='UTF-8'); //定义多个命名空间和不包含在命名空间中的代码
@@ -877,7 +887,7 @@ namespace MyProject; // 命名空间前出现了“<html>” 会致命错误 -�
 <?php
 namespace MyProject\Sub\Level;  //声明分层次的单个命名空间
 //创建了常量 MyProject\Sub\Level\CONNECT_OK，
-//类 MyProject\Sub\Level\Connection 
+//类 MyProject\Sub\Level\Connection
 //和函数 MyProject\Sub\Level\Connect。
 
 const CONNECT_OK = 1;
@@ -890,18 +900,17 @@ function Connect() { /* ... */  }
 **命名空间使用**
 PHP 命名空间中的类名可以通过三种方式引用：
 
-1. 非限定名称，或不包含前缀的类名称，例如 $a=new foo(); 或 foo::staticmethod();。如果当前命名空间是 currentnamespace，foo 将被解析为 currentnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，则 foo 会被解析为foo。 警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。**~~无命名空间前缀的引用，默认在当前命名空间查找，然后到全局命名空间找**
+1. 非限定名称，或不包含前缀的类名称，例如 $a=new foo(); 或 foo::staticmethod();。如果当前命名空间是 currentnamespace，foo 将被解析为 currentnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，则 foo 会被解析为 foo。 警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。**~~无命名空间前缀的引用，默认在当前命名空间查找，然后到全局命名空间找**
 
-2. 限定名称,或包含前缀的名称，例如 $a = new subnamespace\foo(); 或 subnamespace\foo::staticmethod();。如果当前的命名空间是 currentnamespace，则 foo 会被解析为 currentnamespace\subnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，foo 会被解析为subnamespace\foo。  **~~带相对命名空间前缀的(类似相对路径)引用，自动在开头添加调用代码所处的命名空间**
+2. 限定名称,或包含前缀的名称，例如 $a = new subnamespace\foo(); 或 subnamespace\foo::staticmethod();。如果当前的命名空间是 currentnamespace，则 foo 会被解析为 currentnamespace\subnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，foo 会被解析为 subnamespace\foo。 **~~带相对命名空间前缀的(类似相对路径)引用，自动在开头添加调用代码所处的命名空间**
 
 3. 完全限定名称，或包含了全局前缀操作符的名称，例如， $a = new \currentnamespace\foo(); 或 \currentnamespace\foo::staticmethod();。在这种情况下，foo 总是被解析为代码中的文字名(literal name)currentnamespace\foo。**~~带绝对命名空间前缀的引用(类似绝对路径) 引用路径已明确 不用查找**
-
 
 file1.php
 
 ```php
 <?php
-namespace Foo\Bar\subnamespace; 
+namespace Foo\Bar\subnamespace;
 
 const FOO = 1;
 function foo() {}
@@ -936,7 +945,7 @@ subnamespace\foo(); // 解析为函数 Foo\Bar\subnamespace\foo
 subnamespace\foo::staticmethod(); // 解析为类 Foo\Bar\subnamespace\foo,
                                   // 以及类的方法 staticmethod
 echo subnamespace\FOO; // 解析为常量 Foo\Bar\subnamespace\FOO
-                                  
+
 /* 完全限定名称 */
 \Foo\Bar\foo(); // 解析为函数 Foo\Bar\foo
 \Foo\Bar\foo::staticmethod(); // 解析为类 Foo\Bar\foo, 以及类的方法 staticmethod
@@ -959,7 +968,6 @@ $b = \INI_ALL; // 访问全局常量 INI_ALL
 $c = new \Exception('error'); // 实例化全局类 Exception
 ?>
 ```
-
 
 **命名空间和动态语言特征**
 
@@ -1028,9 +1036,9 @@ echo constant('namespacename\constname'), "\n"; // also prints namespaced
 ?>
 ```
 
-**namespace关键字和__NAMESPACE__常量**
+**namespace 关键字和**NAMESPACE**常量**
 
-常量__NAMESPACE__的值是包含当前命名空间名称的字符串。在全局的，不包括在任何命名空间中的代码，它包含一个空的字符串
+常量**NAMESPACE**的值是包含当前命名空间名称的字符串。在全局的，不包括在任何命名空间中的代码，它包含一个空的字符串
 
 ```php
 <?php
@@ -1047,7 +1055,7 @@ echo '"', __NAMESPACE__, '"'; // 输出 ""
 ?>
 ```
 
-使用__NAMESPACE__动态创建名称
+使用**NAMESPACE**动态创建名称
 
 ```php
 <?php
@@ -1081,11 +1089,11 @@ $b = namespace\CONSTANT; // assigns value of constant MyProject\CONSTANT to $b
 ```
 
 **使用命名空间：别名/导入**
-PHP 命名空间支持 有两种使用别名或导入方式：为类名称使用别名，或为命名空间名称使用别名。注意PHP不支持导入函数或常量。
+PHP 命名空间支持 有两种使用别名或导入方式：为类名称使用别名，或为命名空间名称使用别名。注意 PHP 不支持导入函数或常量。
 
-在PHP中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的三种导入方式的例子：
+在 PHP 中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的三种导入方式的例子：
 
-1. 使用use操作符导入/使用别名
+1. 使用 use 操作符导入/使用别名
 
 ```php
 <?php
@@ -1106,7 +1114,7 @@ $a = new ArrayObject(array(1)); // 实例化 ArrayObject 对象
 ?>
 ```
 
-2. 一行中包含多个use语句
+2. 一行中包含多个 use 语句
 
 ```php
 <?php
@@ -1130,6 +1138,7 @@ $a = 'Another';
 $obj = new $a;      // 实际化一个 Another 对象
 ?>
 ```
+
 另外，导入操作只影响非限定名称和限定名称。完全限定名称由于是确定的，故不受导入的影响。
 
 4. 导入和完全限定名称
@@ -1149,9 +1158,8 @@ $obj = new \Another\thing; // instantiates object of class Another\thing
 
 在一个命名空间中，当 PHP 遇到一个非限定的类、函数或常量名称时，它使用不同的优先策略来解析该名称。
 
-- **类名称总是解析到当前命名空间中的名称(找不到就报错咯)**。因此在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称
-- 函数和常量来说，如果当前命名空间中不存在该函数或常量，PHP 会退而使用全局空间中的函数或常量。
-
+-   **类名称总是解析到当前命名空间中的名称(找不到就报错咯)**。因此在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称
+-   函数和常量来说，如果当前命名空间中不存在该函数或常量，PHP 会退而使用全局空间中的函数或常量。
 
 ```php
 <?php
@@ -1173,31 +1181,30 @@ $c = new ArrayObject; // 致命错误, 找不到 A\B\C\ArrayObject 类
 namespace A\B\C;
 
 /* 这个函数是 A\B\C\fopen */
-function fopen() { 
+function fopen() {
      /* ... */
      $f = \fopen(...); // 调用全局的fopen函数
      return $f;
-} 
+}
 ?>
 ```
 
 **命名空间的顺序 略..**
 
-
-## PHP文件处理
+## PHP 文件处理
 
 **打开文件**
 
 $file = fopen($fname, mode) //文件的名称, 打开模式
 
-- r	只读。在文件的开头开始。
-- r+	读/写。在文件的开头开始。
-- w	只写。打开并清空文件的内容；如果文件不存在，则创建新文件。
-- w+	读/写。打开并清空文件的内容；如果文件不存在，则创建新文件。
-- a	追加。打开并向文件末尾进行写操作，如果文件不存在，则创建新文件。
-- a+	读/追加。通过向文件末尾写内容，来保持文件内容。
-- x	只写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
-- x+	读/写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
+-   r 只读。在文件的开头开始。
+-   r+ 读/写。在文件的开头开始。
+-   w 只写。打开并清空文件的内容；如果文件不存在，则创建新文件。
+-   w+ 读/写。打开并清空文件的内容；如果文件不存在，则创建新文件。
+-   a 追加。打开并向文件末尾进行写操作，如果文件不存在，则创建新文件。
+-   a+ 读/追加。通过向文件末尾写内容，来保持文件内容。
+-   x 只写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
+-   x+ 读/写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
 
 注释：如果 fopen() 函数无法打开指定文件，则返回 0 (false)。
 
@@ -1207,7 +1214,7 @@ $file = fopen($fname, mode) //文件的名称, 打开模式
 $file = fopen("welcome.txt", "r") or exit("Unable to open file!");
 //Output a line of the file until the end is reached
 
-//是否到达文件末尾 
+//是否到达文件末尾
 while(!feof($file))
 {
 echo fgets($file). "<br>"; //逐行读取文件
@@ -1221,94 +1228,93 @@ fclose($file);
 
 **Filesystem 函数**
 
-- basename()	返回路径中的文件名部分。
-- chgrp()	改变文件组。
-- chmod()	改变文件模式。
-- chown()	改变文件所有者。
-- clearstatcache()	清除文件状态缓存。
-- copy()	复制文件。
-- delete()	参见 unlink() 或 unset()
-- dirname()	返回路径中的目录名称部分。
-- disk_free_space()	返回目录的可用空间。
-- disk_total_space()	返回一个目录的磁盘总容量。
-- diskfreespace()	disk_free_space() 的别名。
-- fclose()	关闭打开的文件。
-- feof()	测试文件指针是否到了文件末尾。
-- fflush()	向打开的文件刷新缓冲输出。
-- fgetc()	从打开的文件中返回字符。
-- fgetcsv()	从打开的文件中解析一行，校验 CSV 字段。
-- fgets()	从打开的文件中返回一行。
-- fgetss()	从打开的文件中返回一行，并过滤掉 HTML 和 PHP 标签。
-- file()	把文件读入一个数组中。
-- file_exists()	检查文件或目录是否存在。
-- file_get_contents()	把文件读入字符串。~~获取文件内容
-- file_put_contents()	把字符串写入文件。~~写入文件内容
-- fileatime()	返回文件的上次访问时间。
-- filectime()	返回文件的上次修改时间。
-- filegroup()	返回文件的组 ID。
-- fileinode()	返回文件的 inode 编号。
-- filemtime()	返回文件内容的上次修改时间。
-- fileowner()	返回文件的用户 ID （所有者）。
-- fileperms()	返回文件的权限。
-- filesize()	返回文件大小。
-- filetype()	返回文件类型。
-- flock()	锁定或释放文件。
-- fnmatch()	根据指定的模式来匹配文件名或字符串。
-- fopen()	打开一个文件或 URL。
-- fpassthru()	从打开的文件中读数据，直到文件末尾（EOF），并向输出缓冲写结果。
-- fputcsv()	把行格式化为 CSV 并写入一个打开的文件中。
-- fputs()	fwrite() 的别名。
-- fread()	读取打开的文件。
-- fscanf()	根据指定的格式对输入进行解析。
-- fseek()	在打开的文件中定位。
-- fstat()	返回关于一个打开的文件的信息。
-- ftell()	返回在打开文件中的当前位置。
-- ftruncate()	把打开文件截断到指定的长度。
-- fwrite()	写入打开的文件。
-- glob()	返回一个包含匹配指定模式的文件名/目录的数组。
-- is_dir()	判断文件是否是一个目录。
-- is_executable()	判断文件是否可执行。
-- is_file()	判断文件是否是常规的文件。
-- is_link()	判断文件是否是连接。
-- is_readable()	判断文件是否可读。
-- is_uploaded_file()	判断文件是否是通过 HTTP POST 上传的。
-- is_writable()	判断文件是否可写。
-- is_writeable()	is_writable() 的别名。
-- lchgrp()	改变符号连接的组所有权。
-- lchown()	改变符号连接的用户所有权。
-- link()	创建一个硬连接。
-- linkinfo()	返回有关一个硬连接的信息。
-- lstat()	返回关于文件或符号连接的信息。
-- mkdir()	创建目录。
-- move_uploaded_file()	把上传的文件移动到新位置。
-- parse_ini_file()	解析一个配置文件。
-- parse_ini_string()	解析一个配置字符串。
-- pathinfo()	返回关于文件路径的信息。
-- pclose()	关闭由 popen() 打开的进程。
-- popen()	打开一个进程。
-- readfile()	读取一个文件，并写入到输出缓冲。
-- readlink()	返回符号连接的目标。
-- realpath()	返回绝对路径名。
-- realpath_cache_get()	返回高速缓存条目。
-- realpath_cache_size()	返回高速缓存大小。
-- rename()	重命名文件或目录。
-- rewind()	倒回文件指针的位置。
-- rmdir()	删除空的目录。
-- set_file_buffer()	设置已打开文件的缓冲大小。
-- stat()	返回关于文件的信息。
-- symlink()	创建符号连接。
-- tempnam()	创建唯一的临时文件。
-- tmpfile()	创建唯一的临时文件。
-- touch()	设置文件的访问和修改时间。
-- umask()	改变文件的文件权限。
-- unlink()	删除文件。
-
+-   basename() 返回路径中的文件名部分。
+-   chgrp() 改变文件组。
+-   chmod() 改变文件模式。
+-   chown() 改变文件所有者。
+-   clearstatcache() 清除文件状态缓存。
+-   copy() 复制文件。
+-   delete() 参见 unlink() 或 unset()
+-   dirname() 返回路径中的目录名称部分。
+-   disk_free_space() 返回目录的可用空间。
+-   disk_total_space() 返回一个目录的磁盘总容量。
+-   diskfreespace() disk_free_space() 的别名。
+-   fclose() 关闭打开的文件。
+-   feof() 测试文件指针是否到了文件末尾。
+-   fflush() 向打开的文件刷新缓冲输出。
+-   fgetc() 从打开的文件中返回字符。
+-   fgetcsv() 从打开的文件中解析一行，校验 CSV 字段。
+-   fgets() 从打开的文件中返回一行。
+-   fgetss() 从打开的文件中返回一行，并过滤掉 HTML 和 PHP 标签。
+-   file() 把文件读入一个数组中。
+-   file_exists() 检查文件或目录是否存在。
+-   file_get_contents() 把文件读入字符串。~~获取文件内容
+-   file_put_contents() 把字符串写入文件。~~写入文件内容
+-   fileatime() 返回文件的上次访问时间。
+-   filectime() 返回文件的上次修改时间。
+-   filegroup() 返回文件的组 ID。
+-   fileinode() 返回文件的 inode 编号。
+-   filemtime() 返回文件内容的上次修改时间。
+-   fileowner() 返回文件的用户 ID （所有者）。
+-   fileperms() 返回文件的权限。
+-   filesize() 返回文件大小。
+-   filetype() 返回文件类型。
+-   flock() 锁定或释放文件。
+-   fnmatch() 根据指定的模式来匹配文件名或字符串。
+-   fopen() 打开一个文件或 URL。
+-   fpassthru() 从打开的文件中读数据，直到文件末尾（EOF），并向输出缓冲写结果。
+-   fputcsv() 把行格式化为 CSV 并写入一个打开的文件中。
+-   fputs() fwrite() 的别名。
+-   fread() 读取打开的文件。
+-   fscanf() 根据指定的格式对输入进行解析。
+-   fseek() 在打开的文件中定位。
+-   fstat() 返回关于一个打开的文件的信息。
+-   ftell() 返回在打开文件中的当前位置。
+-   ftruncate() 把打开文件截断到指定的长度。
+-   fwrite() 写入打开的文件。
+-   glob() 返回一个包含匹配指定模式的文件名/目录的数组。
+-   is_dir() 判断文件是否是一个目录。
+-   is_executable() 判断文件是否可执行。
+-   is_file() 判断文件是否是常规的文件。
+-   is_link() 判断文件是否是连接。
+-   is_readable() 判断文件是否可读。
+-   is_uploaded_file() 判断文件是否是通过 HTTP POST 上传的。
+-   is_writable() 判断文件是否可写。
+-   is_writeable() is_writable() 的别名。
+-   lchgrp() 改变符号连接的组所有权。
+-   lchown() 改变符号连接的用户所有权。
+-   link() 创建一个硬连接。
+-   linkinfo() 返回有关一个硬连接的信息。
+-   lstat() 返回关于文件或符号连接的信息。
+-   mkdir() 创建目录。
+-   move_uploaded_file() 把上传的文件移动到新位置。
+-   parse_ini_file() 解析一个配置文件。
+-   parse_ini_string() 解析一个配置字符串。
+-   pathinfo() 返回关于文件路径的信息。
+-   pclose() 关闭由 popen() 打开的进程。
+-   popen() 打开一个进程。
+-   readfile() 读取一个文件，并写入到输出缓冲。
+-   readlink() 返回符号连接的目标。
+-   realpath() 返回绝对路径名。
+-   realpath_cache_get() 返回高速缓存条目。
+-   realpath_cache_size() 返回高速缓存大小。
+-   rename() 重命名文件或目录。
+-   rewind() 倒回文件指针的位置。
+-   rmdir() 删除空的目录。
+-   set_file_buffer() 设置已打开文件的缓冲大小。
+-   stat() 返回关于文件的信息。
+-   symlink() 创建符号连接。
+-   tempnam() 创建唯一的临时文件。
+-   tmpfile() 创建唯一的临时文件。
+-   touch() 设置文件的访问和修改时间。
+-   umask() 改变文件的文件权限。
+-   unlink() 删除文件。
 
 ## PHP JSON
 
-- json_encode	对变量进行 JSON 编码
-- json_decode	对 JSON 格式的字符串进行解码，转换为 PHP 变量
-- json_last_error	返回最后发生的错误
+-   json_encode 对变量进行 JSON 编码
+-   json_decode 对 JSON 格式的字符串进行解码，转换为 PHP 变量
+-   json_last_error 返回最后发生的错误
 
 **string json_encode ( $value [, $options = 0 ] )**
 参数
