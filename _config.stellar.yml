@@ -3,6 +3,6 @@ article:
     auto_cover: true
 
     related_posts:
-        enable: true
+        # 复制 hexo-theme-stellar 到 themes 目录下，会导致 hexo-related-popular-posts 查找文件时路径出错
+        enable: false
         title: 您可能感兴趣的文章
-
