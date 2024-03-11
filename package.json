@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server",
+    "dev": "hexo server",
     "push:master": "git push origin master:master && git push gh master:master",
     "fix-images": "node builder/fixImages",
     "p": "pnpm push:master",
