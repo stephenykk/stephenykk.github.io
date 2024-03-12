@@ -4,13 +4,11 @@ date: 2024-03-12 11:39:07
 tags:
 ---
 
-
-> 原文地址[nunjucks模版引擎入门 - 掘金](https://juejin.cn/post/6844903801812418574?searchId=20240312111911B06AD6FE8008D931C8D6)
+> 原文地址[nunjucks 模版引擎入门 - 掘金](https://juejin.cn/post/6844903801812418574?searchId=20240312111911B06AD6FE8008D931C8D6)
 
 ## 1.nunjucks
 
-
-Nunjucks是Mozilla开发的一个纯JavaScript编写的模板引擎，既可以用在Node环境下，又可以运行在浏览器端
+Nunjucks 是 Mozilla 开发的一个纯 JavaScript 编写的模板引擎，既可以用在 Node 环境下，又可以运行在浏览器端
 
 ## 2.安装
 
@@ -33,7 +31,7 @@ console.log(ret) // hello blued
 
 ### 3.2 渲染模版文件
 
-新建 view 目录，新建user.html文件
+新建 view 目录，新建 user.html 文件
 
 ```bash
 <!DOCTYPE html>
@@ -99,7 +97,7 @@ const path = require('path')
 let app = express()
 nunjucks.configure(path.resolve(__dirname,'view'),{
   autoescape:true,
-  express:app//这个蚕食其实是在向app里注入渲染模版的方法
+  express:app//这个参数其实是在向app里注入渲染模版的方法
 })
 app.get('/',function(req,res){
   // render 方法是express内置的
@@ -111,7 +109,7 @@ app.listen(8010)
 
 node nunjucks.js 运行
 
-访问http://localhost:8010/
+访问 http://localhost:8010/
 
 ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/3/20/1699893cb89b753c~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp)
 
@@ -195,17 +193,17 @@ console.log(ret)
 
 ```bash
 <ul>
- 
+
    <li>1 1:blued1</li>
- 
+
    <li>2 2:blued2</li>
- 
+
    <li>3 3:blued3</li>
- 
+
    <li>4 4:blued4</li>
- 
+
    <li>5 5:blued5</li>
- 
+
  </ul>
 ```
 
@@ -252,7 +250,7 @@ console.log(ret)
 
 ```bash
  <ul>
- 
+
    <li>
       loop.index--1
       loop.index0--0
@@ -264,7 +262,7 @@ console.log(ret)
 
       1:blued1
     </li>
- 
+
    <li>
       loop.index--2
       loop.index0--1
@@ -276,7 +274,7 @@ console.log(ret)
 
       2:blued2
     </li>
- 
+
    <li>
       loop.index--3
       loop.index0--2
@@ -288,7 +286,7 @@ console.log(ret)
 
       3:blued3
     </li>
- 
+
  </ul>
 ```
 
@@ -297,7 +295,7 @@ console.log(ret)
 -   模版继承可以达到模版复用的效果，当写一个模版的时候可以定义"blocks",子模版可以覆盖他
 -   支持多层继承
 
-新建一个layout.html作为一个模版一个一个模版模版(为了方便查看这里只保留了body内容)
+新建一个 layout.html 作为一个模版(为了方便查看这里只保留了 body 内容)
 
 ```bash
 <body>
@@ -331,14 +329,14 @@ console.log(result)
 ```bash
 <body>
   <h1>我是头</h1>
-  
+
     我是layout模板的内容name= blued
-  
+
   <h1>我是尾</h1>
 </body>
 ```
 
-接下来我们看一下是如何继承的 新建一个login.html文件
+接下来我们看一下是如何继承的 新建一个 login.html 文件
 
 ```bash
 {% extends "layout.html" %}
@@ -350,7 +348,7 @@ console.log(result)
 {% endblock%}
 ```
 
-使用`extends`关键字，注意模版名称一定要为字符串像这样`"layout.html"`,否则会报错哦。 接下来修改js 文件，渲染'login.html'
+使用`extends`关键字，注意模版名称一定要为字符串像这样`"layout.html"`,否则会报错哦。 接下来修改 js 文件，渲染'login.html'
 
 ```bash
 let result = nunjucks.render('login.html',data)
@@ -362,7 +360,7 @@ console.log(result)
 ```bash
 <body>
   <h1>我是头</h1>
-  
+
     <form action="">
         用户名 <input type="teåxt">
     </form>
@@ -417,13 +415,13 @@ item.html
 ```bash
 <body>
   <h1>我是头</h1>
-  
+
 <ul style='border:1px solid red'>
-  
+
     <li>名次：1:1:z1</li>
-  
+
     <li>名次：2:2:z2</li>
-  
+
 </ul>
 
   <h1>我是尾</h1>
