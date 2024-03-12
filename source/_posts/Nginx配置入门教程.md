@@ -40,15 +40,6 @@ categories: nginx
 
 ![nginx.conf](https://upload-images.jianshu.io/upload_images/658641-457458febe07f065.png?imageMogr2/auto-orient/strip|imageView2/2/w/441/format/webp)
 
-配置文件分 4 部分:
-
--   main（全局设置）：设置的指令将影响其他所有设置；
--   server（主机设置）：指令主要用于指定主机和端口、
--   upstream（负载均衡服务器设置）：指令主要用于负载均衡，设置一系列的后端服务器
--   location（URL 匹配特定位置的设置）：用于匹配网页位置。
-
-![server 块配置](https://upload-images.jianshu.io/upload_images/658641-02caaa1bc69a795f.png)
-
 配置示例
 
 ```ini
@@ -77,6 +68,23 @@ http {
   }
 }
 ```
+
+配置信息分为4个层级 （*全局 / http / server / location*）  
+
+-   全局设置：设置一些影响 Nginx 服务器整体运行的配置指令，比如工作进程数、运行的身份等；
+-   events 块：设置影响 Nginx 服务器与用户的网络连接，比如连接超时时间，是否开启对多 work process 的支持等
+-   http 块：可以嵌套多个 server 块，配置代理，缓存，日志定义等绝大多数功能和第三方模块的配置；
+-   server 块：配置虚拟主机的相关参数，一个 http 中可以有多个 server
+-   location 块：配置请求的路由，以及各种页面的处理情况
+
+其他常见配置：  
+
+-   upstream：配置负载均衡，设置一系列的后端服务器
+
+
+![server 块配置](https://upload-images.jianshu.io/upload_images/658641-02caaa1bc69a795f.png)
+
+
 
 ### location 块
 
@@ -324,9 +332,10 @@ $request_filename：D:\nginx/html/test1/test2/test.php
 
 [负载均衡的 5 种策略](https://www.cnblogs.com/andashu/p/6377323.html)
 
+### 负载均衡的5种策略
 nginx 的 upstream 目前支持的 5 种方式的分配
 
-1、普通轮询（默认）
+#### 普通轮询
 每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器 down 掉，能自动剔除。
 
 ```ini
@@ -336,7 +345,7 @@ upstream backserver {
 }
 ```
 
-2、加权轮询
+#### 加权轮询
 指定轮询几率，weight 和访问比率成正比，用于后端服务器性能不均的情况。
 
 ```ini
@@ -347,8 +356,8 @@ upstream backserver {
 
 ```
 
-3、IP 绑定 ip_hash
-每个请求按访问 ip 的 hash 结果分配，这样*每个访客固定访问一个后端服务器，可以解决 session 的问题*。
+#### IP HASH
+IP 绑定 ip_hash, 每个请求按访问 ip 的 hash 结果分配，这样*每个访客固定访问一个后端服务器，可以解决 session 的问题*。
 
 ```ini
 upstream backserver {
@@ -358,8 +367,8 @@ upstream backserver {
 }
 ```
 
-4、fair（公平轮询）
-按后端服务器的响应时间来分配请求，响应时间短的优先分配。
+#### 公平轮询
+公平轮询(*fair*)按后端服务器的响应时间来分配请求，响应时间短的优先分配。
 
 ```ini
 upstream backserver {
@@ -369,7 +378,7 @@ upstream backserver {
 }
 ```
 
-5、url_hash（第三方）
+#### URL HASH
 按访问 url 的 hash 结果来分配请求，使*每个 url 定向到同一个后端服务器，后端服务器为缓存时比较有用*。
 
 ```ini
@@ -381,7 +390,7 @@ upstream backserver {
 }
 ```
 
-### 负责均衡例子
+### 负责均衡示例
 
 ```ini
 # 在需要使用负载均衡的server中增加
@@ -424,7 +433,19 @@ http {
 
 假设下面四种情况分别用 http://192.168.1.1/proxy/test.html 进行访问。
 
-第一种：
+### 转发到域名
+
+第1种（相对于第2种，最后少一个 / ）
+
+```ini
+location /proxy/ {
+    proxy_pass http://127.0.0.1; # 转发目标是域名
+}
+```
+代理到 URL：http://127.0.0.1/proxy/test.html
+
+### 转发到路径
+第2种：
 
 ```ini
 location /proxy/ {
@@ -434,17 +455,8 @@ location /proxy/ {
 
 代理到 URL：http://127.0.0.1/test.html
 
-第二种（相对于第一种，最后少一个 / ）
 
-```ini
-location /proxy/ {
-    proxy_pass http://127.0.0.1; # 转发目标是域名
-}
-```
-
-代理到 URL：http://127.0.0.1/proxy/test.html
-
-第三种：
+第3种：
 
 ```ini
 location /proxy/ {
@@ -454,7 +466,7 @@ location /proxy/ {
 
 代理到 URL：http://127.0.0.1/aaa/test.html
 
-第四种（相对于第三种，最后少一个 / ）
+第4种（相对于第三种，最后少一个 / ）
 
 ```ini
 location /proxy/ {
