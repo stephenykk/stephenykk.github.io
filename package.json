@@ -6,7 +6,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "dev": "hexo server",
-    "push:master": "git push origin master:master && git push gh master:master",
+    "push:master": "cd themes/stellar && git push origin main:main && cd ../.. && git push origin master:master && git push gh master:master",
     "fix-images": "node builder/fixImages",
     "pull": "git submodule foreach git pull origin main:main && git pull origin master:master",
     "c": "hexo clean",
