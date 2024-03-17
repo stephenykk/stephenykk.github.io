@@ -12,11 +12,15 @@ category: react
 
 ## 状态
 
-状态是表示组件当前状况的  JS  对象。在  React  中，可以使用  useState  或者  this.state  维护组件内部状态，通过  props  传递给子组件使用。
+状态是表示组件当前状况的  JS  对象。在  React  中，可以使用 {% mark  useState %} 或者  {% mark this.state %}  维护组件内部状态，通过 {% mark props %} 传递给子组件使用。
 
-为了避免状态传递过程中出现混乱，React  引入了“单向数据流”的理念。主要思想是组件不会改变接收的数据，只会监听数据的变化，当数据发生变化时他们会使用接收到的新值，而不是修改已有的值。当组件的更新机制触发后，他们只是使用新值进行重新渲染。
+为了避免状态传递过程中出现混乱，React  引入了“{% mark 单向数据流%}”的理念。主要思想是{% mark 组件不会改变接收的props数据 %}，只会监听数据的变化，当数据发生变化时他们会使用接收到的新值，而不是修改已有的值。当组件的更新机制触发后，他们只是使用新值进行重新渲染。
 
-父子组件通信可以直接使用  props  和回调方式；深层次、远距离组件则要通过“状态提升”和  props  层层传递。
+{% box 组件通信 color:yellow %}
+
+-   父子组件可以直接使用  props  和 callback 方式；
+-   深层次组件则要通过“状态提升”和  props  层层传递。
+    {% endbox %}
 
 ## 常见模式
 
@@ -24,8 +28,8 @@ React  状态管理的常见模式有：
 
 -   状态提升：兄弟组件间是没法直接共享状态的，可以通过将状态提升到最近的祖先组件中，所有兄弟组件就可以通过  props  一级级传递获取状态；
 -   状态组合：某些状态可能只在应用程序的特定子树中需要。最好将状态存储在尽可能接近实际需要的位置，这有助于优化渲染行为；
--   属性下钻：将父组件的状态以属性的形式一级级显示传递给嵌套子组件；
--   Provider：React Context  通过  Provider  包裹组件，被包裹的所有嵌套子组件都可以不用通过属性下钻而是通过  context  直接获取状态。
+-   属性透传：将父组件的状态以 props 形式一级级传递给嵌套子组件；
+-   Provider：React Context  通过  Provider  包裹组件，被包裹的所有嵌套子组件都可以不用通过属性透传而是通过  context  直接获取状态。
 
 层层传递的  value onChange  会对一个优质代码库带来的毁灭性影响，粗暴地把数据塞在  redux  中也并不能让一个应用得到很好的拓展性和可维护性。
 
@@ -63,13 +67,15 @@ React  状态管理的常见模式有：
 
 ## Context  的问题
 
-Context 存在的问题也是老生常谈。在  react  里，context  是个反模式的东西，不同于  redux  等的细粒度响应式更新，context 的值一旦变化，所有依赖该 context 的组件全部都会  force update，因为  context API  并不能细粒度地分析某个组件依赖了 context  里的哪个属性，并且它可以穿透  React.memo  和  shouldComponentUpdate  的对比，把所有涉事组件强制刷新。
+{% box Context的缺点 color:yellow %}
+Context 存在的问题也是老生常谈。在  react  里，context  是个反模式的东西，不同于  redux  等的细粒度响应式更新，context 的值一旦变化，所有依赖该 context 的组件全部都会  force update，因为  context API  并不能细粒度地分析某个组件依赖了 context  里的哪个属性，并且它可以穿透  React.memo  和  shouldComponentUpdate  的对比，把所有涉及的组件强制刷新。
+{% endbox %}
 
 React 官方文档在  [When to Use Context](https://reactjs.org/docs/context.html#when-to-use-context "https://link.juejin.cn?target=https%3A%2F%2Freactjs.org%2Fdocs%2Fcontext.html%23when-to-use-context")一节中写道：
 
 Context  设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言。
 
-综上，在系统中跟业务相关、会频繁变动的数据在共享时，应谨慎使用  context。
+{% note color:red 注意 系统中跟业务相关会频繁变动的数据在共享时，应谨慎使用  context %}
 
 如果决定使用 context，可以在一些场景中，将多个子组件依赖的不同 context 属性提升到一个父组件中，由父组件订阅 context 并以 prop 的方式下发，这样可以使用子组件的 memo、shouldComponentUpdate 生效。
 
