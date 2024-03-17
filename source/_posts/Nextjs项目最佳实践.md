@@ -2,10 +2,12 @@
 title: Nextjs项目最佳实践
 date: 2024-03-12 12:51:55
 tags:
+    - nextjs
+    - ssr
+categories: react
 ---
 
 > 原文地址[Next.js 项目最佳实践 - 掘金](https://juejin.cn/post/7194410416879960125?searchId=20240312124456B7DCE12D607055338A66)
-
 
 ## 什么是 Next.js
 
@@ -15,7 +17,7 @@ tags:
 
 与此同时它也支持静态站点生成（用于可以在任何地方托管的高性能静态 HTML 页面）或者是通过 Vercel / AWS 等部署 Node.js 服务来进行数据按需加载的服务端渲染页面
 
-Next.js 已迅速成为 Web 开发领域最抢手的技能之一。本教程旨在充当 [Next.js文档](https://nextjs.org/docs/getting-started "https://nextjs.org/docs/getting-started") 的 “ 实用 ” 延伸，并帮助你使用大量最佳实践来开发项目，这将有利于你在今后对项目实施进一步的扩展。
+Next.js 已迅速成为 Web 开发领域最抢手的技能之一。本教程旨在充当 [Next.js 文档](https://nextjs.org/docs/getting-started "https://nextjs.org/docs/getting-started") 的 “ 实用 ” 延伸，并帮助你使用大量最佳实践来开发项目，这将有利于你在今后对项目实施进一步的扩展。
 
 ## 介绍
 
@@ -63,30 +65,30 @@ yarn build
 
 ```json
 {
-  "name": "nextjs-fullstack-app-template-zn",
-  "version": "0.1.0",
-  "private": true,
-  "author": "YOUR_NAME",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@next/font": "13.1.6",
-    "@types/node": "18.11.18",
-    "@types/react": "18.0.27",
-    "@types/react-dom": "18.0.10",
-    "next": "13.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.4"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "yarn": ">=1.22.0"
-  }
+    "name": "nextjs-fullstack-app-template-zn",
+    "version": "0.1.0",
+    "private": true,
+    "author": "YOUR_NAME",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@next/font": "13.1.6",
+        "@types/node": "18.11.18",
+        "@types/react": "18.0.27",
+        "@types/react-dom": "18.0.10",
+        "next": "13.1.6",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "typescript": "4.9.4"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "yarn": ">=1.22.0"
+    }
 }
 ```
 
@@ -157,13 +159,16 @@ git push -u origin {YOUR_BRANCH_NAME}
 
 ```json
 {
-  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
-  "globals": {
-    "React": "readonly"
-  },
-  "rules": {
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
-  }
+    "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
+    "globals": {
+        "React": "readonly"
+    },
+    "rules": {
+        "no-unused-vars": [
+            1,
+            { "args": "after-used", "argsIgnorePattern": "^_" }
+        ]
+    }
 }
 ```
 
@@ -188,7 +193,7 @@ yarn lint
 
 ```json
 "rules": {
-    "no-unused-vars": 0, 
+    "no-unused-vars": 0,
  }
 ```
 
@@ -212,10 +217,10 @@ yarn add -D prettier
 
 ```json
 {
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "semi": true,
-  "singleQuote": true
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
 }
 ```
 
@@ -328,44 +333,44 @@ yarn add -D @commitlint/config-conventional @commitlint/cli
 // test: 添加缺失的测试或更正现有测试
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'body-leading-blank': [1, 'always'],
-    'body-max-line-length': [2, 'always', 100],
-    'footer-leading-blank': [1, 'always'],
-    'footer-max-line-length': [2, 'always', 100],
-    'header-max-length': [2, 'always', 100],
-    'scope-case': [2, 'always', 'lower-case'],
-    'subject-case': [
-      2,
-      'never',
-      ['sentence-case', 'start-case', 'pascal-case', 'upper-case'],
-    ],
-    'subject-empty': [2, 'never'],
-    'subject-full-stop': [2, 'never', '.'],
-    'type-case': [2, 'always', 'lower-case'],
-    'type-empty': [2, 'never'],
-    'type-enum': [
-      2,
-      'always',
-      [
-        'build',
-        'chore',
-        'ci',
-        'docs',
-        'feat',
-        'fix',
-        'perf',
-        'refactor',
-        'revert',
-        'style',
-        'test',
-        'translation',
-        'security',
-        'changeset',
-      ],
-    ],
-  },
+    extends: ["@commitlint/config-conventional"],
+    rules: {
+        "body-leading-blank": [1, "always"],
+        "body-max-line-length": [2, "always", 100],
+        "footer-leading-blank": [1, "always"],
+        "footer-max-line-length": [2, "always", 100],
+        "header-max-length": [2, "always", 100],
+        "scope-case": [2, "always", "lower-case"],
+        "subject-case": [
+            2,
+            "never",
+            ["sentence-case", "start-case", "pascal-case", "upper-case"],
+        ],
+        "subject-empty": [2, "never"],
+        "subject-full-stop": [2, "never", "."],
+        "type-case": [2, "always", "lower-case"],
+        "type-empty": [2, "never"],
+        "type-enum": [
+            2,
+            "always",
+            [
+                "build",
+                "chore",
+                "ci",
+                "docs",
+                "feat",
+                "fix",
+                "perf",
+                "refactor",
+                "revert",
+                "style",
+                "test",
+                "translation",
+                "security",
+                "changeset",
+            ],
+        ],
+    },
 };
 ```
 
@@ -403,12 +408,12 @@ npx husky add .husky/commit-msg "npx --no -- commitlint --edit $1"
 
 ```json
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
-  }
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+    }
 }
 ```
 
@@ -430,32 +435,32 @@ npx husky add .husky/commit-msg "npx --no -- commitlint --edit $1"
 {
     "version": "0.1.0",
     "configurations": [
-      {
-        "name": "Next.js: debug server-side",
-        "type": "node-terminal",
-        "request": "launch",
-        "command": "npm run dev"
-      },
-      {
-        "name": "Next.js: debug client-side",
-        "type": "pwa-chrome",
-        "request": "launch",
-        "url": "<http://localhost:3000>"
-      },
-      {
-        "name": "Next.js: debug full stack",
-        "type": "node-terminal",
-        "request": "launch",
-        "command": "npm run dev",
-        "console": "integratedTerminal",
-        "serverReadyAction": {
-          "pattern": "started server on .+, url: (https?://.+)",
-          "uriFormat": "%s",
-          "action": "debugWithChrome"
+        {
+            "name": "Next.js: debug server-side",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev"
+        },
+        {
+            "name": "Next.js: debug client-side",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "<http://localhost:3000>"
+        },
+        {
+            "name": "Next.js: debug full stack",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "console": "integratedTerminal",
+            "serverReadyAction": {
+                "pattern": "started server on .+, url: (https?://.+)",
+                "uriFormat": "%s",
+                "action": "debugWithChrome"
+            }
         }
-      }
     ]
-  }
+}
 ```
 
 使用该脚本你可以选择三种调试方式。单击 VS Code 左侧的小 “错误和播放图标” 或按 `Ctrl + Shift + D` 访问调试菜单。你可以选择要运行的脚本并使用启动/停止按钮启动 / 停止它
@@ -540,28 +545,31 @@ npx sb init --builder webpack5
 
 ```json
 {
-  "extends": [
-    "plugin:storybook/recommended", // 新加入
-    "next",
-    "next/core-web-vitals",
-    "eslint:recommended"
-  ],
-  "globals": {
-    "React": "readonly"
-  },
-  // 新加入
-  "overrides": [
-    {
-      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
-      "rules": {
-        // example of overriding a rule
-        "storybook/hierarchy-separator": "error"
-      }
+    "extends": [
+        "plugin:storybook/recommended", // 新加入
+        "next",
+        "next/core-web-vitals",
+        "eslint:recommended"
+    ],
+    "globals": {
+        "React": "readonly"
+    },
+    // 新加入
+    "overrides": [
+        {
+            "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+            "rules": {
+                // example of overriding a rule
+                "storybook/hierarchy-separator": "error"
+            }
+        }
+    ],
+    "rules": {
+        "no-unused-vars": [
+            1,
+            { "args": "after-used", "argsIgnorePattern": "^_" }
+        ]
     }
-  ],
-  "rules": {
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
-  }
 }
 ```
 
@@ -592,18 +600,18 @@ yarn install
 
 ```js
 module.exports = {
-  stories: ['../**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
-	/** 暴露 public 目录给到 stotrybook，作为静态资源目录 */
-  staticDirs: ['../public'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
-  framework: '@storybook/react',
-  core: {
-    builder: '@storybook/builder-webpack5',
-  },
+    stories: ["../**/*.stories.mdx", "../**/*.stories.@(js|jsx|ts|tsx)"],
+    /** 暴露 public 目录给到 stotrybook，作为静态资源目录 */
+    staticDirs: ["../public"],
+    addons: [
+        "@storybook/addon-links",
+        "@storybook/addon-essentials",
+        "@storybook/addon-interactions",
+    ],
+    framework: "@storybook/react",
+    core: {
+        builder: "@storybook/builder-webpack5",
+    },
 };
 ```
 
@@ -616,54 +624,54 @@ module.exports = {
 `storybook/preview.js`
 
 ```js
-import '../styles/globals.css';
-import * as NextImage from 'next/image';
+import "../styles/globals.css";
+import * as NextImage from "next/image";
 
 const BREAKPOINTS_INT = {
-  xs: 375,
-  sm: 600,
-  md: 900,
-  lg: 1200,
-  xl: 1536,
+    xs: 375,
+    sm: 600,
+    md: 900,
+    lg: 1200,
+    xl: 1536,
 };
 
 const customViewports = Object.fromEntries(
-  Object.entries(BREAKPOINTS_INT).map(([key, val], idx) => {
-    console.log(val);
-    return [
-      key,
-      {
-        name: key,
-        styles: {
-          width: `${val}px`,
-          height: `${(idx + 5) * 10}vh`,
-        },
-      },
-    ];
-  })
+    Object.entries(BREAKPOINTS_INT).map(([key, val], idx) => {
+        console.log(val);
+        return [
+            key,
+            {
+                name: key,
+                styles: {
+                    width: `${val}px`,
+                    height: `${(idx + 5) * 10}vh`,
+                },
+            },
+        ];
+    })
 );
 
 // 允许 Storybook 处理 Next 的 <Image> 组件
 const OriginalNextImage = NextImage.default;
 
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
+Object.defineProperty(NextImage, "default", {
+    configurable: true,
+    value: (props) => <OriginalNextImage {...props} unoptimized />,
 });
 
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+        matchers: {
+            color: /(background|color)$/i,
+            date: /Date$/,
+        },
     },
-  },
-  viewport: { viewports: customViewports },
+    viewport: { viewports: customViewports },
 };
 ```
 
-上面有几个属于个人喜好，大家可以随意配置。请务必设置默认断点以匹配应用中对你重要的任何内容。我们还添加了一个处理方法，以便 Storybook 可以处理 Next 的  组件而不会崩溃。
+上面有几个属于个人喜好，大家可以随意配置。请务必设置默认断点以匹配应用中对你重要的任何内容。我们还添加了一个处理方法，以便 Storybook 可以处理 Next 的 组件而不会崩溃。
 
 现在我们准备来测试一下，运行
 
@@ -699,7 +707,7 @@ yarn storybook
 export interface IBaseTemplate {}
 
 const BaseTemplate: React.FC<IBaseTemplate> = () => {
-  return <div>Hello world!</div>;
+    return <div>Hello world!</div>;
 };
 
 export default BaseTemplate;
@@ -707,7 +715,7 @@ export default BaseTemplate;
 
 我们的每一个组件都将遵循这个确切的结构。即使它不使用 props，它仍然会为组件导出一个空的 props 接口。这样做的原因是它将允许我们在许多组件和文件中复制这个精确的结构，并使用相同的模式交换组件，并且只查找/替换组件的名称。
 
-当你开始使用 stories 和 mock props时，就会明白为所有组件文件维护一致的命名方案和界面是多么方便和强大。
+当你开始使用 stories 和 mock props 时，就会明白为所有组件文件维护一致的命名方案和界面是多么方便和强大。
 
 这其中就遵循了我们之前提及到的 **一致性就是一切**
 
@@ -725,12 +733,12 @@ export default BaseTemplate;
 `BaseTemplate.tsx`
 
 ```tsx
-import styles from './BaseTemplate.module.css';
+import styles from "./BaseTemplate.module.css";
 
 export interface IBaseTemplate {}
 
 const BaseTemplate: React.FC<IBaseTemplate> = () => {
-  return <div className={styles.container}>Hello world!</div>;
+    return <div className={styles.container}>Hello world!</div>;
 };
 
 export default BaseTemplate;
@@ -743,14 +751,14 @@ export default BaseTemplate;
 `BaseTemplate.tsx`
 
 ```tsx
-import styles from './BaseTemplate.module.css';
+import styles from "./BaseTemplate.module.css";
 
 export interface IBaseTemplate {
-  sampleTextProp: string;
+    sampleTextProp: string;
 }
 
 const BaseTemplate: React.FC<IBaseTemplate> = ({ sampleTextProp }) => {
-  return <div className={styles.container}>{sampleTextProp}</div>;
+    return <div className={styles.container}>{sampleTextProp}</div>;
 };
 
 export default BaseTemplate;
@@ -763,14 +771,14 @@ export default BaseTemplate;
 `BaseTemplate.mocks.ts`
 
 ```ts
-import { IBaseTemplate } from './BaseTemplate';
+import { IBaseTemplate } from "./BaseTemplate";
 
 const base: IBaseTemplate = {
-  sampleTextProp: 'Hello world!',
+    sampleTextProp: "Hello world!",
 };
 
 export const mockBaseTemplateProps = {
-  base,
+    base,
 };
 ```
 
@@ -781,16 +789,16 @@ export const mockBaseTemplateProps = {
 `BaseTemplate.stories.tsx`
 
 ```tsx
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import BaseTemplate, { IBaseTemplate } from './BaseTemplate';
-import { mockBaseTemplateProps } from './BaseTemplate.mocks'
+import { ComponentStory, ComponentMeta } from "@storybook/react";
+import BaseTemplate, { IBaseTemplate } from "./BaseTemplate";
+import { mockBaseTemplateProps } from "./BaseTemplate.mocks";
 
 export default {
-    title: 'templates/BaseTemplate',
+    title: "templates/BaseTemplate",
     component: BaseTemplate,
     argTypes: {},
 } as ComponentMeta<typeof BaseTemplate>;
-  
+
 const Template: ComponentStory<typeof BaseTemplate> = (args) => (
     <BaseTemplate {...args} />
 );
@@ -835,57 +843,58 @@ yarn storybook
 `CatCard.tsx`
 
 ```tsx
-import Image from 'next/image';
-import styles from './CatCard.module.css';
+import Image from "next/image";
+import styles from "./CatCard.module.css";
 
 export interface ICatCard {
-  tag: string;
-  title: string;
-  body: string;
-  author: string;
-  time: string;
+    tag: string;
+    title: string;
+    body: string;
+    author: string;
+    time: string;
 }
 
 const CatCard: React.FC<ICatCard> = ({ tag, title, body, author, time }) => {
-  return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.card__header}>
-          <Image
-            src="/time-cat.jpg"
-            alt="card__image"
-            className={styles.card__image}
-            width="600"
-            height="400"
-          />
-        </div>
-        <div className={styles.card__body}>
-          <span className={`${styles.tag} ${styles['tag-blue']}`}>{tag}</span>
-          <h4>{title}</h4>
-          <p>{body}</p>
-        </div>
-        <div className={styles.card__footer}>
-          <div className={styles.user}>
-            <Image
-              src="<https://i.pravatar.cc/40?img=3>"
-              alt="user__image"
-              className={styles.user__image}
-              width="40"
-              height="40"
-            />
-            <div className={styles.user__info}>
-              <h5>{author}</h5>
-              <small>{time}</small>
+    return (
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <div className={styles.card__header}>
+                    <Image
+                        src="/time-cat.jpg"
+                        alt="card__image"
+                        className={styles.card__image}
+                        width="600"
+                        height="400"
+                    />
+                </div>
+                <div className={styles.card__body}>
+                    <span className={`${styles.tag} ${styles["tag-blue"]}`}>
+                        {tag}
+                    </span>
+                    <h4>{title}</h4>
+                    <p>{body}</p>
+                </div>
+                <div className={styles.card__footer}>
+                    <div className={styles.user}>
+                        <Image
+                            src="<https://i.pravatar.cc/40?img=3>"
+                            alt="user__image"
+                            className={styles.user__image}
+                            width="40"
+                            height="40"
+                        />
+                        <div className={styles.user__info}>
+                            <h5>{author}</h5>
+                            <small>{time}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default CatCard;
-
 ```
 
 设置样式
@@ -893,78 +902,78 @@ export default CatCard;
 `CatCard.module.css`
 
 ```css
-@import url('<https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap>');
+@import url("<https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap>");
 
 .container {
-  margin: 1rem;
+    margin: 1rem;
 }
 
 .container * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 .card__image {
-  max-width: 100%;
-  display: block;
-  object-fit: cover;
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
 }
 
 .card {
-  font-family: 'Quicksand', sans-serif;
-  display: flex;
-  flex-direction: column;
-  width: clamp(20rem, calc(20rem + 2vw), 22rem);
-  overflow: hidden;
-  box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.1);
-  border-radius: 1em;
-  background: #ece9e6;
-  background: linear-gradient(to right, #ffffff, #ece9e6);
+    font-family: "Quicksand", sans-serif;
+    display: flex;
+    flex-direction: column;
+    width: clamp(20rem, calc(20rem + 2vw), 22rem);
+    overflow: hidden;
+    box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
+    background: #ece9e6;
+    background: linear-gradient(to right, #ffffff, #ece9e6);
 }
 
 .card__body {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .tag {
-  align-self: flex-start;
-  padding: 0.25em 0.75em;
-  border-radius: 1em;
-  font-size: 0.75rem;
+    align-self: flex-start;
+    padding: 0.25em 0.75em;
+    border-radius: 1em;
+    font-size: 0.75rem;
 }
 
 .tag-blue {
-  background: #56ccf2;
-  background: linear-gradient(to bottom, #2f80ed, #56ccf2);
-  color: #fafafa;
+    background: #56ccf2;
+    background: linear-gradient(to bottom, #2f80ed, #56ccf2);
+    color: #fafafa;
 }
 
 .card__body h4 {
-  font-size: 1.5rem;
-  text-transform: capitalize;
+    font-size: 1.5rem;
+    text-transform: capitalize;
 }
 
 .card__footer {
-  display: flex;
-  padding: 1rem;
-  margin-top: auto;
+    display: flex;
+    padding: 1rem;
+    margin-top: auto;
 }
 
 .user {
-  display: flex;
-  gap: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .user__image {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 .user__info > small {
-  color: #666;
+    color: #666;
 }
 ```
 
@@ -973,22 +982,22 @@ export default CatCard;
 `CatCard.mocks.ts`
 
 ```ts
-import { ICatCard } from './CatCard';
+import { ICatCard } from "./CatCard";
 
 const base: ICatCard = {
-  tag: 'Felines',
-  title: `What's new in Cats`,
-  body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!',
-  author: 'Alex',
-  time: '2h ago',
+    tag: "Felines",
+    title: `What's new in Cats`,
+    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
+    author: "Alex",
+    time: "2h ago",
 };
 
 export const mockCatCardProps = {
-  base,
+    base,
 };
 ```
 
-注意这里从项目的 public 目录用了一张 🐱 的照片(/time-cat.jpg)，你可以从项目的仓库中找到它
+注意这里从项目的 public 目录用了一张 🐱  的照片(/time-cat.jpg)，你可以从项目的仓库中找到它
 
 `CatCard.stories` 的修改就是需要将 story 的 title 从 `templates/CatCard` 改为 `cards/CatCard`
 
@@ -999,10 +1008,10 @@ export const mockCatCardProps = {
 ```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: ['i.pravatar.cc'],
-  },
+    reactStrictMode: true,
+    images: {
+        domains: ["i.pravatar.cc"],
+    },
 };
 
 module.exports = nextConfig;
@@ -1019,52 +1028,59 @@ module.exports = nextConfig;
 `pages/index.tsx`
 
 ```tsx
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import CatCard from '../components/cards/cat/CatCard';
-import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import CatCard from "../components/cards/cat/CatCard";
+import { mockCatCardProps } from "../components/cards/cat/CatCard.mocks";
 
 const Home: NextPage = () => {
     return (
-      <div>
-        <Head>
-          <title>Create Next App</title>
-          <meta name="description" content="Generated by create next app" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-  
-        <main>
-          <h1>
-            Welcome to <a href="<https://nextjs.org>">Next.js!</a>
-          </h1>
-  
-          <div style={{ display: 'flex'}}>
-            <CatCard {...mockCatCardProps.base} />
-            <CatCard {...mockCatCardProps.base} />
-            <CatCard {...mockCatCardProps.base} />
-            <CatCard {...mockCatCardProps.base} />
-          </div>
-        </main>
-  
-        <footer>
-          <a
-            href="<https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app>"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{' '}
-            <span>
-              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-            </span>
-          </a>
-        </footer>
-      </div>
-    );
-  };
-  
-  export default Home;
+        <div>
+            <Head>
+                <title>Create Next App</title>
+                <meta
+                    name="description"
+                    content="Generated by create next app"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
+            <main>
+                <h1>
+                    Welcome to <a href="<https://nextjs.org>">Next.js!</a>
+                </h1>
+
+                <div style={{ display: "flex" }}>
+                    <CatCard {...mockCatCardProps.base} />
+                    <CatCard {...mockCatCardProps.base} />
+                    <CatCard {...mockCatCardProps.base} />
+                    <CatCard {...mockCatCardProps.base} />
+                </div>
+            </main>
+
+            <footer>
+                <a
+                    href="<https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app>"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Powered by{" "}
+                    <span>
+                        <Image
+                            src="/vercel.svg"
+                            alt="Vercel Logo"
+                            width={72}
+                            height={16}
+                        />
+                    </span>
+                </a>
+            </footer>
+        </div>
+    );
+};
+
+export default Home;
 ```
 
 运行如下命令查看界面样式
@@ -1082,31 +1098,33 @@ const Home: NextPage = () => {
 `pages/_document.tsx`
 
 ```javascript
-import Document, { Head, Html, Main, NextScript } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
-  render() {
-    return (
-      <Html>
-        <Head>
-          <link rel="preconnect" href="<https://fonts.googleapis.com>" />
-          <link rel="preconnect" href="<https://fonts.gstatic.com>" />
-          <link
-            href="<https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap>"
-            rel="stylesheet"
-          />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
+    render() {
+        return (
+            <Html>
+                <Head>
+                    <link
+                        rel="preconnect"
+                        href="<https://fonts.googleapis.com>"
+                    />
+                    <link rel="preconnect" href="<https://fonts.gstatic.com>" />
+                    <link
+                        href="<https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap>"
+                        rel="stylesheet"
+                    />
+                </Head>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
+            </Html>
+        );
+    }
 }
 
 export default MyDocument;
-
 ```
 
 _请注意，我已经移除了 `components/cards/cat/CatCard.module.css` 中的 `@import` 字体，并且把 google 字体放在这里进行预加载_
@@ -1132,20 +1150,20 @@ Layouts 是 Next.js 中的重要概念。他们协助我们管理页面间的状
 `components/layouts/primary/PrimaryLayout.tsx`
 
 ```tsx
-import Head from 'next/head';
-import styles from './PrimaryLayout.module.css';
+import Head from "next/head";
+import styles from "./PrimaryLayout.module.css";
 
-export interface IPrimaryLayout extends React.ComponentPropsWithoutRef<'div'> {}
+export interface IPrimaryLayout extends React.ComponentPropsWithoutRef<"div"> {}
 
 const PrimaryLayout: React.FC<IPrimaryLayout> = ({ children }) => {
- return (
-   <>
-     <Head>
-       <title>Primary Layout Example</title>
-     </Head>
-     <main className={styles.main}>{children}</main>
-   </>
- );
+    return (
+        <>
+            <Head>
+                <title>Primary Layout Example</title>
+            </Head>
+            <main className={styles.main}>{children}</main>
+        </>
+    );
 };
 
 export default PrimaryLayout;
@@ -1155,13 +1173,13 @@ export default PrimaryLayout;
 
 ```css
 .main {
-  display: flex;
-  height: calc(100vh - 64px);
-  background-color: white;
+    display: flex;
+    height: calc(100vh - 64px);
+    background-color: white;
 }
 
 .main > section {
-  padding: 32px;
+    padding: 32px;
 }
 ```
 
@@ -1170,26 +1188,20 @@ export default PrimaryLayout;
 `components/layouts/sidebar/SidebarLayout.tsx`
 
 ```tsx
-import Link from 'next/link';
-import styles from './SidebarLayout.module.css';
+import Link from "next/link";
+import styles from "./SidebarLayout.module.css";
 
 export interface ISidebarLayout {}
 
 const SidebarLayout: React.FC<ISidebarLayout> = () => {
-  return (
-    <nav className={styles.nav}>
-      <input className={styles.input} placeholder="Search..." />
-      <Link href="/">
-        Home
-      </Link>
-      <Link href="/about">
-        About
-      </Link>
-      <Link href="/contact">
-        Contact
-      </Link>
-    </nav>
-  );
+    return (
+        <nav className={styles.nav}>
+            <input className={styles.input} placeholder="Search..." />
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
+        </nav>
+    );
 };
 
 export default SidebarLayout;
@@ -1199,43 +1211,43 @@ export default SidebarLayout;
 
 ```css
 .nav {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-  background-color: #fafafa;
-  padding: 32px;
-  border-right: 1px solid #eaeaea;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-color: #fafafa;
+    padding: 32px;
+    border-right: 1px solid #eaeaea;
 }
 
 .nav > a {
-  margin: 8px 0;
-  text-decoration: none;
-  background: white;
-  border-radius: 4px;
-  font-size: 14px;
-  padding: 12px 16px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.025em;
-  color: #333;
-  border: 1px solid #eaeaea;
-  transition: all 0.125s ease;
+    margin: 8px 0;
+    text-decoration: none;
+    background: white;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 12px 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    color: #333;
+    border: 1px solid #eaeaea;
+    transition: all 0.125s ease;
 }
 
 .nav > a:hover {
-  background-color: #eaeaea;
+    background-color: #eaeaea;
 }
 
 .input {
-  margin: 32px 0;
-  text-decoration: none;
-  background: white;
-  border-radius: 4px;
-  border: 1px solid #eaeaea;
-  font-size: 14px;
-  padding: 8px 16px;
-  height: 28px;
+    margin: 32px 0;
+    text-decoration: none;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #eaeaea;
+    font-size: 14px;
+    padding: 8px 16px;
+    height: 28px;
 }
 ```
 
@@ -1248,12 +1260,12 @@ export default SidebarLayout;
 `pages/page.d.ts`
 
 ```ts
-import { NextPage } from 'next';
-import { ComponentType, ReactElement, ReactNode } from 'react';
+import { NextPage } from "next";
+import { ComponentType, ReactElement, ReactNode } from "react";
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
-  getLayout?: (_page: ReactElement) => ReactNode;
-  layout?: ComponentType;
+    getLayout?: (_page: ReactElement) => ReactNode;
+    layout?: ComponentType;
 };
 ```
 
@@ -1264,32 +1276,32 @@ export type NextPageWithLayout<P = {}> = NextPage<P> & {
 `pages/index.tsx`
 
 ```tsx
-import CatCard from '../components/cards/cat/CatCard';
-import { mockCatCardProps } from '../components/cards/cat/CatCard.mocks';
-import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import SidebarLayout from '../components/layouts/sidebar/SidebarLayout';
-import { NextPageWithLayout } from './page';
+import CatCard from "../components/cards/cat/CatCard";
+import { mockCatCardProps } from "../components/cards/cat/CatCard.mocks";
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import SidebarLayout from "../components/layouts/sidebar/SidebarLayout";
+import { NextPageWithLayout } from "./page";
 
 const Home: NextPageWithLayout = () => {
     return (
-      <section >
-        <h1>
-          Welcome to <a href="<https://nextjs.org>">Next.js!</a>
-        </h1>
-        <CatCard {...mockCatCardProps.base} />
-      </section>
+        <section>
+            <h1>
+                Welcome to <a href="<https://nextjs.org>">Next.js!</a>
+            </h1>
+            <CatCard {...mockCatCardProps.base} />
+        </section>
     );
-  };
-  export default Home;
+};
+export default Home;
 
-  Home.getLayout = (page) => {
+Home.getLayout = (page) => {
     return (
-      <PrimaryLayout>
-        <SidebarLayout />
-        {page}
-      </PrimaryLayout>
+        <PrimaryLayout>
+            <SidebarLayout />
+            {page}
+        </PrimaryLayout>
     );
-  };
+};
 ```
 
 并且在 `pages` 目录中创建一个新的 `about` 页面
@@ -1297,50 +1309,51 @@ const Home: NextPageWithLayout = () => {
 `pages/about.tsx`
 
 ```tsx
-import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import SidebarLayout from '../components/layouts/sidebar/SidebarLayout';
-import { NextPageWithLayout } from './page';
+import PrimaryLayout from "../components/layouts/primary/PrimaryLayout";
+import SidebarLayout from "../components/layouts/sidebar/SidebarLayout";
+import { NextPageWithLayout } from "./page";
 
 const About: NextPageWithLayout = () => {
-return (
-  <section>
-    <h2>Layout Example (About)</h2>
-    <p>
-      This example adds a property <code>getLayout</code> to your page,
-      allowing you to return a React component for the layout. This allows you
-      to define the layout on a per-page basis. Since we&apos;re returning a
-      function, we can have complex nested layouts if desired.
-    </p>
-    <p>
-      When navigating between pages, we want to persist page state (input
-      values, scroll position, etc.) for a Single-Page Application (SPA)
-      experience.
-    </p>
-    <p>
-      This layout pattern will allow for state persistence because the React
-      component tree is persisted between page transitions. To preserve state,
-      we need to prevent the React component tree from being discarded between
-      page transitions.
-    </p>
-    <h3>Try It Out</h3>
-    <p>
-      To visualize this, try tying in the search input in the{' '}
-      <code>Sidebar</code> and then changing routes. You&apos;ll notice the
-      input state is persisted.
-    </p>
-  </section>
-);
+    return (
+        <section>
+            <h2>Layout Example (About)</h2>
+            <p>
+                This example adds a property <code>getLayout</code> to your
+                page, allowing you to return a React component for the layout.
+                This allows you to define the layout on a per-page basis. Since
+                we&apos;re returning a function, we can have complex nested
+                layouts if desired.
+            </p>
+            <p>
+                When navigating between pages, we want to persist page state
+                (input values, scroll position, etc.) for a Single-Page
+                Application (SPA) experience.
+            </p>
+            <p>
+                This layout pattern will allow for state persistence because the
+                React component tree is persisted between page transitions. To
+                preserve state, we need to prevent the React component tree from
+                being discarded between page transitions.
+            </p>
+            <h3>Try It Out</h3>
+            <p>
+                To visualize this, try tying in the search input in the{" "}
+                <code>Sidebar</code> and then changing routes. You&apos;ll
+                notice the input state is persisted.
+            </p>
+        </section>
+    );
 };
 
 export default About;
 
 About.getLayout = (page) => {
-return (
-  <PrimaryLayout>
-    <SidebarLayout />
-    {page}
-  </PrimaryLayout>
-);
+    return (
+        <PrimaryLayout>
+            <SidebarLayout />
+            {page}
+        </PrimaryLayout>
+    );
 };
 ```
 
@@ -1349,19 +1362,19 @@ return (
 `pages/_app.tsx`
 
 ```tsx
-import type { AppProps } from 'next/app';
-import './globals.css';
-import { NextPageWithLayout } from './page';
+import type { AppProps } from "next/app";
+import "./globals.css";
+import { NextPageWithLayout } from "./page";
 
 interface AppPropsWithLayout extends AppProps {
-  Component: NextPageWithLayout;
+    Component: NextPageWithLayout;
 }
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-	// 如果这个 layout 是可用的，则在页面中使用 
-  const getLayout = Component.getLayout || ((page) => page);
+    // 如果这个 layout 是可用的，则在页面中使用
+    const getLayout = Component.getLayout || ((page) => page);
 
-  return getLayout(<Component {...pageProps} />);
+    return getLayout(<Component {...pageProps} />);
 }
 
 export default MyApp;
@@ -1369,7 +1382,7 @@ export default MyApp;
 
 最后我更新了 `PrimaryLayout.mocks.ts` 文件，为 _`IPrimaryLayout`_ 添加了 `children: '{{component}}’` 用于在 Storybook 中展示
 
-同时我更新layout 的 story title 从 `templates/...`变成 `layouts/...`
+同时我更新 layout 的 story title 从 `templates/...`变成  `layouts/...`
 
 最后你可以保存测试一下
 
@@ -1440,11 +1453,8 @@ yarn dev
 ## 其他
 
 -   [代码仓库地址](https://github.com/zidanDirk/nextjs-fullstack-app-template-zn "https://github.com/zidanDirk/nextjs-fullstack-app-template-zn")
-    
 -   [原文地址](https://dev.to/alexeagleson/how-to-build-scalable-architecture-for-your-nextjs-project-2pb7 "https://dev.to/alexeagleson/how-to-build-scalable-architecture-for-your-nextjs-project-2pb7")
-    
 -   [页面地址](https://main--serene-cobbler-6d3ef4.netlify.app/ "https://main--serene-cobbler-6d3ef4.netlify.app/")
-    
 
 感谢观看，码字不易，欢迎一键三连 ～～～ 🌹🌹🌹
 
