@@ -1448,16 +1448,9 @@ yarn dev
 -   如何使用 Prisma 和 Supabase 将数据库连接到 Next.js 应用程序
 -   如何使用 Next.js 和 Nx 在 monorepo 中管理多个应用程序
 
-请继续关注，请不要犹豫，提出任何问题，如果可以的话，我很乐意回答！
 
 ## 其他
 
 -   [代码仓库地址](https://github.com/zidanDirk/nextjs-fullstack-app-template-zn "https://github.com/zidanDirk/nextjs-fullstack-app-template-zn")
 -   [原文地址](https://dev.to/alexeagleson/how-to-build-scalable-architecture-for-your-nextjs-project-2pb7 "https://dev.to/alexeagleson/how-to-build-scalable-architecture-for-your-nextjs-project-2pb7")
 -   [页面地址](https://main--serene-cobbler-6d3ef4.netlify.app/ "https://main--serene-cobbler-6d3ef4.netlify.app/")
-
-感谢观看，码字不易，欢迎一键三连 ～～～ 🌹🌹🌹
-
-## 联系作者
-
-![QRCode.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/83c11826d493460cb55c651193c338ce~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp)

@@ -121,7 +121,7 @@ socket.send(buffer);
 
 在接收二进制数据时，可以通过 `event.data` 获取到 `ArrayBuffer` 对象，然后进行处理。
 
-## WebSocket 的心跳机制
+### WebSocket 的心跳机制
 
 WebSocket 的心跳机制是一种用于保持 WebSocket 连接的稳定性和活跃性的方法。心跳机制的目的是定期发送小的探测消息，以确保连接仍然有效，如果连接断开或出现问题，可以及时发现并采取措施。
 
@@ -181,13 +181,13 @@ socket.addEventListener("close", () => {
 
 通过这些步骤，你可以实现 WebSocket 的心跳机制，确保连接的持续稳定，以适应长时间的通信需求。如果连接断开或出现问题，你可以根据需要添加进一步的错误处理机制。
 
-## WebSocket 的安全性和跨域问题如何处理？
+### WebSocket 的安全性和跨域问题如何处理？
 
 WebSocket 支持通过 `wss://` 前缀建立加密的安全连接，使用 TLS/SSL 加密通信，确保数据的安全性。在使用加密连接时，服务器需要配置相应的证书。
 
 对于跨域问题，WebSocket 遵循同源策略，只能与同源的服务器建立连接。如果需要与不同域的服务器通信，可以使用 CORS（跨域资源共享）来进行跨域访问控制。
 
-## 有哪些好用的客户端 WebSocket 第三方库
+### 有哪些好用的客户端 WebSocket 第三方库
 
 1.  **Socket.io-client**：[Socket.io](https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 是一个流行的实时通信库，它提供了客户端 JavaScript 库，可用于在浏览器中与 [Socket.io](https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 服务器建立 WebSocket 连接。它支持自动重连、事件处理等功能，用于构建实时应用非常方便。
 2.  **ReconnectingWebSocket**：ReconnectingWebSocket 是一个带有自动重连功能的 WebSocket 客户端库，可以很好地处理网络连接断开和重新连接的情况，适合用于浏览器端的 WebSocket 开发。
@@ -197,7 +197,7 @@ WebSocket 支持通过 `wss://` 前缀建立加密的安全连接，使用 TLS/S
 
 这些库都提供了良好的接口封装和功能特性，可以根据项目需求选择适合的库来进行浏览器端的 WebSocket 开发。
 
-## 总结
+### 总结
 
 WebSocket 协议是一种基于 TCP 的应用层协议，它提供了在客户端和服务器之间进行双向通信的能力。相比传统的 HTTP 协议，它具有更低的延迟和更高的实时性。
 
