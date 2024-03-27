@@ -1,4 +1,10 @@
 {
     "editor.formatOnSave": false,
-    "editor.formatOnPaste": true
+    "editor.formatOnPaste": true,
+    "cSpell.words": [
+        "ablobcatattentionreverse",
+        "blobcat",
+        "endbox",
+        "tieba"
+    ]
 }
