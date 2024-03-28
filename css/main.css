@@ -3328,7 +3328,8 @@ p>strong>span.tag-plugin.icon {
 }
 .md-text .tag-plugin.note[child=codeblock] >.title,
 .md-text .tag-plugin.note[child=codeblock] >.body:only-child {
-  margin-top: 0;
+  margin-top: 15px;
+  margin-left: 15px;
 }
 .md-text .tag-plugin.note[child=codeblock] >.body {
   margin-bottom: 0;
