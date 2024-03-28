@@ -1,5 +1,5 @@
 ---
-title: hexo stellar 主题标签使用入门
+title: Hexo Stellar主题标签使用入门
 banner: /images/banner_camera.jpg
 date: 2024-03-26 21:20:43
 tags:

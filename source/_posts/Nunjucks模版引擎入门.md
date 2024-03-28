@@ -1,7 +1,8 @@
 ---
 title: Nunjucks模版引擎入门
 date: 2024-03-12 11:39:07
-tags:
+tags: 
+  - 模版引擎
 ---
 
 > 原文地址[nunjucks 模版引擎入门 - 掘金](https://juejin.cn/post/6844903801812418574?searchId=20240312111911B06AD6FE8008D931C8D6)

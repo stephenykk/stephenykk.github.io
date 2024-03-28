@@ -11,34 +11,48 @@ Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个�
 
 ## Linux 的发行版
 
-Linux 的发行版简单说就是 linux 内核和应用软件的打包
-目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare 等。
+{% mark Linux 的发行版简单说就是 linux 内核和应用软件的打包 %}
+目前市面上较知名的发行版有：{% mark Ubuntu %}、RedHat、{% mark CentOS %}、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare 等。
 
 ## 系统启动过程
 
 -   内核引导  
-    BIOS 自检，由设置的启动设备启动，操作系统接管硬件，读/boot 目录的内核文件
+    BIOS 自检，由设置的启动设备启动，操作系统接管硬件，读 `/boot` 目录的内核文件
 
--   运行 init 进程
-    读取配置 /etc/inittab
+-   运行 `init` 进程
+    读取配置 `/etc/inittab`
 
 -   运行级别
     许多程序需要开机启动。它们在 Windows 叫做"服务"（service），在 Linux 就叫做"守护进程"（daemon）。不同的场合需要启动不同的程序，所以就有了运行级别
 
-init 进程的一大任务，就是去运行这些开机启动的程序。
+    {% mark init 进程的一大任务，就是根据运行级别去执行对应的开机启动的程序。%}
 
-Linux 系统有 7 个运行级别(runlevel)：
+    Linux 系统有 7 个运行级别(runlevel)：
 
-    + 运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动
-    + 运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆
-    + 运行级别2：多用户状态(没有NFS)
-    + 运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式
-    + 运行级别4：系统未使用，保留
-    + 运行级别5：X11控制台，登陆后进入图形GUI模式
-    + 运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动
+    + 运行级别0：  
+        系统停机状态，系统默认运行级别不能设为0，否则不能正常启动
+    + 运行级别1： 
+        单用户工作状态，root权限，用于系统维护，禁止远程登陆
+    + 运行级别2： 
+        多用户状态(没有NFS)
+    + 运行级别3：
+        完全的多用户状态(有NFS)，登陆后进入控制台命令行模式
+    + 运行级别4： 
+        系统未使用，保留
+    + 运行级别5： 
+        X11控制台，登陆后进入图形GUI模式
+    + 运行级别6：  
+        系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动
+
+    {% box 使用运行级别关机和重启 child:codeblock %}
+      ```shell
+      sudo init 0 # 关机
+      sudo init 6 # 重启
+      ```
+    {% endbox %}
 
 -   系统初始化  
-    真正的 rc 启动脚本，放在 init.d 目录，它们有类似的用法，一般都能接受 `start`, `stop`, `restart`, `status`等参数  
+    真正的 rc 启动脚本，放在 `init.d` 目录，它们有类似的用法，一般都能接受 `start`, `stop`, `restart`, `status`等参数  
     /etc/rc5.d 中的 rc 脚本，通常都是 K 或 S 开头的链接文件，S 开头则用`start`参数运行, K 开头的则用`stop`参数运行
 
 -   建立终端  
@@ -47,16 +61,16 @@ Linux 系统有 7 个运行级别(runlevel)：
 -   用户登录  
     用户有三种登录方式:
 
-    -   命令行登录
-    -   ssh 登录
-    -   图形界面登录 _运行级别为 5，登录后进入 KDE Gnome 等窗口管理器_
+    + 命令行登录
+    + ssh 登录
+    + 图形界面登录 {% mark 运行级别为 5，登录后进入 KDE Gnome 等窗口管理器 %}
 
 -   终端切换  
     `ctrl+alt+F1-F6` 切换终端 1-6, `ctrl+alt+F7`返回图形界面
 
 ## linux 关机
 
-正确的关机流程: sync > shutdown > reboot > halt  
+正确的关机流程: sync > shutdown > reboot > halt    
 关机指令 `shutdown`, `man shutdown` 查看帮助
 
 ```
@@ -72,9 +86,10 @@ Linux 系统有 7 个运行级别(runlevel)：
   init 6 # 重启
 ```
 
-> shutdown 和 halt 的区别  
-> halt 执行时﹐杀死应用进程﹐执行 sync 系统调用﹐文件系统写操作完成后就会停止内核，要手动关闭电源  
-> shutdown 会停止应用进程 卸载文件系统 然后关闭电源
+{% note shutdown和halt的区别  
+halt 执行时,杀死应用进程, 执行 sync 系统调用,文件系统写操作完成后就会停止内核，要手动关闭电源;  
+shutdown 会停止应用进程 卸载文件系统 然后关闭电源
+%}
 
 ## linux 系统目录结构
 
@@ -83,7 +98,7 @@ Linux 系统有 7 个运行级别(runlevel)：
 -   `/boot`  
     存放启动 linux 时用到的核心文件
 -   `/dev`  
-    dev 是 device 的缩写, 存放外部设备 _linux 中访问设备的方式和访问文件相同_
+    dev 是 device 的缩写, 存放外部设备 {% mark linux 中访问设备的方式和访问文件相同 %}
 -   `/etc`  
     存放系统的配置文件
 -   `/home`  
