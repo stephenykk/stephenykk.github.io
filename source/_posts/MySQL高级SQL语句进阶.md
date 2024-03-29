@@ -1,8 +1,8 @@
 ---
 title: MySQL高级SQL语句进阶
 date: 2024-03-01 09:00:11
-tags: sql
-category: sql
+tags: SQL
+category: SQL
 ---
 
 # MySQL 高级（进阶）SQL 语句

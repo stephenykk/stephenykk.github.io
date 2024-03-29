@@ -2,8 +2,8 @@
 title: 2023再看React状态管理库
 date: 2024-02-28 12:46:23
 banner: /images/banner_camera.jpg
-tags: react
-category: react
+tags: React
+category: React
 ---
 
 > 原文地址[2023 再看 React 状态管理库 - 掘金](https://juejin.cn/post/7195513281228898363?searchId=2024022812341241274B98744BCB602F1E)

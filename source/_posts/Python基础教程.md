@@ -1,8 +1,8 @@
 ---
 title: Python基础教程
 date: 2024-02-26 14:59:10
-tags: python
-category: python
+tags: Python
+category: Python
 ---
 
 [python 基础教程](http://www.runoob.com/python/python-tutorial.html)

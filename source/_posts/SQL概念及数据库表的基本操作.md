@@ -1,8 +1,8 @@
 ---
 title: SQL概念及数据库表的基本操作
 date: 2024-03-01 09:02:51
-tags: sql
-category: sql
+tags: SQL
+category: SQL
 ---
 
 > 原文地址[SQL 概念及数据库表的基本操作 - 掘金](https://juejin.cn/post/7025782136103927839?searchId=20240113213147D815B2FA122EBCE4D555)

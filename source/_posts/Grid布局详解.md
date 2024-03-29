@@ -1,7 +1,11 @@
 ---
 title: Grid布局详解
 date: 2024-03-07 14:36:20
-tags:
+tags: 
+    - CSS
+    - Grid
+categories:
+    - CSS
 ---
 
 > 原文地址[最强大的 CSS 布局 —— Grid 布局 - 掘金](https://juejin.cn/post/6854573220306255880)

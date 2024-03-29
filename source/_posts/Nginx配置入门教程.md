@@ -1,8 +1,8 @@
 ---
 title: Nginx配置入门教程
 date: 2024-03-08 08:36:30
-tags: nginx
-categories: nginx
+tags: Nginx
+categories: Nginx
 ---
 
 [nginx 入门教程](https://xuexb.github.io/learn-nginx/guide/)

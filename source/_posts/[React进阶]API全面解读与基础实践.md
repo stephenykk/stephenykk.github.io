@@ -1,8 +1,8 @@
 ---
 title: "[React进阶]API全面解读与基础实践"
 date: 2024-02-28 12:39:13
-tags: react
-category: react
+tags: React
+category: React
 ---
 
 > 原文地址[「React 进阶」 React 全部 api 解读+基础实践大全(夯实基础 2 万字总结) - 掘金](https://juejin.cn/post/6950063294270930980?searchId=2024022812341241274B98744BCB602F1E)

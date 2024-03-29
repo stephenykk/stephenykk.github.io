@@ -2,9 +2,11 @@
 title: Nextjs项目最佳实践
 date: 2024-03-12 12:51:55
 tags:
-    - nextjs
-    - ssr
-categories: react
+    - Nextjs
+    - SSR
+categories: 
+    - React
+    - Nextjs
 ---
 
 > 原文地址[Next.js 项目最佳实践 - 掘金](https://juejin.cn/post/7194410416879960125?searchId=20240312124456B7DCE12D607055338A66)

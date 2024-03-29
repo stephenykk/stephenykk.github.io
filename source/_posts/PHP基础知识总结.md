@@ -1,8 +1,8 @@
 ---
 title: PHP基础知识总结
 date: 2024-03-01 08:56:45
-tags: php
-category: php
+tags: PHP
+category: PHP
 ---
 
 -   PHP 代表 PHP: Hypertext Preprocessor

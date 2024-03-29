@@ -1,8 +1,8 @@
 ---
 title: 十分钟学会WebSocket
 date: 2024-03-12 23:13:00
-tags: websocket
-categories: websocket
+tags: Websocket
+categories: Websocket
 ---
 
 > 原文地址[十分钟学会 WebSocket - 掘金](https://juejin.cn/post/7317463986014453797)

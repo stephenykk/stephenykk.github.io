@@ -2,9 +2,10 @@
 title: Nginx和PHP的配置
 date: 2024-03-01 09:07:39
 tags: 
-    - php
-    - nginx
-category: nginx
+    - PHP
+    - Nginx
+category: 
+    - Nginx
 ---
 
 

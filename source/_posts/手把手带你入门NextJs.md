@@ -2,9 +2,11 @@
 title: 手把手带你入门NextJs
 date: 2024-03-12 12:48:09
 tags: 
-    - nextjs
-    - ssr
-categories: react
+    - Nextjs
+    - SSR
+categories: 
+  - React
+  - Nextjs
 ---
 
 
