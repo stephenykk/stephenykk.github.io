@@ -38,12 +38,9 @@ dependencies:
   hexo-server:
     specifier: ^3.0.0
     version: 3.0.0
-  hexo-theme-stellar:
-    specifier: ^1.27.0
-    version: 1.27.0
   hexo-util:
-    specifier: ^3.2.0
-    version: 3.2.0
+    specifier: ^3.3.0
+    version: 3.3.0
 
 devDependencies:
   hexo-deployer-git:
@@ -1498,7 +1495,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       dompurify: 3.0.9
-      hexo-util: 3.2.0
+      hexo-util: 3.3.0
       jsdom: 20.0.3
       marked: 4.3.0
     transitivePeerDependencies:
@@ -1534,15 +1531,6 @@ packages:
       - supports-color
     dev: false
 
-  /hexo-theme-stellar@1.27.0:
-    resolution: {integrity: sha512-Bq2la67rA4KDYGIuKFG8mjp2VCXKFDJG4lItJQJfaqLZbB416Ml3cmK1kAQj/ikxokXCOeaYpJo0uCqUpyi/zA==}
-    dependencies:
-      hexo-renderer-ejs: 2.0.0
-      hexo-renderer-stylus: 3.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /hexo-util@2.7.0:
     resolution: {integrity: sha512-hQM3h34nhDg0bSe/Tg1lnpODvNkz7h2u0+lZGzlKL0Oufp+5KCAEUX9wal7/xC7ax3/cwEn8IuoU75kNpZLpJQ==}
     engines: {node: '>=12.4.0'}
@@ -1556,8 +1544,8 @@ packages:
       prismjs: 1.29.0
       strip-indent: 3.0.0
 
-  /hexo-util@3.2.0:
-    resolution: {integrity: sha512-iM2eS8P88IUpcgiU2szx584bwhXzjzLLqED6WwDk55wYQZrQh/sni/UJwmoW4pxpgubbISIUPXr4LjwPyJuYzA==}
+  /hexo-util@3.3.0:
+    resolution: {integrity: sha512-YvGngXijE2muEh5L/VI4Fmjqb+/yAkmY+VuyhWVoRwQu1X7bmWodsfYRXX7CUYhi5LqsvH8FAe/yBW1+f6ZX4Q==}
     engines: {node: '>=14'}
     requiresBuild: true
     dependencies:
@@ -1583,7 +1571,7 @@ packages:
       hexo-fs: 4.1.1
       hexo-i18n: 2.0.0
       hexo-log: 4.1.0
-      hexo-util: 3.2.0
+      hexo-util: 3.3.0
       js-yaml: 4.1.0
       js-yaml-js-types: 1.0.1(js-yaml@4.1.0)
       micromatch: 4.0.5
