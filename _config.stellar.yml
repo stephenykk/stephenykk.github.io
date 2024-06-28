@@ -1,7 +1,7 @@
 article:
     type: tech # tech | story
-    auto_cover: true
-    auto_banner: true
+    auto_cover: false
+    auto_banner: false
 
     share: [wechat, weibo, email, link]
 
