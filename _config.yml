@@ -3,15 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 云淡风轻的天空
-subtitle: ""
+title: JKK随笔
+avatar: https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4
+subtitle: "搬砖工 | 但行好事 莫问前程"
 description: "development and life"
 keywords:
     - frontend
     - IT blog
 author: stephenykk
 language:
-    - zh_CN
+    - zh-CN
     - en
 timezone: ""
 
