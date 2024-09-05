@@ -14,10 +14,10 @@
                     <div><button class="op-btn" v-on:click="rmWord(index)">删除</button></div>
                 </li>
             </ul>
-            <div class="append-line flex-row mt-50">
-                <input class="flex1" type="text" @keyup.enter="addWord" placeholder="新文字 回车确认添加" v-model="newWord">
-                <button v-on:click="addWord" class="op-btn">添加</button>
-                <button v-on:click="rmAllWords" class="op-btn danger">全部删除</button>
+            <div class="append-line flex-row mt-50 flex-wrap">
+                <input class="flex1" type="text" @keyup.enter="addWord" placeholder="单个字 回车确认" v-model="newWord">
+                <button v-on:click="addWord" class="op-btn flex0">添加</button>
+                <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
 
             </div>
         </div>
@@ -37,7 +37,7 @@
         methods: {
             addWord() {
                 if (this.newWord.trim()) {
-                    const word = this.newWord.trim()
+                    const word = this.newWord.trim()[0]
                     const exists = this.wordList.find(item => item.word === word)
                     if (exists) {
                         alert('该文字已存在')

@@ -2,6 +2,7 @@ function isJsonLike(val) {
     const re = /^\[.*\]$|^\{.*\}$/
     return re.test(val)
 }
+console.log('===========kk')
 
 function isPlainObj(val) {
     return Object.prototype.toString.call(val) === '[object Object]'

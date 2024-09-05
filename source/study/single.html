@@ -3,20 +3,26 @@
 <script src="./study.js"></script>
 
 <div class="app" id="app">
-    <h1 class="mb-50">单字认读</h1>
+    <h1 style="margin-bottom: 0">单字认读</h1>
+    <div class="font-bar mb-20 ta-r">
+        <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
+        <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
+        <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
+        <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
+    </div>
     <section class="app-main single-container" @click="showNext">
         <div class="single m-auto">
             <ul class="card-list flex-row justify-center pos-r">
                 <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
                     <transition name="fade">
                         <div class="card-item" v-show="index === activeIndex">
-                            <div class="card-con flex1">${ item.word }</div>
+                            <div :class="'card-con flex1 font' + fontType">${ item.word }</div>
                         </div>
                     </transition>
                     
                 </li>
             </ul>
-            <p class="mt-50 ta-c">
+            <p class="mt-30 ta-c">
                 <i class="num f30">${activeIndex + 1}</i>
 
             </p>
@@ -31,6 +37,7 @@
         data: {
             activeIndex: 0,
             showCard: true,
+            fontType: 2,
             newWord: "",
             wordList: LCache.get("words") || [],
         },
