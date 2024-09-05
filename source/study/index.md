@@ -108,7 +108,6 @@ category: student
     });
 </script>
 
-<script>
     new Vue({
         el: '#app',
         data: {
