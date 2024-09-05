@@ -29,6 +29,23 @@ category: student
         align-items: center;
         justify-content: center;
     }
+
+    .admin .word-item {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .flex1 {
+        flex: 1;
+    }
+
+    .flex0 {
+        flex: 0;
+    }
+
+    ul, li {
+        list-style: none;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
@@ -43,9 +60,10 @@ category: student
     <section class="admin-container">
         <div class="admin">
             <ul>
-               <li v-for="(item, index) in wordList" :key="item">
-               <div>{{ index + 1 }}</div>
-               <div>{{ item }}</div>
+               <li v-for="(item, index) in wordList" :key="item" class="word-item">
+               <div class="sn flex0">{{ index + 1 }}</div>
+               <div class="word flex1">{{ item }}</div>
+               <div><button @click="rmWord(index)">删除</button></div>
                </li>
             </ul>
             <input type="text" v-model="newWord">
@@ -53,7 +71,7 @@ category: student
         </div>
     </section>
     <section class="card-container">
-        <div class="card" v-for="item in words" :key="item">
+        <div class="card" v-for="item in wordList" :key="item">
             <div class="card-content">
                 <div class="card-title">{{ item }}</div>
         </div>
@@ -81,6 +99,34 @@ category: student
             toggleAdmin() {
                 this.showAdmin = !this.showAdmin;
                 this.showCard = !this.showCard;
+            },
+            addWord() {
+                if (this.newWord.trim()) {
+                    this.wordList.push(this.newWord);
+                    this.newWord = '';
+                }
+            },
+            rmWord(index) {
+                this.wordList.splice(index, 1);
+            }
+        }
+    });
+</script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            showAdmin: false,
+            showCard: true,
+            newWord: '',
+            wordList: ['天', '下']
+        },
+        methods: {
+            toggleAdmin() {
+                this.showAdmin = !this.showAdmin;
+                this.showCard = !this.showCard;
+
             }
         }
     });
