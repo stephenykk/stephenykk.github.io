@@ -3,7 +3,10 @@ myblog
 
 ## post blog
 ```bash
+# hexo n [layout] "title"  # layout = post/page/draft
+
 hexo n "blog title"
+
 
 # open the blog md file, and input/paste content
 
