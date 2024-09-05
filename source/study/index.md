@@ -61,19 +61,13 @@ category: student
         <div class="admin">
             <ul>
                <li v-for="(item, index) in wordList" :key="item" class="word-item">
-               <div class="sn flex0">{{ index + 1 }}</div>
-               <div class="word flex1">{{ item }}</div>
+               <div class="sn flex0">${ index + 1 }</div>
+               <div class="word flex1">${ item }</div>
                <div><button @click="rmWord(index)">删除</button></div>
                </li>
             </ul>
             <input type="text" v-model="newWord">
             <button @click="addWord">添加</button>
-        </div>
-    </section>
-    <section class="card-container">
-        <div class="card" v-for="item in wordList" :key="item">
-            <div class="card-content">
-                <div class="card-title">{{ item }}</div>
         </div>
     </section>
     <section class="card-container">
@@ -89,6 +83,7 @@ category: student
 <script>
     new Vue({
         el: '#app',
+        delimiters: ['${', '}'],
         data: {
             showAdmin: false,
             showCard: true,
