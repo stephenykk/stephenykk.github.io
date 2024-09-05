@@ -6,9 +6,6 @@ li {
     padding: 0;
 }
 
-body {
-    padding: 20px;
-}
 body,
 h1,
 h2,
@@ -63,13 +60,20 @@ input:focus {
     flex-direction: column;
     gap: 10px;
 }
-
 .flex1 {
-    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
-.flex0 {
-    flex: 0;
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex0    {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
 .m-auto {
@@ -78,6 +82,10 @@ input:focus {
 
 .ta-c {
     text-align: center;
+}
+
+.ta-r {
+    text-align: right;
 }
 
 .mt-10 {
@@ -154,6 +162,10 @@ input:focus {
     flex-direction: column;
 }
 
+.font-bar button {
+    margin-right: 10px;
+    border-radius: 10px;
+}
 .app-main {
     flex: 1;
     overflow: hidden;
@@ -186,7 +198,7 @@ h1 {
     border-color: #eee;
 }
 
-.op-btn.primary {
+.op-btn.primary, button.primary {
     background: #0088ff;
     color: #fff;
     border-color: #0088ff;
@@ -229,18 +241,73 @@ h1 {
     content: ".";
 }
 
+.admin .append-line input {
+    width: 180px;
+}
+
 /* ------------------ single -------------------> */
 .card-list {
-    min-height: 500px;
+    min-height: 460px;
 }
+
+@font-face {
+    font-family: 'AaWDXDNFAN (Non-Commercial Use)';
+    src: url('AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
+        url('AaWDXDNFANNon-CommercialUse.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'zihun104hao-shuxinti';
+    src: url('zihun104hao-shuxinti.woff2') format('woff2'),
+        url('zihun104hao-shuxinti.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'zihun81hao-qingfengti';
+    src: url('zihun81hao-qingfengti.woff2') format('woff2'),
+        url('zihun81hao-qingfengti.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AaHuayuziluolanyongheng';
+    src: url('AaHuayuziluolanyongheng.woff2') format('woff2'),
+        url('AaHuayuziluolanyongheng.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.card-con.font1 {
+    font-family: 'AaWDXDNFAN (Non-Commercial Use)', "cursive", fangsong, serif;
+}
+
+.card-con.font2 {
+    font-family: 'zihun81hao-qingfengti', "cursive", fangsong, serif;
+}
+
+.card-con.font3 {
+    font-family: 'zihun104hao-shuxinti', "cursive", fangsong, serif;
+}
+
+.card-con.font4 {
+    font-family: 'AaHuayuziluolanyongheng', "cursive", fangsong, serif;
+}
+
 .card-con {
     font-size: 250px;
-    font-family: cursive, fangsong, auto;
     border: 20px solid beige;
-    padding: 50px;
+    padding: 10px;
     background: white;
     border-radius: 30px;
-    margin: 30px;
 }
 .card-item-wrap {
     position: absolute;
