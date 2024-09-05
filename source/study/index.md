@@ -63,11 +63,11 @@ category: student
                <li v-for="(item, index) in wordList" :key="item" class="word-item">
                <div class="sn flex0">${ index + 1 }</div>
                <div class="word flex1">${ item }</div>
-               <div><button @click="rmWord(index)">删除</button></div>
+               <div><button v-on:click="rmWord(index)">删除</button></div>
                </li>
             </ul>
             <input type="text" v-model="newWord">
-            <button @click="addWord">添加</button>
+            <button v-on:click="addWord">添加</button>
         </div>
     </section>
     <section class="card-container">
