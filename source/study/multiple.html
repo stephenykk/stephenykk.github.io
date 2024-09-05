@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="./study.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="./study.js"></script>
+
+<div class="app" id="app">
+    <h1 class="mb-50">单字认读</h1>
+    <section class="app-main single-container" @click="showNext">
+        <div class="single m-auto">
+            <ul class="card-list flex-row justify-center pos-r">
+                <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
+                    <transition name="fade">
+                        <div class="card-item" v-show="index === activeIndex">
+                            <div class="card-con flex1">${ item.word }</div>
+                        </div>
+                    </transition>
+                    
+                </li>
+            </ul>
+            <p class="mt-50 ta-c">
+                <i class="num f30">${activeIndex + 1}</i>
+
+            </p>
+        </div>
+    </section>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        delimiters: ["${", "}"],
+        data: {
+            activeIndex: 0,
+            showCard: true,
+            newWord: "",
+            wordList: LCache.get("words") || [],
+        },
+        methods: {
+            showNext() {
+                if (this.activeIndex < this.wordList.length - 1) {
+                    this.activeIndex++;
+                } else {
+                    this.activeIndex = 0;
+                }
+            },
+            addWord() {
+                if (this.newWord.trim()) {
+                    const today = getTodayStr();
+                    const word = this.newWord.trim();
+                    this.wordList.push({ date: today, word });
+                    this.newWord = "";
+
+                    LCache.set("words", this.wordList);
+                }
+            },
+        },
+    });
+</script>
