@@ -10,51 +10,17 @@ category: student
 
 # 一起学认字
 
-<style>
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .card {
-        width: 200px;
-        height: 300px;
-        background-color: #f0f0f0;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .admin .word-item {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .flex1 {
-        flex: 1;
-    }
-
-    .flex0 {
-        flex: 0;
-    }
-
-    ul, li {
-        list-style: none;
-    }
-</style>
+<link rel="stylesheet" href="./study.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
 <div class="app" id="app">
+    <a href="./singleWord.html">single world</a>
+    <a href="./multipleWorld.html">multiple world</a>
     <section class="actions-container">
         <div class="actions">
-            <button>管理文字表</button>
-            <button>单字练习</button>
-            <button>多字练习</button>
+            <button class="action-btn">管理文字表</button>
+            <button class="action-btn">单字练习</button>
+            <button class="action-btn">多字练习</button>
         </div>
     </section>
     <section class="admin-container">
