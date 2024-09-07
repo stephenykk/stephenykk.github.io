@@ -2,7 +2,6 @@ function isJsonLike(val) {
     const re = /^\[.*\]$|^\{.*\}$/
     return re.test(val)
 }
-console.log('===========kk')
 
 function isPlainObj(val) {
     return Object.prototype.toString.call(val) === '[object Object]'
@@ -36,6 +35,10 @@ class LStorage {
         let value = this.storage.getItem(key);
         if (isJsonLike(value)) {
             value = JSON.parse(value);
+        }
+
+        if (/^[0-9\.]+$/.test(value)) {
+            value = value * 1
         }
 
         return value;

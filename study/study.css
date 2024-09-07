@@ -136,21 +136,31 @@ input:focus {
     position: relative;
 }
 
-.fade-enter-active {
+.lfade-enter-active, .rfade-enter-active {
     transition: all 0.5s linear;
 }
 
-.fade-enter {
+.lfade-enter {
     opacity: 0;
     transform: translateX(500px) scale(0.3);
 }
 
-.fade-leave-active {
+.lfade-leave-active {
     transition: all 0.5s linear;
     transform: translateX(-500px) scale(0.3);
 }
 
-.fade-leave-to {
+.rfade-enter {
+    opacity: 0;
+    transform: translateX(-500px) scale(0.3);
+}
+
+.rfade-leave-active {
+    transition: all 0.5s linear;
+    transform: translateX(500px) scale(0.3);
+}
+
+.lfade-leave-to, .rfade-leave-to {
     opacity: 0;
 }
 
@@ -160,6 +170,40 @@ input:focus {
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+@font-face {
+    font-family: 'HFSimpleLife';
+    src: url('HFSimpleLife.woff2') format('woff2'),
+        url('HFSimpleLife.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.app .prev, .app .next {
+    /* font-family: serif, HFSimpleLife, monospace; */
+    font-family: HFSimpleLife, monospace;
+    font-style: normal;
+    color: #999;
+    background: none;
+    font-size: 50px;
+    position: absolute;
+    padding: 20px 10px;
+    top: 50%;
+    transform: translateY(-50%) scaleY(2.5);
+    left: 0;
+    cursor: pointer;
+    z-index: 1000;
+}
+.app .prev:hover,
+.app .next:hover{
+    color: #333;
+    /* background: #c1e0f6; */
+}
+.app .next {
+    left: auto;
+    right: 0;
 }
 
 .font-bar button {
@@ -251,6 +295,15 @@ h1 {
 }
 
 @font-face {
+    font-family: 'Aa';
+    src: url('AaKaishupinyin.woff2') format('woff2'),
+        url('AaKaishupinyin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'AaWDXDNFAN (Non-Commercial Use)';
     src: url('AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
         url('AaWDXDNFANNon-CommercialUse.woff') format('woff');
@@ -302,7 +355,13 @@ h1 {
     font-family: 'AaHuayuziluolanyongheng', "cursive", fangsong, serif;
 }
 
+.card-con.font5 {
+    font-family: 'Aa', "cursive", fangsong, serif;
+}
+
 .card-con {
+    letter-spacing: -15px;
+    text-align: center;
     font-size: 250px;
     border: 20px solid beige;
     padding: 10px;
@@ -312,8 +371,14 @@ h1 {
 .card-item-wrap {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    /* margin-left: -170px; */
-    top: 0;
+    transform: translate(-50%, -50%);
+    top: 50%;
     
+}
+
+
+/* -------------- multiple ---------------> */
+
+.multiple-container .card-item-wrap {
+    width: 90%;
 }
