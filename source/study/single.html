@@ -9,12 +9,15 @@
         <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
         <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
         <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
+        <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
     </div>
-    <section class="app-main single-container" @click="showNext">
+    <section class="app-main single-container">
+        <button class="prev" @click="showPrev">&lt;</button>
+        <button class="next" @click="showNext">&gt;</button>
         <div class="single m-auto">
             <ul class="card-list flex-row justify-center pos-r">
                 <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
-                    <transition name="fade">
+                    <transition :name="isNext ? 'lfade' : 'rfade'">
                         <div class="card-item" v-show="index === activeIndex">
                             <div :class="'card-con flex1 font' + fontType">${ item.word }</div>
                         </div>
@@ -36,17 +39,32 @@
         delimiters: ["${", "}"],
         data: {
             activeIndex: 0,
+            isNext: true,
             showCard: true,
-            fontType: 2,
+            fontType: LCache.get('fontType') || 2,
             newWord: "",
             wordList: LCache.get("words") || [],
         },
+        watch: {
+            fontType() {
+                LCache.set('fontType', this.fontType)
+            }
+        },
         methods: {
             showNext() {
+                this.isNext = true
                 if (this.activeIndex < this.wordList.length - 1) {
                     this.activeIndex++;
                 } else {
                     this.activeIndex = 0;
+                }
+            },
+            showPrev() {
+                this.isNext = false
+                if (this.activeIndex > 0) {
+                    this.activeIndex--;
+                } else {
+                    this.activeIndex = this.wordList.length - 1;
                 }
             },
             addWord() {
@@ -60,5 +78,12 @@
                 }
             },
         },
+        
+        mounted() {
+            if (!this.wordList.length) {
+                alert('请先增加文字')
+                location.href = '/study'
+            }
+        }
     });
 </script>

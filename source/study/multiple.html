@@ -2,21 +2,35 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
 
+<!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script> -->
+
+<script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script>
+
 <div class="app" id="app">
-    <h1 class="mb-50">单字认读</h1>
-    <section class="app-main single-container" @click="showNext">
+    <h1 style="margin-bottom: 0">词语认读</h1>
+    <div class="font-bar mb-20 ta-r">
+        <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
+        <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
+        <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
+        <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
+        <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
+    </div>
+    <section class="app-main multiple-container">
+        <button class="prev" @click="showPrev">&lt;</button>
+        <button class="next" @click="showNext">&gt;</button>
         <div class="single m-auto">
             <ul class="card-list flex-row justify-center pos-r">
                 <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
-                    <transition name="fade">
+                    <transition :name="isNext ? 'lfade' : 'rfade'">
                         <div class="card-item" v-show="index === activeIndex">
-                            <div class="card-con flex1">${ item.word }</div>
+                            <div :class="'card-con flex1 font' + fontType" :style="fontStyle">${ item.word }</div>
                         </div>
                     </transition>
                     
                 </li>
             </ul>
-            <p class="mt-50 ta-c">
+            <p class="mt-30 ta-c">
                 <i class="num f30">${activeIndex + 1}</i>
 
             </p>
@@ -30,16 +44,66 @@
         delimiters: ["${", "}"],
         data: {
             activeIndex: 0,
+            isMobile: window.innerWidth < 800,
+            isNext: true,
             showCard: true,
+            fontType: LCache.get('fontType') || 2,
             newWord: "",
-            wordList: LCache.get("words") || [],
+            wordList: LCache.get("mwords") || [],
+        },
+        
+        watch: {
+            fontType() {
+                LCache.set('fontType', this.fontType)
+            }
+        },
+        computed: {
+            fontStyle: function() {
+                // word: {date, word}
+                const word = this.wordList[this.activeIndex]
+                if (!word) {
+                    return {fontSize: '250px'}
+                }
+                const sizeMap = {
+                    1: 260,
+                    2: 220,
+                    3: 150,
+                    4: 120,
+                    5: 100,
+                    6: 90,
+                    7: 80,
+                }
+
+                const mobileSizeMap = {
+                    1: 180,
+                    2: 120,
+                    3: 90,
+                    4: 120,
+                    5: 60,
+                    6: 90,
+                    7: 90,
+                }
+
+                const map = this.isMobile ? mobileSizeMap : sizeMap
+                const size = map[word.word.length] || 50
+                return { fontSize: size + 'px'}
+            }
         },
         methods: {
             showNext() {
+                this.isNext = true
                 if (this.activeIndex < this.wordList.length - 1) {
                     this.activeIndex++;
                 } else {
                     this.activeIndex = 0;
+                }
+            },
+            showPrev() {
+                this.isNext = false
+                if (this.activeIndex > 0) {
+                    this.activeIndex--;
+                } else {
+                    this.activeIndex = this.wordList.length - 1;
                 }
             },
             addWord() {
@@ -49,9 +113,16 @@
                     this.wordList.push({ date: today, word });
                     this.newWord = "";
 
-                    LCache.set("words", this.wordList);
+                    LCache.set("mwords", this.wordList);
                 }
             },
         },
+        mounted() {
+            // alert(window.innerWidth + ', ' + document.documentElement.clientWidth)
+            if (!this.wordList.length) {
+                alert('请先增加词语')
+                location.href = '/study'
+            }
+        }
     });
 </script>
