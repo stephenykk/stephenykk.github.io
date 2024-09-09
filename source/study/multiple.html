@@ -17,6 +17,9 @@
         <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
         <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
         <label>
+            title: <input  style="width: 150px" v-model="title" > <button class="filter-btn" @click="filterByTitle">过滤</button>
+        </label>
+        <label>
             <input type="checkbox" v-model="isRandom" @change="changeRandom"></checkbox>
             <span>是否随机</span>
         </label>
@@ -40,7 +43,7 @@
                 </li>
             </ul>
             <p class="mt-30 ta-c">
-                <i class="num f30">${activeIndex + 1}</i>
+                <i class="num f30">${activeIndex + 1} / ${wordList.length}</i>
 
             </p>
         </div>
@@ -50,7 +53,8 @@
 <script>
     const searchParams = new URLSearchParams(location.search)
     const isTest = ![null, '0', 'false'].includes(searchParams.get('test'))
-
+    const cacheWordTitle = LCache.get('mwordTitle') || '';
+    const cacheWordList = LCache.get('mwords') || [];
     window.myapp = new Vue({
         el: "#app",
         delimiters: ["${", "}"],
@@ -64,13 +68,14 @@
             showCard: true,
             fontType: isTest ? 5 : LCache.get('fontType') || 2,
             newWord: "",
-            wordList: LCache.get("mwords") || [],
+            wordList: cacheWordTitle ? cacheWordList.filter(item => item.title === cacheWordTitle) : cacheWordList,
+            title: cacheWordTitle,
         },
         
         watch: {
             fontType() {
                 LCache.set('fontType', this.fontType)
-            }
+            },
         },
         computed: {
             fontStyle: function() {
@@ -105,6 +110,16 @@
             }
         },
         methods: {
+            
+            filterByTitle() {
+                const ttl = this.title.trim()
+                LCache.set('mwordTitle', ttl);
+                if (!ttl) {
+                    this.wordList = this.orderedWordList.slice()
+                } else {
+                    this.wordList = this.wordList.filter(item => item.title === ttl);
+                }
+            },
             changeRandom(event) {
                 if (this.isRandom) {
                     this.wordList = getShuffleList(this.wordList)
@@ -149,7 +164,8 @@
                 alert('请先增加词语')
                 location.href = '/study'
             } else {
-                this.orderedWordList = this.wordList.slice()
+                this.orderedWordList = cacheWordList.slice()
+                console.log("🚀 ~ mounted ~ cacheWordList:", cacheWordList)
             }
         }
     });

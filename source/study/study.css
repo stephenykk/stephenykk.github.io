@@ -441,7 +441,19 @@ h1 {
     width: 90%;
 }
 
+.filter-btn {
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: #0088ff;
+    color: white;
+}
+
+.testing .card-item .chr::after {
+    display: block;
+}
+
 .card-item .chr::after {
+    display: none;
     content: "";
     width: 120%;
     height: 70%;
