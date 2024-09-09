@@ -6,6 +6,9 @@
     <section class="admin-container">
         <h1 class="ta-c mb-50">我的词语表</h1>
         <div class="admin m-auto">
+            <div class="ta-r">
+                <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
+            </div>
             <ul class="word-list">
                 <li v-for="(item, index) in wordList" :key="index + item.word" class="word-item flex-row">
                     <div class="sn flex0">${ index + 1 }</div>

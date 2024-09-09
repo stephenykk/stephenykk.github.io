@@ -10,38 +10,52 @@
 
 <div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
     <h1 style="margin-bottom: 0">词语认读</h1>
-    <div class="font-bar mb-20 ta-r">
+    <div class="font-bar mt-10 mb-10" :class="isMobile ? 'ta-l' : 'ta-r'">
+        
         <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
         <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
         <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
         <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
         <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
-        <label>
-            title: <input  style="width: 150px" v-model="title" > <button class="filter-btn" @click="filterByTitle">过滤</button>
-        </label>
-        <label>
-            <input type="checkbox" v-model="isRandom" @change="changeRandom"></checkbox>
-            <span>是否随机</span>
-        </label>
+        <div class="option-bar dis-ib" :class="{'mt-10': isMobile}">
+            <!-- <label>
+                title: <input  class="f13" style="width: 150px" v-model="title" > <button class="filter-btn" @click="filterByTitle">过滤</button>
+            </label> -->
+            <label>
+                <span>title:</span> 
+                <select  class="f13 title-select" v-model="title" >
+                    <option value="">全部</option>
+                    <option v-for="(ttl, i) in titleList" :value="ttl" :key="i">${ttl}</option>
+                </select>
+                <button class="filter-btn" @click="filterByTitle">过滤</button>
+            </label>
+            <label>
+                <input type="checkbox" class="va-m" v-model="isRandom" @change="changeRandom"></checkbox>
+                <span class="f13 va-m">是否随机</span>
+            </label>
+        </div>
     </div>
     <section class="app-main multiple-container" :class="{'testing': isTestMode}">
-        <button class="prev" @click="showPrev">&lt;</button>
-        <button class="next" @click="showNext">&gt;</button>
         <div class="single m-auto">
-            <ul class="card-list flex-row justify-center pos-r">
-                <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
-                    <transition :name="isNext ? 'lfade' : 'rfade'">
-                        <div class="card-item" v-show="index === activeIndex" :class="{'view-answer': index === activeIndex && isViewAnswer}" @click="handleClickCard(index)">
-                            <div :class="'card-con flex1 font' + fontType" :style="fontStyle">
-                                <span class="chr pos-r dis-ib" v-for="(chr, i) in item.word.split('')" :key="i">
-                                    ${chr}
-                                </span>
+            <h5 class="f20 blue ta-c" :style="isMobile ? '' : 'margin: 0px;'">${wordList[activeIndex]?.title || ''}</h5>
+            <div class="card-list-wrap pos-r">
+                <button class="prev" @click="showPrev">&lt;</button>
+                <button class="next" @click="showNext">&gt;</button>
+                <ul class="card-list flex-row justify-center pos-r">
+                    <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
+                        <transition :name="isNext ? 'lfade' : 'rfade'">
+                            <div class="card-item" v-show="index === activeIndex" :class="{'view-answer': index === activeIndex && isViewAnswer}" @click="handleClickCard(index)">
+                                <div :class="'card-con flex1 font' + fontType" :style="fontStyle">
+                                    <span class="chr pos-r dis-ib" v-for="(chr, i) in item.word.split('')" :key="i">
+                                        ${chr}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </transition>
-                    
-                </li>
-            </ul>
+                        </transition>
+                        
+                    </li>
+                </ul>
+            </div>
             <p class="mt-30 ta-c">
                 <i class="num f30">${activeIndex + 1} / ${wordList.length}</i>
 
@@ -55,6 +69,8 @@
     const isTest = ![null, '0', 'false'].includes(searchParams.get('test'))
     const cacheWordTitle = LCache.get('mwordTitle') || '';
     const cacheWordList = LCache.get('mwords') || [];
+    const titleList = [...new Set(cacheWordList.map(item => item.title).filter(v => v && !!v.trim()))]
+
     window.myapp = new Vue({
         el: "#app",
         delimiters: ["${", "}"],
@@ -70,6 +86,7 @@
             newWord: "",
             wordList: cacheWordTitle ? cacheWordList.filter(item => item.title === cacheWordTitle) : cacheWordList,
             title: cacheWordTitle,
+            titleList,
         },
         
         watch: {
@@ -113,11 +130,12 @@
             
             filterByTitle() {
                 const ttl = this.title.trim()
+                console.log("🚀 ~ filterByTitle ~ ttl:", ttl)
                 LCache.set('mwordTitle', ttl);
                 if (!ttl) {
                     this.wordList = this.orderedWordList.slice()
                 } else {
-                    this.wordList = this.wordList.filter(item => item.title === ttl);
+                    this.wordList = this.orderedWordList.filter(item => item.title === ttl);
                 }
             },
             changeRandom(event) {
@@ -147,16 +165,6 @@
                     this.activeIndex = this.wordList.length - 1;
                 }
             },
-            addWord() {
-                if (this.newWord.trim()) {
-                    const today = getTodayStr();
-                    const word = this.newWord.trim();
-                    this.wordList.push({ date: today, word });
-                    this.newWord = "";
-
-                    LCache.set("mwords", this.wordList);
-                }
-            },
         },
         mounted() {
             // alert(window.innerWidth + ', ' + document.documentElement.clientWidth)
@@ -165,7 +173,6 @@
                 location.href = '/study'
             } else {
                 this.orderedWordList = cacheWordList.slice()
-                console.log("🚀 ~ mounted ~ cacheWordList:", cacheWordList)
             }
         }
     });
