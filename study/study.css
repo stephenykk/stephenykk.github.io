@@ -80,10 +80,13 @@ footer.page-footer {
 }
 
 .grey {
-    color: #888;
+    color: #888!important;
+}
+.blue {
+    color: #0088ff!important;
 }
 .green {
-    color: darkgreen;
+    color: darkgreen!important;
 }
 .items-center {
     align-items: center;
@@ -132,6 +135,10 @@ footer.page-footer {
     text-align: right;
 }
 
+.ta-l {
+    text-align: left;
+}
+
 .mt-10 {
     margin-top: 10px;
 }
@@ -163,7 +170,15 @@ footer.page-footer {
 .mb-50 {
     margin-bottom: 50px;
 }
-
+.f12 {
+    font-size: 12px;
+}
+.f13 {
+    font-size: 13px;
+}
+.f15 {
+    font-size: 15px;
+}
 .f20 {
     font-size: 20px;
 }
@@ -211,10 +226,14 @@ footer.page-footer {
 /* ----------- common ---------------> */
 
 #app {
-    margin-bottom: 0;
+    margin: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+#app > h1 {
+    margin: 0;
 }
 
 @font-face {
@@ -237,7 +256,7 @@ footer.page-footer {
     padding: 20px 10px;
     top: 50%;
     transform: translateY(-50%) scaleY(2.5);
-    left: 0;
+    left: -30px;
     cursor: pointer;
     z-index: 1000;
 }
@@ -248,16 +267,16 @@ footer.page-footer {
 }
 .app .next {
     left: auto;
-    right: 0;
+    right: -30px;
 }
 
 .font-bar button {
-    margin-right: 10px;
+    margin-right: 5px;
     border-radius: 10px;
 }
 .app-main {
     flex: 1;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 h1 {
@@ -441,8 +460,13 @@ h1 {
     width: 90%;
 }
 
+.title-select {
+    padding: 3px 6px;
+    border-radius: 5px;
+    border-color: #0088ff;
+}
 .filter-btn {
-    padding: 6px 12px;
+    padding: 3px 10px;
     border-radius: 5px;
     background: #0088ff;
     color: white;
