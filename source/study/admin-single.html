@@ -11,6 +11,7 @@
                     <div class="sn flex0">${ index + 1 }</div>
                     <div class="word flex1">${ item.word }</div>
                     <div class="word flex1">${ item.date }</div>
+                    <div class="word flex1">${ item.title || '' }</div>
                     <div><button class="op-btn" v-on:click="rmWord(index)">删除</button></div>
                 </li>
             </ul>
@@ -19,6 +20,13 @@
                 <button v-on:click="addWord" class="op-btn flex0">添加</button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
 
+            </div>
+
+            <div class="upload-line flex-row pos-r mt-50 flex-wrap">
+                <p class="upload-tips grey">可上传字词文件，格式: 每行一个字/词, 空白行和#开头的行自动忽略</p>
+                <input class="flex1 file-input" type="file" @change="addWord" />
+                <input class="flex1" :value="uploadFile" />
+                <button class="upload-btn">上传</button>
             </div>
         </div>
     </section>

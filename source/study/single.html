@@ -2,7 +2,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
 
-<div class="app" id="app">
+<div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
     <h1 style="margin-bottom: 0">单字认读</h1>
     <div class="font-bar mb-20 ta-r">
         <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
@@ -40,6 +40,7 @@
         data: {
             activeIndex: 0,
             isNext: true,
+            isMobile: window.innerWidth < 800,
             showCard: true,
             fontType: LCache.get('fontType') || 2,
             newWord: "",

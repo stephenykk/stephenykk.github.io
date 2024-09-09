@@ -39,8 +39,31 @@ input:focus {
     border: 1px solid #1e81ce;
 }
 
+/* --------------------- overwrite ------------> */
+
+.l_body {
+    grid-template-columns: 1fr;
+}
+
+#comments, .l_body .l_left, .l_right {
+    display: none;
+}
+
+article.content {
+    padding-bottom: 0;
+}
+footer.page-footer {
+    margin: 0 20px;
+}
+
 /* ---------------- utils ----------------> */
 
+.grey {
+    color: #888;
+}
+.green {
+    color: darkgreen;
+}
 .items-center {
     align-items: center;
 }
@@ -166,7 +189,8 @@ input:focus {
 
 /* ----------- common ---------------> */
 
-.app {
+#app {
+    margin-bottom: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -361,12 +385,16 @@ h1 {
 
 .card-con {
     letter-spacing: -15px;
+    line-height: 1.2;
     text-align: center;
-    font-size: 250px;
+    font-size: 330px;
     border: 20px solid beige;
     padding: 10px;
     background: white;
     border-radius: 30px;
+}
+.mobile .card-con {
+    font-size: 250px;
 }
 .card-item-wrap {
     position: absolute;

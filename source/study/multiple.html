@@ -2,12 +2,14 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
 
+<!-- eruda debug -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script> -->
 
-<script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script>
+<!-- weinre debug -->
+<!-- <script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script> -->
 
-<div class="app" id="app">
+<div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
     <h1 style="margin-bottom: 0">词语认读</h1>
     <div class="font-bar mb-20 ta-r">
         <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
@@ -65,13 +67,13 @@
                     return {fontSize: '250px'}
                 }
                 const sizeMap = {
-                    1: 260,
-                    2: 220,
-                    3: 150,
-                    4: 120,
-                    5: 100,
-                    6: 90,
-                    7: 80,
+                    1: 330,
+                    2: 330,
+                    3: 330,
+                    4: 250,
+                    5: 200,
+                    6: 160,
+                    7: 130,
                 }
 
                 const mobileSizeMap = {

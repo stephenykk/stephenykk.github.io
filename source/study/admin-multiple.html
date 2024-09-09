@@ -11,6 +11,7 @@
                     <div class="sn flex0">${ index + 1 }</div>
                     <div class="word flex1">${ item.word }</div>
                     <div class="word flex1">${ item.date }</div>
+                    <div class="word flex1">${ item.title || '' }</div>
                     <div><button class="op-btn" v-on:click="rmWord(index)">删除</button></div>
                 </li>   
             </ul>
