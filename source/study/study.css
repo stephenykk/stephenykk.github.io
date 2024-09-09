@@ -1,4 +1,7 @@
 /* ----------------- reset ---------------------> */
+* {
+    box-sizing: border-box;
+}
 ul,
 li {
     list-style: none;
@@ -57,6 +60,24 @@ footer.page-footer {
 }
 
 /* ---------------- utils ----------------> */
+.of-h {
+    overflow: hidden;
+}
+.va-m {
+    vertical-align: middle;
+}
+.pointer {
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+.dis-ib {
+    display: inline-block;
+}
+.dis-i {
+    display: inline;
+}
 
 .grey {
     color: #888;
@@ -261,7 +282,7 @@ h1 {
 }
 
 .action-btn:hover,
-.op-btn:hover {
+.op-btn:hover, .op-btn-wrap:hover .op-btn {
     background: #eee;
     border-color: #eee;
 }
@@ -314,6 +335,15 @@ h1 {
 }
 
 /* ------------------ single -------------------> */
+.file-input {
+    position: absolute;
+    left: -200px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+}
 .card-list {
     min-height: 460px;
 }
@@ -409,4 +439,23 @@ h1 {
 
 .multiple-container .card-item-wrap {
     width: 90%;
+}
+
+.card-item .chr::after {
+    content: "";
+    width: 120%;
+    height: 70%;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+aside {visibility: hidden!important;}
+.card-item.view-answer .chr::after {
+    opacity: 0;
 }

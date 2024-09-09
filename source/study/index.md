@@ -28,6 +28,9 @@ category: student
                 <button class="action-btn flex0">
                     <a href="multiple.html">词语练习</a>
                 </button>
+                <button class="action-btn flex0">
+                    <a href="multiple.html?test=1">词语默写</a>
+                </button>
             </div>
         </div>
     </section>

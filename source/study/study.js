@@ -1,3 +1,36 @@
+function getShuffleList(list) {
+    const cloneList = list.slice()
+    function pickRandomOne(list) {
+        const i = Math.floor(Math.random() * list.length)
+        const item = list.splice(i, 1).pop()
+        return item
+    }
+
+    const retList = []
+    while(cloneList.length) {
+        const item = pickRandomOne(cloneList)
+        retList.push(item)
+    }
+
+    return retList
+
+}
+
+function uniqBy(list, key) {
+    let field = key
+    const valueList = []
+    const retList = []
+
+    list.forEach((val, i) => {
+        const compareValue = typeof key === 'function' ? key(val, i) : key ? val[key] : val
+        if (!valueList.includes(compareValue)) {
+            valueList.push(compareValue)
+            retList.push(val)
+        }
+    })
+    return retList
+}
+
 function isJsonLike(val) {
     const re = /^\[.*\]$|^\{.*\}$/
     return re.test(val)
