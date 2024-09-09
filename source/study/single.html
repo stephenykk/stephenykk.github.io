@@ -10,6 +10,10 @@
         <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
         <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
         <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
+        <label>
+            <input type="checkbox" v-model="isRandom" @change="changeRandom"></checkbox>
+            <span>是否随机</span>
+        </label>
     </div>
     <section class="app-main single-container">
         <button class="prev" @click="showPrev">&lt;</button>
@@ -34,12 +38,13 @@
 </div>
 
 <script>
-    new Vue({
+    window.myapp = new Vue({
         el: "#app",
         delimiters: ["${", "}"],
         data: {
             activeIndex: 0,
             isNext: true,
+            isRandom: false,
             showCard: true,
             fontType: LCache.get('fontType') || 2,
             newWord: "",
@@ -51,6 +56,13 @@
             }
         },
         methods: {
+            changeRandom(event) {
+                if (this.isRandom) {
+                    this.wordList = getShuffleList(this.wordList)
+                } else {
+                    this.wordList = this.orderedWordList;
+                }
+            },
             showNext() {
                 this.isNext = true
                 if (this.activeIndex < this.wordList.length - 1) {
@@ -83,6 +95,8 @@
             if (!this.wordList.length) {
                 alert('请先增加文字')
                 location.href = '/study'
+            }else {
+                this.orderedWordList = this.wordList.slice()
             }
         }
     });

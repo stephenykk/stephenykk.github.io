@@ -5,7 +5,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script> -->
 
-<script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script>
+<!-- <script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script> -->
 
 <div class="app" id="app">
     <h1 style="margin-bottom: 0">词语认读</h1>
@@ -15,16 +15,24 @@
         <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
         <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
         <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
+        <label>
+            <input type="checkbox" v-model="isRandom" @change="changeRandom"></checkbox>
+            <span>是否随机</span>
+        </label>
     </div>
-    <section class="app-main multiple-container">
+    <section class="app-main multiple-container" :class="{'testing': isTestMode}">
         <button class="prev" @click="showPrev">&lt;</button>
         <button class="next" @click="showNext">&gt;</button>
         <div class="single m-auto">
             <ul class="card-list flex-row justify-center pos-r">
                 <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
                     <transition :name="isNext ? 'lfade' : 'rfade'">
-                        <div class="card-item" v-show="index === activeIndex">
-                            <div :class="'card-con flex1 font' + fontType" :style="fontStyle">${ item.word }</div>
+                        <div class="card-item" v-show="index === activeIndex" :class="{'view-answer': index === activeIndex && isViewAnswer}" @click="handleClickCard(index)">
+                            <div :class="'card-con flex1 font' + fontType" :style="fontStyle">
+                                <span class="chr pos-r dis-ib" v-for="(chr, i) in item.word.split('')" :key="i">
+                                    ${chr}
+                                </span>
+                            </div>
                         </div>
                     </transition>
                     
@@ -39,15 +47,21 @@
 </div>
 
 <script>
-    new Vue({
+    const searchParams = new URLSearchParams(location.search)
+    const isTest = ![null, '0', 'false'].includes(searchParams.get('test'))
+
+    window.myapp = new Vue({
         el: "#app",
         delimiters: ["${", "}"],
         data: {
             activeIndex: 0,
             isMobile: window.innerWidth < 800,
             isNext: true,
+            isTestMode: isTest,
+            isViewAnswer: false,
+            isRandom: false,
             showCard: true,
-            fontType: LCache.get('fontType') || 2,
+            fontType: isTest ? 5 : LCache.get('fontType') || 2,
             newWord: "",
             wordList: LCache.get("mwords") || [],
         },
@@ -90,6 +104,17 @@
             }
         },
         methods: {
+            changeRandom(event) {
+                if (this.isRandom) {
+                    this.wordList = getShuffleList(this.wordList)
+                } else {
+                    this.wordList = this.orderedWordList;
+                }
+            },
+            handleClickCard(index) {
+                if (!index === this.activeIndex) return
+                this.isViewAnswer = !this.isViewAnswer
+            },
             showNext() {
                 this.isNext = true
                 if (this.activeIndex < this.wordList.length - 1) {
@@ -122,6 +147,8 @@
             if (!this.wordList.length) {
                 alert('请先增加词语')
                 location.href = '/study'
+            } else {
+                this.orderedWordList = this.wordList.slice()
             }
         }
     });

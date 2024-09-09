@@ -7,7 +7,7 @@
         <h1 class="ta-c mb-50">我的词语表</h1>
         <div class="admin m-auto">
             <ul class="word-list">
-                <li v-for="(item, index) in wordList" :key="item.word" class="word-item flex-row">
+                <li v-for="(item, index) in wordList" :key="index + item.word" class="word-item flex-row">
                     <div class="sn flex0">${ index + 1 }</div>
                     <div class="word flex1">${ item.word }</div>
                     <div class="word flex1">${ item.date }</div>
@@ -18,6 +18,16 @@
                 <input class="flex1" type="text" @keyup.enter="addWord" placeholder="输入新词 回车确认" v-model="newWord">
                 <button v-on:click="addWord" class="op-btn flex0">添加</button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
+            </div>
+            <div class="upload-line mt-20">
+                <div class="upload-tip grey">可上传字/词文件, 每行1个字/词, 空白行或//开头的注释行将被忽略，##开头的为标题行</div>
+                <div class="upload-line-inner flex-row0 flex-wrap pos-r">
+                    <input class="flex1" disabled type="text" :value="upfile" />
+                    <div class="upload-btn-wrap pos-r dis-ib op-btn-wrap va-m of-h">
+                        <button class="op-btn flex0">上传</button>
+                        <input class="file-input pointer"  type="file" accept=".txt" @change="handlePickFile"/>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -32,9 +42,50 @@
             showAdmin: false,
             showCard: true,
             newWord: '',
+            upfile: '',
             wordList: LCache.get('mwords') || []
         },
         methods: {
+                        uploadCallback(text) {
+                const lines = text.split('\n').map(line => line.trim());
+                let title = '';
+                const date = getTodayStr()
+                const upwords = []
+                for (line of lines) {
+                    // starts with ## , is title line
+                    if (line.startsWith('##')) {
+                        title = line.replace(/^##/, '').trim()
+                        continue;
+                    }
+
+                    if (/^#(?!#)/.test(line) || !line) continue;
+
+                    const upword = line
+                    upwords.push({title, word: upword, date})
+
+                }
+
+                const newWordList = uniqBy([...this.wordList, ...upwords], 'word')
+
+                this.wordList = newWordList
+                LCache.set('mwords', newWordList);
+
+            },
+            handlePickFile(event) {
+                const file = event.target.files?.[0]
+                if (!file) return;
+                this.upfile = file.name
+
+                const fileReader = new FileReader()
+                fileReader.addEventListener('load', (event) => {
+                    const text = event.target.result
+                    this.uploadCallback(text)
+                })
+
+                fileReader.readAsText(file);
+
+
+            },
             addWord() {
                 if (this.newWord.trim()) {
                     const word = this.newWord.trim()
