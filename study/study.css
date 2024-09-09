@@ -1,4 +1,7 @@
 /* ----------------- reset ---------------------> */
+* {
+    box-sizing: border-box;
+}
 ul,
 li {
     list-style: none;
@@ -39,8 +42,49 @@ input:focus {
     border: 1px solid #1e81ce;
 }
 
-/* ---------------- utils ----------------> */
+/* --------------------- overwrite ------------> */
 
+.l_body {
+    grid-template-columns: 1fr;
+}
+
+#comments, .l_body .l_left, .l_right {
+    display: none;
+}
+
+article.content {
+    padding-bottom: 0;
+}
+footer.page-footer {
+    margin: 0 20px;
+}
+
+/* ---------------- utils ----------------> */
+.of-h {
+    overflow: hidden;
+}
+.va-m {
+    vertical-align: middle;
+}
+.pointer {
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+.dis-ib {
+    display: inline-block;
+}
+.dis-i {
+    display: inline;
+}
+
+.grey {
+    color: #888;
+}
+.green {
+    color: darkgreen;
+}
 .items-center {
     align-items: center;
 }
@@ -166,7 +210,8 @@ input:focus {
 
 /* ----------- common ---------------> */
 
-.app {
+#app {
+    margin-bottom: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -237,7 +282,7 @@ h1 {
 }
 
 .action-btn:hover,
-.op-btn:hover {
+.op-btn:hover, .op-btn-wrap:hover .op-btn {
     background: #eee;
     border-color: #eee;
 }
@@ -290,6 +335,15 @@ h1 {
 }
 
 /* ------------------ single -------------------> */
+.file-input {
+    position: absolute;
+    left: -200px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+}
 .card-list {
     min-height: 460px;
 }
@@ -361,12 +415,16 @@ h1 {
 
 .card-con {
     letter-spacing: -15px;
+    line-height: 1.2;
     text-align: center;
-    font-size: 250px;
+    font-size: 330px;
     border: 20px solid beige;
     padding: 10px;
     background: white;
     border-radius: 30px;
+}
+.mobile .card-con {
+    font-size: 250px;
 }
 .card-item-wrap {
     position: absolute;
@@ -381,4 +439,35 @@ h1 {
 
 .multiple-container .card-item-wrap {
     width: 90%;
+}
+
+.filter-btn {
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: #0088ff;
+    color: white;
+}
+
+.testing .card-item .chr::after {
+    display: block;
+}
+
+.card-item .chr::after {
+    display: none;
+    content: "";
+    width: 120%;
+    height: 70%;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+aside {visibility: hidden!important;}
+.card-item.view-answer .chr::after {
+    opacity: 0;
 }

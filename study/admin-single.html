@@ -19,15 +19,15 @@
   <title>JKK随笔</title>
 
   
-    <meta name="description" content="我的字表                                                            ${ index + 1 }                     ${ item.word }                     ${ item.date }                     删除">
+    <meta name="description" content="我的字表                                                            ${ index + 1 }                     ${ item.word }                     ${ item.date }                     ${ item.title">
 <meta property="og:type" content="website">
 <meta property="og:title" content="JKK随笔">
 <meta property="og:url" content="https://stephenykk.github.io/study/admin-single.html">
 <meta property="og:site_name" content="JKK随笔">
-<meta property="og:description" content="我的字表                                                            ${ index + 1 }                     ${ item.word }                     ${ item.date }                     删除">
+<meta property="og:description" content="我的字表                                                            ${ index + 1 }                     ${ item.word }                     ${ item.date }                     ${ item.title">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-06T23:39:53.522Z">
-<meta property="article:modified_time" content="2024-09-06T23:39:53.522Z">
+<meta property="article:published_time" content="2024-09-09T14:04:47.746Z">
+<meta property="article:modified_time" content="2024-09-09T14:04:47.746Z">
 <meta property="article:author" content="stephenykk">
 <meta property="article:tag" content="frontend">
 <meta property="article:tag" content="IT blog">
@@ -78,7 +78,7 @@
   <span class="sep"></span>
   <a class="cap breadcrumb" href="/study/admin-single.html"></a>
   </div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-06T23:39:53.522Z">2024-09-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-06T23:39:53.522Z">2024-09-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-09T14:04:47.746Z">2024-09-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-09T14:04:47.746Z">2024-09-09</time></span></div></div></div>
     
   </div>
   </div><article class="md-text content"><link rel="stylesheet" href="./study.css" />
@@ -90,10 +90,11 @@
         <h1 class="ta-c mb-50">我的字表</h1>
         <div class="admin m-auto">
             <ul class="word-list">
-                <li v-for="(item, index) in wordList" :key="item.word" class="word-item flex-row">
+                <li v-for="(item, index) in wordList" :key="index + item.word" class="word-item flex-row">
                     <div class="sn flex0">${ index + 1 }</div>
                     <div class="word flex1">${ item.word }</div>
                     <div class="word flex1">${ item.date }</div>
+                    <div class="word flex1">${ item.title || '' }</div>
                     <div><button class="op-btn" v-on:click="rmWord(index)">删除</button></div>
                 </li>
             </ul>
@@ -101,6 +102,17 @@
                 <input class="flex1" type="text" @keyup.enter="addWord" placeholder="单个字 回车确认" v-model="newWord">
                 <button v-on:click="addWord" class="op-btn flex0">添加</button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
+
+            </div>
+            <div class="upload-line mt-20">
+                <div class="upload-tip grey">可上传字/词文件, 每行1个字/词, 空白行或//开头的注释行将被忽略，##开头的为标题行</div>
+                <div class="upload-line-inner flex-row0 flex-wrap pos-r">
+                    <input class="flex1" disabled type="text" :value="upfile" />
+                    <div class="upload-btn-wrap pos-r dis-ib op-btn-wrap va-m of-h">
+                        <button class="op-btn flex0">上传</button>
+                        <input class="file-input pointer"  type="file" accept=".txt" @change="handlePickFile"/>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -115,9 +127,50 @@
             showAdmin: false,
             showCard: true,
             newWord: '',
+            upfile: '',
             wordList: LCache.get('words') || []
         },
         methods: {
+            uploadCallback(text) {
+                const lines = text.split('\n').map(line => line.trim());
+                let title = '';
+                const date = getTodayStr()
+                const upwords = []
+                for (line of lines) {
+                    // starts with ## , is title line
+                    if (line.startsWith('##')) {
+                        title = line.replace(/^##/, '').trim()
+                        continue;
+                    }
+
+                    if (/^\/\//.test(line) || !line) continue;
+
+                    const upword = line[0]
+                    upwords.push({title, word: upword, date})
+
+                }
+
+                const newWordList = uniqBy([...this.wordList, ...upwords], 'word')
+
+                this.wordList = newWordList
+                LCache.set('words', newWordList);
+
+            },
+            handlePickFile(event) {
+                const file = event.target.files?.[0]
+                if (!file) return;
+                this.upfile = file.name
+
+                const fileReader = new FileReader()
+                fileReader.addEventListener('load', (event) => {
+                    const text = event.target.result
+                    this.uploadCallback(text)
+                })
+
+                fileReader.readAsText(file);
+
+
+            },
             addWord() {
                 if (this.newWord.trim()) {
                     const word = this.newWord.trim()[0]
