@@ -1,45 +1,433 @@
+/* ----------------- reset ---------------------> */
+* {
+    box-sizing: border-box;
+}
 ul,
 li {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+a {
+    font-weight: 300;
+}
+
+.actions-container {
+    margin: 20px 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+input {
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+input:focus {
+    border: 1px solid #1e81ce;
+}
+
+/* ---------------- utils ----------------> */
+.of-h {
+    overflow: hidden;
+}
+.va-m {
+    vertical-align: middle;
+}
+.pointer {
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+.dis-ib {
+    display: inline-block;
+}
+.dis-i {
+    display: inline;
+}
+
+.items-center {
+    align-items: center;
+}
+.justify-center {
     justify-content: center;
-    gap: 20px;
 }
 
-.card {
-    width: 200px;
-    height: 300px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.flex-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 10px;
 }
-
-.admin .word-item {
-    display: flex;
-    justify-content: space-between;
-}
-
 .flex1 {
-    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
-.flex0 {
-    flex: 0;
+.flex-wrap {
+    flex-wrap: wrap;
 }
 
-.action-btn {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background: #eee;
-    color: black;
+.flex0    {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.ta-c {
+    text-align: center;
+}
+
+.ta-r {
+    text-align: right;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-50 {
+    margin-top: 50px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.f20 {
+    font-size: 20px;
+}
+
+.f25 {
+    font-size: 25px;
+}
+
+.f30 {
     font-size: 30px;
 }
 
+.pos-r {
+    position: relative;
+}
+
+.lfade-enter-active, .rfade-enter-active {
+    transition: all 0.5s linear;
+}
+
+.lfade-enter {
+    opacity: 0;
+    transform: translateX(500px) scale(0.3);
+}
+
+.lfade-leave-active {
+    transition: all 0.5s linear;
+    transform: translateX(-500px) scale(0.3);
+}
+
+.rfade-enter {
+    opacity: 0;
+    transform: translateX(-500px) scale(0.3);
+}
+
+.rfade-leave-active {
+    transition: all 0.5s linear;
+    transform: translateX(500px) scale(0.3);
+}
+
+.lfade-leave-to, .rfade-leave-to {
+    opacity: 0;
+}
+
+/* ----------- common ---------------> */
+
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@font-face {
+    font-family: 'HFSimpleLife';
+    src: url('HFSimpleLife.woff2') format('woff2'),
+        url('HFSimpleLife.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.app .prev, .app .next {
+    /* font-family: serif, HFSimpleLife, monospace; */
+    font-family: HFSimpleLife, monospace;
+    font-style: normal;
+    color: #999;
+    background: none;
+    font-size: 50px;
+    position: absolute;
+    padding: 20px 10px;
+    top: 50%;
+    transform: translateY(-50%) scaleY(2.5);
+    left: 0;
+    cursor: pointer;
+    z-index: 1000;
+}
+.app .prev:hover,
+.app .next:hover{
+    color: #333;
+    /* background: #c1e0f6; */
+}
+.app .next {
+    left: auto;
+    right: 0;
+}
+
+.font-bar button {
+    margin-right: 10px;
+    border-radius: 10px;
+}
+.app-main {
+    flex: 1;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.action-btn a {
+    color: #333;
+}
+
+.action-btn,
+.op-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #ddd;
+    color: #333;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.action-btn:hover,
+.op-btn:hover, .op-btn-wrap:hover .op-btn {
+    background: #eee;
+    border-color: #eee;
+}
+
+.op-btn.primary, button.primary {
+    background: #0088ff;
+    color: #fff;
+    border-color: #0088ff;
+}
+
+.op-btn.danger {
+    background: #e00;
+    color: #fff;
+    border-color: #e00;
+}
+
+.op-btn.danger:hover {
+    background: #f00;
+    border-color: #f00;
+}
+
+.op-btn {
+    font-size: 16px;
+}
+
+/* ----------------------- admin ----------------> */
+.admin {
+    max-width: 500px;
+}
+
+.admin .word-list {
+    font-size: 20px;
+}
+
+.admin .word-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.admin .word-item:last-child {
+    /* border-bottom: none; */
+}
+
+.admin .word-item .sn:after {
+    content: ".";
+}
+
+.admin .append-line input {
+    width: 180px;
+}
+
+/* ------------------ single -------------------> */
+.file-input {
+    position: absolute;
+    left: -200px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+}
+.card-list {
+    min-height: 460px;
+}
+
+@font-face {
+    font-family: 'Aa';
+    src: url('AaKaishupinyin.woff2') format('woff2'),
+        url('AaKaishupinyin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AaWDXDNFAN (Non-Commercial Use)';
+    src: url('AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
+        url('AaWDXDNFANNon-CommercialUse.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'zihun104hao-shuxinti';
+    src: url('zihun104hao-shuxinti.woff2') format('woff2'),
+        url('zihun104hao-shuxinti.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'zihun81hao-qingfengti';
+    src: url('zihun81hao-qingfengti.woff2') format('woff2'),
+        url('zihun81hao-qingfengti.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'AaHuayuziluolanyongheng';
+    src: url('AaHuayuziluolanyongheng.woff2') format('woff2'),
+        url('AaHuayuziluolanyongheng.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.card-con.font1 {
+    font-family: 'AaWDXDNFAN (Non-Commercial Use)', "cursive", fangsong, serif;
+}
+
+.card-con.font2 {
+    font-family: 'zihun81hao-qingfengti', "cursive", fangsong, serif;
+}
+
+.card-con.font3 {
+    font-family: 'zihun104hao-shuxinti', "cursive", fangsong, serif;
+}
+
+.card-con.font4 {
+    font-family: 'AaHuayuziluolanyongheng', "cursive", fangsong, serif;
+}
+
+.card-con.font5 {
+    font-family: 'Aa', "cursive", fangsong, serif;
+}
+
+.card-con {
+    letter-spacing: -15px;
+    text-align: center;
+    font-size: 250px;
+    border: 20px solid beige;
+    padding: 10px;
+    background: white;
+    border-radius: 30px;
+}
+.card-item-wrap {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    
+}
+
+
+/* -------------- multiple ---------------> */
+
+.multiple-container .card-item-wrap {
+    width: 90%;
+}
+
+.card-item .chr::after {
+    content: "";
+    width: 120%;
+    height: 70%;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #eee;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+aside {visibility: hidden!important;}
+.card-item.view-answer .chr::after {
+    opacity: 0;
+}

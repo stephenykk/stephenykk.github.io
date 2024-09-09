@@ -16,18 +16,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>study - JKK随笔</title>
+  <title>小学堂 - JKK随笔</title>
 
   
-    <meta name="description" content="一起学认字        single world     multiple world                           管理文字表             单字练习             多字练习                                                                         ${ index + 1 }">
+    <meta name="description" content="管理文字                                                       单字练习">
 <meta property="og:type" content="website">
-<meta property="og:title" content="study">
+<meta property="og:title" content="小学堂">
 <meta property="og:url" content="https://stephenykk.github.io/study/index.html">
 <meta property="og:site_name" content="JKK随笔">
-<meta property="og:description" content="一起学认字        single world     multiple world                           管理文字表             单字练习             多字练习                                                                         ${ index + 1 }">
+<meta property="og:description" content="管理文字                                                       单字练习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-05T00:18:03.000Z">
-<meta property="article:modified_time" content="2024-09-05T02:37:10.386Z">
+<meta property="article:modified_time" content="2024-09-09T03:23:26.422Z">
 <meta property="article:author" content="stephenykk">
 <meta property="article:tag" content="student">
 <meta name="twitter:card" content="summary">
@@ -75,101 +75,48 @@
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 
   <span class="sep"></span>
-  <a class="cap breadcrumb" href="/study/index.html">study</a>
+  <a class="cap breadcrumb" href="/study/index.html">小学堂</a>
   </div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-05T00:18:03.000Z">2024-09-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-05T02:37:10.386Z">2024-09-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-05T00:18:03.000Z">2024-09-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-09T03:23:26.422Z">2024-09-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>study</span></h1>
+        <h1 class="text title"><span>小学堂</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="一起学认字"><a href="#一起学认字" class="headerlink" title="一起学认字"></a>一起学认字</h1><link rel="stylesheet" href="./study.css" />
+  </div><article class="md-text content"><link rel="stylesheet" href="./study.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <script src="./study.js"></script>
 
 <div class="app" id="app">
-    <a href="./singleWord.html">single world</a>
-    <a href="./multipleWorld.html">multiple world</a>
     <section class="actions-container">
-        <div class="actions">
-            <button class="action-btn">管理文字表</button>
-            <button class="action-btn">单字练习</button>
-            <button class="action-btn">多字练习</button>
-        </div>
-    </section>
-    <section class="admin-container">
-        <div class="admin">
-            <ul>
-               <li v-for="(item, index) in wordList" :key="item" class="word-item">
-               <div class="sn flex0">${ index + 1 }</div>
-               <div class="word flex1">${ item }</div>
-               <div><button v-on:click="rmWord(index)">删除</button></div>
-               </li>
-            </ul>
-            <input type="text" v-model="newWord">
-            <button v-on:click="addWord">添加</button>
-        </div>
-    </section>
-    <section class="card-container">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-title">汉字</div>
-                <div class="card-text">汉字，又称中文字、汉字，是汉字文化圈中使用的文字，也是世界上最古老的文字之一。汉字起源于商朝，经过数千年的演变，形成了今天我们所熟知的汉字体系。汉字是一种象形文字，每个汉字都代表一个特定的意义，通过组合和变化，可以表达丰富的思想和情感。</div>
+        <div class="actions ">
+            <div class="row flex-row flex-wrap">
+                <button class="action-btn flex0">
+                    <a href="admin-single.html">管理文字</a>
+                </button>
+                <button class="action-btn flex0">
+                    <a href="single.html">单字练习</a>
+                </button>
+            </div>
+            <div class="row flex-row flex-wrap">
+                <button class="action-btn flex0">
+                    <a href="admin-multiple.html">管理词语</a>
+                </button>
+                <button class="action-btn flex0">
+                    <a href="multiple.html">词语练习</a>
+                </button>
+                <button class="action-btn flex0">
+                    <a href="multiple.html?test=1">词语默写</a>
+                </button>
             </div>
         </div>
-    </section>    
+    </section>
 </div>
-
-<script>
-    new Vue({
-        el: '#app',
-        delimiters: ['${', '}'],
-        data: {
-            showAdmin: false,
-            showCard: true,
-            newWord: '',
-            wordList: ['天', '下']
-        },
-        methods: {
-            toggleAdmin() {
-                this.showAdmin = !this.showAdmin;
-                this.showCard = !this.showCard;
-            },
-            addWord() {
-                if (this.newWord.trim()) {
-                    this.wordList.push(this.newWord);
-                    this.newWord = '';
-                }
-            },
-            rmWord(index) {
-                this.wordList.splice(index, 1);
-            }
-        }
-    });
-</script>
-
-<pre><code>new Vue(&#123;
-    el: &#39;#app&#39;,
-    data: &#123;
-        showAdmin: false,
-        showCard: true,
-        newWord: &#39;&#39;,
-        wordList: [&#39;天&#39;, &#39;下&#39;]
-    &#125;,
-    methods: &#123;
-        toggleAdmin() &#123;
-            this.showAdmin = !this.showAdmin;
-            this.showCard = !this.showCard;
-
-        &#125;
-    &#125;
-&#125;);
-</code></pre>
-<p></script></p>
 </article>
 
   <div class="related-wrap md-text" id="comments">
