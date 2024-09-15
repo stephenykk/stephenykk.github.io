@@ -3,34 +3,115 @@
 <script src="./study.js"></script>
 
 <div class="app" id="app">
+    <div class="user-info f13">
+        当前用户: <span class="name">${ currentUser || '默认用户' }</span>
+    </div>
     <section class="admin-container">
-        <h1 class="ta-c mb-50">我的字表</h1>
+        <h1 class="ta-c mb-50">字库管理</h1>
         <div class="admin m-auto">
-            <ul class="word-list">
-                <li v-for="(item, index) in wordList" :key="index + item.word" class="word-item flex-row">
-                    <div class="sn flex0">${ index + 1 }</div>
-                    <div class="word flex1">${ item.word }</div>
-                    <div class="word flex1">${ item.date }</div>
-                    <div class="word flex1">${ item.title || '' }</div>
-                    <div><button class="op-btn" v-on:click="rmWord(index)">删除</button></div>
-                </li>
-            </ul>
-            <div class="append-line flex-row mt-50 flex-wrap">
-                <input class="flex1" type="text" @keyup.enter="addWord" placeholder="单个字 回车确认" v-model="newWord">
-                <button v-on:click="addWord" class="op-btn flex0">添加</button>
-                <button v-on:click="rmAllWords" class="op-btn flex0 danger">全部删除</button>
+            <table class="word-list ta-c">
+                <thead>
+                    <tr class="title-row word-item flex-row">
+                        <th class="cell flex1">序号</th>
+                        <th class="cell flex2">字</th>
+                        <th class="cell flex1">标题</th>
+                        <th class="cell flex1">标签</th>
+                        <th class="cell flex1">学会</th>
+                        <th class="cell flex1">状态</th>
+                        <th class="cell flex1">日期</th>
+                        <th class="cell flex1 op-col">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(item, index) in wordList"
+                        :key="index + item.word"
+                        class="word-item flex-row"
+                        :class="{disable: item.status === 'disable'}"
+                    >
+                        <td class="cell sn flex1">${ index + 1 }</td>
+                        <td class="cell flex2">${ item.word }</td>
+                        <td class="cell flex1">${ item.title || '' }</td>
+                        <td class="cell flex1">
+                            ${ (item.tags ?? []).join(', ') }
+                        </td>
+                        <td class="cell flex1">
+                            ${ item.isKnow ? '是' : '否' }
+                        </td>
+                        <td class="cell flex1">
+                            ${ item.status === 'enable' ? '启用' : '禁用' }
+                        </td>
+                        <td class="cell flex1">${ item.date }</td>
+                        <td class="cell flex1">
+                            <button
+                                class="op-btn"
+                                v-on:click="toggleStatus(item)"
+                            >
+                                ${ item.status === 'enable' ? '禁用' : '启用' }
+                            </button>
+                            <button
+                                class="op-btn danger"
+                                v-on:click="rmWord(index)"
+                            >
+                                删除
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
+            <div class="append-line flex-row mt-50 flex-wrap">
+                <label for="newTitle">标题:</label
+                ><input
+                    id="newTitle"
+                    class="flex1"
+                    type="text"
+                    placeholder="标题"
+                    v-model="newTitle"
+                />
             </div>
+            <div class="append-line flex-row mt-50 flex-wrap">
+                <label for="newWord">字:</label>
+                <input
+                    class="flex1"
+                    id="newWord"
+                    type="text"
+                    @keyup.enter="addWord"
+                    placeholder="单个字 回车确认"
+                    v-model="newWord"
+                />
+                <button v-on:click="addWord" class="op-btn primary flex0">
+                    添加
+                </button>
+                <button v-on:click="rmAllWords" class="op-btn flex0 danger">
+                    全部删除
+                </button>
+                <button v-on:click="rmAllTags" class="op-btn flex0 danger">
+                    清除全部标签
+                </button>
+            </div>
+
+            <hr class="mt-20 mb-20" />
+
             <div class="upload-line mt-20">
-                <div class="upload-tip grey">可上传字/词文件, 每行1个字/词, 空白行或//开头的注释行将被忽略，##开头的为标题行</div>
+                <div class="upload-tip grey">
+                    可上传字/词文件, 每行1个字/词,
+                    空白行或//开头的注释行将被忽略，##开头的为标题行
+                </div>
                 <div class="upload-line-inner flex-row0 flex-wrap pos-r">
                     <input class="flex1" disabled type="text" :value="upfile" />
-                    <div class="upload-btn-wrap pos-r dis-ib op-btn-wrap va-m of-h">
-                        <button class="op-btn flex0">上传</button>
-                        <input class="file-input pointer"  type="file" accept=".txt" @change="handlePickFile"/>
+                    <div
+                        class="upload-btn-wrap pos-r dis-ib op-btn-wrap va-m of-h"
+                    >
+                        <button class="op-btn primary flex0">上传</button>
+                        <input
+                            class="file-input pointer"
+                            type="file"
+                            accept=".txt"
+                            @change="handlePickFile"
+                        />
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -38,79 +119,104 @@
 
 <script>
     new Vue({
-        el: '#app',
-        delimiters: ['${', '}'],
+        el: "#app",
+        delimiters: ["${", "}"],
         data: {
-            showAdmin: false,
-            showCard: true,
-            newWord: '',
-            upfile: '',
-            wordList: LCache.get('words') || []
+            currentUser: getCurUser(),
+            newTitle: "学前生字",
+            newWord: "",
+            upfile: "",
+            wordList: getCache("words") || [],
         },
         methods: {
+            updateCache(data) {
+                if (!data) {
+                    data = this.wordList;
+                }
+                setCache('words', data)
+            },
             uploadCallback(text) {
-                const lines = text.split('\n').map(line => line.trim());
-                let title = '';
-                const date = getTodayStr()
-                const upwords = []
+                const lines = text.split("\n").map((line) => line.trim());
+                let title = "";
+                const date = getTodayStr();
+                const upwords = [];
                 for (line of lines) {
                     // starts with ## , is title line
-                    if (line.startsWith('##')) {
-                        title = line.replace(/^##/, '').trim()
+                    if (line.startsWith("##")) {
+                        title = line.replace(/^##/, "").trim();
                         continue;
                     }
 
                     if (/^\/\//.test(line) || !line) continue;
 
-                    const upword = line[0]
-                    upwords.push({title, word: upword, date})
-
+                    const upword = line[0];
+                    upwords.push({ title, word: upword, date });
                 }
 
-                const newWordList = uniqBy([...this.wordList, ...upwords], 'word')
+                const newWordList = uniqBy(
+                    [...this.wordList, ...upwords],
+                    "word"
+                );
 
-                this.wordList = newWordList
-                LCache.set('words', newWordList);
-
+                this.wordList = newWordList;
+                this.updateCache(newWordList);
             },
             handlePickFile(event) {
-                const file = event.target.files?.[0]
+                const file = event.target.files?.[0];
                 if (!file) return;
-                this.upfile = file.name
+                this.upfile = file.name;
 
-                const fileReader = new FileReader()
-                fileReader.addEventListener('load', (event) => {
-                    const text = event.target.result
-                    this.uploadCallback(text)
-                })
+                const fileReader = new FileReader();
+                fileReader.addEventListener("load", (event) => {
+                    const text = event.target.result;
+                    this.uploadCallback(text);
+                });
 
                 fileReader.readAsText(file);
-
-
             },
             addWord() {
                 if (this.newWord.trim()) {
-                    const word = this.newWord.trim()[0]
-                    const exists = this.wordList.find(item => item.word === word)
+                    const word = this.newWord.trim()[0];
+                    const exists = this.wordList.find(
+                        (item) => item.word === word
+                    );
                     if (exists) {
-                        alert('该文字已存在')
+                        showToast("该文字已存在");
                         return;
                     }
-                    const today = getTodayStr()
-                    this.wordList.push({date: today, word});
-                    this.newWord = '';
+                    const today = getTodayStr();
+                    this.wordList.push({
+                        date: today,
+                        word,
+                        title: this.newTitle,
+                        status: "enable",
+                        tags: [],
+                        isKnow: false,
+                    });
+                    this.newWord = "";
 
-                    LCache.set('words', this.wordList);
+                    this.updateCache();
                 }
             },
             rmWord(index) {
                 this.wordList.splice(index, 1);
-                LCache.set('words', this.wordList);
+                this.updateCache();
             },
             rmAllWords() {
                 this.wordList = [];
-                LCache.set('words', this.wordList);
-            }
-        }
+                this.updateCache();
+            },
+            rmAllTags() {
+                this.wordList = this.wordList.map((item) => {
+                    item.tags = [];
+                    return item
+                });
+                this.updateCache();
+            },
+            toggleStatus(item) {
+                item.status = item.status === "enable" ? "disable" : "enable";
+                this.updateCache();
+            },
+        },
     });
 </script>

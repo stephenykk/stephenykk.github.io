@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="./study.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="./study.js"></script>
+
+<div class="app" id="app">
+    <div class="user-info f13">
+        当前用户: <span class="name">${ currentUser || '默认用户' }</span>
+    </div>
+    <section class="admin-container">
+        <h1 class="ta-c mb-50">标签列表</h1>
+        <div class="admin m-auto">
+            <table class="word-list ta-c">
+                <thead>
+                    <tr class="title-row word-item flex-row">
+                        <td class="cell flex1">序号</td>
+                        <td class="cell flex2">标签</td>
+                        <td class="cell flex1">状态</td>
+                        <td class="cell flex1">日期</td>
+                        <td class="cell flex1 op-col">操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(item, index) in tagList"
+                        :key="index + item.name"
+                        class="word-item flex-row"
+                        :class="{disable: item.status === 'disable'}"
+                    >
+                        <td class="cell flex1">${ index + 1 }</td>
+                        <td class="cell flex1 minw-100">${ item.name }</td>
+                        <td class="cell flex1">
+                            ${ item.status === 'enable' ? '启用' : '禁用' }
+                        </td>
+                        <td class="cell flex1">${ item.date }</td>
+                        <td class="cell flex1 op-col">
+                            <button
+                                class="op-btn"
+                                v-on:click="toggleStatus(item)"
+                            >
+                                ${ item.status === 'enable' ? '禁用' : '启用' }
+                            </button>
+                            <button
+                                class="op-btn danger"
+                                v-on:click="rmTag(index)"
+                            >
+                                删除
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="append-line flex-row mt-50 flex-wrap">
+                <input
+                    class="flex1"
+                    type="text"
+                    @keyup.enter="addTag"
+                    placeholder="输入用户名, 回车确认"
+                    v-model="newTag"
+                />
+                <button v-on:click="addTag" class="op-btn flex0">添加</button>
+                <button v-on:click="rmAllTags" class="op-btn flex0 danger">
+                    全部删除
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const currentUser = getCurUser();
+    new Vue({
+        el: "#app",
+        delimiters: ["${", "}"],
+        data: {
+            currentUser,
+            newTag: "",
+            tagList: getCache("tags") || [],
+        },
+        methods: {
+            updateCache(data) {
+                if (!data) {
+                    data = this.tagList;
+                }
+
+                setCache("tags", data);
+            },
+            addTag() {
+                if (this.newTag.trim()) {
+                    const tagName = this.newTag.trim();
+                    const exists = this.tagList.find(
+                        (tag) => tag.name === tagName
+                    );
+                    if (exists) {
+                        showToast("该标签已存在");
+                        return;
+                    }
+                    const today = getTodayStr();
+                    this.tagList.push({
+                        date: today,
+                        name: tagName,
+                        status: "enable",
+                    });
+                    this.newTag = "";
+
+                    this.updateCache();
+                }
+            },
+            rmTag(index) {
+                this.tagList.splice(index, 1);
+                this.updateCache();
+            },
+            rmAllTags() {
+                this.tagList = [];
+                this.updateCache();
+            },
+            toggleStatus(tag) {
+                tag.status = tag.status === "enable" ? "disable" : "enable";
+                this.updateCache();
+            },
+        },
+    });
+</script>

@@ -3,21 +3,78 @@
 <script src="./study.js"></script>
 
 <div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
-    <h1 style="margin-bottom: 0">单字认读</h1>
-    <div class="font-bar mb-10 mt-10 ta-r">
-        <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
-        <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
-        <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
-        <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
-        <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
-        <label>
-            <input type="checkbox" v-model="isRandom" @change="changeRandom"></checkbox>
-            <span>是否随机</span>
-        </label>
+    <div class="user-info f13">
+        当前用户: <span class="name">${ currentUser || '默认用户' }</span>
     </div>
-    <section class="app-main single-container">
-        <button class="prev" @click="showPrev">&lt;</button>
-        <button class="next" @click="showNext">&gt;</button>
+    <h1 style="margin-bottom: 0">单字认读</h1>
+    <div class="ctrl-section mb-20 f14 mt-10 bg-grey br-5 pos-r">
+        <div class="ctrl-top flex-row flex-wrap">
+            <div class="font-bar flex1 shrink1">
+                <label class="purple f15 mr-5">选择字体:</label>
+                <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
+                <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
+                <button :class="fontType === 3 ? 'primary' : ''" @click="fontType = 3">字体3</button>
+                <button :class="fontType === 4 ? 'primary' : ''" @click="fontType = 4">字体4</button>
+                <button :class="fontType === 5 ? 'primary' : ''" @click="fontType = 5">字体5</button>
+            </div>
+            <div class="tag-bar flex1 shrink1">
+                <label class="purple f15 mr-5">设置标签:</label>
+                <span class="tag" :class="{active: (activeWord?.tags || []).includes(tag.name)}" @click="toggleTag(tag)" v-for="(tag, i) in tagList" :key="i">${ tag.name
+                    }</span>
+            </div>
+            <div class="know-bar flex1 shrink1">
+                <label class="purple f15 mr-5">设置掌握:</label>
+                <button @click="toggleKnow(true)" class="op-btn" :class="{primary: activeWord?.isKnow}">已掌握</button>
+                <button @click="toggleKnow(false)" class="op-btn" :class="{primary: !activeWord?.isKnow}">未掌握</button>
+            </div>
+        </div>
+
+        <hr  />
+
+        <div class="ctrl-bottom flex-row">
+            <label class="purple f15">筛选:</label>
+            <div class="ctrl-filter flex-row flex-wrap flex1 shrink1">
+                <div class="title-filter option-bar dis-ib" :class="{'mt-10': isMobile}">
+                    <label>
+                        <span>标题:</span>
+                        <select class="f13 title-select" v-model="title" @focus="(event) => event.target.blur()">
+                            <option value="">全部</option>
+                            <option v-for="(ttl, i) in titleList" :value="ttl" :key="i">${ttl}</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="tag-filter option-bar dis-ib ml-5" :class="{'mt-10': isMobile}">
+                    <label>
+                        <span>标签:</span>
+                        <select class="f13 tag-select my-select" v-model="tag" @focus="(event) => event.target.blur()">
+                            <option value="">全部</option>
+                            <option v-for="(tag, i) in tagList" :value="tag.name" :key="i">${tag.name}</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="know-filter option-bar dis-ib ml-5" :class="{'mt-10': isMobile}">
+                    <label>
+                        <span>掌握:</span>
+                        <select class="f13 tag-select my-select" v-model="know" @focus="(event) => event.target.blur()">
+                            <option value="">全部</option>
+                            <option value="yes">已掌握</option>
+                            <option value="no">未掌握</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="filter-buttons" :class="{'mt-10': isMobile}">
+                    <label>
+                        <span>随机:</span>
+                        <input type="checkbox" class="va-m" v-model="isRandom" @change="changeRandom">
+                    </label>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="app-main single-container pos-r">
+        <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
+        <button class="next" @click="showNext" title="快捷键 ->">&gt;</button>
         <div class="single m-auto">
             <ul class="card-list flex-row justify-center pos-r">
                 <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
@@ -26,7 +83,7 @@
                             <div :class="'card-con flex1 font' + fontType">${ item.word }</div>
                         </div>
                     </transition>
-                    
+
                 </li>
             </ul>
             <p class="mt-30 ta-c">
@@ -42,27 +99,89 @@
         el: "#app",
         delimiters: ["${", "}"],
         data: {
+            title: getCache('wordTitle') || '',
+            tag: getCache('wordTag') || '',
+            know: getCache('wordKnow') || '',
+            currentUser: getCurUser(),
             activeIndex: 0,
             isNext: true,
-            isMobile: window.innerWidth < 800,
+            isMobile: getIsMobile(),
             isRandom: false,
-            showCard: true,
-            fontType: LCache.get('fontType') || 2,
-            newWord: "",
-            wordList: LCache.get("words") || [],
+            fontType: getCache('fontType') || 2,
+            cacheWordList: getCache("words", true) || [],
+            tagList: getCache('tags', true) || [],
+            orderedWordList: []
+        },
+        computed: {
+            total() {
+                return this.wordList.length
+            },
+            titleList() {
+                return [...new Set(this.cacheWordList.map(item => item.title).filter(v => !!v))]
+            },
+            wordList() {
+                let viewWordList = this.cacheWordList.filter(item => {
+                    let shouldKept = !this.title ? true : this.title === item.title
+                    if (shouldKept && this.tag) {
+                        shouldKept = item.tags.includes(this.tag)
+                    }
+
+                    if (shouldKept && this.know) {
+                        const knowVal = item.isKnow ? 'yes' : 'no'
+                        shouldKept = knowVal === this.know
+                    }
+                    return shouldKept
+                })
+
+                this.orderedWordList = viewWordList
+                if (this.isRandom) {
+                    viewWordList = getShuffleList(viewWordList)
+                }
+                return viewWordList
+            },
+            activeWord() {
+                return this.wordList[this.activeIndex]
+            }
         },
         watch: {
             fontType() {
-                LCache.set('fontType', this.fontType)
+                setCache('fontType', this.fontType)
+            },
+            know() {
+                this.activeIndex = 0
+                setCache('wordKnow', this.know)
+            },
+            title() {
+                this.activeIndex = 0
+                setCache('wordTitle', this.title)
+            },
+            tag() {
+                this.activeIndex = 0
+                setCache('wordTag', this.tag);
+            },
+            
+            isRandom() {
+                this.activeIndex = 0
+            },
+            total() {
+                const cacheTotal = this.cacheWordList.length
+                if (!this.total && cacheTotal) {
+                    this.tipsFilterEmpty()
+                }
             }
         },
         methods: {
-            changeRandom(event) {
-                if (this.isRandom) {
-                    this.wordList = getShuffleList(this.wordList)
-                } else {
-                    this.wordList = this.orderedWordList;
+            tipsFilterEmpty() {
+                showToast('无符合的数据，请修改筛选')
+            },
+            updateCache(data) {
+                if (!data) {
+                    data = this.cacheWordList
                 }
+                setCache('words', data, true);
+            },
+            changeRandom(event) {
+                console.log("🚀 ~ changeRandom ~ this.isRandom:", this.isRandom)
             },
             showNext() {
                 this.isNext = true
@@ -80,25 +199,42 @@
                     this.activeIndex = this.wordList.length - 1;
                 }
             },
-            addWord() {
-                if (this.newWord.trim()) {
-                    const today = getTodayStr();
-                    const word = this.newWord.trim();
-                    this.wordList.push({ date: today, word });
-                    this.newWord = "";
-
-                    LCache.set("words", this.wordList);
+            toggleTag(tag) {
+                const wordTags = this.activeWord.tags || []
+                const exists = wordTags.includes(tag.name)
+                if (exists) {
+                    this.activeWord.tags = delArrayItem(wordTags, tag.name)
+                } else {
+                    wordTags.push(tag.name)
+                    this.activeWord.tags = wordTags
                 }
+
+                this.updateCache()
             },
-        },
-        
-        mounted() {
-            if (!this.wordList.length) {
-                alert('请先增加文字')
-                location.href = '/study'
-            }else {
-                this.orderedWordList = this.wordList.slice()
+            toggleKnow(isKnow) {
+                this.activeWord.isKnow = isKnow
+                this.updateCache()
             }
+        },
+
+        mounted() {
+            if (!this.cacheWordList.length) {
+                showToast('请先增加文字')
+                location.href = '/study'
+            } else {
+                if (!this.wordList.length) {
+                    this.tipsFilterEmpty()
+                }
+            }
+
+            document.body.addEventListener('keyup', event => {
+                if (event.key === 'ArrowRight') {
+                    this.showNext()
+                }
+                if (event.key === 'ArrowLeft') {
+                    this.showPrev()
+                }
+            })
         }
     });
 </script>

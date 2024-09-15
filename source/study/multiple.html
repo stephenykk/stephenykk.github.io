@@ -8,9 +8,12 @@
 
 <!-- <script src="http://192.168.1.9:8080/target/target-script-min.js#anonymous"></script> -->
 
-<div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
+<div :class="'app ' + (isMobile ? 'mobile' : '')" id="app">
+    <div class="user-info f13">
+        当前用户: <span class="name">${ currentUser || '默认用户' }</span>
+    </div>
     <h1 style="margin-bottom: 0">词语认读</h1>
-    <div class="font-bar mt-10 mb-10" :class="isMobile ? 'ta-l' : 'ta-r'">
+    <div class="font-bar mt-10 mb-20" :class="isMobile ? 'ta-l' : 'ta-r'">
         
         <button :class="fontType === 1 ? 'primary' : ''" @click="fontType = 1">字体1</button>
         <button :class="fontType === 2 ? 'primary' : ''" @click="fontType = 2">字体2</button>
@@ -75,14 +78,15 @@
         el: "#app",
         delimiters: ["${", "}"],
         data: {
+            currentUser: getCurUser(),
             activeIndex: 0,
-            isMobile: window.innerWidth < 800,
+            isMobile: getIsMobile(),
             isNext: true,
             isTestMode: isTest,
             isViewAnswer: false,
             isRandom: false,
             showCard: true,
-            fontType: isTest ? 5 : LCache.get('fontType') || 2,
+            fontType: isTest ? 5 : LCache.get('fontType') || 5,
             newWord: "",
             wordList: cacheWordTitle ? cacheWordList.filter(item => item.title === cacheWordTitle) : cacheWordList,
             title: cacheWordTitle,
@@ -167,9 +171,9 @@
             },
         },
         mounted() {
-            // alert(window.innerWidth + ', ' + document.documentElement.clientWidth)
+            // showToast(window.innerWidth + ', ' + document.documentElement.clientWidth)
             if (!this.wordList.length) {
-                alert('请先增加词语')
+                showToast('请先增加词语')
                 location.href = '/study'
             } else {
                 this.orderedWordList = cacheWordList.slice()

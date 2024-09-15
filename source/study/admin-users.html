@@ -1,0 +1,157 @@
+<link rel="stylesheet" href="./study.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="./study.js"></script>
+
+<div class="app" id="app">
+    <section class="admin-container">
+        <h1 class="ta-c mb-50">用户管理</h1>
+        <div class="admin m-auto">
+            <table class="word-list ta-c">
+                <thead>
+                    <tr class="title-row word-item flex-row">
+                        <th class="cell flex1">序号</th>
+                        <th class="cell flex2 minw-100">用户</th>
+                        <th class="cell flex1">状态</th>
+                        <th class="cell flex1">日期</th>
+                        <th class="cell flex1 op-col">操作</th>
+                    </tr>
+                </thead>
+                <tr
+                    v-for="(item, index) in userList"
+                    :key="index + item.name"
+                    class="word-item flex-row"
+                    :class="{disable: item.status === 'disable'}"
+                >
+                    <td class="cell flex1">${ index + 1 }</td>
+                    <td class="cell flex2">${ item.name }</td>
+                    <td class="cell flex1">
+                        ${ item.status === 'enable' ? '启用' : '禁用' }
+                    </td>
+                    <td class="cell flex1">${ item.date }</td>
+                    <td>
+                        <button
+                            class="op-btn"
+                            v-on:click="applyDefaultCharacterData(item)"
+                        >
+                            应用默认字库
+                        </button>
+                        <button
+                            class="op-btn"
+                            v-on:click="applyDefaultWordData(item)"
+                        >
+                            应用默认词语库
+                        </button>
+                        <button class="op-btn" v-on:click="toggleStatus(item)">
+                            ${ item.status === 'enable' ? '禁用' : '启用' }
+                        </button>
+                        <button
+                            class="op-btn danger"
+                            v-on:click="rmUser(index)"
+                        >
+                            删除
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <div class="append-line flex-row mt-50 flex-wrap">
+                <input
+                    class="flex1"
+                    type="text"
+                    @keyup.enter="addUser"
+                    placeholder="输入用户名, 回车确认"
+                    v-model="newUser"
+                />
+                <button v-on:click="addUser" class="op-btn primary flex0">
+                    添加
+                </button>
+                <button v-on:click="rmAllUsers" class="op-btn flex0 danger">
+                    全部删除
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        delimiters: ["${", "}"],
+        data: {
+            newUser: "",
+            userList: LCache.get("users") || [],
+        },
+        methods: {
+            updateCache(data) {
+                if (!data) {
+                    data = this.userList;
+                }
+
+                LCache.set("users", data);
+            },
+            applyDefaultCharacterData(user) {
+                const defKey = "words";
+                const userKey = `${user.name}:${defKey}`;
+                const oldData = LCache.get(userKey);
+                if (oldData) {
+                    const isOverwrite = confirm(
+                        `确认要覆盖 ${user.name} 的现有字库?`
+                    );
+                    if (!isOverwrite) return;
+                }
+                const data = LCache.get(defKey) || [];
+                LCache.set(userKey, data);
+                showToast("字库已更新成功!");
+            },
+            applyDefaultWordData(user) {
+                const defKey = "mwords";
+                const userKey = `${user.name}:${defKey}`;
+                const oldData = LCache.get(userKey);
+                if (oldData) {
+                    const isOverwrite = confirm(
+                        `确认要覆盖 ${user.name} 的现有词语库?`
+                    );
+                    if (!isOverwrite) return;
+                }
+                const data = LCache.get(defKey) || [];
+                LCache.set(userKey, data);
+                showToast("词语库已更新成功!");
+            },
+            addUser() {
+                if (this.newUser.trim()) {
+                    const userName = this.newUser.trim();
+                    const exists = this.userList.find(
+                        (user) => user.name === userName
+                    );
+                    if (exists) {
+                        showToast("该用户已存在");
+                        return;
+                    }
+                    const today = getTodayStr();
+                    this.userList.push({
+                        date: today,
+                        name: userName,
+                        status: "enable",
+                    });
+                    this.newUser = "";
+
+                    this.updateCache();
+                }
+            },
+            rmUser(index) {
+                this.userList.splice(index, 1);
+                this.updateCache();
+            },
+            rmAllUsers() {
+                this.userList = [];
+                this.updateCache();
+            },
+            toggleStatus(user) {
+                user.status = user.status === "enable" ? "disable" : "enable";
+                if (user.status === 'disable' && LCache.get('curUser') === user.name) {
+                    LCache.set('curUser', '');
+                }
+                this.updateCache();
+            },
+        },
+    });
+</script>
