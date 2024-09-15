@@ -105,7 +105,7 @@ function getCache(cacheKey, skipDisables) {
     const userKey = getUserKey(cacheKey)
     let data = LCache.get(userKey)
     if (listDataKeys.includes(cacheKey) && skipDisables) {
-        data = data.filter(item => item.status !== 'disable')
+        data = (data || []).filter(item => item.status !== 'disable')
     }
 
     return data

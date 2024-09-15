@@ -13,9 +13,7 @@
             </div>
             <table class="word-list ta-c">
                 <thead>
-                    <tr
-                        class="word-item flex-row"
-                    >
+                    <tr class="word-item flex-row">
                         <th class="cell flex1">序号</th>
                         <th class="cell flex2">词语</th>
                         <th class="cell flex1">标题</th>
@@ -80,7 +78,9 @@
                     placeholder="输入新词 回车确认"
                     v-model="newWord"
                 />
-                <button v-on:click="addWord" class="op-btn primary flex0">添加</button>
+                <button v-on:click="addWord" class="op-btn primary flex0">
+                    添加
+                </button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">
                     全部删除
                 </button>
@@ -147,7 +147,14 @@
                     if (/^#(?!#)/.test(line) || !line) continue;
 
                     const upword = line;
-                    upwords.push({ title, word: upword, date });
+                    upwords.push({
+                        word: upword,
+                        date,
+                        title: title || this.newTitle,
+                        status: "enable",
+                        tags: [],
+                        isKnow: false,
+                    });
                 }
 
                 const newWordList = uniqBy(
@@ -206,7 +213,7 @@
             rmAllTags() {
                 this.wordList = this.wordList.map((item) => {
                     item.tags = [];
-                    return item
+                    return item;
                 });
                 this.updateCache();
             },

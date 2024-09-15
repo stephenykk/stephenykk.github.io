@@ -133,7 +133,7 @@
                 if (!data) {
                     data = this.wordList;
                 }
-                setCache('words', data)
+                setCache("words", data);
             },
             uploadCallback(text) {
                 const lines = text.split("\n").map((line) => line.trim());
@@ -150,7 +150,14 @@
                     if (/^\/\//.test(line) || !line) continue;
 
                     const upword = line[0];
-                    upwords.push({ title, word: upword, date });
+                    upwords.push({
+                        word: upword,
+                        date,
+                        title: title || this.newTitle,
+                        status: "enable",
+                        tags: [],
+                        isKnow: false,
+                    });
                 }
 
                 const newWordList = uniqBy(
@@ -209,7 +216,7 @@
             rmAllTags() {
                 this.wordList = this.wordList.map((item) => {
                     item.tags = [];
-                    return item
+                    return item;
                 });
                 this.updateCache();
             },
