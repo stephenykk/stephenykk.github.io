@@ -26,8 +26,8 @@
 <meta property="og:site_name" content="JKK随笔">
 <meta property="og:description" content="当前用户: ${ currentUser || &#39;默认用户&#39; }          词语认读                                            选择字体:                 字体1                 字体2                 字体3                 字体4">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-15T06:51:03.203Z">
-<meta property="article:modified_time" content="2024-09-15T06:51:03.203Z">
+<meta property="article:published_time" content="2024-09-16T00:09:13.759Z">
+<meta property="article:modified_time" content="2024-09-16T00:09:13.759Z">
 <meta property="article:author" content="stephenykk">
 <meta property="article:tag" content="frontend">
 <meta property="article:tag" content="IT blog">
@@ -78,14 +78,14 @@
   <span class="sep"></span>
   <a class="cap breadcrumb" href="/study/multiple.html"></a>
   </div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-15T06:51:03.203Z">2024-09-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-15T06:51:03.203Z">2024-09-15</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-09-16T00:09:13.759Z">2024-09-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-09-16T00:09:13.759Z">2024-09-16</time></span></div></div></div>
     
   </div>
   </div><article class="md-text content"><link rel="stylesheet" href="./study.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
 
-<div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app">
+<div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app" @click="tagSelectOpen = false">
     <div class="user-info f13">
         当前用户: <span class="name">${ currentUser || '默认用户' }</span>
     </div>
@@ -128,13 +128,25 @@
                     </label>
                 </div>
                 <div class="tag-filter option-bar dis-ib ml-5" :class="{'mt-10': isMobile}">
-                    <label>
+                    <div class="dis-ib">
                         <span>标签:</span>
-                        <select class="f13 tag-select my-select" v-model="tag" @focus="(event) => event.target.blur()">
-                            <option value="">全部</option>
-                            <option v-for="(tag, i) in tagList" :value="tag.name" :key="i">${tag.name}</option>
-                        </select>
-                    </label>
+                        <div class="dis-ib myselect va-m pos-r" :class="{expand: tagSelectOpen}">
+                            <div class="myselect-view" @click.stop="tagSelectOpen = !tagSelectOpen">
+                                <span class="myselect-tag dis-ib mr-5" v-for="(selTag, i) in selTagLs" :key="i">
+                                    <span class="myselect-tag-val">${ selTag.text }</span>
+                                </span>
+                            </div>
+                            <ul class="f13 tag-select myselect-options bg-white">
+                                <li class="f13 flex-row justify-between pos-r" :class="{selected: selTagLs.some(stag => stag.name === tagOpt.name)}" v-for="(tagOpt, i) in tagOptions" :value="tagOpt.name" :key="i">
+                                    <div class="option-text mr-40">${tagOpt.text}</div>
+                                    <label v-show="tagOpt.name">
+                                        <span>取反</span>
+                                        <input type="checkbox" class="va-m" v-model="tagOpt.reverse">
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="know-filter option-bar dis-ib ml-5" :class="{'mt-10': isMobile}">
                     <label>
@@ -191,8 +203,10 @@ window.myapp = new Vue({
         el: "#app",
         delimiters: ["${", "}"],
         data: {
+            tagSelectOpen: false,
             title: getCache('mwordTitle') || '',
-            tag: getCache('mwordTag') || '',
+            // tag: getCache('mwordTagLs') || '',
+            selTagLs: getCache('mwordTagLs') || [getAllOptionOfTag()],
             know: getCache('mwordKnow') || '',
             currentUser: getCurUser(),
             activeIndex: 0,
@@ -202,6 +216,7 @@ window.myapp = new Vue({
             fontType: isTest ? 5 : getCache('mfontType') || 5,
             cacheWordList: getCache("mwords", true) || [],
             tagList: getCache('tags', true) || [],
+            tagOptions: getTagOptions(getCache('tags', true) || []),
             orderedWordList: [],
 
             isViewAnswer: false,
@@ -245,6 +260,8 @@ window.myapp = new Vue({
                 return [...new Set(this.cacheWordList.map(item => item.title).filter(v => !!v))]
             },
             wordList() {
+                if (!this.isConditionChanged) return this.displayingWordList
+
                 let viewWordList = this.cacheWordList.filter(item => {
                     let shouldKept = !this.title ? true : this.title === item.title
                     if (shouldKept && this.tag) {
@@ -262,6 +279,11 @@ window.myapp = new Vue({
                 if (this.isRandom) {
                     viewWordList = getShuffleList(viewWordList)
                 }
+
+                this.displayingWordList = viewWordList
+                
+                this.isConditionChanged = false
+
                 return viewWordList
             },
             activeWord() {
@@ -275,21 +297,33 @@ window.myapp = new Vue({
             fontType() {
                 setCache('mfontType', this.fontType)
             },
-            know() {
-                this.activeIndex = 0
-                setCache('mwordKnow', this.know)
+            know: {
+                handler() {
+                    this.onConditionChanged()
+                    setCache('mwordKnow', this.know)
+                },
+                immediate: true
             },
-            title() {
-                this.activeIndex = 0
-                setCache('mwordTitle', this.title)
+            title: {
+                handler() {
+                    this.onConditionChanged()
+                    setCache('mwordTitle', this.title)
+                },
+                immediate: true
             },
-            tag() {
-                this.activeIndex = 0
-                setCache('mwordTag', this.tag);
+            selTagLs: {
+                handler() {
+                    this.onConditionChanged()
+                    setCache('mwordTagLs', this.selTagLs);
+                },
+                deep: true,
+                immediate: true
             },
-            
-            isRandom() {
-                this.activeIndex = 0
+            isRandom: {
+                handler() {
+                    this.onConditionChanged()
+                },
+                immediate: true
             },
             total() {
                 const cacheTotal = this.cacheWordList.length
@@ -299,6 +333,10 @@ window.myapp = new Vue({
             }
         },
         methods: {
+            onConditionChanged() {
+                this.isConditionChanged = true
+                this.activeIndex = 0
+            },
             tipsFilterEmpty() {
                 showToast('无符合的数据，请修改筛选')
             },
@@ -309,6 +347,7 @@ window.myapp = new Vue({
                 setCache('mwords', data, true);
             },
             changeRandom(event) {
+                this.lastIsRandom = this.isRandom
                 console.log("🚀 ~ changeRandom ~ this.isRandom:", this.isRandom)
             },
             handleClickCard(index) {
@@ -348,8 +387,12 @@ window.myapp = new Vue({
                 this.updateCache()
             }
         },
-
+        beforeCreate() {
+            this.isConditionChanged = false // not reactive data
+            this.displayingWordList = []
+        },
         mounted() {
+
             if (!this.cacheWordList.length) {
                 showToast('请先增加词语')
                 location.href = '/study'

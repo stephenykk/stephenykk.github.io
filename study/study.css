@@ -3,8 +3,8 @@
     box-sizing: border-box;
 }
 
-ul,
-li {
+.app ul,
+.app li {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -86,6 +86,9 @@ footer.page-footer {
 .bg-grey {
     background: #f3f3f3;
 }
+.bg-white {
+    background: white;
+}
 
 .br-3 {
     border-radius: 3px;
@@ -155,6 +158,10 @@ footer.page-footer {
 
 .justify-center {
     justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
 }
 
 .flex-row {
@@ -387,6 +394,78 @@ footer.page-footer {
 }
 
 /* ----------- common ---------------> */
+
+.app .myselect {
+    padding: 0;
+    height: 27px;
+    line-height: 13px;
+}
+
+.app .myselect::before {
+    content: '>';
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-family: serif;
+    font-weight: bolder;
+    transform: rotate(90deg);
+    color: black;
+}
+.app .myselect-view {
+    padding: 4px 18px 4px 8px;
+    font-weight: 400;
+}
+.app .myselect-tag {
+    background: #ccc;
+    padding: 3px 6px;
+    border-radius: 10px;
+}
+.app .myselect-options {
+    width: 100%;
+    border: 0px solid #888;
+    border-radius: 4px;
+    padding: 0px;
+    position: relative;
+    z-index: 9999;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.app .myselect.expand .myselect-options {
+    max-height: 500px;
+    border-width: 1px;
+}
+
+.app .myselect-options li {
+    padding: 6px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #dadada;
+}
+
+.app .myselect-options li:hover {
+    background: #0088ff;
+    color: white;
+}
+
+.app .myselect-options li.selected {
+    background: #0464b8;
+    color: white;
+}
+
+.app .myselect-options li:last-child {
+    border-bottom: none;
+}
+
+.app .myselect-options li.selected{
+    font-weight: 400;
+}
+.app .myselect-options li.selected::before {
+    content: '*';
+    position: absolute;
+    top: 10px;
+    left: 5px;
+}
 
 .app .my-toast {
     max-width: 60%;
@@ -741,10 +820,12 @@ button.danger:hover {
     width: 90%;
 }
 
-.title-select, .my-select {
+.title-select, .myselect, .my-select {
     padding: 3px 6px;
+    background: white;
     border-radius: 5px;
-    border-color: #0088ff;
+    border: 1px solid #0088ff;
+    font-size: 13px;
 }
 
 .filter-btn {

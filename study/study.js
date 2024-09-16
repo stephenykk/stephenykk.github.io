@@ -111,10 +111,15 @@ function getCache(cacheKey, skipDisables) {
     return data
 }
 
+function clone(data) {
+    return JSON.parse(JSON.stringify(data))
+}
+
 function setCache(cacheKey, data, isFillDisables) {
     const userKey = getUserKey(cacheKey)
     let newData = data
     if (!listDataKeys.includes(cacheKey) && isFillDisables) {
+        newData = clone(data)
         const oldData = LCache.get(userKey) || []
         const disableIndexLs = oldData.map((item, i) => item.status !== 'disable' ? i : null).filter(v => v !== null)
         while(disableIndexLs.length > 0) {
@@ -159,4 +164,35 @@ function showToast(msg) {
 
 function getIsMobile() {
     return window.innerWidth < 800;
+}
+
+function getAllOptionOfTag() {
+    const allOption = {name: "", text: '全部', reverse: false}
+    return allOption
+
+}
+
+function getTagOptions(tagList) {
+    const allOption = getAllOptionOfTag()
+    const otherOptions = tagList.map(tag => {
+        if (!tag.text) {
+            tag.text = tag.name
+        }
+
+        if (tag.reverse == null) {
+            tag.reverse = false
+        }
+
+        return {...tag}
+    })
+
+    const priorityWords = ['练习', '测试', '单元', '第']
+
+    const optionLs = [...otherOptions]
+    const priorityLs = optionLs.filter(opt => priorityWords.some(w => opt.name.startsWith(w)))
+    const otherLs = optionLs.filter(opt => !priorityLs.includes(opt));
+
+    priorityLs.sort();
+    otherLs.sort();
+    return [allOption, ...priorityLs, ...otherLs]
 }
