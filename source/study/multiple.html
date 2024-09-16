@@ -10,7 +10,7 @@
   <div class="user-info f13">
     当前用户: <span class="name">${ currentUser || '默认用户' }</span>
   </div>
-  <h1 class="hero-title" style="margin-bottom: 0">词语认读</h1>
+  <h1 class="hero-title debug-hide" style="margin-bottom: 0">词语认读</h1>
   <div class="ctrl-section mb-20 f14 mt-10 bg-grey br-5 pos-r">
     <div class="ctrl-top flex-row flex-wrap">
       <div class="font-bar flex1 shrink1">
@@ -161,7 +161,7 @@
       </div>
     </div>
   </div>
-  <div class="debug-info hide">
+  <div class="debug-info hideXX">
     <p>${ wordList }</p>
     <h2>${ activeWord }</h2>
   </div>
@@ -174,7 +174,7 @@
       <button class="next" @click="showNext" title="快捷键 -> 或空格">
         &gt;
       </button>
-      <div class="single m-auto">
+      <div class="single m-auto debug-hide">
         <ul class="card-list flex-row justify-center pos-r">
           <li
             v-for="(item, index) in wordList"
@@ -290,8 +290,8 @@
       },
       wordList() {
         // if (!this.isConditionChanged) return this.displayingWordList;
-
-        let viewWordList = this.cacheWordList.filter((item) => {
+        console.log('computed wordList start------------>')
+        let viewWordList = this.sourceWordList.filter((item) => {
           let shouldKept = !this.title ? true : this.title === item.title;
 
           const hasAllSelection = this.selTagLs.some(
@@ -299,7 +299,6 @@
           );
           if (shouldKept && !hasAllSelection) {
             // check if match every selected tag condition
-            debugger;
             shouldKept = this.selTagLs.every((stag) => {
               const hasCurSelectedTag = item.tags.includes(stag.name);
               return stag.reverse ? !hasCurSelectedTag : hasCurSelectedTag;
@@ -313,12 +312,21 @@
           return shouldKept;
         });
 
-        this.orderedWordList = viewWordList;
+        if (this.sourceWordList === this.cacheWordList) {
+            this.orderedWordList = viewWordList;
+        }
+
         if (this.isRandom) {
+            const isClickRandom = this.lastIsRandom === false;
           // if result set changed, shuffle the new list
-          if (viewWordList.length !== this.displayingWordList.length) {
+          if (viewWordList.length !== this.displayingWordList.length || isClickRandom) {
             viewWordList = getShuffleList(viewWordList);
+          } else {
+            viewWordList = this.displayingWordList; // reuse the old list, keep the same random order
           }
+        } else {
+            const isClickRandom = this.lastIsRandom === true;
+
         }
 
         // console.log("🚀 ~ wordList ~ viewWordList.length !== this.displayingWordList.length:", viewWordList.length !== this.displayingWordList.length)
@@ -327,8 +335,10 @@
         // }
 
         this.displayingWordList = viewWordList;
+        this.sourceWordList = this.displayingWordList;
 
         this.isConditionChanged = false;
+        this.lastIsRandom = this.isRandom;
 
         return viewWordList;
       },
@@ -346,6 +356,7 @@
       know: {
         handler() {
           this.onConditionChanged();
+          this.sourceWordList = this.cacheWordList;
           setCache("mwordKnow", this.know);
         },
         immediate: true,
@@ -353,6 +364,7 @@
       title: {
         handler() {
           this.onConditionChanged();
+          this.sourceWordList = this.cacheWordList;
           setCache("mwordTitle", this.title);
         },
         immediate: true,
@@ -361,6 +373,7 @@
         handler() {
           this.onConditionChanged();
           console.log('selTagLs changed ============>', this.selTagLs)
+          this.sourceWordList = this.cacheWordList;
           setCache("mwordTagLs", this.selTagLs);
         },
         deep: true,
@@ -369,6 +382,7 @@
       isRandom: {
         handler() {
           this.onConditionChanged();
+          this.sourceWordList = this.cacheWordList;
         },
         immediate: true,
       },
@@ -439,7 +453,7 @@
         setCache("mwords", data, true);
       },
       changeRandom(event) {
-        this.lastIsRandom = this.isRandom;
+        this.randomClickTimes = this.randomClickTimes ? this.randomClickTimes + 1 : 1;
         console.log("🚀 ~ changeRandom ~ this.isRandom:", this.isRandom);
       },
       handleClickCard(index) {
@@ -485,8 +499,10 @@
       },
     },
     beforeCreate() {
+      this.lastIsRandom = false;
       this.isConditionChanged = false; // not reactive data
       this.displayingWordList = [];
+      this.sourceWordList = this.cacheWordList;
     },
     mounted() {
       if (!this.cacheWordList.length) {

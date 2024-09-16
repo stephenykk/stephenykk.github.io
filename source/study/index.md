@@ -45,6 +45,9 @@ category: student
                 <button class="action-btn primary flex0">
                     <a href="single.html">单字练习</a>
                 </button>
+                <button class="action-btn primary flex0">
+                    <a href="single.html?test=1">单字默写</a>
+                </button>
             </div>
             <hr class="mt-20 mb-20" />
             <div class="row flex-row flex-wrap">

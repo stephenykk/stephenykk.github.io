@@ -70,7 +70,7 @@ footer.page-footer {
 }
 
 /* ---------------- utils ----------------> */
-.hide {
+.hide, .debug-hide {
     display: none !important;
 }
 .shrink0 {
