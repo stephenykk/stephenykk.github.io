@@ -13,13 +13,13 @@ category: student
 <div class="app" id="app">
     <section class="actions-container">
         <div class="actions ">
-            <div class="row flex-row flex-wrap">
-                <label for="userSelect">当前用户: </label>
-                <select name="userSelect" id="userSelect"  class="f18 title-select" v-model="currentUser" >
+            <div class="row flex-row flex-wrap ml-20">
+                <label for="userSelect fw-400" style="color:#117993">切换用户: </label>
+                <select name="userSelect" id="userSelect"  class="f18 title-select" v-model="currentUser" @change="changeCurrentUser">
                     <option value="">默认用户</option>
                     <option v-for="(user, i) in userList" :value="user.name" :key="i">${user.name}</option>
                 </select>
-                <button class="action-btn primary flex0" @click="changeCurrentUser">
+                <button class="action-btn primary flex0 hide" @click="changeCurrentUser">
                     切换用户
                 </button>
             </div>
@@ -39,23 +39,23 @@ category: student
             </div>
             <hr class="mt-20 mb-20" />
             <div class="row flex-row flex-wrap">
-                <button class="action-btn primary flex0">
-                    <a href="single.html">单字练习</a>
-                </button>
                 <button class="action-btn flex0">
                     <a href="admin-single.html">管理文字</a>
+                </button>
+                <button class="action-btn primary flex0">
+                    <a href="single.html">单字练习</a>
                 </button>
             </div>
             <hr class="mt-20 mb-20" />
             <div class="row flex-row flex-wrap">
+                <button class="action-btn flex0">
+                    <a href="admin-multiple.html">管理词语</a>
+                </button>
                 <button class="action-btn primary flex0">
                     <a href="multiple.html">词语练习</a>
                 </button>
                 <button class="action-btn primary flex0">
                     <a href="multiple.html?test=1">词语默写</a>
-                </button>
-                <button class="action-btn flex0">
-                    <a href="admin-multiple.html">管理词语</a>
                 </button>
             </div>
         </div>
@@ -74,7 +74,7 @@ category: student
         methods: {
             changeCurrentUser() {
                 LCache.set('curUser', this.currentUser);
-                showToast('切换成功')
+                showToast(`修改成功，当前用户是 ${this.currentUser || '默认用户'}`)
             },
         }
     });

@@ -45,6 +45,9 @@ input:focus {
 
 /* --------------------- overwrite ------------> */
 
+.md-text.content {
+    overflow: visible;
+}
 .l_body {
     grid-template-columns: 1fr;
 }
@@ -67,6 +70,9 @@ footer.page-footer {
 }
 
 /* ---------------- utils ----------------> */
+.hide {
+    display: none !important;
+}
 .shrink0 {
     flex-shrink: 0 !important;
 }
@@ -315,48 +321,66 @@ footer.page-footer {
     margin-bottom: 50px;
 }
 
+.fw-300 {
+    font-weight: 300;
+}
+
+.fw-400 {
+    font-weight: 400;
+}
+
+.fw-500 {
+    font-weight: 500;
+
+}
+
+
+.fw-600 {
+    font-weight: 600;
+}
+
 .f12 {
-    font-size: 12px;
+    font-size: 12px!important;
 }
 
 .f13 {
-    font-size: 13px;
+    font-size: 13px!important;
 }
 
 .f14 {
-    font-size: 14px;
+    font-size: 14px!important;
 }
 
 .f15 {
-    font-size: 15px;
+    font-size: 15px!important;
 }
 
 .f16 {
-    font-size: 16px;
+    font-size: 16px!important;
 }
 
 .f17 {
-    font-size: 17px;
+    font-size: 17px!important;
 }
 
 .f18 {
-    font-size: 18px;
+    font-size: 18px!important;
 }
 
 .f19 {
-    font-size: 19px;
+    font-size: 19px!important;
 }
 
 .f20 {
-    font-size: 20px;
+    font-size: 20px!important;
 }
 
 .f25 {
-    font-size: 25px;
+    font-size: 25px!important;
 }
 
 .f30 {
-    font-size: 30px;
+    font-size: 30px!important;
 }
 
 .pos-r {
@@ -584,6 +608,16 @@ footer.page-footer {
     color: white;
 }
 
+
+.tag-bar .tag.primary:hover {
+    background: #7dc6fd;
+
+}
+.tag-bar .tag.primary.active {
+    background: #0088ff;
+    color: white;
+}
+
 .app-main {
     flex: 1;
     /* overflow: hidden; */
@@ -724,6 +758,7 @@ button.danger:hover {
 .card-list {
     min-height: 460px;
 }
+
 
 @font-face {
     font-family: 'Aa';
@@ -866,4 +901,12 @@ aside {
 
 .card-item.view-answer .chr::after {
     opacity: 0;
+}
+
+.app .minus-sign {
+    height: 0;
+    width: 8px;
+    border-top: 1px solid #333;
+    margin-right: 3px;
+    transform: translateY(-5px);
 }
