@@ -499,14 +499,21 @@ footer.page-footer {
     position: relative;
 }
 
-#app .user-info {
+#app .user-info, #app .top-counter {
     position: fixed;
     top: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(200, 200, 200, .6);
+    background: rgba(200, 200, 230, .6);
     padding: 2px 5px;
     border-radius: 3px 0 0 3px;
+}
+
+#app div.top-counter {
+    right: auto;
+    left: 0px;
+    padding: 2px 10px;
+    border-radius: 0 5px 5px 0;
 }
 
 #app .user-info .name {
@@ -573,6 +580,7 @@ footer.page-footer {
 .font-bar button:hover {
     background: #ccf;
 }
+
 
 .tag-bar .tag:hover {
     background: #cfc;

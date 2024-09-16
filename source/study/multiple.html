@@ -3,8 +3,11 @@
 <script src="./study.js"></script>
 
 <div :class="'app ' + (this.isMobile ? 'mobile' : '')" id="app" @click="tagSelectOpen = false">
-    <div class="user-info f13">
+    <div class="user-info f17 fw-400">
         当前用户: <span class="name">${ currentUser || '默认用户' }</span>
+    </div>
+    <div class="top-counter ta-c">
+        <i class="num f17 fw-400">${activeIndex + 1} / ${wordList.length}</i>
     </div>
     <h1 style="margin-bottom: 0">词语认读</h1>
     <div class="ctrl-section mb-20 f14 mt-10 bg-grey br-5 pos-r">
@@ -87,9 +90,9 @@
     </div>
     <section class="app-main multiple-container pos-r"  :class="{'testing': isTestMode}">
         <div class="card-list-wrap pos-r">
-            <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
-            <button class="next" @click="showNext" title="快捷键 -> 或空格">&gt;</button>
-            <div class="single m-auto">
+            <div class="single m-auto pos-r">
+                <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
+                <button class="next" @click="showNext" title="快捷键 -> 或空格">&gt;</button>
                 <ul class="card-list flex-row justify-center pos-r">
                     <li v-for="(item, index) in wordList" :key="index" class="card-item-wrap">
                         <transition :name="isNext ? 'lfade' : 'rfade'">
@@ -107,7 +110,6 @@
             </div>
             <p class="mt-30 ta-c">
                 <i class="num f30">${activeIndex + 1} / ${wordList.length}</i>
-
             </p>
         </div>
     </section>
