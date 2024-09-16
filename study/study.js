@@ -87,3 +87,131 @@ class LStorage {
 }
 
 const LCache = new LStorage();
+
+
+
+function getCurUser() {
+    return LCache.get('curUser') || ''
+}
+
+function getUserKey(cacheKey) {
+    const curUser = getCurUser()
+    return curUser ? curUser + ':' + cacheKey : cacheKey;
+}
+
+const listDataKeys = ['words', 'mwords', 'tags', 'users']
+
+function getCache(cacheKey, skipDisables) {
+    const userKey = getUserKey(cacheKey)
+    let data = LCache.get(userKey)
+    if (listDataKeys.includes(cacheKey) && skipDisables) {
+        data = (data || []).filter(item => item.status !== 'disable')
+    }
+
+    return data
+}
+
+function clone(data) {
+    return JSON.parse(JSON.stringify(data))
+}
+
+function setCache(cacheKey, data, isFillDisables) {
+    const userKey = getUserKey(cacheKey)
+    let newData = data
+    if (!listDataKeys.includes(cacheKey) && isFillDisables) {
+        newData = clone(data)
+        const oldData = LCache.get(userKey) || []
+        const disableIndexLs = oldData.map((item, i) => item.status !== 'disable' ? i : null).filter(v => v !== null)
+        while(disableIndexLs.length > 0) {
+            const i = disableIndexLs.shift()
+            const len = newData.length
+            if (i < len) {
+                newData.splice(i, 0, oldData[i])
+            } else {
+                newData.push(oldData[i])
+            }
+        }
+    }
+    LCache.set(userKey, newData)
+    return true
+}
+
+function delArrayItem(arr, item) {
+    const index = arr.findIndex((el) => el === item)
+    if (index > -1) {
+        arr.splice(index, 1)
+    }
+
+    return arr;
+}
+
+function showToast(msg) {
+    let appDiv = document.querySelector('#app')
+    let toastDiv = document.createElement('div')
+    toastDiv.className = 'my-toast'
+    toastDiv.innerText = msg
+    appDiv.appendChild(toastDiv)
+    setTimeout(() => {
+        toastDiv.classList.add('show')
+        setTimeout(() => {
+            appDiv.removeChild(toastDiv)
+            toastDiv = null
+            appDiv = null
+        }, 2500);
+    }, 300)
+
+}
+
+function getIsMobile() {
+    return window.innerWidth < 800;
+}
+
+function getAllOptionOfTag() {
+    const allOption = {name: "all", text: '全部', reverse: false}
+    return allOption
+
+}
+
+
+const priorityWords = ["练习", "测试", "第"];
+function sortByPriority(list) {
+    const PList = list.filter(item => priorityWords.some(w => item.name.startsWith(w)))
+    const OList = list.filter(item => !PList.includes(item))
+
+    PList.sort((a, b) => a.name > b.name ? 1 : -1)
+    OList.sort((a, b) => a.name > b.name ? 1 : -1)
+
+    return [...PList, ...OList]
+}
+
+
+function getTagOptions(tagList) {
+    const allOption = getAllOptionOfTag()
+    debugger;
+    const otherOptions = tagList.map(tag => {
+        if (!tag.text) {
+            tag.text = tag.name
+        }
+
+        if (tag.reverse == null) {
+            tag.reverse = false
+        }
+
+        return {...tag}
+    })
+
+    return [allOption, ...sortByPriority(otherOptions)]
+}
+
+function getSortedTagList(tagList) {
+    return sortByPriority(tagList)
+}
+
+function updateSelectedForTags(tagList, selectedTags) {
+    tagList.forEach((tag, i) => {
+        const matched = selectedTags.find(t => t.name === tag.name)
+        if (matched) {
+            tagList[i] = matched
+        }
+    })
+}
