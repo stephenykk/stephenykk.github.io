@@ -73,6 +73,12 @@ footer.page-footer {
 .hide, .debug-hide {
     display: none !important;
 }
+.debug-info {
+    display: none;
+}
+.debug-show {
+    display: block !important;
+}
 .shrink0 {
     flex-shrink: 0 !important;
 }

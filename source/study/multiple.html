@@ -10,7 +10,7 @@
   <div class="user-info f13">
     当前用户: <span class="name">${ currentUser || '默认用户' }</span>
   </div>
-  <h1 class="hero-title debug-hide" style="margin-bottom: 0">词语认读</h1>
+  <h1 class="hero-title debug-hideXX" style="margin-bottom: 0">词语认读</h1>
   <div class="ctrl-section mb-20 f14 mt-10 bg-grey br-5 pos-r">
     <div class="ctrl-top flex-row flex-wrap">
       <div class="font-bar flex1 shrink1">
@@ -161,7 +161,7 @@
       </div>
     </div>
   </div>
-  <div class="debug-info hideXX">
+  <div class="debug-info debug-showXX">
     <p>${ wordList }</p>
     <h2>${ activeWord }</h2>
   </div>
@@ -174,7 +174,7 @@
       <button class="next" @click="showNext" title="快捷键 -> 或空格">
         &gt;
       </button>
-      <div class="single m-auto debug-hide">
+      <div class="single m-auto debug-hideXX">
         <ul class="card-list flex-row justify-center pos-r">
           <li
             v-for="(item, index) in wordList"
