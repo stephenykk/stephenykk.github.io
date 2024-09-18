@@ -174,14 +174,16 @@ function getAllOptionOfTag() {
 
 
 const priorityWords = ["练习", "测试", "第"];
-function sortByPriority(list) {
-    const PList = list.filter(item => priorityWords.some(w => item.name.startsWith(w)))
-    const OList = list.filter(item => !PList.includes(item))
+function sortByPriority(list, isPriorityLast = false) {
+  const PList = list.filter((item) =>
+    priorityWords.some((w) => item.name.startsWith(w))
+  );
+  const OList = list.filter((item) => !PList.includes(item));
 
-    PList.sort((a, b) => a.name > b.name ? 1 : -1)
-    OList.sort((a, b) => a.name > b.name ? 1 : -1)
+  PList.sort((a, b) => (a.name > b.name ? 1 : -1));
+  OList.sort((a, b) => (a.name > b.name ? 1 : -1));
 
-    return [...PList, ...OList]
+  return isPriorityLast ? [...OList, ...PList] : [...PList, ...OList];
 }
 
 
@@ -203,8 +205,8 @@ function getTagOptions(tagList) {
     return [allOption, ...sortByPriority(otherOptions)]
 }
 
-function getSortedTagList(tagList) {
-    return sortByPriority(tagList)
+function getSortedTagList(tagList, isPriorityLast) {
+    return sortByPriority(tagList, isPriorityLast);
 }
 
 function updateSelectedForTags(tagList, selectedTags) {
