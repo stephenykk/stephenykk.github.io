@@ -10,7 +10,7 @@ category: student
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
 
-<div class="app" id="app">
+<div :class="'app ' + (isMobile ? 'mobile' : '')" id="app">
     <section class="actions-container">
         <div class="actions ">
             <div class="row flex-row flex-wrap ml-20">
@@ -71,6 +71,7 @@ category: student
         el: '#app',
         delimiters: ['${', '}'],
         data: {
+            isMobile: getIsMobile(),
             currentUser: getCurUser(),
             userList: (LCache.get('users') || []).filter(user => user.status !== 'disable')
         },

@@ -3,15 +3,27 @@
 <script src="./study.js"></script>
 
 <div
-  :class="'app ' + (this.isMobile ? 'mobile' : '')"
+  :class="'app ' + (isMobile ? 'mobile' : '')"
   id="app"
   @click="tagSelectOpen = false"
 >
-  <div class="user-info f13">
-    当前用户: <span class="name">${ currentUser || '默认用户' }</span>
+  <div class="user-info f17 fw-400">
+    用户: <span class="name">${ currentUser || '默认用户' }</span>
   </div>
-    <h1 class="hero-title debug-hideXX" style="margin-bottom: 0">单字认读</h1>
-  <div class="ctrl-section mb-20 f14 mt-10 bg-grey br-5 pos-r">
+  <div class="top-counter ta-c">
+    <i class="num f17 fw-400">${activeIndex + 1} / ${wordList.length}</i>
+  </div>
+  <h1 class="hero-title debug-hideXX" style="margin-bottom: 0">单字认读</h1>
+
+  <div
+    class="collapse-bar br-5 pointer bg-grey ta-r f-serif"
+    @click="isCloseCtrl = !isCloseCtrl"
+    :class="{'close-ctrl': isCloseCtrl}"
+  >
+    <span class="collapse-btn dis-ib">&gt;</span>
+  </div>
+
+  <div class="ctrl-section mb-20 f14 bg-grey br-5 pos-r">
     <div class="ctrl-top flex-row flex-wrap">
       <div class="font-bar flex1 shrink1">
         <label class="purple f15 mr-5">选择字体:</label>
@@ -31,48 +43,19 @@
           字体5
         </button>
       </div>
-      <div class="tag-bar flex1 shrink1">
-        <label class="purple f15 mr-5">设置标签:</label>
-        <a href="/study/admin-tags.html" v-show="!tagList.length">创建标签</a>
-        <span
-          class="tag"
-          :class="{active: (activeWord?.tags || []).includes(tag.name), primary: primaryWords.some(w => tag.name.startsWith(w))}"
-          @click="toggleTag(tag)"
-          v-for="(tag, i) in tagList"
-          :key="i"
-          >${ tag.name }</span
-        >
-      </div>
-      <div class="know-bar flex1 shrink1">
-        <label class="purple f15 mr-5">设置掌握:</label>
-        <button
-          @click="toggleKnow(true)"
-          class="op-btn"
-          :class="{primary: activeWord?.isKnow}"
-        >
-          已掌握
-        </button>
-        <button
-          @click="toggleKnow(false)"
-          class="op-btn"
-          :class="{primary: !activeWord?.isKnow}"
-        >
-          未掌握
-        </button>
-      </div>
     </div>
 
-    <hr />
+    <hr class="mt-10 mb-10" />
 
-    <div class="ctrl-bottom flex-row">
+    <div class="ctrl-middle flex-row">
       <label class="purple f15">筛选:</label>
       <div class="ctrl-filter flex-row flex-wrap flex1 shrink1">
         <div
           class="title-filter option-bar dis-ib"
-          :class="{'mt-10': isMobile}"
+          :class="{'mt-10-no': isMobile}"
         >
           <label>
-            <span>标题:</span>
+            <span class="ml-5">标题:</span>
             <select
               class="f13 title-select"
               v-model="title"
@@ -87,7 +70,7 @@
         </div>
         <div
           class="tag-filter option-bar dis-ib ml-5"
-          :class="{'mt-10': isMobile}"
+          :class="{'mt-10-no': isMobile}"
         >
           <div class="dis-ib">
             <span>标签:</span>
@@ -104,7 +87,13 @@
                   v-for="(selTag, i) in selTagLs"
                   :key="i"
                 >
-                  <span class="myselect-tag-val"><i class="minus-sign dis-ib vm-a" v-show="selTag.reverse"></i>${ selTag.text }</span>
+                  <span class="myselect-tag-val"
+                    ><i
+                      class="minus-sign dis-ib vm-a"
+                      v-show="selTag.reverse"
+                    ></i
+                    >${ selTag.text }</span
+                  >
                 </span>
               </div>
               <ul class="f13 tag-select myselect-options bg-white">
@@ -132,7 +121,7 @@
         </div>
         <div
           class="know-filter option-bar dis-ib ml-5"
-          :class="{'mt-10': isMobile}"
+          :class="{'mt-10-no': isMobile}"
         >
           <label>
             <span>掌握:</span>
@@ -147,7 +136,7 @@
             </select>
           </label>
         </div>
-        <div class="filter-buttons" :class="{'mt-10': isMobile}">
+        <div class="filter-buttons" :class="{'mt-10-no': isMobile}">
           <label>
             <span>随机:</span>
             <input
@@ -160,8 +149,41 @@
         </div>
       </div>
     </div>
+
+    <hr class="mt-10 mb-10" />
+
+    <div class="know-bar flex1 shrink1">
+      <label class="purple f15 mr-5">设置掌握:</label>
+      <button
+        @click="toggleKnow(true)"
+        class="op-btn"
+        :class="{primary: activeWord?.isKnow}"
+      >
+        已掌握
+      </button>
+      <button
+        @click="toggleKnow(false)"
+        class="op-btn"
+        :class="{primary: !activeWord?.isKnow}"
+      >
+        未掌握
+      </button>
+    </div>
+
+    <div class="tag-bar flex1 shrink1">
+      <label class="purple f15 mr-5">设置标签:</label>
+      <a href="/study/admin-tags.html" v-show="!tagList.length">创建标签</a>
+      <span
+        class="tag"
+        :class="{active: (activeWord?.tags || []).includes(tag.name), primary: primaryWords.some(w => tag.name.startsWith(w))}"
+        @click="toggleTag(tag)"
+        v-for="(tag, i) in tagList"
+        :key="i"
+        >${ tag.name }</span
+      >
+    </div>
   </div>
-  <div class="debug-info debug-show">
+  <div class="debug-info debug-showXX">
     <p>${ wordList }</p>
     <h2>${ activeWord }</h2>
   </div>
@@ -170,16 +192,16 @@
     :class="{'testing': isTestMode}"
   >
     <div class="card-list-wrap pos-r">
-      <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
-      <button class="next" @click="showNext" title="快捷键 -> 或空格">
-        &gt;
-      </button>
-      <div class="single m-auto debug-hideXX">
+      <div class="single m-auto pos-r debug-hideXX">
+        <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
+        <button class="next" @click="showNext" title="快捷键 -> 或空格">
+          &gt;
+        </button>
         <ul class="card-list flex-row justify-center pos-r">
           <li
             v-for="(item, index) in wordList"
             :key="index"
-            class="card-item-wrap"
+            class="card-item-wrap of-h"
           >
             <transition :name="isNext ? 'lfade' : 'rfade'">
               <div
@@ -215,18 +237,20 @@
 <script>
   const searchParams = new URLSearchParams(location.search);
   const isTest = ![null, "0", "false"].includes(searchParams.get("test"));
-  const primaryWords = priorityWords
+  const primaryWords = priorityWords;
 
-  const tagTable = getCache("tags", true) || []
-  const sortedTagList = getSortedTagList(tagTable)
-  const selectedTagList = getCache("wordTagLs") || [getAllOptionOfTag()]
-  const tagOptions = getTagOptions(tagTable)
-  updateSelectedForTags(tagOptions, selectedTagList)
+  const tagTable = getCache("tags", true) || [];
+  const sortedTagList = getSortedTagList(tagTable, true);
+  const selectedTagList = getCache("wordTagLs") || [getAllOptionOfTag()];
+  const tagOptions = getTagOptions(tagTable);
+  updateSelectedForTags(tagOptions, selectedTagList);
 
   window.myapp = new Vue({
     el: "#app",
     delimiters: ["${", "}"],
     data: {
+      isCloseCtrl: false,
+
       primaryWords,
       tagSelectOpen: false,
       title: getCache("wordTitle") || "",
@@ -238,8 +262,8 @@
       isNext: true,
       isMobile: getIsMobile(),
       isRandom: false,
-      fontType: isTest ? 5 : getCache("mfontType") || 5,
-      cacheWordList: getCache("mwords", true) || [],
+      fontType: isTest ? 5 : getCache("fontType") || 5,
+      cacheWordList: getCache("words", true) || [],
       tagList: sortedTagList,
       tagOptions: tagOptions,
       orderedWordList: [],
@@ -290,7 +314,7 @@
       },
       wordList() {
         // if (!this.isConditionChanged) return this.displayingWordList;
-        console.log('computed wordList start------------>')
+        console.log("computed wordList start------------>");
         let viewWordList = this.sourceWordList.filter((item) => {
           let shouldKept = !this.title ? true : this.title === item.title;
 
@@ -299,7 +323,7 @@
           );
           if (shouldKept && !hasAllSelection) {
             // check if match every selected tag condition
-            
+
             shouldKept = this.selTagLs.every((stag) => {
               const hasCurSelectedTag = item.tags.includes(stag.name);
               return stag.reverse ? !hasCurSelectedTag : hasCurSelectedTag;
@@ -314,20 +338,22 @@
         });
 
         if (this.sourceWordList === this.cacheWordList) {
-            this.orderedWordList = viewWordList;
+          this.orderedWordList = viewWordList;
         }
 
         if (this.isRandom) {
-            const isClickRandom = this.lastIsRandom === false;
+          const isClickRandom = this.lastIsRandom === false;
           // if result set changed, shuffle the new list
-          if (viewWordList.length !== this.displayingWordList.length || isClickRandom) {
+          if (
+            viewWordList.length !== this.displayingWordList.length ||
+            isClickRandom
+          ) {
             viewWordList = getShuffleList(viewWordList);
           } else {
             viewWordList = this.displayingWordList; // reuse the old list, keep the same random order
           }
         } else {
-            const isClickRandom = this.lastIsRandom === true;
-
+          const isClickRandom = this.lastIsRandom === true;
         }
 
         // console.log("🚀 ~ wordList ~ viewWordList.length !== this.displayingWordList.length:", viewWordList.length !== this.displayingWordList.length)
@@ -431,7 +457,8 @@
             if (matchedPWord && !tagOption.reverse) {
               this.selTagLs = newSelTagLs.filter(
                 (stag) =>
-                  stag === tagOption || !(stag.name.startsWith(matchedPWord) && !stag.reverse)
+                  stag === tagOption ||
+                  !(stag.name.startsWith(matchedPWord) && !stag.reverse)
               );
             } else {
               this.selTagLs = newSelTagLs;
@@ -453,7 +480,9 @@
         setCache("words", data, true);
       },
       changeRandom(event) {
-        this.randomClickTimes = this.randomClickTimes ? this.randomClickTimes + 1 : 1;
+        this.randomClickTimes = this.randomClickTimes
+          ? this.randomClickTimes + 1
+          : 1;
         console.log("🚀 ~ changeRandom ~ this.isRandom:", this.isRandom);
       },
       handleClickCard(index) {
@@ -485,8 +514,16 @@
           const matchedPWord = priorityWords.find((w) =>
             tag.name.startsWith(w)
           );
-        //   wordTags.push(tag.name)
-          wordTags = [...wordTags, tag.name].filter(tagName => tag.name === tagName || !tag.name.startsWith(matchedPWord));
+          if (!matchedPWord) {
+              wordTags.push(tag.name)
+
+          } else {
+            wordTags = [...wordTags, tag.name].filter(
+              (tagName) =>
+                tag.name === tagName || !tagName.startsWith(matchedPWord)
+            );
+
+          }
 
           this.activeWord.tags = wordTags;
         }
@@ -507,7 +544,9 @@
     mounted() {
       if (!this.cacheWordList.length) {
         showToast("请先增加文字");
-        location.href = "/study";
+        setTimeout(() => {
+          location.href = "/study"; // kkkk
+        }, 3000);
       } else {
         if (!this.wordList.length) {
           this.tipsFilterEmpty();
