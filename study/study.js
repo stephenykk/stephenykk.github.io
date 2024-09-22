@@ -167,10 +167,25 @@ function getIsMobile() {
 }
 
 function getAllOptionOfTag() {
-    const allOption = {name: "", text: '全部', reverse: false}
+    const allOption = {name: "all", text: '全部', reverse: false}
     return allOption
 
 }
+
+
+const priorityWords = ["练习", "测试", "第"];
+function sortByPriority(list, isPriorityLast = false) {
+  const PList = list.filter((item) =>
+    priorityWords.some((w) => item.name.startsWith(w))
+  );
+  const OList = list.filter((item) => !PList.includes(item));
+
+  PList.sort((a, b) => (a.name > b.name ? 1 : -1));
+  OList.sort((a, b) => (a.name > b.name ? 1 : -1));
+
+  return isPriorityLast ? [...OList, ...PList] : [...PList, ...OList];
+}
+
 
 function getTagOptions(tagList) {
     const allOption = getAllOptionOfTag()
@@ -186,13 +201,18 @@ function getTagOptions(tagList) {
         return {...tag}
     })
 
-    const priorityWords = ['练习', '测试', '单元', '第']
+    return [allOption, ...sortByPriority(otherOptions)]
+}
 
-    const optionLs = [...otherOptions]
-    const priorityLs = optionLs.filter(opt => priorityWords.some(w => opt.name.startsWith(w)))
-    const otherLs = optionLs.filter(opt => !priorityLs.includes(opt));
+function getSortedTagList(tagList, isPriorityLast) {
+    return sortByPriority(tagList, isPriorityLast);
+}
 
-    priorityLs.sort();
-    otherLs.sort();
-    return [allOption, ...priorityLs, ...otherLs]
+function updateSelectedForTags(tagList, selectedTags) {
+    tagList.forEach((tag, i) => {
+        const matched = selectedTags.find(t => t.name === tag.name)
+        if (matched) {
+            tagList[i] = matched
+        }
+    })
 }
