@@ -189,7 +189,6 @@ function sortByPriority(list, isPriorityLast = false) {
 
 function getTagOptions(tagList) {
     const allOption = getAllOptionOfTag()
-    debugger;
     const otherOptions = tagList.map(tag => {
         if (!tag.text) {
             tag.text = tag.name
