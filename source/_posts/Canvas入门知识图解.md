@@ -2,8 +2,8 @@
 title: Canvas入门知识图解
 banner: /images/banner_camera.jpg
 date: 2024-04-12 17:07:58
-tags: canvas
-categories: canvas
+tags: Canvas
+categories: Canvas
 ---
 
 

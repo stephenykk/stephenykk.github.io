@@ -2,8 +2,8 @@
 title: SVG快速入门（图解版）
 banner: /images/banner_camera.jpg
 date: 2024-04-12 17:04:15
-tags: svg
-categories: svg
+tags: SVG
+categories: SVG
 ---
 
 
