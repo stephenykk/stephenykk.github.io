@@ -429,7 +429,7 @@ footer.page-footer {
 
 .app .myselect {
     padding: 0;
-    height: 27px;
+    min-height: 27px;
     line-height: 13px;
 }
 
@@ -451,6 +451,7 @@ footer.page-footer {
     background: #ccc;
     padding: 3px 6px;
     border-radius: 10px;
+    margin-bottom: 5px;
 }
 .app .myselect-options {
     width: 100%;
@@ -603,8 +604,10 @@ footer.page-footer {
 .font-bar button {
     display: inline-block;
     font-size: 13px;
-    padding: 2px 6px;
-    margin: 0 5px 2px 0;
+    /* padding: 2px 6px; */
+    padding: 6px;
+    /* margin: 0 5px 2px 0; */
+    margin: 8px;
     border-radius: 10px;
     background: #ccc;
     cursor: pointer;
