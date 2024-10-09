@@ -10,34 +10,40 @@ category: Python
 
 ## 简介
 
-python 是一种简单优雅的脚本语言，包含非常完善的基础代码库, 覆盖网络、文件、GUI、 数据库、文本等, 除了内置库以外还有大量第三方库。
+python 是一种{% mark 简单优雅的脚本语言 color:purple %}，包含非常{% mark 完善的基础代码库 color:purple %}, 覆盖网络、文件、GUI、 数据库、文本等, 除了内置库以外还有{% mark 大量第三方库 color:purple %}。
 
-python 的适用范围: 网络应用、脚本任务和其它自动化工具
+
+python 的适用范围: {% mark web应用 color:purple %}、{% mark 脚本程序 color:purple %}和{% mark 自动化工具 color:purple %}
 
 ## 安装
 
-python 是跨平台的，解释型的脚本语言(**似乎脚本语言都是解释型和跨平台的**)
-python 有 2.x 和 3.x 两个版本，较多的应用都是基于 2.x 开发的; 安装 python 就是安装 python 的解释器, 得到一个命令行交互环境.
+python 是跨平台的，解释型的脚本语言  (*{% mark 脚本语言都是解释型和跨平台的 color:purple %}*)
+python 有 2.x 和 3.x 两个版本，较多的应用都是基于 2.x 开发的;   
+{% mark 安装 python 就是安装 python解释器, 得到一个命令行交互环境. color:purple %}
 
 -   mac `brew install python3`
 -   ubuntu `sodu apt-get install python3`
 -   window 直接到官网下载对应安装包
 
-安装后将 python 安装目录，添加到环境变量, 然后打开命令行，输入 python ， 进去交互环境
+{% mark 安装后将 python 安装目录，添加到环境变量, 然后打开命令行，输入 python ， 进入交互环境 color:purple %}
 
 > 注意 windows 用户在 git bash 下，输入 python，不能进入到 python 交互环境, 执行 winpty python 进入交互环境
 
-在命令行中输入 python 进入交互模式
+在命令行中输入 python {% mark 进入交互模式 color:purple %}
 
-```shell
+```shell 进入交互模式
     > python
     >>> print('hello world')
     >>> exit()
 ```
 
-执行 python 脚本文件, 命令行下`python hello.py`
+{% mark 执行 python 脚本 color:purple %}
 
-> 开始菜单可以找到 python 专用 CLI
+```shell 执行 python 脚本
+python hello.py
+```
+
+> 开始菜单可以找到 python 专用 REPL 工具 ( {% mark IDLE color:purple %} )
 
 ## python 解释器
 
@@ -45,11 +51,11 @@ python 代码文件以`.py`为后缀，由 python 解释器解释执行。
 
 python 有多种解释器:
 
--   CPython 官方解释器，C 语言开发的，所以叫 CPython, 命令行下输入 python 就是进入 CPython 解释器环境
--   IPython 增强版的 CPython
--   PyPy 执行速度较快
--   Jython 把 python 编译成 java 字节码执行
--   IronPython 运行在.NET 平台的 pyton 解释器
+-   {% mark CPython color:purple %} 官方解释器，C 语言开发的，所以叫 CPython, 命令行下输入 python 就是进入 CPython 解释器环境
+-   {% mark IPython color:purple %} 增强版的 CPython
+-   {% mark PyPy color:purple %} 执行速度较快
+-   {% mark Jython color:purple %} 把 python 编译成 java 字节码执行
+-   {% mark IronPython color:purple %} 运行在.NET 平台的 pyton 解释器
 
 ### 命令行交互环境
 
@@ -59,17 +65,23 @@ python 有多种解释器:
     > python
     >>>print('hello world')
     >>>exit()
+```
+### 执行python脚本
 
-    > python hello.py
+```shell
+    # 用python命令执行指定python脚本
+    python hello.py
 
-    #mac 或 linux上还可直接运行 python文件，如：
-    // hello.py
+    # Mac 或 Linux上还可直接运行python脚本
+    # ---- hello.py ----
     #!/usr/bin/env python3
     print('hello world')
 
     > chmod a+x hello.py
     > ./hello.py
+
 ```
+
 
 ## 输出
 
@@ -89,12 +101,12 @@ python 有多种解释器:
 
 ## 语法
 
-python 的语法比较简单:
+{% mark python 的语法比较简单 color:purple %}
 
--   用缩进表示代码块; 不用括号,花括号划分代码块
--   不用分号表示语句结束
--   标识符大小写敏感
--   声明变量不需要 var 等关键字
+-   {% mark 用缩进表示代码块 color:purple %}; 不用括号,花括号划分代码块
+-   {% mark 不用分号表示语句结束 color:purple %}
+-   {% mark 标识符大小写敏感 color:purple %}
+-   {% mark 不需要声明变量 color:purple %}  <i>不需要 var 等关键字</i>
 
 ```python
     # print absolute value
@@ -108,7 +120,7 @@ python 的语法比较简单:
 
 ## 数据类型和变量
 
-python 的数据类型包括: 整数、浮点数、字符串、字节型、布尔值、空值、列表、字典和自定义类型
+python 的{% mark 数据类型包括: 整数、浮点数、字符串、字节型、布尔值、空值、列表、字典和自定义类型 color:purple %}
 
 ```python
     1, 100, -80, 0xfa # 整数
@@ -150,7 +162,7 @@ python 的数据类型包括: 整数、浮点数、字符串、字节型、布�
       print('teenager')
 ```
 
-python 是弱类型(动态类型)语言
+python 是{% mark 弱类型语言 color:purple %}
 
 ```python
     a = 100 # 整数
@@ -159,9 +171,9 @@ python 是弱类型(动态类型)语言
     print(a)
 ```
 
-python 中常量习惯用全大些字母表示, 如 `PI=3.1415`, 并非真正意义的常量(**同 JS**)
+python 中{% mark 常量习惯用全大写 color:purple %}字母表示, 如 `PI=3.1415`, 并非真正意义的常量(**同 JS**)
 
-python 的两种除法：
+python 的{% mark 两种除法 color:purple %}：
 
 ```python
     print(10 / 3) #3.33.. 普通除法 结果为浮点数
@@ -179,7 +191,7 @@ python 的整数和浮点数没有大小限制
 
 ### 字符编码
 
-因为计算机只能处理数字，如果要处理文本，就必须先把文本转换为数字才能处理。最早的计算机在设计时采用 8 个比特（bit）作为一个字节（byte）
+因为计算机只能处理数字，如果要处理文本，就必须先把文本转换为数字才能处理。{% mark 最早的计算机在设计时采用 8 个比特（bit）作为一个字节（byte） color:purple %}
 
 -   ASCII 1 个字节，最大 255
     > 由于计算机是美国人发明的，因此，最早只有 127 个字符被编码到计算机里，也就是大小写英文字母、数字和一些符号，这个编码表被称为 ASCII 编码，比如大写字母 A 的编码是 65，小写字母 z 的编码是 122
@@ -187,12 +199,12 @@ python 的整数和浮点数没有大小限制
     > 处理中文显然一个字节是不够的，至少需要两个字节，而且还不能和 ASCII 编码冲突，所以，中国制定了 GB2312 编码，用来把中文编进去
 -   Unicode 最常用的是用两个字节表示一个字符（如果要用到非常偏僻的字符，就需要 4 个字节）
 
-    > 全世界有上百种语言，日本把日文编到 Shift_JIS 里，韩国把韩文编到 Euc-kr 里，各国有各国的标准，就会不可避免地出现冲突，结果就是，在多语言混合的文本中，显示出来会有乱码 因此，Unicode 应运而生。Unicode 把所有语言都统一到一套编码里，这样就不会再有乱码问题了
+    > 全世界有上百种语言，日本把日文编到 Shift_JIS 里，韩国把韩文编到 Euc-kr 里，各国有各国的标准，就会不可避免地出现冲突，结果就是，在多语言混合的文本中，显示出来会有乱码 因此，Unicode 应运而生。{% mark Unicode 把所有语言都统一到一套编码里，这样就不会再有乱码问题了 color:purple %}
 
--   UTF-8 用于存储和传输 英文 1 个字节 中文 3 个字节
+-   {% mark UTF-8 用于存储和传输 英文 1 个字节 中文 3 个字节 color:purple %}
     > 统一成 Unicode 编码，解决了乱码问题；但是，如果你写的文本基本上全部是英文的话，用 Unicode 编码比 ASCII 编码需要多一倍的存储空间，在存储和传输上就十分不划算。所以，本着节约的精神，又出现了把 Unicode 编码转化为“可变长编码”的 UTF-8 编码。UTF-8 编码把一个 Unicode 字符根据不同的数字大小编码成 1-6 个字节，常用的英文字母被编码成 1 个字节，汉字通常是 3 个字节，只有很生僻的字符才会被编码成 4-6 个字节。如果你要传输的文本包含大量英文字符，用 UTF-8 编码就能节省空间：
 
-在计算机内存中，统一使用 Unicode 编码，当需要保存到硬盘或者需要传输的时候，就转换为 UTF-8 编码。
+{% mark 在计算机内存中，统一使用 Unicode 编码，当需要保存到硬盘或者需要传输的时候，就转换为 UTF-8 编码。 color:purple %}
 
 用记事本编辑的时候，从文件读取的 UTF-8 字符被转换为 Unicode 字符到内存里，编辑完成后，保存的时候再把 Unicode 转换为 UTF-8 保存到文件
 
@@ -204,7 +216,7 @@ python 的整数和浮点数没有大小限制
 
 ### Python 的字符串
 
-在最新的 Python 3 版本中，字符串是以 Unicode 编码的，也就是说，Python 的字符串支持多语言
+在最新的 {% mark Python 3 版本中，字符串是以 Unicode 编码的 color:purple %}，也就是说，Python 的字符串支持多语言
 
 ```python
     print('包含中文的str')
@@ -223,7 +235,7 @@ strVal = 'Hello'
 byteVal = b'Hello' # bytes的每个字符都只占用一个字节。
 ```
 
-以 Unicode 表示的 str 通过 encode()方法可以编码为指定的 bytes
+{% mark 以 Unicode 表示的 str 通过 encode()方法可以编码为指定的 bytes color:purple %}
 
 ```python
     print('ABC'.encode('ascii')) # b'ABC'
@@ -231,7 +243,7 @@ byteVal = b'Hello' # bytes的每个字符都只占用一个字节。
     '中文'.encode('ascii') # 报错 中文不能编码为ascii的bytes
 ```
 
-反过来，如果我们从网络或磁盘上读取了字节流，那么读到的数据就是 bytes。要把 bytes 变为 str，就需要用 decode()方法：
+{% mark 反过来，如果我们从网络或磁盘上读取了字节流，那么读到的数据就是 bytes。要把 bytes 变为 str，就需要用 decode()方法 color:purple %}：
 
 ```python
 >>> b'ABC'.decode('ascii')

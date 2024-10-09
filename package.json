@@ -10,6 +10,7 @@
     "fix-images": "node builder/fixImages",
     "pull": "git submodule foreach git pull origin main:main && git pull origin master:master",
     "c": "hexo clean",
+    "g": "hexo g",
     "p": "pnpm push:master",
     "d": "hexo g && npm run fix-images && hexo d",
     "pd": "npm run p && npm run d"

@@ -19,7 +19,7 @@ categories:
 {% emoji [source] name [height:1.75em] %}
 ```
 
-其中 `source` 可省略，默认source为emoji配置列表的第一个。比如：配置如下时，默认source就是default对应的链接
+其中 `source` 可省略，默认source为emoji配置列表的第一个。比如：配置如下时，默认source就是tieba对应的链接
 ```yaml _config.yml
 tag_plugins:
   ...
@@ -29,6 +29,7 @@ tag_plugins:
     twemoji: https://gcore.jsdelivr.net/gh/twitter/twemoji/assets/svg/{name}.svg
     qq: https://gcore.jsdelivr.net/gh/cdn-x/emoji/qq/{name}.gif
     aru: https://gcore.jsdelivr.net/gh/cdn-x/emoji/aru-l/{name}.gif
+    blobcat: https://gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs/{name}.png
 ```
 
 代码示例：
