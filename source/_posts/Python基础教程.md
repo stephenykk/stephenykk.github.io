@@ -271,7 +271,7 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
 
 > 可见，1 个中文字符经过 UTF-8 编码后通常会占用 3 个字节，而 1 个英文字符只占用 1 个字节
 
-由于 Python 源代码也是一个文本文件，所以，当你的源代码中包含中文的时候，在保存源代码时，就需要务必指定保存为 UTF-8 编码。当 Python 解释器读取源代码时，为了让它按 UTF-8 编码读取，我们通常在文件开头写上这两行：
+由于 Python 源代码也是一个文本文件，所以，当你的源代码中包含中文的时候，在保存源代码时，就需要务必指定保存为 UTF-8 编码。当 Python 解释器读取源代码时，为了让它按 UTF-8 编码读取，我们通常{% mark 在代码文件开头声明编码格式 color:purple %}：
 
 ```python
     #!/usr/bin/env python3  ## 告诉Linux/OS X系统，这是一个Python可执行程序，Windows系统会忽略这个注释；
@@ -279,12 +279,12 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
     # -*- coding: utf-8 -*-  ## 告诉Python解释器，按照UTF-8编码读取源代码
 ```
 
-格式化字符串
+### 格式化字符串  
 `%s`表示用字符串替换，`%d`表示用整数替换，有几个`%?`占位符，后面就跟几个变量或者值，顺序要对应好。如果只有一个`%?`，括号可以省略。
 
 > 在 Python 中，采用的格式化方式和 C 语言是一致的，用%实现
 
-常见的占位符有：
+{% mark 格式化字符串常用占位符 color:purple %}
 
 | 占位符 | 替换内容     |
 | ------ | ------------ |
@@ -296,9 +296,10 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
 ```python
     # %d 整数 %f浮点数 %g 整数或科学计数法显示
     print('Hello, %s' % 'world')
-    # 多个变量占位 值用列表
+    # 多个变量占位 值用元组
     print('Hi %s, you have spent $%d' % （'sindy', 1000))
 
+    # g => guest
     print('normal number: %g' % 123)
     print('big number: %g' % 1234567)
 
@@ -316,13 +317,22 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
     # 转义，用%%来表示一个%
     print('growth rate: %d %%' % 7)
 ```
-
-**format()**  
+{% mark format方法格式化字符串 color:purple %}, 语法： `strPattern.format(val1, val2, ...) `  
 它会用传入的参数依次替换字符串内的占位符{0}、{1}……
 
 ```python
 >>> 'Hello, {0}, 成绩提升了 {1:.1f}%'.format('小明', 17.125)
 ```
+
+{% mark f-string语法格式化字符串(变量插值) color:purple %}, 语法： `f'hello {varName}'`
+
+```python f-string
+r = 2.5
+s = 3.14 * r ** 2
+print(f'The area of a circle with radius {r} is {s:.2f}')
+```
+
+## 字典
 
 ## 列表和元组
 
@@ -334,7 +344,7 @@ print(roles)
 len(roles) # 3
 
 roles[10] # 索引越界会报错 IndexError
-roles[-1] # 最后一个元素
+roles[-1] # 最后一个元素 支持负索引
 
 roles.append('robin') # 在末尾追加元素
 print(roles)
@@ -351,7 +361,7 @@ langs = ['python', 'java', ['asp', 'php'], 'scheme'] # 二维数组
 
 ```
 
-tuple 和 list 很相似，不过元组的元素是不可修改的, 所以元组没有`append()`, `insert()`之类的方法
+{% mark tuple 和 list 很相似，不过元组的元素是不可修改的 color:purple %}, 所以元组没有`append()`, `insert()`之类的方法
 
 ```python
 colors = ('yellow', 'green', 'red')
@@ -363,6 +373,8 @@ print(friends) # 复合数据类型可修改
 ```
 
 ## 条件判断
+
+`if ... elif ... else ...`
 
 ```python
 age = 3
@@ -385,6 +397,8 @@ else:
 ```
 
 ## 循环
+
+`for ... in ...`  ,  `while`  , `break`  ,  `continue`
 
 ```python
 names = ['Michael', 'Bob', 'Tracy']
@@ -438,15 +452,15 @@ role.get('age', 10) # 没有age字段 返回默认值
 
 ```
 
-> 在 Python 代码中几乎无处不在，正确使用 dict 非常重要，需要牢记的第一条就是 dict 的 key 必须是不可变对象。
+> 在 Python 代码中几乎无处不在，正确使用 dict 非常重要，需要牢记的第一条就是 {% mark dict 的 key 必须是不可变对象 color:purple %}。
 
-> 这是因为 dict 根据 key 来计算 value 的存储位置，如果每次计算相同的 key 得出的结果不同，那 dict 内部就完全混乱了。这个通过 key 计算位置的算法称为哈希算法（Hash）。
+> 这是因为 dict 根据 key 来计算 value 的存储位置，如果每次计算相同的 key 得出的结果不同，那 dict 内部就完全混乱了。这个通过 key 计算位置的算法称为{% mark 哈希算法 color:purple %}（Hash）。
 
 > 要保证 hash 的正确性，作为 key 的对象就不能变。在 Python 中，字符串、整数等都是不可变的，因此，可以放心地作为 key。而 list 是可变的，就不能作为 key
 
 ## 集合 set
 
-set 是无序不重复的元素集合
+{% mark set 是无序不重复的元素集合 color:purple %}
 
 ```python
 s = set([1,2,3])
@@ -458,7 +472,7 @@ print(s & s2) # 交集
 print(s | s2) # 并集
 ```
 
-> set 和 dict 的唯一区别仅在于没有存储对应的 value，但是，set 的原理和 dict 一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证 set 内部“不会有重复元素”。试试把 list 放入 set，看看是否会报错。
+> {% mark set 和 dict 的唯一区别仅在于没有存储对应的 value，但是，set 的原理和 dict 一样，所以，同样不可以放入可变对象 color:purple %}，因为无法判断两个可变对象是否相等，也就无法保证 set 内部“不会有重复元素”。试试把 list 放入 set，看看是否会报错。
 
 ## 函数
 
@@ -586,8 +600,8 @@ def person(name, age, *, city='Beijing', job):
 person('Jack', 24, job='Engineer')
 ```
 
-参数组合
-在 Python 中定义函数，可以用必选参数、默认参数、可变参数、关键字参数和命名关键字参数，这 5 种参数都可以组合使用。但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。
+**参数组合**  
+在 Python 中定义函数，可以用{% mark 必选参数、默认参数、可变参数、关键字参数和命名关键字参数 color:purple %}，这 5 种参数都可以组合使用。但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。
 
 ```python
 def f1(a, b, c=0, *args, **kw):
@@ -616,7 +630,7 @@ a = 1 b = 2 c = 3 args = (4,) kw = {'d': 99, 'x': '#'}
 >>> kw = {'d': 88, 'x': '#'}
 >>> f2(*args, **kw)
 a = 1 b = 2 c = 3 d = 88 kw = {'x': '#'}
-# 对于任意函数，都可以通过类似func(*args, **kw)的形式调用它，无论它的参数是如何定义的
+# 对于任意函数，都可以通过类似 func(*args, **kw) 的形式调用它，无论它的参数是如何定义的
 ```
 
 Python 的函数具有非常灵活的参数形态，既可以实现简单的调用，又可以传入非常复杂的参数。
@@ -625,27 +639,27 @@ Python 的函数具有非常灵活的参数形态，既可以实现简单的调�
 
 要注意定义可变参数和关键字参数的语法：
 
-\*args 是可变参数，args 接收的是一个 tuple；
+`*args` 是可变参数，args 接收的是一个 tuple；
 
-\*\*kw 是关键字参数，kw 接收的是一个 dict。
+`**kw` 是关键字参数，kw 接收的是一个 dict。
 
 以及调用函数时如何传入可变参数和关键字参数的语法：
 
-可变参数既可以直接传入：func(1, 2, 3)，又可以先组装 list 或 tuple，再通过*args 传入：func(*(1, 2, 3))；
+可变参数既可以直接传入：`func(1, 2, 3)`，又可以先组装 list 或 tuple，再通过`*args` 传入：`func(*(1, 2, 3))`；
 
-关键字参数既可以直接传入：func(a=1, b=2)，又可以先组装 dict，再通过**kw 传入：func(**{'a': 1, 'b': 2})。
+关键字参数既可以直接传入：`func(a=1, b=2)`，又可以先组装 dict，再通过`**kw` 传入：`func(**{'a': 1, 'b': 2})`。
 
-使用\*args 和\*\*kw 是 Python 的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。
+使用 `*args` 和 `**kw` 是 Python 的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。
 
-命名的关键字参数是为了限制调用者可以传入的参数名，同时可以提供默认值。
+{% mark 命名的关键字参数是为了限制调用者可以传入的参数名，同时可以提供默认值。 color:purple %}
 
-定义命名的关键字参数在没有可变参数的情况下不要忘了写分隔符\*，否则定义的将是位置参数。
+定义命名的关键字参数在没有可变参数的情况下不要忘了写分隔符`*`，否则定义的将是位置参数。
 
 ### 递归函数
 
-在函数内部，可以调用其他函数。如果一个函数在内部调用自身本身，这个函数就是递归函数。
+在函数内部，可以调用其他函数。{% mark 如果一个函数在内部调用自身本身，这个函数就是递归函数 color:purple %}。
 
-> 使用递归函数需要注意防止栈溢出。在计算机中，函数调用是通过栈（stack）这种数据结构实现的，每当进入一个函数调用，栈就会加一层栈帧，每当函数返回，栈就会减一层栈帧。由于栈的大小不是无限的，所以，递归调用的次数过多，会导致栈溢出
+> {% mark 使用递归函数需要注意防止栈溢出 color:purple %}。在计算机中，函数调用是通过栈（stack）这种数据结构实现的，每当进入一个函数调用，栈就会加一层栈帧，每当函数返回，栈就会减一层栈帧。由于栈的大小不是无限的，所以，递归调用的次数过多，会导致栈溢出
 
 ```python
 def fact(n):
@@ -656,11 +670,11 @@ def fact(n):
 print(fact(10))
 ```
 
-解决递归调用栈溢出的方法是通过尾递归优化，事实上尾递归和循环的效果是一样的，所以，把循环看成是一种特殊的尾递归函数也是可以的。
+{% mark 解决递归调用栈溢出的方法是通过尾递归优化，事实上尾递归和循环的效果是一样的 color:purple %}，所以，把循环看成是一种特殊的尾递归函数也是可以的。
 
 尾递归是指，在函数返回的时候，调用自身本身，并且，return 语句不能包含表达式。这样，编译器或者解释器就可以把尾递归做优化，使递归本身无论调用多少次，都只占用一个栈帧，不会出现栈溢出的情况。
 
-上面的 fact(n)函数由于 return n \* fact(n - 1)引入了乘法表达式，所以就不是尾递归了。要改成尾递归方式，需要多一点代码，主要是要把每一步的乘积传入到递归函数中：
+上面的 `fact(n)` 函数由于 `return n * fact(n - 1)` 引入了乘法表达式，所以就不是尾递归了。要改成尾递归方式，需要多一点代码，主要是要把每一步的乘积传入到递归函数中：
 
 ```python
 def fact(n):
@@ -707,7 +721,7 @@ L[:10:2] # 前10个数，每两个取一个
 L[::5] # 所有数，每5个取一个
 L[:] # 取所有，即复制一个list
 
-#tuple和字符串也是一种list，同样可用切片操作
+# tuple和字符串也是序列，同样可用切片操作
 (0, 1, 2, 3, 4, 5)[:3]
 'ABCDEFG'[:3]
 ```
@@ -732,7 +746,7 @@ for c in 'ABCD':
 
 ```
 
-当我们使用 for 循环时，只要作用于一个可迭代对象，for 循环就可以正常运行，而我们不太关心该对象究竟是 list 还是其他数据类型
+{% mark 当我们使用 for 循环时，只要作用于一个可迭代对象，for 循环就可以正常运行，而我们不太关心该对象究竟是 list 还是其他数据类型 color:purple %}
 
 ```python
 # 判断对象是否可迭代
@@ -749,14 +763,14 @@ for i, value in enumerate(['A', 'B', 'C']):
     print(i, value)
 
 # for循环里，同时引用了两个变量，在Python里是很常见的
-for x,y in[(1,2), (3,4)]:
+for x,y in [(1,2), (3,4)]:
     print(x, y)
 
 ```
 
 ### 列表生成式
 
-列表生成式即 List Comprehensions，是 Python 内置的非常简单却强大的可以用来创建 list 的生成式
+列表生成式即 `List Comprehensions`，是 Python 内置的非常简单却强大的可以用来创建 list 的生成式
 
 ```python
 list(range(1, 11)) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -778,8 +792,8 @@ print([s.lower() for s in L])
 
 ### 生成器
 
-要创建一个 generator，有很多种方法。第一种方法很简单，只要把一个列表生成式的[]改成()，就创建了一个 generator： _同 es6 的 generator_
-通过 next()函数获得 generator 的下一个返回值
+要创建一个 generator，有很多种方法。第一种方法很简单，只要把一个列表生成式的`[]`改成`()`，就创建了一个 generator： _同 es6 的 generator_
+通过 `next()` 函数获得 generator 的下一个返回值
 
 ```python
 L = [x * x for x in range(10)]
@@ -839,7 +853,7 @@ generator 是非常强大的工具，在 Python 中，可以简单地把列表�
 用于 for 循环的数据类型有以下几种：
 
 -   一类是集合数据类型，如 list、tuple、dict、set、str 等；
--   一类是 generator，包括生成器和带 yield 的 generator function。
+-   一类是 `generator` 生成器和带 yield 的 `generator function`。
 
 ```python
 from collections import Iterable
@@ -851,7 +865,7 @@ print(isinstance('abc', Iterable))
 
 生成器都是 Iterator 对象，但 list、dict、str 虽然是 Iterable，却不是 Iterator。
 
-把 list、dict、str 等 Iterable 变成 Iterator 可以使用 iter()函数：
+{% mark list、dict、str 等 Iterable 对象变成 Iterator对象 ，可以使用 iter() 函数 color:purple %}
 
 ```python
 isinstance(iter([]), Iterator) // True
@@ -863,9 +877,9 @@ isinstance(iter('abc'), Iterator) // True
 
 > 这是因为 Python 的 Iterator 对象表示的是一个数据流，Iterator 对象可以被 next()函数调用并不断返回下一个数据，直到没有数据时抛出 StopIteration 错误。可以把这个数据流看做是一个有序序列，但我们却不能提前知道序列的长度，只能不断通过 next()函数实现按需计算下一个数据，所以 Iterator 的计算是惰性的，只有在需要返回下一个数据时它才会计算。
 
--   凡是可作用于 for 循环的对象都是 Iterable 类型；
+-  {% mark 凡是可作用于 for 循环的对象都是 Iterable 类型； color:purple %}
 
--   凡是可作用于 next()函数的对象都是 Iterator 类型，它们表示一个惰性计算的序列；
+-   {% mark 凡是可作用于 next() 函数的对象都是 Iterator 类型，它们表示一个惰性计算的序列； color:purple %}
 
 -   集合数据类型如 list、dict、str 等是 Iterable 但不是 Iterator，不过可以通过 iter()函数获得一个 Iterator 对象。
 
@@ -988,16 +1002,16 @@ def lazy_sum(*args):
 当 lazy_sum 返回函数 sum 时，相关参数和变量都保存在返回的函数中，这种称为“闭包（Closure）”的程序结构拥有极大的威力
 
 **闭包**  
-当一个函数返回了一个函数后，其内部的局部变量还被新函数引用
+{% mark 当一个函数返回了一个函数后，其内部的局部变量还被返回的子函数引用 color:purple %}
 
 ```python
 def count():
-    fs = []
+    fns = []
     for i in range(1, 4):
         def f():
              return i*i
-        fs.append(f)
-    return fs
+        fns.append(f)
+    return fns
 
 f1, f2, f3 = count()
 f1() #9
@@ -1006,7 +1020,7 @@ f3() #9
 ```
 
 **匿名函数**  
-在 Python 中，对匿名函数提供了有限支持, 匿名函数有个限制，就是只能有一个表达式，不用写 return，返回值就是该表达式的结果 _比 js 的匿名函数弱_
+在 Python 中，对匿名函数提供了有限支持, {% mark 匿名函数有个限制，就是只能有一个表达式，不用写 return，返回值就是该表达式的结果 color:purple %} _比 js 的匿名函数弱_
 
 ```python
 list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
@@ -1018,7 +1032,7 @@ f = lambda x: x * x
 ```
 
 **装饰器**  
-由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数; 函数对象有一个**name**属性，可以拿到函数的名字
+由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数; 函数对象有一个`__name__`属性，可以拿到函数的名字
 
 ```python
 def now():
@@ -1032,7 +1046,7 @@ print(now.__name__, f.__name__) # now now
 
 不修改 now()函数的定义，又可以代码运行期间动态增加功能，称之为“装饰器”（Decorator）。
 
-本质上，decorator 就是一个返回函数的高阶函数
+{% mark 本质上，decorator 就是一个返回函数的高阶函数 color:purple %}
 
 ```python
 def log(func):
@@ -1094,7 +1108,7 @@ def int2(x, base=2):
 # functools.partial就是帮助我们创建一个偏函数的，不需要我们自己定义int2()
 
 import functools
-int2 = functools.partial(int, base=2) # 预绑定末尾参数的函数
+int2 = functools.partial(int, base=2) # 返回预绑定末尾参数的函数
 # 固定了int()函数的关键字参数base
 # 相当于
 kw = {'base': 2}
@@ -1111,17 +1125,17 @@ max2(5,6)
 
 ## 模块
 
-为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在 Python 中，一个.py 文件就称之为一个模块（Module）。
+为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在 Python 中，{% mark 一个 `.py` 文件就称之为一个模块（Module） color:purple %}。
 
 模块化有什么好处？
 
 -   最大的好处是大大提高了代码的可维护性。
 -   其次，编写代码不必从零开始。当一个模块编写完毕，就可以被其他地方引用。我们在编写程序的时候，也经常引用其他模块，包括 Python 内置的模块和来自第三方的模块。
--   使用模块还可以避免函数名和变量名冲突。
+-   使用模块还可以避免命名冲突 (函数名和变量名)。
 
 > 你也许还想到，如果不同的人编写的模块名相同怎么办？为了避免模块名冲突，Python 又引入了按目录来组织模块的方法，称为包（Package）
 
-> 包作为模块的命名空间，避免模块名冲突
+{% mark 包作为模块的命名空间，避免模块名冲突 color:purple %}
 
 请注意，每一个包目录下面都会有一个`__init__.py`的文件，这个文件是必须存在的，否则，Python 就把这个目录当成普通目录，而不是一个包。`__init__.py`可以是空文件，也可以有 Python 代码，因为`__init__.py`本身就是一个模块
 
@@ -1155,11 +1169,11 @@ if __name__=='__main__':
 ```
 
 **作用域**  
-在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用(_约定用`_`前缀标识\_)。
+在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用 ({% mark 模块私有成员约定用`_`前缀标识 color:purple %})。
 
 正常的函数和变量名是公开的（public），可以被直接引用，比如：abc，x123，PI 等；
 
-`__author__`，`__name__`等是特殊变量，如: `__doc__`可访问文档注释，自定义的变量一般不要用`__xx__`格式；
+`__author__`，`__name__`等是{% mark 特殊变量 color:purple %}，如: `__doc__`可访问文档注释，自定义的变量一般不要用`__xx__`格式；
 
 实际上模块内的所有东西都是可访问的，`_`私有前缀也只是习惯约定
 
