@@ -2,7 +2,9 @@
 title: 一文吃透 React SSR 服务端渲染和同构原理
 banner: /images/banner_camera.jpg
 date: 2024-07-31 13:54:30
-tags:
+tags: 
+    - SSR
+    - React
 ---
 
 > 原文地址[javascript - 一文吃透 React SSR 服务端渲染和同构原理 - 前端张大胖-技术实践和探索 - SegmentFault 思否](https://segmentfault.com/a/1190000020417285)
