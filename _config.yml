@@ -21,7 +21,8 @@ timezone: ""
 
 # url: https://stephenykk.github.io/myblog
 # root: /myblog
-url: https://stephenykk.github.io
+# url: https://stephenykk.github.io
+url: https://panzhenjie.fun
 root:
 
 permalink: :year/:month/:day/:title/

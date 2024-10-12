@@ -2,6 +2,8 @@
 title: Python基础教程
 date: 2024-02-26 14:59:10
 tags: Python
+banner: /images/banner_desk.jpg
+cover: /images/banner_desk.jpg
 category: Python
 ---
 
