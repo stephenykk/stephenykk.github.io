@@ -6,7 +6,7 @@ tags: curl
 ---
 
 
-{% mark curl %} 是一种命令行工具，作用是发出网络请求，然后得到和提取数据，显示在"标准输出"（stdout）上面。
+{% mark curl %}   是一种命令行工具，作用是发出网络请求，然后得到和提取数据，显示在"标准输出"（stdout）上面。
 
 参考 [curl 用法指南](http://www.ruanyifeng.com/blog/2019/09/curl-reference.html)
 
