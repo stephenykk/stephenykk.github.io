@@ -453,7 +453,8 @@ pre:not([class]):has(>code) {
 }
 .md-text .highlight >table {
   overflow: auto;
-  display: block;
+  display: table;
+  width: 100%;
   margin: 0 !important;
   background: transparent;
   border: none;
