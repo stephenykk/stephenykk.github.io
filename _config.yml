@@ -58,13 +58,13 @@ syntax_highlighter: highlight.js
 highlight:
     line_number: true
     auto_detect: true
-    tab_replace: ""
+    tab_replace: "  "
     wrap: false
     hljs: true
 prismjs:
     preprocess: true
     line_number: true
-    tab_replace: ""
+    tab_replace: "  "
     wrap: false
     hljs: true
 
