@@ -5,24 +5,24 @@ tags: Websocket
 categories: Websocket
 ---
 
-> 原文地址[十分钟学会 WebSocket - 掘金](https://juejin.cn/post/7317463986014453797)
+> 原文地址[十分钟学会 WebSocket - 掘金](`http`s://juejin.cn/post/7317463986014453797)
 
 ## WebSocket 简介
 
 WebSocket 是一种在客户端和服务器之间实现双向通信的网络协议。它通过在单个 TCP 连接上提供全双工通信功能，使得服务器可以主动向客户端推送数据，而不需要客户端发起请求。
 
-## WebSocket 与 HTTP 的区别
+## WebSocket 与 `HTTP` 的区别
 
-与传统的 HTTP 协议相比，WebSocket 具有以下几个显著的区别：
+与传统的 `HTTP` 协议相比，WebSocket 具有以下几个显著的区别：
 
--   **双向通信**：WebSocket 支持客户端和服务器之间的实时双向通信，而 HTTP 协议是单向请求-响应模式。
--   **低延迟**：由于 WebSocket 使用长连接，避免了 HTTP 的连接建立和断开过程，可以降低通信延迟。
+-   **双向通信**：WebSocket 支持客户端和服务器之间的实时双向通信，而 `HTTP` 协议是单向请求-响应模式。
+-   **低延迟**：由于 WebSocket 使用长连接，避免了 `HTTP` 的连接建立和断开过程，可以降低通信延迟。
 -   **更少的数据传输**：WebSocket 头部信息相对较小，减少了数据传输的开销。
--   **跨域支持**：WebSocket 可以轻松跨域，而 HTTP 需要通过 CORS 等机制来实现。
+-   **跨域支持**：WebSocket 可以轻松跨域，而 `HTTP` 需要通过 CORS 等机制来实现。
 
 ## WebSocket 的工作原理
 
-WebSocket 的握手过程和 HTTP 有所不同。客户端通过发送特定的 HTTP 请求进行握手，服务器收到请求后进行验证，如果验证通过，则会建立 WebSocket 连接。
+WebSocket 的握手过程和 `HTTP` 有所不同。客户端通过发送特定的 `HTTP` 请求进行握手，服务器收到请求后进行验证，如果验证通过，则会建立 WebSocket 连接。
 
 建立连接后，客户端和服务器之间可以通过 WebSocket 发送和接收消息，可以使用文本、二进制数据等进行通信。
 
@@ -189,7 +189,7 @@ WebSocket 支持通过 `wss://` 前缀建立加密的安全连接，使用 TLS/S
 
 ### 有哪些好用的客户端 WebSocket 第三方库
 
-1.  **Socket.io-client**：[Socket.io](https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 是一个流行的实时通信库，它提供了客户端 JavaScript 库，可用于在浏览器中与 [Socket.io](https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "https://cloud.tencent.com/developer/tools/blog-entry?target=https%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3Dhttp%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 服务器建立 WebSocket 连接。它支持自动重连、事件处理等功能，用于构建实时应用非常方便。
+1.  **Socket.io-client**：[Socket.io](`http`s://cloud.tencent.com/developer/tools/blog-entry?target=`http`s%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3D`http`%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "`http`s://cloud.tencent.com/developer/tools/blog-entry?target=`http`s%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3D`http`%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 是一个流行的实时通信库，它提供了客户端 JavaScript 库，可用于在浏览器中与 [Socket.io](`http`s://cloud.tencent.com/developer/tools/blog-entry?target=`http`s%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3D`http`%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055 "`http`s://cloud.tencent.com/developer/tools/blog-entry?target=`http`s%3A%2F%2Flink.juejin.cn%2F%3Ftarget%3D`http`%253A%252F%252Fsocket.io%252F&source=article&objectId=2371055") 服务器建立 WebSocket 连接。它支持自动重连、事件处理等功能，用于构建实时应用非常方便。
 2.  **ReconnectingWebSocket**：ReconnectingWebSocket 是一个带有自动重连功能的 WebSocket 客户端库，可以很好地处理网络连接断开和重新连接的情况，适合用于浏览器端的 WebSocket 开发。
 3.  **SockJS-client**：SockJS 提供了一个浏览器端的 JavaScript 客户端库，用于与 SockJS 服务器建立连接。它可以在不支持 WebSocket 的浏览器上自动降级到其他传输方式，具有良好的兼容性。
 4.  **RxJS WebSocketSubject**：RxJS 是一个流式编程库，它提供了 WebSocketSubject 类，可以将 WebSocket 转换为可观察对象，方便进行响应式编程。
@@ -199,11 +199,11 @@ WebSocket 支持通过 `wss://` 前缀建立加密的安全连接，使用 TLS/S
 
 ### 总结
 
-WebSocket 协议是一种基于 TCP 的应用层协议，它提供了在客户端和服务器之间进行双向通信的能力。相比传统的 HTTP 协议，它具有更低的延迟和更高的实时性。
+WebSocket 协议是一种基于 TCP 的应用层协议，它提供了在客户端和服务器之间进行双向通信的能力。相比传统的 `HTTP` 协议，它具有更低的延迟和更高的实时性。
 
-WebSocket 协议通过建立一条持久化的连接来实现双向通信，从而避免了 HTTP 协议中频繁建立和断开连接的过程，减少了网络开销和服务器的负担。客户端可以发送消息给服务器，服务器也可以发送消息给客户端，实现了真正的双向通信。
+WebSocket 协议通过建立一条持久化的连接来实现双向通信，从而避免了 `HTTP` 协议中频繁建立和断开连接的过程，减少了网络开销和服务器的负担。客户端可以发送消息给服务器，服务器也可以发送消息给客户端，实现了真正的双向通信。
 
-在使用 WebSocket 协议时，客户端和服务器会进行一次握手过程，以建立起 WebSocket 连接。握手过程中，客户端会发送一个 HTTP 请求，请求头中包含 Upgrade 和 Connection 字段，告诉服务器它希望升级到 WebSocket 连接。服务器收到请求后会返回一个 HTTP 响应，响应头中包含 Upgrade 和 Connection 字段，以及一个 Sec-WebSocket-Accept 字段，用于验证请求的合法性。握手成功后，客户端和服务器就可以开始使用 WebSocket 协议进行通信了。
+在使用 WebSocket 协议时，客户端和服务器会进行一次握手过程，以建立起 WebSocket 连接。握手过程中，客户端会发送一个 `HTTP` 请求，请求头中包含 Upgrade 和 Connection 字段，告诉服务器它希望升级到 WebSocket 连接。服务器收到请求后会返回一个 `HTTP` 响应，响应头中包含 Upgrade 和 Connection 字段，以及一个 Sec-WebSocket-Accept 字段，用于验证请求的合法性。握手成功后，客户端和服务器就可以开始使用 WebSocket 协议进行通信了。
 
 WebSocket 协议支持二进制数据和文本数据的传输，开发者可以根据实际需求进行选择。同时，WebSocket 还提供了心跳机制、自动重连等功能，可以提高连接的稳定性和可靠性。
 
