@@ -7,7 +7,7 @@ cover: /images/banner_desk.jpg
 category: Python
 ---
 
-[python 基础教程](http://www.runoob.com/python/python-tutorial.html)
+[python 基础教程](http://www.runoob.com/python/python-tutorial.html)  
 [python 教程 廖雪峰](https://www.liaoxuefeng.com/wiki/1016959663602400)
 
 ## 简介
@@ -19,8 +19,8 @@ python 的适用范围: {% mark web应用 color:purple %}、{% mark 脚本程序
 
 ## 安装
 
-python 是跨平台的，解释型的脚本语言  (*{% mark 脚本语言都是解释型和跨平台的 color:purple %}*)
-python 有 2.x 和 3.x 两个版本，较多的应用都是基于 2.x 开发的;   
+python 是跨平台的，解释型的脚本语言  (*{% mark 脚本语言基本都是跨平台的 color:purple %}*)
+python 有 2.x 和 3.x 两个版本，较多的应用都是基于 2.x 开发的，{% mark 目前的主流版本应该是 3.x color:purple %};   
 {% mark 安装 python 就是安装 python解释器, 得到一个命令行交互环境. color:purple %}
 
 -   mac `brew install python3`
@@ -210,11 +210,9 @@ python 的整数和浮点数没有大小限制
 
 用记事本编辑的时候，从文件读取的 UTF-8 字符被转换为 Unicode 字符到内存里，编辑完成后，保存的时候再把 Unicode 转换为 UTF-8 保存到文件
 
-![字符编码工作方式](https://www.liaoxuefeng.com/files/attachments/923923787018816/0)
 
 浏览网页的时候，服务器会把动态生成的 Unicode 内容转换为 UTF-8 再传输到浏览器, 所以你看到很多网页的源码上会有类似`<meta charset="UTF-8" />`的信息，表示该网页正是用的 UTF-8 编码。
 
-![字符编码工作方式2](https://static.liaoxuefeng.com/files/attachments/923923759189600/0)
 
 ### Python 的字符串
 
@@ -276,7 +274,9 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
 由于 Python 源代码也是一个文本文件，所以，当你的源代码中包含中文的时候，在保存源代码时，就需要务必指定保存为 UTF-8 编码。当 Python 解释器读取源代码时，为了让它按 UTF-8 编码读取，我们通常{% mark 在代码文件开头声明编码格式 color:purple %}：
 
 ```python
-    #!/usr/bin/env python3  ## 告诉Linux/OS X系统，这是一个Python可执行程序，Windows系统会忽略这个注释；
+    # 首行 hash-bang-line 告诉Linux/OS X系统，
+    # 这是一个Python可执行程序，Windows系统会忽略这个注释；
+    #!/usr/bin/env python3  
 
     # -*- coding: utf-8 -*-  ## 告诉Python解释器，按照UTF-8编码读取源代码
 ```
@@ -359,7 +359,8 @@ print(roles)
 roles[1] = 'jobar' # 修改元素
 print(roles)
 
-langs = ['python', 'java', ['asp', 'php'], 'scheme'] # 二维数组
+# 二维数组
+langs = ['python', 'java', ['asp', 'php'], 'scheme'] 
 
 ```
 
@@ -432,7 +433,9 @@ n = 0
 while n < 10:
     n = n + 1
     if n % 2 == 0: # 如果n是偶数，执行continue语句
-        continue # continue语句会直接继续下一轮循环，后续的print()语句不会执行
+        # continue语句会直接继续下一轮循环，
+        # 后续的print()语句不会执行
+        continue 
     print(n)
 ```
 
@@ -441,7 +444,8 @@ while n < 10:
 dict 全称 dictionary，在其他语言中也称为 map，使用键-值（key-value）存储，具有极快的查找速度。 _同 js 的对象_
 
 ```python
-role = {'name': 'rufy', 'age': 18, 'skill': 'stretch'} # 属性名的引号不能省略
+# 属性名的引号不能省略
+role = {'name': 'rufy', 'age': 18, 'skill': 'stretch'} 
 role['age'] = 19
 # role.age = 20 这样修改属性值报错 :(
 print(role)
@@ -517,7 +521,10 @@ myabs(-9) # 函数调用
 
 # 空函数
 def noop():
-    pass # pass可以用来作为占位符，比如现在还没想好怎么写函数的代码，就可以先放一个pass，让代码能运行起来
+    # pass可以用来作为占位符，
+    # 比如现在还没想好怎么写函数的代码，
+    # 就可以先放一个pass，让代码能运行起来
+    pass 
 
 
 # 返回多个值
@@ -575,7 +582,8 @@ calc(*nums)
 def person(name, age, **kw):
     print('name:', name, 'age:', age, 'other:', kw)
 
-person('Adam', 45, gender='M', job='Engineer') # 关键字参数会被组装为dict对象kw
+# 关键字参数会被组装为dict对象kw
+person('Adam', 45, gender='M', job='Engineer') 
 
 # dict展开作为关键字参数传入
 extra = {'city': 'Beijing', 'job': 'Engineer'}
@@ -588,7 +596,8 @@ def person(name, age, *, city, job):
 
 person('jack', 23, job='worker', city='beijing')
 
-# 如果函数定义中已经有了一个可变参数，后面跟着的命名关键字参数就不再需要一个特殊分隔符*了
+# 如果函数定义中已经有了一个可变参数，
+# 后面跟着的命名关键字参数就不再需要一个特殊分隔符*了
 def person2(name, age, *args, city, job):
     print(name, age, args, city, job)
 
@@ -632,7 +641,8 @@ a = 1 b = 2 c = 3 args = (4,) kw = {'d': 99, 'x': '#'}
 >>> kw = {'d': 88, 'x': '#'}
 >>> f2(*args, **kw)
 a = 1 b = 2 c = 3 d = 88 kw = {'x': '#'}
-# 对于任意函数，都可以通过类似 func(*args, **kw) 的形式调用它，无论它的参数是如何定义的
+# 对于任意函数，都可以通过类似 func(*args, **kw) 
+# 的形式调用它，无论它的参数是如何定义的
 ```
 
 Python 的函数具有非常灵活的参数形态，既可以实现简单的调用，又可以传入非常复杂的参数。
@@ -775,17 +785,24 @@ for x,y in [(1,2), (3,4)]:
 列表生成式即 `List Comprehensions`，是 Python 内置的非常简单却强大的可以用来创建 list 的生成式
 
 ```python
-list(range(1, 11)) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-[x * x for x in range(1, 11)] # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]  类似js map
-[x * x for x in range(1, 11) if x % 2 == 0] # [4, 16, 36, 64, 100] js arr filter and map
+# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+list(range(1, 11))
+# [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]  类似js map
+[x * x for x in range(1, 11)] 
+# [4, 16, 36, 64, 100] js arr filter and map
+[x * x for x in range(1, 11) if x % 2 == 0] 
 
-[m + n for m in 'ABC' for n in 'XYZ'] # ['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']  笛卡尔积
+# ['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']  笛卡尔积
+[m + n for m in 'ABC' for n in 'XYZ'] 
 
-import os # 导入os模块，模块的概念后面讲到
-[d for d in os.listdir('.')] # os.listdir可以列出文件和目录
+# 导入os模块，模块的概念后面讲到
+import os
+# os.listdir可以列出文件和目录
+[d for d in os.listdir('.')] 
 
 d = {'hi': 'hello', 'age': '12', 'name': 'lufy'}
-[k + '=' + v for k, v in d.items()] #['y=B', 'x=A', 'z=C']
+#['y=B', 'x=A', 'z=C']
+[k + '=' + v for k, v in d.items()] 
 
 
 L = ['Hello', 'World', 'IBM', 'Apple']
@@ -808,7 +825,8 @@ print(next(g))
 for n in g:
     print(n)
 
-# 著名的斐波拉契数列（Fibonacci），除第一个和第二个数外，任意一个数都可由前两个数相加得到
+# 著名的斐波拉契数列（Fibonacci），
+# 除第一个和第二个数外，任意一个数都可由前两个数相加得到
 def fib(max):
     n, a, b = 0, 0, 1
     while n < max:
@@ -817,7 +835,8 @@ def fib(max):
         n = n + 1
     return 'done'
 
-# 函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator
+# 函数定义中包含yield关键字，那么这个函数就
+# 不再是一个普通函数，而是一个generator
 def fib(max):
     n, a, b = 0, 0, 1
     while n < max:
@@ -953,7 +972,8 @@ def add(x, y, f):
 def f2(x):
     return x * x
 
-r = map(f2, [1,2,3]) # 返回map对象  同js arr.map
+# 返回map对象  同js arr.map
+r = map(f2, [1,2,3]) 
 print(list(r), type(r))
 
 print(list(map(str, [1,2,3])))
@@ -968,7 +988,9 @@ print(reduce(add, [1,3,5,7]))
 # lamda  同js匿名函数
 from functools import reduce
 
-DIGITS = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+DIGITS = {'0': 0, '1': 1, '2': 2, 
+'3': 3, '4': 4, '5': 5, '6': 6, 
+'7': 7, '8': 8, '9': 9}
 
 def char2num(s):
     return DIGITS[s]
@@ -979,7 +1001,9 @@ def str2int(s):
 # filter filter(f, list)
 def is_odd(n):
     return n % 2 == 1
-# filter()函数返回的是一个Iterator，也就是一个惰性序列，所以要强迫filter()完成计算结果，需要用list()函数获得所有结果并返回list
+# filter()函数返回的是一个Iterator，
+# 也就是一个惰性序列，所以要强迫filter()完成计算结果，
+# 需要用list()函数获得所有结果并返回list
 list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 
 # sorted sorted(list, keyFn)
@@ -1062,7 +1086,9 @@ def log(func):
 def now2():
     print('2019-01-09')
 
-now2() # 调用now()函数，不仅会运行now()函数本身，还会在运行now()函数前打印一行日志
+# 调用now()函数，不仅会运行now()函数本身，
+# 还会在运行now()函数前打印一行日志
+now2() 
 ```
 
 把`@log`放到`now()`函数的定义处，相当于执行了语句 `now=log(now)`
