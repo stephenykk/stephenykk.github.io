@@ -97,7 +97,7 @@ python 有多种解释器:
 
 ```python
     name = input('input your name:') # 然后输入 'sindy' python3
-    # name = raw_input('input your name:') # python2
+    # python2: name = raw_input('input your name:')
     print(name)
 ```
 
@@ -319,8 +319,7 @@ len()函数计算的是 str 的字符数，不是字符串占用的字节数，�
     # 转义，用%%来表示一个%
     print('growth rate: %d %%' % 7)
 ```
-{% mark format方法格式化字符串 color:purple %}, 语法： `strPattern.format(val1, val2, ...) `  
-它会用传入的参数依次替换字符串内的占位符{0}、{1}……
+{% mark format方法格式化字符串 color:purple %}, 语法`strPattern.format(val1)`它会用传入的参数依次替换字符串内的占位符`{0}、{1}……`
 
 ```python
 >>> 'Hello, {0}, 成绩提升了 {1:.1f}%'.format('小明', 17.125)
@@ -349,15 +348,10 @@ roles[10] # 索引越界会报错 IndexError
 roles[-1] # 最后一个元素 支持负索引
 
 roles.append('robin') # 在末尾追加元素
-print(roles)
 roles.insert(1, 'sandge') # 在指定位置插入元素
-print(roles)
 print(roles.pop()) # 删除末尾元素
-print(roles)
 print(roles.pop(1)) # 删除指定位置元素
-print(roles)
 roles[1] = 'jobar' # 修改元素
-print(roles)
 
 # 二维数组
 langs = ['python', 'java', ['asp', 'php'], 'scheme'] 
