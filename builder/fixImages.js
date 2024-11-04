@@ -51,27 +51,23 @@ function fixImgSrc(filePath) {
   const imgRe = tag.getTagReg("img")
   const imgTags = content.match(imgRe)
   if (!imgTags) return
-  const isNeedFix = imgTags.some(startTag => {
+  
+  const needFixTags = imgTags.map(startTag => {
     const tagData = tag.parseTag(startTag)
-    console.log(tagData.attrs["data-src"], '<------');
+    return tagData
+  }).filter(tagData => {
     return tagData.attrs['data-src']?.endsWith('=')
   })
 
   
-  if (!isNeedFix) return
-  console.log("\n\n", "===========================>", filePath, isNeedFix);
+  if (!needFixTags.length) return
+  console.log("\n\n", "NEED FIX SRC ======>", filePath, '\n', needFixTags.map(tag => tag.attrs['data-src']).join('\n'));
 
-  console.log(filePath, imgTags);
+  const newContent = needFixTags.reduce((html, tagData) => {
+    return html.replace(tagData.attrs['data-src'], tagData.attrs['data-src'].replace(/=$/, '%3D'))
+  }, content)
 
-  // const newContent = content.replace(
-  //   /<img\s+src\s*=\s*['"]([^'"]+)['"]/gim,
-  //   (match, p1) => {
-  //     const newSrc = p1.replace(/\/\//g, "/");
-  //     return match.replace(p1, newSrc);
-  //   }
-  // );
-
-  // fs.writeFileSync(filePath, newContent, "utf8");
+  fs.writeFileSync(filePath, newContent, "utf8");
 }
 
 main();
