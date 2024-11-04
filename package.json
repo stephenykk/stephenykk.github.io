@@ -7,14 +7,14 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "dev": "hexo server",
-    "push:master": "cd themes/stellar && git push origin main:main && cd ../.. && git push origin master:master && git push gh master:master",
+    "push:master": "cd themes/stellar && git push origin main:main && cd ../.. && git push origin master && git push gh master:master",
     "fix-images": "node builder/fixImages",
-    "pull": "git submodule foreach git pull origin main:main && git pull origin master:master",
+    "pull": "git submodule foreach git pull origin main:main && git pull origin master && git pull gh master:master",
     "c": "hexo clean",
     "g": "hexo g",
     "p": "pnpm push:master",
     "d": "hexo clean && hexo g && npm run fix-images && hexo d",
-    "pd": "npm run p && npm run d"
+    "pd": "npm run pull && npm run p && npm run d"
   },
   "hexo": {
     "version": "7.1.1"
