@@ -14,7 +14,7 @@
     "g": "hexo g",
     "cg": "hexo clean && hexo g",
     "p": "pnpm push:master",
-    "d": "hexo clean && hexo g && npm run fix-images && hexo d",
+    "d": "hexo g && npm run fix-images && hexo d",
     "pd": "npm run pull && npm run p && npm run d"
   },
   "hexo": {
