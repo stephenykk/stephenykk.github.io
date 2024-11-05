@@ -14,17 +14,17 @@ function parse(search, isDecode = true) {
 }
 
 function stringify(obj, isEncode = true) {
-    return [...obj.entries()].map(([key, val]) => `key=${isEncode ? encodeURIComponent(val) : val}`).join('&')
+    return [...Object.entries(obj)].map(([key, val]) => `${key}=${isEncode ? encodeURIComponent(val) : val}`).join('&')
 }
 
 function update(url, obj) {
-    if (!obj.keys().length) return url
+    if (!Object.keys(obj).length) return url
     const firstPart = url.split('?')[0]
     return firstPart + '?' + stringify(obj)
 
 }
 
-return {
+module.exports =  {
     parse,
     stringify,
     update
