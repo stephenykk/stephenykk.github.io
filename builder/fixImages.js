@@ -75,7 +75,6 @@ async function fixImgSrc(filePath) {
     const signature = queryObj['x-signature'] || ''
     const isKeep =  /[+/=]/.test(signature)
     if (isKeep) {
-      queryObj['x-signature'] = encodeURIComponent(signature)
       tagData.attrs['new-src'] = query.update(dataSrc, queryObj)
     }
     return isKeep

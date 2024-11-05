@@ -1,6 +1,8 @@
 function parse(search, isDecode = true) {
     if (search.includes('?')) {
         search = search.replace(/^[^?]*\?/, '')
+    } else if (!search.includes('=')){
+        return {}
     }
 
     const queryObj = {}
@@ -17,10 +19,10 @@ function stringify(obj, isEncode = true) {
     return [...Object.entries(obj)].map(([key, val]) => `${key}=${isEncode ? encodeURIComponent(val) : val}`).join('&')
 }
 
-function update(url, obj) {
+function update(url, obj, isEncode = true) {
     if (!Object.keys(obj).length) return url
     const firstPart = url.split('?')[0]
-    return firstPart + '?' + stringify(obj)
+    return firstPart + "?" + stringify(obj, isEncode);
 
 }
 
