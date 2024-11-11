@@ -194,7 +194,7 @@
   >
     <div class="card-list-wrap pos-r">
       <div class="single m-auto debug-hideXX pos-r">
-        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex].lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
+        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex]?.lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
         <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
         <button class="next" @click="showNext" title="快捷键 -> 或空格">
           &gt;
@@ -546,6 +546,8 @@
       this.sourceWordList = this.cacheWordList;
     },
     mounted() {
+      console.vm = this;
+      console.log('this.sourceWordList======>', this.sourceWordList.length);
       if (!this.cacheWordList.length) {
         showToast("请先增加词语");
         setTimeout(() => {
