@@ -7,7 +7,7 @@
         <h1 class="ta-c mb-50">词语库管理</h1>
         <div class="admin m-auto">
             <div class="ta-r sticky-0">
-                <input  v-model="kw" style="width: 120px;" @keyup.enter="handleSearch" type="text" placeholder="搜索词语" />
+                <input  v-model="kw" style="width: 120px;" @keyup.enter="handleSearch" type="text" placeholder="搜索词语/标题" />
                 <button  class="op-btn primary" @click="handleSearch">搜索</button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">
                     全部删除
@@ -134,7 +134,7 @@
         computed: {
             displayWordList() {
                 if (!this.keyword) return this.wordList;
-                return this.wordList.filter(item => item.word.includes(this.keyword));
+                return this.wordList.filter(item => item.title.includes(this.keyword) || item.word.includes(this.keyword));
             }
         },
         methods: {
