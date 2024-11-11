@@ -193,6 +193,7 @@
   >
     <div class="card-list-wrap pos-r">
       <div class="single m-auto pos-r debug-hideXX">
+        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex].lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
         <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
         <button class="next" @click="showNext" title="快捷键 -> 或空格">
           &gt;
@@ -222,6 +223,7 @@
                     ${chr}
                   </span>
                 </div>
+                <div class="explain f20 w-full mt-20">${ wordList[activeIndex].explain || '' }</div>
               </div>
             </transition>
           </li>

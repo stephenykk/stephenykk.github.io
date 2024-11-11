@@ -9,8 +9,15 @@
     <section class="admin-container">
         <h1 class="ta-c mb-50">字库管理</h1>
         <div class="admin m-auto">
+            <div class="ta-r sticky-0">
+                <input  v-model="kw" style="width: 180px;" @keyup.enter="handleSearch" type="text" placeholder="搜索文字" />
+                <button  class="op-btn primary" @click="handleSearch">搜索</button>
+                <button v-on:click="rmAllWords" class="op-btn flex0 danger">
+                    全部删除
+                </button>
+            </div>
             <table class="word-list ta-c">
-                <thead>
+                <thead class="sticky-50">
                     <tr class="title-row word-item flex-row">
                         <th class="cell flex1">序号</th>
                         <th class="cell flex2">字</th>
@@ -24,7 +31,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(item, index) in wordList"
+                        v-for="(item, index) in displayWordList"
                         :key="index + item.word"
                         class="word-item flex-row"
                         :class="{disable: item.status === 'disable'}"
@@ -122,13 +129,26 @@
         el: "#app",
         delimiters: ["${", "}"],
         data: {
+            kw: '',
+            keyword: '',
             currentUser: getCurUser(),
             newTitle: "学前生字",
             newWord: "",
             upfile: "",
             wordList: getCache("words") || [],
         },
+        computed: {
+            displayWordList() {
+                if (!this.keyword) return this.wordList;
+                return this.wordList.filter((item) =>
+                    item.word.includes(this.keyword)
+                );
+            }
+        },
         methods: {
+            handleSearch() {
+                this.keyword = this.kw;
+            },
             updateCache(data) {
                 if (!data) {
                     data = this.wordList;
@@ -138,24 +158,45 @@
             uploadCallback(text) {
                 const lines = text.split("\n").map((line) => line.trim());
                 let title = "";
+                let lesson = ''
                 const date = getTodayStr();
                 const upwords = [];
-                for (line of lines) {
+                for (let line of lines) {
+                    line = line.trim();
+
+                    // skip empty line
+                    if (!line) {
+                        continue;
+                    }
+                    
                     // starts with ## , is title line
                     if (line.startsWith("##")) {
                         title = line.replace(/^##/, "").trim();
                         continue;
                     }
+                    // starts with #Lesson is lesson title line
+                    if (/^#Lesson/i.test(line)) {
+                        lesson = line.replace(/^#Lesson/i, "").trim();
+                        continue;
+                    }
 
-                    if (/^\/\//.test(line) || !line) continue;
+                    // others starts with # are comment lines
+                    if (/^#(?!#)/.test(line) || !line) continue;
 
-                    const upword = line[0];
+                    const [upword, desc = ''] = line.split(/(?<=^[^:：]*)[:：]/);
+                    const explain = desc.trim();
+
                     upwords.push({
-                        word: upword,
-                        date,
                         title: title || this.newTitle,
-                        status: "enable",
+                        lesson,
+
+                        word: upword,
+                        explain,
+                        
                         tags: [],
+
+                        date,
+                        status: "enable",
                         isKnow: false,
                     });
                 }
@@ -168,6 +209,7 @@
                 this.wordList = newWordList;
                 this.updateCache(newWordList);
             },
+
             handlePickFile(event) {
                 const file = event.target.files?.[0];
                 if (!file) return;
