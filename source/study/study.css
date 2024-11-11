@@ -846,6 +846,28 @@ article.md-text {
 }
 
 
+.go-btn {
+    position: fixed;
+    z-index: 10000;
+    right: 20px;
+    bottom: 120px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    opacity: 0.8;
+    line-height: 30px;
+    font-size: 18px;
+    background:#7dc6fd;
+    cursor: pointer;
+    font-style: normal;
+}
+
+.go-btn.bottom {
+    bottom: 80px;
+}
+
 @font-face {
     font-family: 'Aa';
     src: url('AaKaishupinyin.woff2') format('woff2'),

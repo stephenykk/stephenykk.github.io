@@ -211,7 +211,7 @@
                 :class="{'view-answer': index === activeIndex && isViewAnswer}"
                 @click="handleClickCard(index)"
               >
-                <div class="lesson ta-c f30 pos-r w-full mb-20 mt-20" style="top: 0px;">${ wordList[activeIndex]?.lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
+                <div class="lesson ta-c f30 pos-r w-full mb-20 mt-20" style="top: 0px;">${ wordList[activeIndex]?.lesson ?  wordList[activeIndex].lesson.includes('》') ? wordList[activeIndex].lesson : '《' + wordList[activeIndex].lesson + '》' : ''}</div>
                 <div
                   :class="'card-con flex1 font' + fontType"
                   :style="fontStyle"

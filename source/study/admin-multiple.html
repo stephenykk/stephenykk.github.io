@@ -114,6 +114,8 @@
                 </div>
             </div>
         </div>
+        <i class="go-btn top" @click="goTop">↑</i>
+        <i class="go-btn bottom" @click="goBottom">↓</i>
     </section>
 </div>
 
@@ -136,6 +138,12 @@
             }
         },
         methods: {
+            goTop() {
+                window.scrollTo(0, 0)
+            },
+            goBottom() {
+                window.scrollTo(0, 1000000);
+            },
             handleSearch() {
                 this.keyword = this.kw;
             },
