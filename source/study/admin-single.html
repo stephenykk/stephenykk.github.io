@@ -10,7 +10,7 @@
         <h1 class="ta-c mb-50">字库管理</h1>
         <div class="admin m-auto">
             <div class="ta-r sticky-0">
-                <input  v-model="kw" style="width: 180px;" @keyup.enter="handleSearch" type="text" placeholder="搜索文字" />
+                <input  v-model="kw" style="width: 120px;" @keyup.enter="handleSearch" type="text" placeholder="搜索文字" />
                 <button  class="op-btn primary" @click="handleSearch">搜索</button>
                 <button v-on:click="rmAllWords" class="op-btn flex0 danger">
                     全部删除
@@ -168,7 +168,7 @@
                     if (!line) {
                         continue;
                     }
-                    
+
                     // starts with ## , is title line
                     if (line.startsWith("##")) {
                         title = line.replace(/^##/, "").trim();
