@@ -48,7 +48,7 @@
     <hr class="mt-10 mb-10" />
 
     <div class="ctrl-middle flex-row">
-      <label class="purple f15">筛选:</label>
+      <label class="purple f15 ta-r" style="width: 120px;">筛选:</label>
       <div class="ctrl-filter flex-row flex-wrap flex1 shrink1">
         <div
           class="title-filter option-bar dis-ib"
@@ -193,7 +193,7 @@
   >
     <div class="card-list-wrap pos-r">
       <div class="single m-auto pos-r debug-hideXX">
-        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex].lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
+        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex]?.lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
         <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
         <button class="next" @click="showNext" title="快捷键 -> 或空格">
           &gt;

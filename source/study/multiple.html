@@ -49,7 +49,7 @@
     <hr class="mt-10 mb-10" />
 
     <div class="ctrl-middle flex-row">
-      <label class="purple f15">筛选:</label>
+      <label class="purple f15 ta-r" style="width: 120px;">筛选:</label>
       <div class="ctrl-filter flex-row flex-wrap flex1 shrink1">
         <div
           class="title-filter option-bar dis-ib"
@@ -194,7 +194,6 @@
   >
     <div class="card-list-wrap pos-r">
       <div class="single m-auto debug-hideXX pos-r">
-        <div class="lesson ta-c f30 pos-a w-full" style="top: 20px;">${ wordList[activeIndex]?.lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
         <button class="prev" @click="showPrev" title="快捷键 <-">&lt;</button>
         <button class="next" @click="showNext" title="快捷键 -> 或空格">
           &gt;
@@ -212,6 +211,7 @@
                 :class="{'view-answer': index === activeIndex && isViewAnswer}"
                 @click="handleClickCard(index)"
               >
+                <div class="lesson ta-c f30 pos-r w-full mb-20 mt-20" style="top: 0px;">${ wordList[activeIndex]?.lesson ?  '《' + wordList[activeIndex].lesson + '》' : ''}</div>
                 <div
                   :class="'card-con flex1 font' + fontType"
                   :style="fontStyle"
@@ -225,14 +225,15 @@
                   </span>
                 </div>
                 <div class="explain f20 w-full mt-20">${ wordList[activeIndex].explain || '' }</div>
+                <p class="mt-30 ta-c">
+                  <i class="num f30">${activeIndex + 1} / ${wordList.length}</i>
+                </p>
               </div>
             </transition>
           </li>
         </ul>
       </div>
-      <p class="mt-30 ta-c">
-        <i class="num f30">${activeIndex + 1} / ${wordList.length}</i>
-      </p>
+      
     </div>
   </section>
 </div>

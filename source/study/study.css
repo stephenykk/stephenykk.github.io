@@ -453,6 +453,7 @@ footer.page-footer {
 .app .myselect-view {
     padding: 4px 18px 4px 8px;
     font-weight: 400;
+    width: 200px;
 }
 .app .myselect-tag {
     background: #ccc;
@@ -461,11 +462,12 @@ footer.page-footer {
     margin-bottom: 5px;
 }
 .app .myselect-options {
+    position: absolute;
+    /* position: relative; */
     width: 100%;
     border: 0px solid #888;
     border-radius: 4px;
     padding: 0px;
-    position: relative;
     z-index: 9999;
     max-height: 0;
     overflow: hidden;
@@ -840,7 +842,7 @@ article.md-text {
 }
 
 .card-list {
-    min-height: 460px;
+    min-height: 550px;
 }
 
 
@@ -945,6 +947,8 @@ article.md-text {
     border-radius: 5px;
     border: 1px solid #0088ff;
     font-size: 13px;
+    width: 200px;
+    min-height: 30px;
 }
 
 .filter-btn {
