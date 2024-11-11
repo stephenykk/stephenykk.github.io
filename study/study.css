@@ -114,6 +114,9 @@ footer.page-footer {
     border-radius: 5px;
 }
 
+.w-full {
+    width: 100%;
+}
 .minw-100 {
     min-width: 100px;
 }
@@ -393,6 +396,10 @@ footer.page-footer {
 
 .pos-r {
     position: relative;
+}
+
+.pos-a {
+    position: absolute;
 }
 
 .lfade-enter-active,
@@ -732,6 +739,25 @@ button.danger:hover {
     max-width: auto;
 }
 
+.sticky-0 {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #f9fafb;
+}
+
+
+.sticky-50 {
+    position: sticky;
+    top: 50px;
+    z-index: 100;
+    background: #f9fafb;
+}
+
+article.md-text {
+    padding: 0;
+}
+
 .admin .word-list {
     font-size: 15px;
 }
@@ -776,6 +802,9 @@ button.danger:hover {
     /* content: "."; */
 }
 
+.admin .append-line, .admin .upload-line {
+    padding: 0 10px;
+}
 .admin .append-line input {
     width: 180px;
 }
