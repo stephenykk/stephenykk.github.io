@@ -7,10 +7,10 @@
         <h1 class="ta-c mb-50">词语库管理</h1>
         <div class="admin m-auto">
             <div class="ta-r sticky-0">
-                <input  v-model="kw" style="width: 120px;" @keyup.enter="handleSearch" type="text" placeholder="搜索词语/标题" />
+                <input class="f13" v-model="kw" style="width: 140px; height: 35px;" @keyup.enter="handleSearch" type="text" placeholder="搜索词语/标题" />
                 <button  class="op-btn primary" @click="handleSearch">搜索</button>
-                <button v-on:click="rmAllWords" class="op-btn flex0 danger">
-                    全部删除
+                <button v-on:click="rmDisplayWords" class="op-btn flex0 danger">
+                    批量删除
                 </button>
             </div>
             <table class="word-list ta-c">
@@ -114,8 +114,8 @@
                 </div>
             </div>
         </div>
-        <i class="go-btn top" @click="goTop">↑</i>
-        <i class="go-btn bottom" @click="goBottom">↓</i>
+        <i class="go-btn top" @click="goTop">&gt;</i>
+        <i class="go-btn bottom" @click="goBottom">&gt;</i>
     </section>
 </div>
 
@@ -139,10 +139,11 @@
         },
         methods: {
             goTop() {
-                window.scrollTo(0, 0)
+                window.scrollTo({top: 0, behavior: "smooth"})
             },
             goBottom() {
-                window.scrollTo(0, 1000000);
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                window.scrollTo({top: maxScroll, behavior: "smooth"});
             },
             handleSearch() {
                 this.keyword = this.kw;
@@ -248,6 +249,17 @@
             },
             rmAllWords() {
                 this.wordList = [];
+                this.updateCache();
+            },
+            rmDisplayWords() {
+                
+                this.wordList = this.wordList.filter((word) => {
+                    const matched = this.displayWordList.find(viewWord => {
+                        return viewWord.word === word.word && viewWord.title === word.title;
+                    })
+
+                    return !matched
+                });
                 this.updateCache();
             },
             rmAllTags() {

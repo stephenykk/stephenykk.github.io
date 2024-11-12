@@ -849,8 +849,9 @@ article.md-text {
 .go-btn {
     position: fixed;
     z-index: 10000;
-    right: 20px;
+    left: 20px;
     bottom: 120px;
+    transform: rotate(-90deg);
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -858,14 +859,17 @@ article.md-text {
     overflow: hidden;
     opacity: 0.8;
     line-height: 30px;
-    font-size: 18px;
-    background:#7dc6fd;
+    font-size: 22px;
+    font-weight: bold;
+    background:#90d5dd;
     cursor: pointer;
     font-style: normal;
+    font-family: serif;
 }
 
 .go-btn.bottom {
     bottom: 80px;
+    transform: rotate(90deg);
 }
 
 @font-face {

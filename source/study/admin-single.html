@@ -10,10 +10,10 @@
         <h1 class="ta-c mb-50">字库管理</h1>
         <div class="admin m-auto">
             <div class="ta-r sticky-0">
-                <input  v-model="kw" style="width: 120px;" @keyup.enter="handleSearch" type="text" placeholder="搜索文字" />
+                <input class="f13" v-model="kw" style="width: 140px; height: 35px;" @keyup.enter="handleSearch" type="text" placeholder="搜索文字/标题" />
                 <button  class="op-btn primary" @click="handleSearch">搜索</button>
-                <button v-on:click="rmAllWords" class="op-btn flex0 danger">
-                    全部删除
+                <button v-on:click="rmDisplayWords" class="op-btn flex0 danger">
+                    批量删除
                 </button>
             </div>
             <table class="word-list ta-c">
@@ -141,7 +141,7 @@
             displayWordList() {
                 if (!this.keyword) return this.wordList;
                 return this.wordList.filter((item) =>
-                    item.word.includes(this.keyword)
+                    item.title.includes(this.keyword) || item.word.includes(this.keyword)
                 );
             }
         },
@@ -249,6 +249,17 @@
             },
             rmWord(index) {
                 this.wordList.splice(index, 1);
+                this.updateCache();
+            },
+            rmDisplayWords() {
+                
+                this.wordList = this.wordList.filter((word) => {
+                    const matched = this.displayWordList.find(viewWord => {
+                        return viewWord.word === word.word && viewWord.title === word.title;
+                    })
+
+                    return !matched
+                });
                 this.updateCache();
             },
             rmAllWords() {
