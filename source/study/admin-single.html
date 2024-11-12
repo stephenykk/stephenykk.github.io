@@ -248,7 +248,11 @@
                 }
             },
             rmWord(index) {
-                this.wordList.splice(index, 1);
+                const curWord = this.displayWordList[index]
+                // this.wordList.splice(index, 1);
+                this.wordList = this.wordList.filter(word => {
+                    return word.word != curWord.word
+                })
                 this.updateCache();
             },
             rmDisplayWords() {
