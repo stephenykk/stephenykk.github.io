@@ -874,8 +874,8 @@ article.md-text {
 
 @font-face {
     font-family: 'AaKaishupinyin';
-    src: url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaKaishupinyin.woff2') format('woff2'),
-        url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaKaishupinyin.woff') format('woff');
+    src: url('AaKaishupinyin.woff2') format('woff2'),
+        url('AaKaishupinyin.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -883,8 +883,8 @@ article.md-text {
 
 @font-face {
     font-family: 'AaWDXDNFAN';
-    src: url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
-        url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaWDXDNFANNon-CommercialUse.woff') format('woff');
+    src: url('AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
+        url('AaWDXDNFANNon-CommercialUse.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -892,8 +892,8 @@ article.md-text {
 
 @font-face {
     font-family: 'zihunShuxinti';
-    src: url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/zihun104hao-shuxinti.woff2') format('woff2'),
-        url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/zihun104hao-shuxinti.woff') format('woff');
+    src: url('zihun104hao-shuxinti.woff2') format('woff2'),
+        url('zihun104hao-shuxinti.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -901,8 +901,8 @@ article.md-text {
 
 @font-face {
     font-family: 'zihun81hao-qingfengti';
-    src: url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/zihun81hao-qingfengti.woff2') format('woff2'),
-        url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/zihun81hao-qingfengti.woff') format('woff');
+    src: url('zihun81hao-qingfengti.woff2') format('woff2'),
+        url('zihun81hao-qingfengti.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -910,8 +910,8 @@ article.md-text {
 
 @font-face {
     font-family: 'AaHuayuziluolanyongheng';
-    src: url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaHuayuziluolanyongheng.woff2') format('woff2'),
-        url('https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/AaHuayuziluolanyongheng.woff') format('woff');
+    src: url('AaHuayuziluolanyongheng.woff2') format('woff2'),
+        url('AaHuayuziluolanyongheng.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
