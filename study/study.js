@@ -216,3 +216,11 @@ function updateSelectedForTags(tagList, selectedTags) {
         }
     })
 }
+
+function insertNoReferrerMeta() {
+    const meta = document.createElement('meta')
+    meta.setAttribute('name', 'referrer')
+    meta.setAttribute('content', 'no-referrer')
+    document.head.appendChild(meta)
+}
+// insertNoReferrerMeta()
