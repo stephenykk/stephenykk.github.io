@@ -6,9 +6,9 @@ tags:
 category: student
 ---
 
-<link rel="stylesheet" href="./study.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="./study.js"></script>
+<link rel="stylesheet" href="./study.css?home=5" referrerpolicy="no-referrer" />
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
 <div :class="'app ' + (isMobile ? 'mobile' : '')" id="app">
     <section class="actions-container">
