@@ -1,0 +1,737 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>web开发的趁手兵器Fiddler - JKK随笔</title>
+
+  
+    <meta name="description" content="Fiddler 是什么Fiddler 是一个 http 调试代理工具，可以用来查看、修改、重发、保存客户端和服务器之间的 http 通讯，也可以用来测试网站性能，诊断网络问题。Fiddler 充当客户端和服务器之间的中间人，客户端和服务器之间的Http通信都经过 Fiddler，从而可以查看和修改通信内容。 中间人攻击也是采用相同的原理，即使是Https的请求，也可以被抓取和解密    Fiddl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web开发的趁手兵器Fiddler">
+<meta property="og:url" content="https://panzhenjie.fun/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="Fiddler 是什么Fiddler 是一个 http 调试代理工具，可以用来查看、修改、重发、保存客户端和服务器之间的 http 通讯，也可以用来测试网站性能，诊断网络问题。Fiddler 充当客户端和服务器之间的中间人，客户端和服务器之间的Http通信都经过 Fiddler，从而可以查看和修改通信内容。 中间人攻击也是采用相同的原理，即使是Https的请求，也可以被抓取和解密    Fiddl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-28T05:13:42.000Z">
+<meta property="article:modified_time" content="2024-12-06T13:05:37.503Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="frontend">
+<meta property="article:tag" content="IT blog">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="frontend,IT blog">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/"><span class="title">web开发的趁手兵器Fiddler</span></a><a class="item title" href="/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/"><span class="title">二维码登录详解</span></a><a class="item title" href="/2024/02/26/Python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Python基础教程</span></a><a class="item title" href="/2024/04/10/curl%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">curl实用教程</span></a><a class="item title" href="/2024/03/12/%E5%8D%81%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9AWebSocket/"><span class="title">十分钟学会WebSocket</span></a><a class="item title" href="/2024/07/31/%E4%B8%80%E6%96%87%E5%90%83%E9%80%8F-React-SSR-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%E5%92%8C%E5%90%8C%E6%9E%84%E5%8E%9F%E7%90%86/"><span class="title">一文吃透 React SSR 服务端渲染和同构原理</span></a><a class="item title" href="/2024/03/26/Hexo-Stellar%E4%B8%BB%E9%A2%98%E6%A0%87%E7%AD%BE%E5%85%A5%E9%97%A8/"><span class="title">Hexo Stellar主题标签使用入门</span></a><a class="item title" href="/2024/03/07/Grid%E5%B8%83%E5%B1%80%E8%AF%A6%E8%A7%A3/"><span class="title">Grid布局详解</span></a><a class="item title" href="/2024/03/01/Nginx%E5%92%8CPHP%E7%9A%84%E9%85%8D%E7%BD%AE/"><span class="title">Nginx和PHP的配置</span></a><a class="item title" href="/2024/04/12/SVG%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E5%9B%BE%E8%A7%A3%E7%89%88%EF%BC%89/"><span class="title">SVG快速入门（图解版）</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-11-28T05:13:42.000Z">2024-11-28</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-06T13:05:37.503Z">2024-12-06</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>web开发的趁手兵器Fiddler</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="Fiddler-是什么"><a href="#Fiddler-是什么" class="headerlink" title="Fiddler 是什么"></a>Fiddler 是什么</h2><p>Fiddler 是一个 http 调试代理工具，可以用来查看、修改、重发、保存客户端和服务器之间的 http 通讯，也可以用来测试网站性能，诊断网络问题。<br>Fiddler 充当客户端和服务器之间的中间人，客户端和服务器之间的Http通信都经过 Fiddler，从而可以查看和修改通信内容。</p>
+<p><em>中间人攻击也是采用相同的原理，即使是Https的请求，也可以被抓取和解密</em>  </p>
+<blockquote>
+<p>Fiddler只能抓取应用层的Http通信，如果要查看更底层的通信细节，可以用 white sharps，wireshark 等工具。</p>
+</blockquote>
+<p><strong>Fiddler 可以抓取localhost域名下的网络请求</strong></p>
+<h2 id="捕获-http-通讯"><a href="#捕获-http-通讯" class="headerlink" title="捕获 http 通讯"></a>捕获 http 通讯</h2><ul>
+<li>打开 fiddler，点击 <code>file/capture traffic</code>，或者直接按 <code>F12</code>，开始捕获 http 通讯。</li>
+<li>在 <code>session list</code> 中可以看到捕获到的 http 通讯。</li>
+</ul>
+<h2 id="查看请求和响应"><a href="#查看请求和响应" class="headerlink" title="查看请求和响应"></a>查看请求和响应</h2><ul>
+<li>在 <code>session list</code> 中，双击一个 session，可以看到该 session 的请求和响应。</li>
+<li>在 <code>Inspectors</code> 中，可以看到请求和响应的详细信息，包括请求头、响应头、响应体等。</li>
+</ul>
+<h2 id="抓取手机上的-http-通讯"><a href="#抓取手机上的-http-通讯" class="headerlink" title="抓取手机上的 http 通讯"></a>抓取手机上的 http 通讯</h2><ol>
+<li>设置允许远程设备连接</li>
+</ol>
+<p>允许远程设备连接 <code>tools/fiddler options/connection/allow remote computers to connect</code></p>
+<ol start="2">
+<li>手机安装 fiddler 证书</li>
+</ol>
+<p>手机浏览器打开 <code>yourIP:8888</code></p>
+<h2 id="选择会话"><a href="#选择会话" class="headerlink" title="选择会话"></a>选择会话</h2><ul>
+<li>任意多选 <code>ctrl + click</code> </li>
+<li>多选连续的会话 <code>shift + click</code></li>
+<li>向上&#x2F;向下单选 <code>ctrl + up/down</code></li>
+<li>向上&#x2F;向下连续多选 <code>ctrl + shfit + up/down</code></li>
+<li>反选会话 <code>ctrl + i</code>  <em>焦点先定位到 session list</em></li>
+<li>选择当前会话的父会话 <code>P</code>  <em>很实用的功能，比如选择一个 js, 按<code>P</code>，就会定位到触发该js请求的html请求</em></li>
+<li>选择当前会话的子会话 <code>C</code>  <em>同样实用：选择 html 请求，按<code>C</code>, 定位所有由该 html 请求触发的静态资源请求</em></li>
+</ul>
+<h2 id="查找会话"><a href="#查找会话" class="headerlink" title="查找会话"></a>查找会话</h2><p><code>ctrl + f</code> 打开查找对话框，可以设置只查找请求或只查找响应，查找内容可以指定header或body, 基本上可以满足大部分需求。</p>
+<h2 id="会话对比"><a href="#会话对比" class="headerlink" title="会话对比"></a>会话对比</h2><p>选择两个会话，右键 选择 <code>compare</code> 命令(<em>需安装对比工具 winMerge</em>),  对比成功和失败的两次请求，方便找出差异。</p>
+<h2 id="删除会话"><a href="#删除会话" class="headerlink" title="删除会话"></a>删除会话</h2><ul>
+<li>删除选中会话 <code>delete</code> </li>
+<li>删除未选中会话 <code>shift + delete</code> <em>同先反选<code>ctrl+i</code>, 再删除</em></li>
+<li>删除所有会话 <code>ctrl + x</code></li>
+</ul>
+<h2 id="配置hosts"><a href="#配置hosts" class="headerlink" title="配置hosts"></a>配置hosts</h2><p>可以通过Fiddler配置DNS映射，这样就不必在C盘的hosts文件中修改了。  </p>
+<p>Hosts配置位于菜单 <code>Tools/Hosts</code></p>
+<h2 id="quickbox"><a href="#quickbox" class="headerlink" title="quickbox"></a>quickbox</h2><p>quickbox 是 fiddler 的一个工具栏，可以快速执行一些操作, 如: 查找会话，设置断点等。   </p>
+<p><code>alt + q</code> 光标定位到 quickExec。</p>
+<ul>
+<li><p>查找会话  </p>
+<ul>
+<li>在url根据关键字查找 <code>? keyword</code> </li>
+<li>根据content-type查找 <code>select image</code>, <code>select json</code></li>
+<li>根据hostname查找 <code>@target Hostname</code></li>
+<li>根据响应的status查找 <code>=304</code></li>
+<li>根据请求方法查找 <code>=post</code></li>
+<li>根据content-length查找 <code>&gt;1000</code></li>
+<li>根据域名查找 <code>@google</code></li>
+<li>根据请求头查找<code>select @Request.Accept html</code></li>
+<li>根据响应头查找 <code>select @Response.set-cookie domain</code></li>
+</ul>
+</li>
+<li><p>高亮会话</p>
+<ul>
+<li>设置高亮url包含关键字的会话 <code>bold /app.js</code> <em>实用功能: 后续捕获的匹配会话也会被高亮</em></li>
+<li>取消高亮  <code>bold</code></li>
+</ul>
+</li>
+<li><p>过滤会话</p>
+<ul>
+<li>根据content-type过滤，<code>allbut image</code> 删除所有会话，image会话除外</li>
+<li>根据content-type过滤 <code>keeponly image</code> 只保留image会话, 作用同上</li>
+</ul>
+</li>
+<li><p>断点</p>
+<ul>
+<li>设置断点，断点类型为 before request, url包含baidu的请求都会被中断 <code>bpu baidu</code> </li>
+<li>清除断点  <code>bpu</code> <em>bpu 不带参数，则表示清除断点</em></li>
+<li>设置断点，断点类型为 after response, url包含baidu的响应都会被中断 <code>bpafter baidu</code> </li>
+<li>清除断点  <code>bpafter</code> <em>bpafter 不带参数，则表示清除断点</em></li>
+<li>执行断点 <code>go</code>  <em>在 inspector 面板修改请求&#x2F;响应内容后继续执行</em></li>
+<li>根据请求方法设置断点  <code>bpm POST</code></li>
+<li>清除 bpm 断点  <code>bpm</code></li>
+<li>根据响应状态码设置断点  <code>bps 404</code></li>
+<li>清除 bps 断点  <code>bps</code></li>
+</ul>
+</li>
+<li><p>修改请求url<br>可以把请求url的域名修改为本地ip，方便调试</p>
+<ul>
+<li>设置url替换  <code>urlreplace www.dev.com localhost</code></li>
+<li>清除url替换  <code>urlreplace</code></li>
+</ul>
+</li>
+<li><p>删除所有会话</p>
+<ul>
+<li>清除所有会话 <code>cls</code></li>
+<li>清除所有会话 <code>clear</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="构造请求"><a href="#构造请求" class="headerlink" title="构造请求"></a>构造请求</h2><p>可以全新创建请求，或基于现有session创建请求</p>
+<ul>
+<li>compose 面板中，手动创建所有的请求参数</li>
+<li>拖一个 session 到 compose 面板中，修改并发送改请求</li>
+<li>按住<code>shift</code>, 点击 execute 按钮 , 会在请求发出前断点，允许再次修改</li>
+</ul>
+<h2 id="autoResponder-自动响应"><a href="#autoResponder-自动响应" class="headerlink" title="autoResponder 自动响应"></a>autoResponder 自动响应</h2><p>从左侧拖一个 session 到 autoresponder 中，默认会自动创建匹配规则和响应内容   </p>
+<blockquote>
+<p>基于session创建的autoresponse, 默认规则精确匹配(EXACT:the-url)，默认响应为该 session 的 response(*200-SESSION-6)   </p>
+</blockquote>
+<p>用户可修改匹配规则，亦可修改响应内容，在 rule list 中选择该 rule, 按<code>enter</code>编辑响应内容。</p>
+<p><strong>自动响应的匹配规则</strong>  </p>
+<ul>
+<li>普通字符串，匹配URL包含该字符串的请求 <code>hello.com</code></li>
+<li>NOT:普通字符串，匹配URL不包含该字符串的请求 <code>NOT: hello.com</code></li>
+<li>通配符匹配所有请求 <code>*</code> </li>
+<li>精确匹配，URL完全相同的请求 <code>EXACT: http://localhost/test.php?foo=BAR</code></li>
+<li>正则匹配 <code>regex:(?inxs)http://localhost/\w+\.php</code> , <code>regex:.+(gif|png|jpg)$</code><br>正则修饰符:  <ul>
+<li><code>i</code> <em>ignore case</em> 忽略大小写</li>
+<li><code>n</code> <em>requires explicit capture groups</em> 要求明确的捕获组</li>
+<li><code>s</code> <em>enables single-line syntax</em> 单行</li>
+<li><code>x</code> <em>enables comments after the #character</em> 支持# 后加注释</li>
+</ul>
+</li>
+</ul>
+<p><strong>自动响应的内容</strong>  </p>
+<ul>
+<li>本地文件</li>
+<li><code>http://targetUrl</code> 重定向到目标url</li>
+<li><code>*redir:http://targetUrl</code></li>
+<li><code>*bpu</code> 请求前断点</li>
+<li><code>*bpafter</code> 响应前断点</li>
+<li><code>*delay: Xms</code> 延迟发出请求</li>
+<li><code>*header: hi=hello</code> 修改&#x2F;新增请求头</li>
+<li><code>*CORSPreflightAllow</code> 返回允许跨域的 header</li>
+<li><code>*reset</code> Reset the client connection</li>
+<li><code>*drop</code> close the client connection</li>
+<li><code>*exit</code> 该规则什么都不做,让后续规则处理</li>
+</ul>
+<p><strong>自动响应示例</strong><br>将正则规则捕获到的参数，应用到目标 url</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">rule: regex:youdao\.com(.\*)<br>action: http://localhost/test.php$1<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="FiddlerScript"><a href="#FiddlerScript" class="headerlink" title="FiddlerScript"></a>FiddlerScript</h2><p>Fiddler Script 是用 JScript.NET 语言写的，可以自动修改 Request 和 Response. 这样我们就无需手动设置”断点”。</p>
+<blockquote>
+<p>Fiddler Script实际上它是一个脚本文件 CustomRules.js ，保存在 C:\Users\sea\Documents\Fiddler2\Scripts\CustomRules.js</p>
+</blockquote>
+<p>打开 Fiddler Script， 点击菜单 <code>Rules-&gt;Customize Rules</code> 或者 <code>ctrl + r</code></p>
+<h3 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 在这个方法中修改Request的内容， 我们用得最多,</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeRequest</span>(<span class="hljs-params">oSession: Session</span>)<br><br><br><br><span class="hljs-comment">// 在这个方法中修改Response的内容，</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeResponse</span>(<span class="hljs-params">oSession: Session</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="常用对象和方法"><a href="#常用对象和方法" class="headerlink" title="常用对象和方法"></a>常用对象和方法</h3><p>fiddlerScript Editor 有智能提示</p>
+<p><strong>对象</strong></p>
+<ul>
+<li><p>oSession<br> <code>oSession.url</code>, <code>oSession.fullUrl</code>, <code>oSession.host</code>, <code>oSession.hostname</code>, <code>oSession.oRequest</code>, <code>oSession.oResponse</code>, <code>oSession.HostNameIs()</code>, <code>oSession.uriContains()</code></p>
+</li>
+<li><p>FiddlerObject<br> <code>FiddlerObject.log()</code></p>
+</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>字符串处理方法<br> <code>replace()</code>, <code>indexOf()</code>, <code>substring()</code></li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>高亮请求 和 打印日志</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">onBeforeRequest</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-title class_">HostNameIs</span>(<span class="hljs-string">&#x27;www.cnblogs.com&#x27;</span>)) &#123;<br>        oSession[<span class="hljs-string">&#x27;ui-color&#x27;</span>] = <span class="hljs-string">&#x27;red&#x27;</span><br><br>        <span class="hljs-title class_">FiddlerObject</span>.<span class="hljs-title function_">log</span>(oSession.<span class="hljs-property">url</span>) <span class="hljs-comment">// 不带 http://</span><br>        <span class="hljs-title class_">FiddlerObject</span>.<span class="hljs-title function_">log</span>(oSession.<span class="hljs-property">fullUrl</span>) <span class="hljs-comment">// 带 http://</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>添加&#x2F;删除 请求头</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeRequest</span>(<span class="hljs-params">oSession</span>) &#123;<br>    oSession.<span class="hljs-property">oRequest</span>[<span class="hljs-string">&#x27;x-hi&#x27;</span>] = <span class="hljs-string">&#x27;hello&#x27;</span>;<br>    oSession.<span class="hljs-property">RequestHeaders</span>.<span class="hljs-title class_">Add</span>(<span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-string">&#x27;foolish&#x27;</span>);<br>    oSession.<span class="hljs-property">RequestHeaders</span>.<span class="hljs-title class_">Remove</span>(<span class="hljs-string">&#x27;Cache-Control&#x27;</span>); <span class="hljs-comment">// 删除请求头</span><br>    <span class="hljs-comment">// or use oRequest</span><br>    oSession.<span class="hljs-property">oRequest</span>.<span class="hljs-property">headers</span>.<span class="hljs-title class_">Add</span>(<span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-string">&#x27;foolish&#x27;</span>);<br>    oSession.<span class="hljs-property">oRequest</span>.<span class="hljs-property">headers</span>.<span class="hljs-title class_">Remove</span>(<span class="hljs-string">&#x27;Cache-Control&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>添加响应头部 支持 CORS</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">onBeforeResponse</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-title class_">HostNameIs</span>(<span class="hljs-string">&#x27;www.test.com&#x27;</span>)) &#123;<br>        oSession.<span class="hljs-property">ResponseHeaders</span>.<span class="hljs-title class_">Add</span>(<span class="hljs-string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="hljs-string">&#x27;http://10.66.51.87:9091&#x27;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>将请求重定向到其他主机</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeRequest</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-title class_">HostnameIs</span>(<span class="hljs-string">&#x27;test.com&#x27;</span>)) &#123;<br>        <span class="hljs-comment">// test.com:90/foo/bar -&gt; localhost:90/foo/bar</span><br>        oSession.<span class="hljs-property">hostname</span> = <span class="hljs-string">&#x27;localhost&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-property">host</span> == <span class="hljs-string">&#x27;foo.com:90&#x27;</span>) &#123;<br>        oSession.<span class="hljs-property">host</span> = <span class="hljs-string">&#x27;bar.com:9012&#x27;</span>; <span class="hljs-comment">// host == hostname:port</span><br>    &#125;<br><br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-property">fullUrl</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;http://www.foo.com&#x27;</span>) == <span class="hljs-number">0</span>) &#123;<br>        oSession.<span class="hljs-property">fullUrl</span> = oSession.<span class="hljs-property">fullUrl</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&#x27;http://www.foo.com&#x27;</span>, <span class="hljs-string">&#x27;https://www.bar.com&#x27;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>将一个 url 重定向到另外的 url</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeRequest</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-property">url</span> == <span class="hljs-string">&#x27;example.com/test.js&#x27;</span>) &#123;<br>        <span class="hljs-comment">// oSession.url 不包括protocol</span><br>        oSession.<span class="hljs-property">url</span> = <span class="hljs-string">&#x27;localhost.com/mock-test.js&#x27;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>取消发送 cookie</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeRequest</span>(<span class="hljs-params">oSession</span>) &#123;<br>    oSession.<span class="hljs-property">oRequest</span>.<span class="hljs-property">headers</span>.<span class="hljs-title class_">Remove</span>(<span class="hljs-string">&#x27;Cookie&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>替换 html 文件的内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeResponse</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-title class_">HostnameIs</span>(<span class="hljs-string">&#x27;www.test.com&#x27;</span>) &amp;&amp; oSession.<span class="hljs-property">oResponse</span>.<span class="hljs-property">headers</span>.<span class="hljs-title class_">ExistsAndContains</span>(<span class="hljs-string">&#x27;Content-type&#x27;</span>, <span class="hljs-string">&#x27;text/html&#x27;</span>)) &#123;<br>        <span class="hljs-keyword">var</span> body = oSession.<span class="hljs-title class_">GetResponseBodyAsString</span>();<br>        body = body.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&#x27;foo&#x27;</span>, <span class="hljs-string">&#x27;bar&#x27;</span>);<br>        oSession.<span class="hljs-title function_">utilSetResponseBody</span>(body);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>替换 json 文件的内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">OnBeforeResponse</span>(<span class="hljs-params">oSession</span>) &#123;<br>    <span class="hljs-keyword">if</span>(oSession.<span class="hljs-title class_">HostnameIs</span>(<span class="hljs-string">&#x27;www.test.com&#x27;</span>) &amp;&amp; oSession.<span class="hljs-property">oResponse</span>.<span class="hljs-property">headers</span>.<span class="hljs-title class_">ExistsAndContains</span>(<span class="hljs-string">&#x27;Content-type&#x27;</span>, <span class="hljs-string">&#x27;application/json&#x27;</span>)) &#123;<br>        <span class="hljs-keyword">var</span> body = oSession.<span class="hljs-title class_">GetResponseBodyAsString</span>();<br>        <span class="hljs-keyword">var</span> json = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(body);<br>        json.<span class="hljs-property">name</span> = <span class="hljs-string">&#x27;bar&#x27;</span>;<br>        oSession.<span class="hljs-title function_">utilSetResponseBody</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(json));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/&title=web开发的趁手兵器Fiddler - JKK随笔&pics=/images/banner_desk.jpg&summary=Fiddler 是什么Fiddler 是一个 http 调试代理工具，可以用来查看、修改、重发、保存客户端和服务器之间的 http 通讯，也可以用来测试网站性能，诊断网络问题。Fiddler 充当客户端和服务器之间的中间人，客户端和服..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=web开发的趁手兵器Fiddler - JKK随笔&amp;body=https://panzhenjie.fun/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/">二维码登录详解</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\02\28\2023再看React状态管理库\" title="2023再看React状态管理库"><span class="title">2023再看React状态管理库</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fiddler-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">Fiddler 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%95%E8%8E%B7-http-%E9%80%9A%E8%AE%AF"><span class="toc-text">捕获 http 通讯</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94"><span class="toc-text">查看请求和响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%93%E5%8F%96%E6%89%8B%E6%9C%BA%E4%B8%8A%E7%9A%84-http-%E9%80%9A%E8%AE%AF"><span class="toc-text">抓取手机上的 http 通讯</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%BC%9A%E8%AF%9D"><span class="toc-text">选择会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E4%BC%9A%E8%AF%9D"><span class="toc-text">查找会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%AF%B9%E6%AF%94"><span class="toc-text">会话对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%BC%9A%E8%AF%9D"><span class="toc-text">删除会话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEhosts"><span class="toc-text">配置hosts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#quickbox"><span class="toc-text">quickbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%B7%E6%B1%82"><span class="toc-text">构造请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#autoResponder-%E8%87%AA%E5%8A%A8%E5%93%8D%E5%BA%94"><span class="toc-text">autoResponder 自动响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FiddlerScript"><span class="toc-text">FiddlerScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-text">主要方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%AF%B9%E8%B1%A1%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-text">常用对象和方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-text">例子</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?527d24f1a4c0bef6256d4231fa3c74ac";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
