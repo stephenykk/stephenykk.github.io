@@ -872,6 +872,19 @@ article.md-text {
     transform: rotate(90deg);
 }
 
+html button {
+    border: 0;
+}
+
+@font-face {
+    font-family: 'AaKaishupinyin';
+    src: url('http://panzhenjie.freesite.online/AaKaishupinyin.woff2') format('woff2'),
+        url('http://panzhenjie.freesite.online/AaKaishupinyin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+/* 
 @font-face {
     font-family: 'AaKaishupinyin';
     src: url('AaKaishupinyin.woff2') format('woff2'),
@@ -879,12 +892,13 @@ article.md-text {
     font-weight: normal;
     font-style: normal;
     font-display: swap;
-}
+} */
+
 
 @font-face {
     font-family: 'AaWDXDNFAN';
-    src: url('AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
-        url('AaWDXDNFANNon-CommercialUse.woff') format('woff');
+    src: url('http://panzhenjie.freesite.online/AaWDXDNFANNon-CommercialUse.woff2') format('woff2'),
+        url('http://panzhenjie.freesite.online/AaWDXDNFANNon-CommercialUse.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -892,8 +906,8 @@ article.md-text {
 
 @font-face {
     font-family: 'zihunShuxinti';
-    src: url('zihun104hao-shuxinti.woff2') format('woff2'),
-        url('zihun104hao-shuxinti.woff') format('woff');
+    src: url('http://panzhenjie.freesite.online/zihun104hao-shuxinti.woff2') format('woff2'),
+        url('http://panzhenjie.freesite.online/zihun104hao-shuxinti.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -901,8 +915,8 @@ article.md-text {
 
 @font-face {
     font-family: 'zihun81hao-qingfengti';
-    src: url('zihun81hao-qingfengti.woff2') format('woff2'),
-        url('zihun81hao-qingfengti.woff') format('woff');
+    src: url('http://panzhenjie.freesite.online/zihun81hao-qingfengti.woff2') format('woff2'),
+        url('http://panzhenjie.freesite.online/zihun81hao-qingfengti.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -910,8 +924,8 @@ article.md-text {
 
 @font-face {
     font-family: 'AaHuayuziluolanyongheng';
-    src: url('AaHuayuziluolanyongheng.woff2') format('woff2'),
-        url('AaHuayuziluolanyongheng.woff') format('woff');
+    src: url('http://panzhenjie.freesite.online/AaHuayuziluolanyongheng.woff2') format('woff2'),
+        url('http://panzhenjie.freesite.online/AaHuayuziluolanyongheng.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
