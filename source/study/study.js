@@ -223,4 +223,76 @@ function insertNoReferrerMeta() {
     meta.setAttribute('content', 'no-referrer')
     document.head.appendChild(meta)
 }
+
+async function defineMyFonts() {
+    const baseURL = 'https://gitee.com/stephenykk/stephenykk.github.io/raw/master/source/study/'
+    const fonts = {
+        // AaKaishupinyin: baseURL + 'AaKaishupinyin.woff2',
+        pinyin: 'https://files.cnblogs.com/files/stephenykk/AaKaishupinyin.woff2.zip'
+    }
+
+    Object.keys(fonts).forEach(fontName => {
+        const fontURL = fonts[fontName]
+        injectFont(fontName, fontURL)
+    })
+}
+
+async function injectFont(fontName, fontURL, isObjectURL = false) {
+    // while response content-type is text/plain, res.blob() is empty
+    // const blob = await fetch(fontURL, { mode: 'no-cors'}).then(res => res.blob())
+    const res = await fetch(fontURL, { /* mode: 'no-cors', */ responseType: 'blob'})
+    const text = await res.text()
+    // debugger;
+    console.log("🚀 ~ injectFont ~ text:", text)
+    const blob = await res.blob()
+    console.log("🚀 ~ injectFont ~ blob:", blob)
+    let targetURL = ''
+    if (isObjectURL) {
+        const objURL = URL.createObjectURL(obj)
+        targetURL = objURL
+    } else {
+        const reader = new FileReader()
+        const readPromise = new Promise(resolve => {
+            reader.onload = function(event) {
+                resolve(event.target.result)
+                console.log("🚀 ~ readPromise ~ event:", event)
+            }
+
+            reader.readAsDataURL(blob)
+        })
+
+        const dataURL = await readPromise
+        targetURL = dataURL
+    }
+    console.log("🚀 ~ injectFont ~ targetURL:", targetURL)
+
+    const format = fontURL.replace(/\.zip$/, '').split('.').pop();
+    const fontFaceRule = `
+    @font-face {
+        font-family: ${fontName};
+        src: url(${targetURL}) format('${format}');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+    `
+
+    const style = document.createElement('style')
+    style.type = 'text/css'
+    style.setAttribute('data-font', fontName)
+    if (style.styleSheet) {
+        style.styleSheet.cssText = fontFaceRule; // ie
+    } else {
+        style.appendChild(document.createTextNode(fontFaceRule))
+    }
+
+    document.head.appendChild(style)
+
+
+    console.log(`inject font  [${fontName}] success!`);
+}
+
+
 // insertNoReferrerMeta()
+
+// defineMyFonts();
