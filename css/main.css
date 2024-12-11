@@ -166,6 +166,9 @@ blockquote {
   border-radius: 4px 12px 12px 4px;
   color: var(--text-p2);
 }
+.md-text >blockquote:first-child {
+  word-break: break-all;
+}
 :root {
   --blur-px: 12px;
   --blur-bg: var(--alpha50);
