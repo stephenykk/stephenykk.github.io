@@ -11,8 +11,8 @@ Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个�
 
 ## Linux 的发行版
 
-{% mark Linux 的发行版简单说就是 linux 内核和应用软件的打包 %}
-目前市面上较知名的发行版有：{% mark Ubuntu %}、RedHat、{% mark CentOS %}、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare 等。
+{% mark Linux 的发行版简单说就是 linux 内核和应用软件的打包 color:purple %}
+目前市面上较知名的发行版有：{% mark Ubuntu color:purple %}、RedHat、{% mark CentOS color:purple %}、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare 等。
 
 ## 系统启动过程
 
@@ -25,7 +25,7 @@ Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个�
 -   运行级别
     许多程序需要开机启动。它们在 Windows 叫做"服务"（service），在 Linux 就叫做"守护进程"（daemon）。不同的场合需要启动不同的程序，所以就有了运行级别
 
-    {% mark init 进程的一大任务，就是根据运行级别去执行对应的开机启动的程序。%}
+    {% mark init进程的一大任务，就是根据运行级别去执行对应的开机启动的程序 color:purple %}
 
     Linux 系统有 7 个运行级别(runlevel)：
 
@@ -63,7 +63,7 @@ Linux 是一套免费使用和自由传播的类 Unix 操作系统，是一个�
 
     + 命令行登录
     + ssh 登录
-    + 图形界面登录 {% mark 运行级别为 5，登录后进入 KDE Gnome 等窗口管理器 %}
+    + 图形界面登录 {% mark 运行级别为 5，登录后进入 KDE Gnome 等窗口管理器 color:purple %}
 
 -   终端切换  
     `ctrl+alt+F1-F6` 切换终端 1-6, `ctrl+alt+F7`返回图形界面
@@ -98,7 +98,7 @@ shutdown 会停止应用进程 卸载文件系统 然后关闭电源
 -   `/boot`  
     存放启动 linux 时用到的核心文件
 -   `/dev`  
-    dev 是 device 的缩写, 存放外部设备 {% mark linux 中访问设备的方式和访问文件相同 %}
+    dev 是 device 的缩写, 存放外部设备 {% mark linux 中访问设备的方式和访问文件相同 color:purple %}
 -   `/etc`  
     存放系统的配置文件
 -   `/home`  
