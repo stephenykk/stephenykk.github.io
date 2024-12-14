@@ -20,18 +20,18 @@
   <title>软硬链接小白文 - JKK随笔</title>
 
   
-    <meta name="description" content="【Linux】软连接和硬链接：创建、管理和解除链接的操作 转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854  文章目录  1. 软链接和硬链接简介 2. Linux软链接使用方法 3. Linux硬链接使用方法 4. 总结    1. 软链接和硬链接简介 什么是软链接软链接(Sym">
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854  1. 软链接和硬链接简介 什么是软链接软链接(Symbolic Link),也称为 符号链接 ,是包含了源文件位置信息的特殊文件。它的作用是间接指向一个文件或目录。如果软链接的源文件被删除或移动了,软链接就打不开了。  什么是硬">
 <meta property="og:type" content="article">
 <meta property="og:title" content="软硬链接小白文">
 <meta property="og:url" content="https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/index.html">
 <meta property="og:site_name" content="JKK随笔">
-<meta property="og:description" content="【Linux】软连接和硬链接：创建、管理和解除链接的操作 转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854  文章目录  1. 软链接和硬链接简介 2. Linux软链接使用方法 3. Linux硬链接使用方法 4. 总结    1. 软链接和硬链接简介 什么是软链接软链接(Sym">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854  1. 软链接和硬链接简介 什么是软链接软链接(Symbolic Link),也称为 符号链接 ,是包含了源文件位置信息的特殊文件。它的作用是间接指向一个文件或目录。如果软链接的源文件被删除或移动了,软链接就打不开了。  什么是硬">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/d5ed6c89605c6e630885d5ab6b5913fe.png">
 <meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/aa0dec4be16a85e60549da2b1a47073f.png">
 <meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/fbcec9ce82aa0ad3e6238e1f562e166d.png">
 <meta property="article:published_time" content="2024-12-12T23:21:41.000Z">
-<meta property="article:modified_time" content="2024-12-12T23:21:52.150Z">
+<meta property="article:modified_time" content="2024-12-14T00:10:28.179Z">
 <meta property="article:author" content="stephenykk">
 <meta property="article:tag" content="frontend">
 <meta property="article:tag" content="IT blog">
@@ -82,7 +82,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-12T23:21:41.000Z">2024-12-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-12T23:21:52.150Z">2024-12-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-12T23:21:41.000Z">2024-12-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-14T00:10:28.179Z">2024-12-14</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -93,83 +93,83 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="【Linux】软连接和硬链接：创建、管理和解除链接的操作"><a href="#【Linux】软连接和硬链接：创建、管理和解除链接的操作" class="headerlink" title="【Linux】软连接和硬链接：创建、管理和解除链接的操作"></a>【Linux】软连接和硬链接：创建、管理和解除链接的操作</h1><blockquote>
+  </div><article class="md-text content"><blockquote>
 <p>转载自: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42301220/article/details/134520854">https://blog.csdn.net/weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854</a></p>
 </blockquote>
-<h4 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h4><ul>
-<li><ul>
-<li><a href="#1__1">1. 软链接和硬链接简介</a></li>
-<li><a href="#2_Linux_14">2. Linux软链接使用方法</a></li>
-<li><a href="#3_Linux_62">3. Linux硬链接使用方法</a></li>
-<li><a href="#4__113">4. 总结</a></li>
-</ul>
+<h2 id="1-软链接和硬链接简介"><a href="#1-软链接和硬链接简介" class="headerlink" title="1. 软链接和硬链接简介"></a>1. 软链接和硬链接简介</h2><ol>
+<li><p>什么是软链接<br>软链接(Symbolic Link),<mark class="tag-plugin colorful mark" color="purple">也称为 符号链接 ,是包含了源文件位置信息的特殊文件</mark>。它的作用是间接指向一个文件或目录。<mark class="tag-plugin colorful mark" color="purple">如果软链接的源文件被删除或移动了,软链接就打不开了</mark>。</p>
 </li>
-</ul>
-<h3 id="1-软链接和硬链接简介"><a href="#1-软链接和硬链接简介" class="headerlink" title="1. 软链接和硬链接简介"></a>1. 软链接和<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%A1%AC%E9%93%BE%E6%8E%A5&spm=1001.2101.3001.7020">硬链接</a>简介</h3><ol>
-<li><p>什么是软链接<br>软链接(Symbolic Link),也称为<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5&spm=1001.2101.3001.7020">符号链接</a>,是包含了源文件位置信息的特殊文件。它的作用是间接指向一个文件或目录。如果软链接的源文件被删除或移动了,软链接就打不开了。</p>
-</li>
-<li><p>什么是硬链接<br>硬链接(Hard Link)指通过索引节点来进行链接。在Linux系统中,每个文件都有一个对应的索引节点,记录文件的日期,大小,所在块等信息。硬链接就是指向源文件索引节点的连接。删除源文件,不影响硬链接的访问。</p>
+<li><p>什么是硬链接<br>硬链接(Hard Link)指通过索引节点(<code>inode</code>)来进行链接。在Linux系统中,<mark class="tag-plugin colorful mark" color="purple">每个文件都有一个对应的索引节点,记录文件的日期,大小,所在块等信息。硬链接就是指向源文件索引节点的连接。删除源文件,不影响硬链接的访问</mark>。</p>
+<blockquote>
+<p>会有多个硬链接指向源文件索引节点，所有硬链接都被删除时，源文件才会真正被删除<br><code>ls -l -i</code> 可查看硬链接的个数, 和索引节点序号<br><code>find -type f -inum &#123;inodeNumber&#125;</code> 可查看指定索引节点的所有硬链接</p>
+</blockquote>
 </li>
 <li><p>软链接和硬链接的区别</p>
 <ul>
-<li>软链接是一个特殊的独立文件,它内容记录源文件位置;硬链接只是源文件的引用,不占用实际空间。</li>
-<li>删除软链接不影响源文件：删除源文件,软链接失效。删除硬链接不影响源文件,需将源文件和全部硬链接删除,源文件才会删除（换句话说，<strong>对于硬链接来说，删除了源文件，访问硬链接依旧有效</strong>）。</li>
+<li><mark class="tag-plugin colorful mark" color="purple">软链接是一个特殊的独立文件,它内容记录源文件位置;硬链接只是源文件的引用,不占用实际空间。</mark></li>
+<li>删除软链接不影响源文件：删除源文件,软链接失效。删除硬链接不影响源文件,需将源文件和全部硬链接删除,源文件才会删除（换句话说，<strong>如:<code>rm -f nami.jpg</code> 只是删除了其中一个硬链接，通过其他硬链接访问依旧有效</strong>）。</li>
 <li>软链接可以跨分区;硬链接不能跨文件系统。</li>
 <li><strong>软链接可以针对目录;硬链接不能针对目录</strong>。</li>
 </ul>
 </li>
 </ol>
-<h3 id="2-Linux软链接使用方法"><a href="#2-Linux软链接使用方法" class="headerlink" title="2. Linux软链接使用方法"></a>2. Linux软链接使用方法</h3><ol>
+<h2 id="2-软链接使用"><a href="#2-软链接使用" class="headerlink" title="2. 软链接使用"></a>2. 软链接使用</h2><ol>
 <li><p>创建软链接的语法</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ln <span class="hljs-literal">-s</span> 源文件或目录 软链接的文件或目录<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -s 源文件或目录 软链接的文件或目录<br></code></pre></td></tr></table></figure>
 
 <p><code>-s</code> 参数表示创建的是软链接。</p>
 </li>
-<li><p>创建<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%BD%AF%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6&spm=1001.2101.3001.7020">软链接文件</a>示例</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 将test.txt软链接到test_link</span><br>ln <span class="hljs-literal">-s</span> test.txt test_link<br><span class="hljs-number">12</span><br></code></pre></td></tr></table></figure>
+<li><p>创建软链接示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 将test.txt软链接到test_link</span><br><span class="hljs-built_in">ln</span> -s test.txt test_link<br></code></pre></td></tr></table></figure>
 
 <p>这样就在当前目录下创建了一个<code>test_link</code>的软链接文件,它指向<code>test.txt</code>。如下图，可以看到<code>test_link</code> ，箭头就表示它是一个链接。我们可以直接通过访问&#x2F;修改<code>test_link</code> 来访问&#x2F;修改<code>test.txt</code>的内容。<br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i-blog.csdnimg.cn/blog_migrate/d5ed6c89605c6e630885d5ab6b5913fe.png" alt="在这里插入图片描述"></p>
 <p>使用<code>ll</code>命令可以看到软链接的相关信息:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ll test_link<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">ll test_link<br><br>vim test_link<br><span class="hljs-comment"># 能看到修改后的内容</span><br><span class="hljs-built_in">cat</span> test.txt<br></code></pre></td></tr></table></figure>
 
 <p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i-blog.csdnimg.cn/blog_migrate/aa0dec4be16a85e60549da2b1a47073f.png" alt="在这里插入图片描述"></p>
 </li>
 <li><p>为目录创建软链接<br>软链接可以为目录创建快捷方式，方式与为文件创建软链接类似：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 将/usr/local/dir1目录软链接到dir1_link</span><br>ln <span class="hljs-literal">-s</span> /usr/local/dir1 dir1_link<br><span class="hljs-number">12</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 将/usr/local/dir1目录软链接到dir1_link</span><br><span class="hljs-built_in">ln</span> -s /usr/local/dir1 dir1_link<br></code></pre></td></tr></table></figure>
 
 <p>这样访问<code>dir1_link</code>就相当于访问<code>dir1</code>目录中的内容。</p>
 </li>
-<li><p>修改和删除软链接<br>删除或修改软链接不会影响源文件&#x2F;目录,它只是一个普通文件。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 删除软链接 </span><br><span class="hljs-built_in">rm</span> test_link<br><span class="hljs-comment">#或者</span><br>unlink test_link<br><span class="hljs-number">1234</span><br></code></pre></td></tr></table></figure>
+<li><p>修改和删除软链接<br>删除或修改软链接不会影响源文件&#x2F;目录,它只是一个普通文件。  </p>
+<p>删除软链接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> test_link<br><span class="hljs-comment">#或者</span><br><span class="hljs-built_in">unlink</span> test_link<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 修改软链接</span><br>ln <span class="hljs-literal">-sf</span> test2.txt test_link<br><span class="hljs-number">12</span><br></code></pre></td></tr></table></figure></li>
+<p>修改软链接，修改软链接的指向后， test_link 指向 test2.xt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -sf test2.txt test_link<br></code></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="3-Linux硬链接使用方法"><a href="#3-Linux硬链接使用方法" class="headerlink" title="3. Linux硬链接使用方法"></a>3. Linux硬链接使用方法</h3><ol>
+<h2 id="3-硬链接使用方法"><a href="#3-硬链接使用方法" class="headerlink" title="3. 硬链接使用方法"></a>3. 硬链接使用方法</h2><ol>
 <li><p>创建硬链接语法</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ln 源文件 硬链接名<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> 源文件 硬链接名<br></code></pre></td></tr></table></figure>
 
 <p>不使用<code>-s</code>参数默认创建硬链接。</p>
 </li>
 <li><p>创建硬链接示例</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ln test.txt test_hardlink<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> test.txt test_hardlink<br></code></pre></td></tr></table></figure>
 
 <p>这样就在当前目录下创建了一个<code>test_hardlink</code>的硬链接文件,指向<code>test.txt</code></p>
 </li>
 <li><p>查看硬链接信息<br>使用<code>ll</code>命令可以看到硬链接信息:</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ll test_hardlink<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ll test_hardlink<br></code></pre></td></tr></table></figure>
 
 <p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i-blog.csdnimg.cn/blog_migrate/fbcec9ce82aa0ad3e6238e1f562e166d.png" alt="在这里插入图片描述"></p>
 <p>可以看到<code>test_hardlink</code>是一个硬链接文件,指向<code>test.txt</code>, 索引节点相同。</p>
 </li>
 <li><p>修改和删除硬链接<br>删除或修改硬链接不影响源文件,它只是一个目录项引用源文件的索引节点。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-comment"># 删除硬链接</span><br><span class="hljs-built_in">rm</span> test_hardlink <br><span class="hljs-comment"># 或者</span><br>unlink test_hardlink<br><span class="hljs-comment"># 修改硬链接内容</span><br>vim test_hardlink<br>源文件内容将跟着一起变化。<br><span class="hljs-number">1234567</span><br></code></pre></td></tr></table></figure>
+<p>删除硬链接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">rm</span> test_hardlink <br><span class="hljs-comment"># 或者</span><br><span class="hljs-built_in">unlink</span> test_hardlink<br></code></pre></td></tr></table></figure>
+
+<p>修改硬链接内容, 源文件内容将跟着一起变化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim test_hardlink<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>为目录创建硬链接<br>硬链接无法针对目录进行创建。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ln dir1 dir1_hardlink<br>ln: failed to create hard link ‘dir1_hardlink’ =&gt; ‘dir1’: Invalid argument<br><span class="hljs-number">12</span><br></code></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> dir1 dir1_hardlink<br><span class="hljs-built_in">ln</span>: failed to create hard <span class="hljs-built_in">link</span> ‘dir1_hardlink’ =&gt; ‘dir1’: Invalid argument<br></code></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h3><ul>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><ul>
 <li>软链接通过指向源文件的路径建立链接,硬链接通过索引节点建立链接。</li>
-<li>软链接可以跨文件系统,硬链接不能。软链接可以对目录创建链接,硬链接不可以。</li>
+<li>软链接可以跨文件系统,硬链接不能。<mark class="tag-plugin colorful mark" color="purple">软链接可以对目录创建链接,硬链接不可以</mark>。</li>
 <li>删除软链接和硬链接都不影响源文件。</li>
 <li>解除软链接和硬链接,直接删除链接文件即可。</li>
 </ul>
@@ -185,10 +185,11 @@
       <div class="header"><span>分享文章</span></div>
       <div class="body">
         <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/&title=软硬链接小白文 - JKK随笔&pics=/images/banner_desk.jpg&summary=【Linux】软连接和硬链接：创建、管理和解除链接的操作
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/&title=软硬链接小白文 - JKK随笔&pics=/images/banner_desk.jpg&summary=
 转载自: https://blog.csdn.net/weixin_42301220&#x2F;article&#x2F;details&#x2F;134520854
 
-文章目..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=软硬链接小白文 - JKK随笔&amp;body=https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+1. 软链接和硬链接简介
+什么是软链接软链接(Symbolic..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=软硬链接小白文 - JKK随笔&amp;body=https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/"/>
@@ -232,7 +233,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90Linux%E3%80%91%E8%BD%AF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E3%80%81%E7%AE%A1%E7%90%86%E5%92%8C%E8%A7%A3%E9%99%A4%E9%93%BE%E6%8E%A5%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-text">【Linux】软连接和硬链接：创建、管理和解除链接的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95"><span class="toc-text">文章目录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BD%AF%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 软链接和硬链接简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Linux%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">2. Linux软链接使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Linux%E7%A1%AC%E9%93%BE%E6%8E%A5%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">3. Linux硬链接使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-text">4. 总结</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%BD%AF%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 软链接和硬链接简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%BD%BF%E7%94%A8"><span class="toc-text">2. 软链接使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%A1%AC%E9%93%BE%E6%8E%A5%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">3. 硬链接使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-text">4. 总结</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
