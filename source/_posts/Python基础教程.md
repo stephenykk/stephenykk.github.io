@@ -75,7 +75,7 @@ python 有多种解释器:
     python hello.py
 
     # Mac 或 Linux上还可直接运行python脚本
-    # ---- hello.py ----
+    # ---- hello.py ---->
     #!/usr/bin/env python3
     print('hello world')
 
@@ -96,8 +96,8 @@ python 有多种解释器:
 ## 输入
 
 ```python
-    name = input('input your name:') # 然后输入 'sindy' python3
-    # python2: name = raw_input('input your name:')
+    name = input('input your name:') # python3
+    name = raw_input('input your name:') # python2
     print(name)
 ```
 
@@ -143,16 +143,20 @@ python 的{% mark 数据类型包括: 整数、浮点数、字符串、字节型
     will not escape
     '''
 
-    # 字节型
+    # f-string 变量插值
+    name = 'Alice'
+    f'hi, {name}'
+
+    # 字节型 bytes
     b'ABC'
     len('abc') # 3
     b'hello'.decode('ascii')
-    len(b'good') #4
+    len(b'good') # 4
 
     # 布尔值
     True False
     # 逻辑运算符
-    # and or not
+    and or not
 
     # 空值
     None
@@ -178,13 +182,13 @@ python 中{% mark 常量习惯用全大写 color:purple %}字母表示, 如 `PI=
 python 的{% mark 两种除法 color:purple %}：
 
 ```python
-    print(10 / 3) #3.33.. 普通除法 结果为浮点数
-    print(10 // 3) #3 地板除 结果为整数 整除(有小数 则向下取整) 结果为整数
-    print(20 / 3)
-    print(20 // 3) #6
-    print(9 / 3) #3.0 /除法计算结果是浮点数，即使是两个整数恰好整除，结果也是浮点数：
+    print(10 / 3) # 3.33.. 普通除法/真除法，结果为浮点数
+    print(9 / 3) # 3.0 真除法计算结果总是浮点数，即使是两个整数恰好整除
 
-    print(10 % 3) #1 模运算，取余数
+    print(10 // 3) # 3 地板除 结果为整数 整除(有小数 则向下取整) 结果为整数
+    print(20 // 3) # 6
+
+    print(10 % 3) # 1 模运算，取余数
 ```
 
 python 的整数和浮点数没有大小限制
@@ -232,7 +236,7 @@ python 的整数和浮点数没有大小限制
 
 ```python
 strVal = 'Hello'
-byteVal = b'Hello' # bytes的每个字符都只占用一个字节。
+bytesVal = b'Hello' # bytes的每个字符都只占用一个字节。
 ```
 
 {% mark 以 Unicode 表示的 str 通过 encode()方法可以编码为指定的 bytes color:purple %}
@@ -255,6 +259,8 @@ byteVal = b'Hello' # bytes的每个字符都只占用一个字节。
 ```
 
 len()函数计算的是 str 的字符数，不是字符串占用的字节数，如果换成 bytes，len()函数就计算字节数
+
+> `len(seq)` 返回序列元素个数
 
 ```python
 >>> len('ABC')
@@ -337,7 +343,7 @@ print(f'The area of a circle with radius {r} is {s:.2f}')
 
 ## 列表和元组
 
-列表是元素的有序集合，可增删元素 _等同 js 的数组_, 且元素不要求数据类型相同
+列表是元素的有序集合，可增删元素, 不要求元素的数据类型相同
 
 ```python
 roles = ['nami', 'zoro', 'lufy']
@@ -349,8 +355,10 @@ roles[-1] # 最后一个元素 支持负索引
 
 roles.append('robin') # 在末尾追加元素
 roles.insert(1, 'sandge') # 在指定位置插入元素
-print(roles.pop()) # 删除末尾元素
-print(roles.pop(1)) # 删除指定位置元素
+
+roles.pop() # 删除末尾元素
+roles.pop(1) # 删除指定位置元素
+
 roles[1] = 'jobar' # 修改元素
 
 # 二维数组
@@ -364,17 +372,17 @@ langs = ['python', 'java', ['asp', 'php'], 'scheme']
 colors = ('yellow', 'green', 'red')
 colors2 = () # 空元组
 nums = (1,) # 只有1个数字的元组，nums = (1) 括号会被认为是数字求值， 所以要加个,
+
+# 元组的元素为列表，列表的元素可修改
 friends = ('idle', 'sandy', ['lucy', 8])
 friends[2][1] = 18
-print(friends) # 复合数据类型可修改
 ```
 
 ## 条件判断
 
-`if ... elif ... else ...`
-
 ```python
 age = 3
+# 多分支
 if age >= 18:
     print('your age is', age)
     print('adult')
@@ -385,8 +393,9 @@ else:
     print('kid')
 
 
-s = input('birth: ')
+s = input('birth year: ')
 birth = int(s) # 转换为数值型
+# 两个分支
 if birth < 2000:
     print('00前')
 else:
@@ -395,10 +404,10 @@ else:
 
 ## 循环
 
-`for ... in ...`  ,  `while`  , `break`  ,  `continue`
-
 ```python
 names = ['Michael', 'Bob', 'Tracy']
+
+# for 循环，遍历序列
 for name in names:
     print(name)
 
@@ -407,6 +416,7 @@ for i in range(10):
 
 sum = 0
 n = 99
+# wile循环, 条件循环
 while n > 0:
     sum = sum + n
     n = n - 2
@@ -435,15 +445,15 @@ while n < 10:
 
 ## 字典 dict
 
-dict 全称 dictionary，在其他语言中也称为 map，使用键-值（key-value）存储，具有极快的查找速度。 _同 js 的对象_
+`dict` 全称 dictionary，在其他语言中也称为 map，使用键-值（key-value）存储，具有极快的查找速度。 _同 js 的对象_
 
 ```python
-# 属性名的引号不能省略
+# !!属性名的引号不能省略
 role = {'name': 'rufy', 'age': 18, 'skill': 'stretch'} 
 role['age'] = 19
 # role.age = 20 这样修改属性值报错 :(
-print(role)
 
+# 判断属性是否存在
 if('age' in role):
     print('yes')
 
