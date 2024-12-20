@@ -15,7 +15,8 @@ tags: curl
 ### 直接请求指定资源
 
 ```bash
-# 如 url包含查询参数，需要用引号括起来，因为参数中包含&符号，在shell中表示后台执行
+# 如 url包含查询参数，需要用引号括起来，
+# 因为参数中包含&符号，在shell中表示后台执行
 curl www.sina.com
 ```
 
@@ -41,7 +42,9 @@ curl "https://www.baidu.com/s?wd=weather&rsv_spt=1"
 
 ```bash
 # curl -X POST --data 'data' --header 'header' url POST请求
-curl -X POST --data '{"name":"controller"}' --header 'Content-Type:application/json' http://127.0.0.1:7001/form
+curl -X POST --data '{"name":"controller"}' 
+--header 'Content-Type:application/json' 
+http://127.0.0.1:7001/form
 
 # 可用多个-d发送多个键值对数据
 curl -d 'login=emma' -d 'password=123' -X POST  https://google.com/login
@@ -59,7 +62,8 @@ curl -d '@data.txt' https://google.com/login
 ```bash
 # curl -H val url 
 # curl --header val url
-curl --header "content-type: application/json" --header "authorization: Bearer token" url
+curl --header "content-type: application/json" 
+--header "authorization: Bearer token" url
 ```
 
 ### 设置 useragent  
@@ -158,5 +162,10 @@ curl --user name:password url
 ### 多参数示例
 
 ```bash
-curl -iv -d "@data.json" --cookie 'csrfToken=REhEag2ATP5vfl2Za6aOXoCT' --header 'x-csrf-token:REhEag2ATP5vfl2Za6aOXoCT' --header 'content-type: application/json' -o out.txt http://localhost:7002/component/create 
+curl -iv -d "@data.json" 
+--cookie 'csrfToken=REhEag2ATP5vfl2Za6aOXoCT' 
+--header 'x-csrf-token:REhEag2ATP5vfl2Za6aOXoCT' 
+--header 'content-type: application/json' 
+-o out.txt 
+http://localhost:7002/component/create 
 ```
