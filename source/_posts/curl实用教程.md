@@ -10,96 +10,153 @@ tags: curl
 
 参考 [curl 用法指南](http://www.ruanyifeng.com/blog/2019/09/curl-reference.html)
 
-## 常用参数
+## 基础用法
 
+### 直接请求指定资源
 
 ```bash
-# curl url 获取网页源码
+# 如 url包含查询参数，需要用引号括起来，因为参数中包含&符号，在shell中表示后台执行
 curl www.sina.com
+```
 
-# curl -o file url 网页源码(响应体)导出到文件
+### 响应内容导出到文件  
+默认输出到stdout, 指定 `-o file` 则输出到指定文件
+
+```bash
 curl -o sina.html www.sina.com
+```
 
+### 发起GET请求并带参数   
+`-G` 表示 GET请求，默认也是GET请求，所以不加也可以。
 
-# curl -G --data "foo=bar" url GET 请求并带参数
+```bash
 curl -G --data "login=1&name=sindy" localhost:7001
+curl "https://www.baidu.com/s?wd=weather&rsv_spt=1"
+```
 
+### 发起POST请求并带参数   
+`-X` 指定请求方法，`-d` 指定请求参数，`--data-urlencode` 对参数进行URL编码, `-H`/`--header` 指定请求头  
+
+用 `-d` 参数以后，HTTP 请求会自动加上标头 `Content-Type : application/x-www-form-urlencoded`。并且会自动将请求转为 `POST` 方法，因此可以省略 `-X POST`。
+
+```bash
 # curl -X POST --data 'data' --header 'header' url POST请求
 curl -X POST --data '{"name":"controller"}' --header 'Content-Type:application/json' http://127.0.0.1:7001/form
 
-
-# 用-d参数以后，HTTP 请求会自动加上标头Content-Type : application/x-www-form-urlencoded。并且会自动将请求转为 POST 方法，因此可以省略-X POST。
-# -d参数可以读取本地文本文件的数据，向服务器发送。
-curl -d '@data.txt' https://google.com/login
-
-
-# 增加请求头 
-# curl -H val url 
-# curl --header val url
-# curl --head val url
-# 多个header 要用多个--header选项
-curl --header "content-type: application/json" url
-
-
-# 指定 ua 同 curl -A val url
-curl --user-agent val url
-
-# 指定 referer
-curl --referer val url
-
-# 指定 cookie
-curl --cookie "name=xx" url
+# 可用多个-d发送多个键值对数据
+curl -d 'login=emma' -d 'password=123' -X POST  https://google.com/login
 
 ```
 
-## 其他参数
+`-d` 参数可以读取本地文本文件的数据，向服务器发送。
+```bash
+curl -d '@data.txt' https://google.com/login
+```
+
+### 设置请求头   
+`-H`/`--header` 指定请求头，设置多个header，可指定多个 `--header` 选项
 
 ```bash
+# curl -H val url 
+# curl --header val url
+curl --header "content-type: application/json" --header "authorization: Bearer token" url
+```
+
+### 设置 useragent  
+`-A`/`--user-agent` 指定UA, 对于带反爬虫的网站，可以设置UA来伪装浏览器。
+
+```bash
+curl -A val url
+curl --user-agent val url
+```
 
 
-# curl -L url 自动跳转，获取 url 重定向后的内容
+### 指定 referer
+对于防止盗链的网站，可以指定 referer 来伪装请求来源。
+
+```bash
+curl --referer val url
+```
+
+### 指定 cookie
+接口需要鉴权的话，可以指定 cookie 来发送相关鉴权信息。
+
+```bash
+curl --cookie "name=alice" url
+
+```
+
+
+## 高级用法
+
+### 追踪重定向，获取重定向后的内容
+
+```bash
 curl -L www.sina.com
-# 用eggjs起个web服务，controller.home.index中 ctx.redirect('https://www.baidu.com')
+# 用eggjs起个web服务，controller.home.index中 
+# ctx.redirect('https://www.baidu.com')
 curl http://localhost:7001 # 301 不会返回百度首页内容
+
 curl -L http://localhost:7001 # 会返回百度首页内容
 
-# curl -i url 增加显示响应头
+```
+
+### 显示响应头
+
+```bash
 curl -i www.sina.com # 返回响应头和响应体
 
 # curl -I url 只显示响应头
 curl -I www.sina.com
+```
 
-# curl -v url # 显示完整的 http 通信过程
+
+### 显示完整的 http 通信过程
+
+```bash
 curl -v www.sina.com
 
 # curl --trace output.txt url 显示更加详细的数据
 curl --trace output.txt www.baidu.com
+```
 
-# 多个header要用多个--header选项
-curl -iv -d "@data.json" http://localhost:7002/component/create --cookie 'csrfToken=REhEag2ATP5vfl2Za6aOXoCT' --header 'x-csrf-token:REhEag2ATP5vfl2Za6aOXoCT' --header 'content-type: application/json' -o out.txt 
 
-# --data-urlencode 自动urlencode数据
+### 自动urlencode传入的数据
+`--data`/`-d` 默认不会encode数据
+
+```bash
 curl -X POST --data-urlencode "data" url
-
-# --data 默认不会encode数据
-# --data 同 -d
-curl -X POST --data "data" url
-
-# -d 参数用于发送 POST 请求的数据体。
-curl -d 'login=emma&password=123' -X POST https://google.com/login
-# 可用多个-d发送多个键值对数据
-curl -d 'login=emma' -d 'password=123' -X POST  https://google.com/login
+```
 
 
-# 文件上传
+
+### 文件上传
+
+```bash
 curl --form upload=@localfilename --form press=ok url
+```
 
-# 返回的 cookie 保存为文件
+
+### 保存返回的cookie
+
+```bash
 curl -c cookies.txt http://example.com
+```
 
-# 发送 cookie 文件
+### 发送 cookie 文件
+
+```bash
 curl -b cookies.txt http://example.com
+```
 
-# http 认证
+### http 认证
+
+```bash
 curl --user name:password url
+```
+
+### 多参数示例
+
+```bash
+curl -iv -d "@data.json" --cookie 'csrfToken=REhEag2ATP5vfl2Za6aOXoCT' --header 'x-csrf-token:REhEag2ATP5vfl2Za6aOXoCT' --header 'content-type: application/json' -o out.txt http://localhost:7002/component/create 
 ```
