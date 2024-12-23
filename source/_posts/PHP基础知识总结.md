@@ -5,37 +5,49 @@ tags: PHP
 category: PHP
 ---
 
--   PHP 代表 PHP: Hypertext Preprocessor
--   PHP 文件可包含文本、HTML、JavaScript 代码和 PHP 代码
--   PHP 代码在服务器上执行，结果以纯 HTML 形式返回给浏览器
--   PHP 文件的默认文件扩展名是 ".php"
+## PHP是什么
+
+PHP的全称是“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写  
+
+PHP是一种创建动态交互性站点的服务器端脚本语言。  
+
+PHP文件可包含HTML、JavaScript 代码和 PHP 代码，PHP 代码在服务器上执行，结果以纯 HTML 形式返回给浏览器。
+
+> PHP 文件的默认文件扩展名是 ".php"
 
 ## PHP 能做什么
 
--   PHP 可以生成动态页面内容
--   PHP 可以创建、打开、读取、写入、关闭服务器上的文件
--   PHP 可以收集表单数据
--   PHP 可以发送和接收 cookies
--   PHP 可以添加、删除、修改您的数据库中的数据
--   PHP 可以限制用户访问您的网站上的一些页面
--   PHP 可以加密数据
+PHP它具有访问文件系统和数据库的能力，主要用于web开发，生成动态页面内容。早期很多的CMS（内容管理系统）都是基于PHP开发的，比如：WordPress、Discuz、phpcms等。
 
 ## 安装
 
-如果您的服务器不支持 PHP，您必须：
+PHP 是一种服务器端脚本语言，需要安装 PHP 服务器环境才能运行 PHP 脚本。PHP的服务器环境包括以下几个组成部分：
 
-1. 安装 Web 服务器
-2. 安装 PHP
-3. 安装数据库，比如 MySQL
-   官方 PHP 网站（PHP.net）有 PHP 的安装说明： http://php.net/manual/en/install.php
+1. Web 服务器
+2. PHP 解析器
+3. DBMS 数据库管理系统，比如 MySQL
 
-**集成开发环境推荐 WAMP：http://www.wampserver.com/**
+推荐安装 **集成开发环境推荐 WAMP：http://www.wampserver.com/** 或者 **XAMPP：https://www.apachefriends.org/zh_cn/index.html**
 
-## PHP 基本语法
+### 进入交互模式
 
-**_PHP 脚本可以放在文档中的任何位置。_**
+在交互模式下，你可以输入 PHP 代码并立即看到结果，而不需要创建一个 PHP 文件。  
 
-PHP 脚本以 <?php 开始，以 ?> 结束：
+在命令行中输入 `php -a` 进入交互模式
+
+> 交互模式是一个练习和测试 PHP 代码的环境
+
+```php
+php -a
+```
+
+## 基本语法
+
+### 脚本位置
+
+PHP脚本可放在文档的任何位置，PHP 脚本以 `<?php` 开始，以 `?>` 结束
+
+> `<? ... ?>` 短标签，不推荐使用
 
 ```php
 <!DOCTYPE html>
@@ -61,58 +73,168 @@ block
 </html>
 ```
 
-PHP 中的每个代码行都必须以分号结束
+### 语句结束符
+ PHP中的每条语句都必须以分号(`;`)结束，否则会报错
 
-两种在浏览器输出文本的基础指令：echo 和 print。
 
-### PHP 变量
+```php
+<h1>My first PHP page</h1>
 
-变量以 $ 符号开始，后面跟着变量的名称
+<?php
+$a = 10;
+$b = 20;
+echo "Hello 10 + 20 = " . ($a + $b);
 
-PHP 没有声明变量的命令。
+?>
+```
 
-变量在您第一次赋值给它的时候被创建：
+### 注释方式
+和大多数程序语言一样，用 `//` 表示单行注释，`/* */` 表示多行注释
 
-**PHP 是一门弱类型语言**
-PHP 会根据变量的值，自动把变量转换为正确的数据类型。
+```php
+<h1>My first PHP page</h1>
 
-在强类型的编程语言中，我们必须在使用变量前先声明（定义）变量的类型和名称。
+<?php
 
-### PHP 变量的作用域
+//This is a PHP comment line
 
-PHP 有四种不同的变量作用域：
+/*
+This is
+a PHP comment
+block
+*/
 
--   **_local_**
--   **_global_**
--   **_static_**
--   **_parameter_**
+?>
+```
 
-## **局部和全局作用域**
+### 输出语句
 
-在所有函数外部定义的变量，拥有全局作用域。除了函数外，全局变量可以被脚本中的任何部分访问，要在一个函数中访问一个全局变量，需要使用 global 关键字。
+PHP 有四种基本的输出方式：
 
-在 PHP 函数内部声明的变量是局部变量，仅能在函数内部访问：
+- `echo` - 输出一个或多个字符串
+- `print` - 输出一个字符串
+- `print_r` - 以易读的格式打印变量
+- `var_dump` - 打印变量的相关信息
+
+输出字符串的话，用 `echo` 和 `print` 都可以，区别在于 `echo` 可以输出多个字符串，而 `print` 只能输出一个字符串。
 
 ```php
 <?php
-$x=5; // 全局变量
+echo "Hello World!";
+// 可用逗号分隔多个字符串，echo 会将它们连接起来
+echo "good", "day" // goodday
 
-function myTest()
-{
-$y=10; // 局部变量
-echo "<p>Test variables inside the function:<p>";
-echo "Variable x is: $x";
-echo "<br>";
-echo "Variable y is: $y";
-}
+// 可以命令或函数的形式调用 print
+print "Hello World!";
+print('Hello world');
+// print只能传入一个字符串参数。
+print("Hello", "Alice"); // 报错
+print "hello", "Alice"; // 报错
 
-myTest();
+// print_r() 输出对象/关联数组变量
+$colors = array("red", "green", "blue");
+print_r($colors);
 
-echo "<p>Test variables outside the function:<p>";
-echo "Variable x is: $x";
-echo "<br>";
-echo "Variable y is: $y";
+// var_dump() 输出变量的相关信息
+$msg = "hero";
+var_dump($msg);
 ?>
+```
+
+### 变量
+
+变量以 `$` 符号开始，后面跟着变量的名称, 如: `$color`, `$color = red`    
+
+PHP 没有声明变量的命令， 变量在您第一次赋值给它的时候被创建。
+
+```php
+<?php
+// var_dump() 输出变量的相关信息
+$msg = "hero";
+echo "hello ", $msg;
+?>
+```
+
+
+PHP 是一门弱类型语言, 会自动将变量转换为正确的数据类型。
+
+> 在强类型的编程语言中，我们必须在使用变量前先声明（定义）变量的类型和名称。
+
+## 作用域
+
+PHP 有四种不同的变量作用域：
+
+- 局部作用域
+- 全局作用域
+- 静态作用域
+- 参数作用域
+
+### 局部作用域
+
+函数内部未局部作用域，在函数内部声明的变量为局部变量，只能在函数内部访问。
+
+```php
+<?php
+
+function mySum($n) {
+    $m = 10; // 局部变量
+    return $n + $m;
+}
+?>
+```
+
+### 全局作用域
+
+函数外部为全局作用域，函数外部声明的变量称为全局变量  
+
+**函数内部访问全局变量，需要加 `global` 声明**
+
+> PHP不会自动沿着作用域链去查找变量。
+
+```php
+<?php
+$user = 'Alice';
+
+function outputUser() {
+    global $user; // global声明
+    echo $user;
+}
+?>
+```
+
+### 静态作用域
+
+静态变量仅在局部函数域中存在，但当程序执行离开此作用域时，其值并不丢失。
+
+> 静态变量在函数调用之间保持其值，类似的特性在其他语言中很少见。
+
+```php
+<?php
+function countUp() {
+    static $x = 0;
+    $x++;   
+    echo '$x is: ' , $x , "\n";
+}
+countUp();
+countUp();
+countUp();
+?>
+```
+
+### 参数作用域
+
+函数参数仅在函数内部起作用，是局部变量。
+
+```php
+<?php
+function myTest($x) {
+    $x++;
+    echo $x;
+}
+?>
+```
+
+### 超全局变量
 ```
 
 在函数内调用函数外定义的全局变量，我们需要在函数中的变量前加上 global 关键字：
