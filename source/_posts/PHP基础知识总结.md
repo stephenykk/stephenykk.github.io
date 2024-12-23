@@ -7,35 +7,35 @@ category: PHP
 
 ## PHP是什么
 
-PHP的全称是“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写  
+PHP全称“PHP: Hypertext Preprocessor”，是超文本预处理器的字母缩写  
 
 PHP是一种创建动态交互性站点的服务器端脚本语言。  
 
-PHP文件可包含HTML、JavaScript 代码和 PHP 代码，PHP 代码在服务器上执行，结果以纯 HTML 形式返回给浏览器。
+PHP文件可包含HTML、JavaScript代码和PHP代码，PHP代码在服务器上执行，结果以纯HTML形式返回给浏览器。
 
-> PHP 文件的默认文件扩展名是 ".php"
+> PHP文件的默认文件扩展名是 ".php"
 
 ## PHP 能做什么
 
-PHP它具有访问文件系统和数据库的能力，主要用于web开发，生成动态页面内容。早期很多的CMS（内容管理系统）都是基于PHP开发的，比如：WordPress、Discuz、phpcms等。
+PHP具有访问文件系统和数据库的能力，主要用于web开发，生成动态页面内容。早期很多的CMS（内容管理系统）都是基于PHP开发的，比如：WordPress、Discuz、phpcms等。
 
 ## 安装
 
-PHP 是一种服务器端脚本语言，需要安装 PHP 服务器环境才能运行 PHP 脚本。PHP的服务器环境包括以下几个组成部分：
+PHP是一种服务器端脚本语言，需要安装PHP服务器环境才能运行PHP脚本。PHP的服务器环境由以下几个部分组成：
 
 1. Web 服务器
 2. PHP 解析器
 3. DBMS 数据库管理系统，比如 MySQL
 
-推荐安装 **集成开发环境推荐 WAMP：http://www.wampserver.com/** 或者 **XAMPP：https://www.apachefriends.org/zh_cn/index.html**
+推荐安装集成开发环境 [WAMP](http://www.wampserver.com/) 或者 [XAMPP](https://www.apachefriends.org/zh_cn/index.html)
 
 ### 进入交互模式
 
-在交互模式下，你可以输入 PHP 代码并立即看到结果，而不需要创建一个 PHP 文件。  
+在交互模式下，你可以输入PHP代码并立即看到结果，而不需要创建一个PHP文件。  
 
 在命令行中输入 `php -a` 进入交互模式
 
-> 交互模式是一个练习和测试 PHP 代码的环境
+> 交互模式是一个练习和测试PHP代码的环境
 
 ```php
 php -a
@@ -45,9 +45,9 @@ php -a
 
 ### 脚本位置
 
-PHP脚本可放在文档的任何位置，PHP 脚本以 `<?php` 开始，以 `?>` 结束
+PHP脚本可放在文档的任何位置，PHP脚本以 `<?php` 开始，以 `?>` 结束
 
-> `<? ... ?>` 短标签，不推荐使用
+> 还支持短标签 `<? ... ?>`，但是不推荐使用
 
 ```php
 <!DOCTYPE html>
@@ -58,15 +58,6 @@ PHP脚本可放在文档的任何位置，PHP 脚本以 `<?php` 开始，以 `?>
 
 <?php
 echo "Hello World!";
-
-//This is a PHP comment line
-
-/*
-This is
-a PHP comment
-block
-*/
-
 ?>
 
 </body>
@@ -74,7 +65,8 @@ block
 ```
 
 ### 语句结束符
- PHP中的每条语句都必须以分号(`;`)结束，否则会报错
+
+ 每条PHP语句都必须以分号(`;`)结束，否则会报错
 
 
 ```php
@@ -89,6 +81,7 @@ echo "Hello 10 + 20 = " . ($a + $b);
 ```
 
 ### 注释方式
+
 和大多数程序语言一样，用 `//` 表示单行注释，`/* */` 表示多行注释
 
 ```php
@@ -111,12 +104,14 @@ block
 
 PHP 有四种基本的输出方式：
 
-- `echo` - 输出一个或多个字符串
-- `print` - 输出一个字符串
-- `print_r` - 以易读的格式打印变量
-- `var_dump` - 打印变量的相关信息
+- `echo` 输出一个或多个字符串
+- `print` 输出一个字符串
+- `print_r` 以易读的格式打印关联数组/对象变量
+- `var_dump` 打印变量的相关信息
 
 输出字符串的话，用 `echo` 和 `print` 都可以，区别在于 `echo` 可以输出多个字符串，而 `print` 只能输出一个字符串。
+
+> echo 输出的速度比 print 快， echo 没有返回值，print 有返回值 1
 
 ```php
 <?php
@@ -124,7 +119,7 @@ echo "Hello World!";
 // 可用逗号分隔多个字符串，echo 会将它们连接起来
 echo "good", "day" // goodday
 
-// 可以命令或函数的形式调用 print
+// 以命令或函数的形式调用 print
 print "Hello World!";
 print('Hello world');
 // print只能传入一个字符串参数。
@@ -149,14 +144,13 @@ PHP 没有声明变量的命令， 变量在您第一次赋值给它的时候被
 
 ```php
 <?php
-// var_dump() 输出变量的相关信息
 $msg = "hero";
 echo "hello ", $msg;
 ?>
 ```
 
 
-PHP 是一门弱类型语言, 会自动将变量转换为正确的数据类型。
+PHP 是一门弱类型语言, 会自动将变量做类型转换。
 
 > 在强类型的编程语言中，我们必须在使用变量前先声明（定义）变量的类型和名称。
 
@@ -171,7 +165,7 @@ PHP 有四种不同的变量作用域：
 
 ### 局部作用域
 
-函数内部未局部作用域，在函数内部声明的变量为局部变量，只能在函数内部访问。
+函数内部为局部作用域，在函数内部声明的变量为局部变量，只能在函数内部访问。
 
 ```php
 <?php
@@ -204,7 +198,7 @@ function outputUser() {
 
 ### 静态作用域
 
-静态变量仅在局部函数域中存在，但当程序执行离开此作用域时，其值并不丢失。
+静态变量仅在局部作用域中存在，当程序执行离开此作用域时，其值并不丢失。
 
 > 静态变量在函数调用之间保持其值，类似的特性在其他语言中很少见。
 
@@ -218,29 +212,8 @@ function countUp() {
 countUp();
 countUp();
 countUp();
-?>
-```
 
-### 参数作用域
-
-函数参数仅在函数内部起作用，是局部变量。
-
-```php
-<?php
-function myTest($x) {
-    $x++;
-    echo $x;
-}
-?>
-```
-
-### 超全局变量
-```
-
-在函数内调用函数外定义的全局变量，我们需要在函数中的变量前加上 global 关键字：
-
-```php
-<?php
+// -------
 $x=5;
 $y=10;
 
@@ -255,7 +228,24 @@ echo $y; // 输出 15
 ?>
 ```
 
-PHP 将所有全局变量存储在一个名为 $GLOBALS[index] 的数组中。 index 保存变量的名称。这个数组可以在函数内部访问，也可以直接用来更新全局变量。
+### 参数作用域
+参数是通过调用代码将值传递给函数的局部变量, 参数是在参数列表中声明的，作为函数声明的一部分
+
+```php
+<?php
+function myTest($x) {
+    $x++;
+    echo $x;
+}
+?>
+```
+
+## 超全局变量
+
+
+PHP将所有全局变量存储在一个名为 `$GLOBALS[index]` 的数组中。 index 保存变量的名称。这个数组可以在函数内部访问，也可以直接用来更新全局变量。
+
+> 超全局变量 `$GLOBALS` 可直接访问，不需要加 `global` 声明
 
 ```php
 <?php
@@ -272,45 +262,6 @@ echo $y;
 ?>
 ```
 
-## **Static 作用域**
-
-当一个函数完成时，它的所有变量通常都会被删除。然而，有时候您希望某个局部变量不要被删除,可以使用 **static**关键字
-
-```php
-<?php
-
-function myTest()
-{
-static $x=0;
-echo $x;
-$x++;
-}
-
-myTest();
-myTest();
-myTest();
-
-?>
-```
-
-## **参数作用域**
-
-参数是通过调用代码将值传递给函数的局部变量。
-
-参数是在参数列表中声明的，作为函数声明的一部分：
-
-```php
-<?php
-
-function myTest($x)
-{
-echo $x;
-}
-
-myTest(5);
-
-?>
-```
 
 ### PHP echo 和 print 语句
 
