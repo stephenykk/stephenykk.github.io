@@ -119,7 +119,7 @@ echo "Hello World!";
 // 可用逗号分隔多个字符串，echo 会将它们连接起来
 echo "good", "day" // goodday
 
-// 以命令或函数的形式调用 print
+// 以命令/函数的形式调用 print
 print "Hello World!";
 print('Hello world');
 // print只能传入一个字符串参数。
@@ -133,6 +133,23 @@ print_r($colors);
 // var_dump() 输出变量的相关信息
 $msg = "hero";
 var_dump($msg);
+?>
+```
+
+
+输出变量和字符串
+
+```php
+<?php
+$msg="Learn PHP";
+// 直接输出变量
+echo $msg;
+
+// 双引号字符串内部可插入变量，单引号不支持变量插值
+echo "today, let us $txt2"; 
+// 用大括号 显式的指定这是变量
+echo "My car is a {$cars[0]}"; 
+
 ?>
 ```
 
@@ -243,7 +260,7 @@ function myTest($x) {
 ## 超全局变量
 
 
-PHP将所有全局变量存储在一个名为 `$GLOBALS[index]` 的数组中。 index 保存变量的名称。这个数组可以在函数内部访问，也可以直接用来更新全局变量。
+PHP将所有全局变量存储在一个名为 `$GLOBALS` 的数组中。 这个数组可以在函数内部访问，可直接用来更新全局变量。
 
 > 超全局变量 `$GLOBALS` 可直接访问，不需要加 `global` 声明
 
@@ -254,7 +271,7 @@ $y=10;
 
 function myTest()
 {
-$GLOBALS['y']=$GLOBALS['x']+$GLOBALS['y'];
+    $GLOBALS['y'] = $GLOBALS['x']+$GLOBALS['y'];
 }
 
 myTest();
@@ -262,460 +279,57 @@ echo $y;
 ?>
 ```
 
+PHP 中预定义了不少超级全局变量（*superglobals*）, 它们在全部作用域中都可直接使用。
 
-### PHP echo 和 print 语句
+- `$GLOBALS`
+- `$_SERVER`
+- `$_REQUEST`
+- `$_POST`
+- `$_GET`
+- `$_COOKIE`
+- `$_FILES`
+- `$_ENV`
+- `$_SESSION`
 
--   echo - 可以输出一个或多个字符串
--   print - 只允许输出一个字符串，返回值总为 1
-
-**提示：echo 输出的速度比 print 快， echo 没有返回值，print 有返回值 1。**
-echo 和 print 都是一个语言结构，使用的时候可以不用加括号，也可以加上括号： echo 或 echo() print print()。
-
-```php
-<?php
-echo "<h2>PHP is fun!</h2>";
-echo "Hello world!<br>";
-echo "I'm about to learn PHP!<br>";
-echo "This", " string", " was", " made", " with multiple parameters.";
-
-print "<h2>PHP is fun!</h2>";
-print "Hello world!<br>";
-print "I'm about to learn PHP!";
-
-?>
-```
-
-下面的实例演示了如何使用 echo 命令输出变量和字符串：
-
-```php
-<?php
-$txt1="Learn PHP";
-$txt2="w3cschool.cc";
-$cars=array("Volvo","BMW","Toyota");
-
-echo $txt1;
-echo "<br>";
-echo "Study PHP at $txt2"; //php 双引号内部可包含变量
-echo "My car is a {$cars[0]}"; //用大括号 显式的指定这是变量
-
-$txt1="Learn PHP";
-$txt2="w3cschool.cc";
-$cars=array("Volvo","BMW","Toyota");
-
-print $txt1;
-print "<br>";
-print "Study PHP at $txt2";
-print "My car is a {$cars[0]}";
-
-?>
-```
-
-### PHP5 数据类型
-
-String（字符串）, Integer（整型）, Float（浮点型）, Boolean（布尔型）, Array（数组）, Object（对象）, NULL（空值）。
-
-**字符串**
-你可以将任何文本放在单引号和双引号中：
-
-```php
-<?php
-$x = "Hello world!";
-echo $x;
-echo "<br>";
-$x = 'Hello world!'; //单引号 包括字符串字面量 双引号包含的字符串 可包含变量
-echo $x;
-?>
-```
-
-**整型**
-在以下实例中我们将测试不同的数字。 PHP **var_dump()** 函数返回变量的数据类型和值：
-
-```php
-<?php
-$x = 5985;
-var_dump($x);
-echo "<br>";
-$x = -345; // negative number
-var_dump($x);
-echo "<br>";
-$x = 0x8C; // hexadecimal number
-var_dump($x);
-echo "<br>";
-$x = 047; // octal number
-var_dump($x);
-?>
-```
-
-**浮点型**
-
-```php
-<?php
-$x = 10.365;
-var_dump($x);
-echo "<br>";
-$x = 2.4e3;
-var_dump($x);
-echo "<br>";
-$x = 8E-5;
-var_dump($x);
-?>
-```
-
-**布尔型**
-
-布尔型可以是 TRUE 或 FALSE。
-
-**数组**
-
-数组可以在一个变量中存储多个值
-
-```php
-<?php
-$cars=array("Volvo","BMW","Toyota");
-var_dump($cars);
-?>
-```
-
-**对象**
-
-在 PHP 中，对象必须声明。
-
-首先，你必须使用 class 关键字声明类对象。类是可以包含属性和方法的结构。
-然后我们在类中定义数据类型，然后在实例化的类中使用数据类型：
-
-```php
-<?php
-class Car
-{
-    var $color;
-    function Car($color="green") {
-      $this->color = $color;
-    }
-    function what_color() {
-      return $this->color;
-    }
-}
-
-function print_vars($obj) {
-   foreach (get_object_vars($obj) as $prop => $val) {
-     echo "\t$prop = $val\n";
-   }
-}
-
-// instantiate one object
-$herbie = new Car("white");
-
-// show herbie properties
-echo "\herbie: Properties\n";
-print_vars($herbie);
-
-?>
-```
-
-**NULL 值**
-NULL 值表示变量没有值。NULL 是数据类型为 NULL 的值。
-
-```php
-<?php
-$x="Hello world!";
-$x=null;
-var_dump($x);
-?>
-```
-
-**常量**
-
-常量是一个简单值的标识符。该值在脚本中不能改变。 (常量名不需要加 $ 修饰符)。
-
-_注意： 常量在整个脚本中都可以使用。_
-
-设置常量，使用 define() 函数，函数语法如下：
-
-define(string constant_name, mixed value, case_sensitive = true)
-该函数有三个参数:
-
--   constant_name：必选参数，常量名称，即标志符。
--   value：必选参数，常量的值。
--   case_sensitive：可选参数，指定是否大小写敏感，设定为 true 表示不敏感。
-
-以下实例我们创建一个 区分大小写的常量, 常量值为 "Welcome to W3CSchool.cc!"：
-
-```php
-<?php
-define("GREETING", "Welcome to W3CSchool.cc!");
-echo GREETING;
-?>
-```
-
-**字符串函数和字符串连接**
-
-```php
-<?php
-$txt1="Hello world!";
-$txt2="What a nice day!";
-echo $txt1 . " " . $txt2; // 字符串连接运算符 .
-
-echo strlen("Hello world!"); //获取字符串长度
-echo strpos("Hello world!","world"); //获取子串位置
-//字符串中第一个字符的位置是 0
-?>
-```
-
-### 运算符
-
-```php
-<?php
-//其他运算符略..
-//逻辑运算符 ! && || and or xor
-//数组运算符 合并: + 比较：== != === !==
-$x = array("a" => "red", "b" => "green");
-$y = array("c" => "blue", "d" => "yellow");
-$z = $x + $y; // $x 和 $y 数组合并
-var_dump($z);
-var_dump($x == $y);
-var_dump($x === $y);
-var_dump($x != $y);
-var_dump($x <> $y);
-var_dump($x !== $y);
-?>
-```
-
-### 流程控制语句 同 js
+`$_SERVER`是一个包含服务端信息的关联数组
 
 ```php
 <?php
 
-$t=date("H");
-if ($t<"20")
-{
-echo "Have a good day!";
-}
+echo $_SERVER['SERVER_NAME'];
+echo $_SERVER['SERVER_PROTOCOL'];
+echo $_SERVER['REQUEST_METHOD'];
+echo $_SERVER['HTTP_HOST'];
+echo $_SERVER['HTTP_REFERER']; 
+echo $_SERVER['HTTP_USER_AGENT']; 
 
-
-
-$t=date("H");
-if ($t<"20")
-{
-echo "Have a good day!";
-}
-else
-{
-echo "Have a good night!";
-}
-
-$t=date("H");
-if ($t<"10")
-{
-echo "Have a good morning!";
-}
-else if ($t<"20")
-{
-echo "Have a good day!";
-}
-else
-{
-echo "Have a good night!";
-}
-
-$favcolor="red";
-switch ($favcolor)
-{
-case "red":
-echo "Your favorite color is red!";
-break;
-case "blue":
-echo "Your favorite color is blue!";
-break;
-case "green":
-echo "Your favorite color is green!";
-break;
-default:
-echo "Your favorite color is neither red, blue, or green!";
-}
-
-//循环
-$i=1;
-while($i<=5)
-{
-echo "The number is " . $i . "<br>";
-$i++;
-}
-
-
-$i=1;
-do
-{
-$i++;
-echo "The number is " . $i . "<br>";
-}
-while ($i<=5);
-
-for ($i=1; $i<=5; $i++)
-{
-echo "The number is " . $i . "<br>";
-}
-
-
-$x=array("one","two","three");
-foreach ($x as $value)
-{
-echo $value . "<br>";
-}
-
+// /try/demo_source/demo_global_server.php
+echo $_SERVER['PHP_SELF']; 
+// /try/demo_source/demo_global_server.php
+echo $_SERVER['SCRIPT_NAME']; 
 
 ?>
 ```
 
-### 数组
+`$_REQUEST` 用于收集 HTML 表单提交的数据。
 
 ```php
-<?php
-$cars=array("Volvo","BMW","Toyota"); //数组定义 数值数组
-echo "I like " . $cars[0] . ", " . $cars[1] . " and " . $cars[2] . "."; //访问数组元素
-
-//数组长度count()
-$cars=array("Volvo","BMW","Toyota");
-echo count($cars); //count() 函数用于返回数组的长度
-
-//遍历数值数组
-$cars=array("Volvo","BMW","Toyota");
-$arrlength=count($cars);
-
-for($x=0;$x<$arrlength;$x++)
-{
-echo $cars[$x];
-echo "<br>";
-}
-
-$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");//定义关联数组
-echo "Peter is " . $age['Peter'] . " years old.";
-
-//遍历关联数组
-$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
-foreach($age as $x=>$x_value)
-{
-echo "Key=" . $x . ", Value=" . $x_value;
-echo "<br>";
-}
-?>
-```
-
-#### 数组排序
-
-PHP - 数组排序函数
-
--   sort() - 对数组进行升序排列
--   rsort() - 对数组进行降序排列
--   asort() - 根据关联数组的值，对数组进行升序排列
--   ksort() - 根据关联数组的键，对数组进行升序排列
--   arsort() - 根据关联数组的值，对数组进行降序排列
--   krsort() - 根据关联数组的键，对数组进行降序排列
-
-```php
-//sort()
-$cars=array("Volvo","BMW","Toyota");
-sort($cars);
-
-$clength=count($cars);
-for($x=0;$x<$clength;$x++)
-   {
-   echo $cars[$x];
-   echo "<br>";
-   }
-
-//rsort()
-$cars=array("Volvo","BMW","Toyota");
-rsort($cars);
-
-//asort() arsort() 关联数组排序 value
-$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
-asort($age);
-arsort($age);
-
-//ksort() krsort() 关联数组排序 key
-$age=array("Peter"=>"35","Ben"=>"37","Joe"=>"43");
-ksort($age);
-krsort($age);
-?>
-```
-
-### 超级全局变量
-
-PHP 中预定义了几个超级全局变量（superglobals） ，这意味着它们在一个脚本的全部作用域中都可用。
-
--   $GLOBALS
--   $\_SERVER
--   $\_REQUEST
--   $\_POST
--   $\_GET
--   $\_COOKIE
--   $\_FILES
--   $\_ENV
--   $\_SESSION
-
-$GLOBAL 是一个包含了全部变量的全局组合数组。变量的名字就是数组的键。
-
-```php
-<?php
-$x = 75;
-$y = 25;
-
-function addition()
-{
-$GLOBALS['z'] = $GLOBALS['x'] + $GLOBALS['y'];
-}
-
-addition();
-echo $z;
-?>
-```
-
-$\_SERVER 是一个包含了诸如头信息(header)、路径(path)、以及脚本位置(script locations)等等信息的数组。这个数组中的项目由 Web 服务器创建。不能保证每个服务器都提供全部项目；
-
-```php
-<?php
-echo $_SERVER['PHP_SELF']; // /try/demo_source/demo_global_server.php
-echo "<br>";
-echo $_SERVER['SERVER_NAME']; // w3cschool.cc
-echo "<br>";
-echo $_SERVER['HTTP_HOST']; // www.w3cschool.cc
-echo "<br>";
-echo $_SERVER['HTTP_REFERER']; //来由
-echo "<br>";
-echo $_SERVER['HTTP_USER_AGENT']; //浏览器
-echo "<br>";
-echo $_SERVER['SCRIPT_NAME']; // /try/demo_source/demo_global_server.php
-
-//另外$_SERVER对象还包括 SERVER_ADDR, SERVER_PROTOCOL ,REQUEST_METHOD..等属性
-
-?>
-```
-
-$\_REQUEST 用于收集 HTML 表单提交的数据。
-
-```php
-<html>
-<body>
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-Name: <input type="text" name="fname">
-<input type="submit">
+    Name: <input type="text" name="fname">
+    <input type="submit">
 </form>
 
 <?php
-$name = $_REQUEST['fname'];
-echo $name;
+    $name = $_REQUEST['fname'];
+    echo $name;
 ?>
 
-</body>
-</html>
 ```
 
-$\_POST 被广泛应用于收集表单数据，在 HTML form 标签的指定该属性："method="post"
+`$_POST` 用于收集POST方式提交的表单数据
 
 ```php
-<html>
-<body>
 <!--页面post给自己-->
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 Name: <input type="text" name="fname">
@@ -723,85 +337,418 @@ Name: <input type="text" name="fname">
 </form>
 
 <?php
-$name = $_POST['fname'];
-echo $name;
+    $name = $_POST['fname'];
+    echo $name;
 ?>
-
-</body>
-</html>
 ```
 
-$\_GET 同样被广泛应用于收集表单数据，在 HTML form 标签的指定该属性："method="get"。
+`$_GET` 用于收集GET方式提交的表单数据/URL 中发送的数据
 
-$\_GET 也可以收集 URL 中发送的数据。
 
 ```php
-<html>
-<body>
 
 <a href="test_get.php?subject=PHP&web=w3cschool.cc">Test $GET</a>
 
-</body>
-</html>
-
-//test_get.php
-
-<html>
-<body>
 
 <?php
-echo "Study " . $_GET['subject'] . " at " . $_GET['web'];
+    echo "Study " . $_GET['subject'] . " at " . $_GET['web'];
 ?>
 
-</body>
-</html>
 ```
 
-### PHP 函数
+## 数据类型
 
-PHP 的真正威力源自于它的函数。
+PHP的数据类型包括: string, integer, float, boolean, array, object, null  
 
-在 PHP 中，提供了超过 1000 个内建的函数。
+> `var_dump()` 可查看变量的数据类型
+
+### 字符串
+
+可以将任何文本放在单引号和双引号中
+
 
 ```php
-<html>
-<body>
-
 <?php
-function writeName()
-{
-echo "Kai Jim Refsnes";
+// 双引号 包含的字符串可插入变量
+$name = 'Alice';
+$x = "Hello $name!";
+
+// 单引号 包括字符串字面量 
+$x = 'Hello world!'; 
+
+?>
+```
+
+和其他语言很不同的是，字符串连接用 `.` 操作符   
+
+转义序列在双引号中才有效
+
+```php
+<?php
+// 字符串连接
+$x = "Hello" . " world!";
+
+// 字符串转义
+$x = "Hello world!\n";
+
+?>
+```
+
+字符串函数
+
+```php
+<?php
+
+//获取字符串长度
+echo strlen("Hello world!"); 
+
+//获取子串位置
+echo strpos("Hello world!","world"); 
+?>
+```
+
+### 整型
+
+整型数值有多种进制表示形式
+
+```php
+<?php
+// 十进制
+$x = 5985;
+$x = -345; // negative number
+
+// 十六进制 0x开头
+$x = 0x8C;
+
+// 八进制 0开头
+$x = 047;
+?>
+```
+
+### 浮点型
+
+浮点数即小数，可用科学计数法表示
+
+```php
+<?php
+
+$x = 10.365;
+
+// 科学计数法
+$x = 2.4e3;
+$x = 8E-5;
+
+?>
+```
+
+### 布尔型
+
+布尔型只有两个值: true 和 false
+
+```php
+<?php
+$isLike = false;
+if ($color == "blue") {
+    $isLike = true;
 }
 
-echo "My name is ";
-writeName();
+?>
+```
 
-//函数传参
-function writeName($fname,$punctuation)
-{
-echo $fname . " Refsnes" . $punctuation . "<br>";
+### 数组
+
+
+可一个数组变量中存储多个值  
+数组是很常用的数据结构，分为：普通数组和关联数组
+
+> 用序号做索引的叫普通数组，用字符串做索引的叫关联数组
+
+```php
+<?php
+// 普通数组
+$cars = array("Volvo","BMW","Toyota");
+print_r($cars);
+echo $cars[0];
+
+// 关联数组
+$captain = array("name" => "Lufy", "age" => 18);
+echo $captain["name"];
+?>
+```
+
+数组的使用
+
+```php
+<?php
+$cars = array("Volvo", "BMW", "Toyota"); 
+// 访问元素
+echo "I like " . $cars[0] . ", " . $cars[1]; 
+
+// 获取长度
+echo count($cars);
+
+// 遍历
+$arrlength = count($cars);
+for ($x = 0; $x < $arrlength; $x++) {
+    echo $cars[$x];
 }
 
-echo "My name is ";
-writeName("Kai Jim",".");
-echo "My sister's name is ";
-
-//函数返回值
-function add($x,$y)
-{
-$total=$x+$y;
-return $total;
+// 遍历关联数组
+$lufy = array("name" => "Lufy", "skill" => "stretch", "age" => 11);
+foreach ($lufy as $key => $value) {
+    echo "Key=" . $key . ", Value=" . $value;
 }
 
-echo "1 + 16 = " . add(1,16);
+?>
+```
+
+数组排序
+
+- `sort()` 对数组进行升序排列
+- `rsort()` 对数组进行降序排列
+- `asort()` 根据关联数组的值，对数组进行升序排列
+- `arsort()` 根据关联数组的值，对数组进行降序排列
+- `ksort()` 根据关联数组的键，对数组进行升序排列
+- `krsort()` 根据关联数组的键，对数组进行降序排列
+
+```php
+<?php
+// sort()
+$cars = array("Volvo", "BMW", "Toyota");
+sort($cars);
+
+$len = count($cars);
+for ($x = 0; $x < $len; $x++) {
+    echo $cars[$x];
+}
+
+// rsort()
+rsort($cars);
+
+//asort() arsort() 关联数组排序 value
+$friendAges = array("Peter" => 33, "Ben" => 36, "Joe" => 24);
+asort($friendAges);
+arsort($friendAges);
+
+//ksort() krsort() 关联数组排序 key
+ksort($age);
+krsort($age);
+```
+
+### 对象
+
+先用 `class` 关键字创建自定义类，然后使用 `new` 关键字创建对象
+
+PHP用箭头 `->` 访问对象的属性和方法
+
+```php
+<?php
+class Car
+{
+    var $color;
+
+    function Car($color="green") {
+      $this->color = $color;
+    }
+
+    function getcolor() {
+      return $this->color;
+    }
+}
+
+function print_vars($obj) {
+    // 遍历关联数组
+   foreach (get_object_vars($obj) as $prop => $val) {
+     echo "\t$prop = $val\n";
+   }
+}
+
+$myCar = new Car("white");
+
+// show myCar properties
+print_vars($myCar);
+
+?>
+```
+
+### null类型
+
+null值表示变量没有值   
+null类型只有一个值，就是 `null`
+
+```php
+<?php
+
+$x="Hello world!";
+$x=null;
+var_dump($x);
 
 ?>
 
-</body>
-</html>
 ```
 
-### 魔术变量
+## 常量
+
+常量是一个简单值的标识符。该值在脚本中不能改变。 常量在整个脚本中都可以使用
+
+> 常量名不需要加 `$` 修饰符
+
+
+设置常量，使用 `define()` 函数：
+
+`define(string constant_name, mixed value, case_sensitive = true)`
+
+该函数有三个参数:
+
+- constant_name：必选参数，常量名称，即标志符。
+- value：必选参数，常量的值。
+- case_sensitive：可选参数，指定是否大小写敏感，设定为 true 表示不敏感。
+
+```php
+<?php
+
+define("GREETING", "Welcome to W3CSchool.cc!");
+echo GREETING;
+
+?>
+```
+
+## 运算符
+
+- 逻辑运算符： `!`, `&&`, `||`, `and`, `or`, `xor`
+- 关系运算符： `==`, `!=`, `<>`, `===`, `!==`
+
+> `===` 检查类型和值是否都相等，`!==` 检查类型和值是否不相等
+
+```php
+<?php
+//数组运算符 合并: + 
+$x = array("a" => "red", "b" => "green");
+$y = array("c" => "blue", "d" => "yellow");
+$z = $x + $y; // $x 和 $y 数组合并
+var_dump($z);
+
+
+// 绝对相等: ===
+$n = 10;
+$s = '10'
+var_dump($n == $s); // true
+var_dump($n === $s); // false
+
+// 数组绝对相等，要求对应位置的键值都相等
+$a = array(10, '20')
+$b = array('10', 20)
+var_dump($a == $b); // true
+var_dump($a === $b); // false
+
+?>
+```
+
+## 流程控制
+
+分支和循环流程控制方式和其他语言一致
+
+```php
+<?php
+
+$t = date("H");
+// 单分支
+if ($t < "20") {
+    echo "Have a good day!";
+}
+
+
+
+$t = date("H");
+// 双分支
+if ($t < "20") {
+    echo "Have a good day!";
+} else {
+    echo "Have a good night!";
+}
+
+$t = date("H");
+if ($t < "10") {
+    echo "good morning!";
+} else if ($t < "20") {
+    echo "good day!";
+} else {
+    echo "good night!";
+}
+
+$favcolor = "red";
+// 多分支
+switch ($favcolor) {
+    case "red":
+        echo "Your favorite color is red!";
+        break;
+    case "blue":
+        echo "Your favorite color is blue!";
+        break;
+    case "green":
+        echo "Your favorite color is green!";
+        break;
+    default:
+        echo "Your favorite color is neither red, blue, or green!";
+}
+
+// 条件循环
+$i = 1;
+while ($i <= 5) {
+    echo "The number is " . $i . "<br>";
+    $i++;
+}
+
+
+$i = 1;
+do {
+    $i++;
+    echo "The number is " . $i . "<br>";
+}
+while ($i <= 5);
+
+// 固定次数循环
+for ($i = 1; $i <= 5; $i++) {
+    echo "The number is " . $i . "<br>";
+}
+
+// 循环遍历
+$x = array("one", "two", "three");
+foreach ($x as $value) {
+    echo $value . "<br>";
+}
+
+
+?>
+```
+
+
+## 函数
+
+PHP 的真正威力源自于它的函数, 在 PHP 中，提供了超过 1000 个内建的函数。
+
+```php
+<?php
+// 函数传参
+function outputMessage($fname, $punctuation)
+{
+    echo $fname . " laugh" . $punctuation . "<br>";
+}
+outputMessage("Nami", "!!");
+
+// 函数返回值
+function add($x, $y)
+{
+    $total = $x + $y;
+    return $total;
+}
+
+echo "1 + 16 = " . add(1, 16);
+
+?>
+```
+
+## 魔术变量
 
 有八个魔术常量它们的值随着它们在代码中的位置改变而改变。
 
