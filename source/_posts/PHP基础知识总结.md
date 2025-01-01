@@ -348,8 +348,6 @@ Name: <input type="text" name="fname">
 ```php
 
 <a href="test_get.php?subject=PHP&web=w3cschool.cc">Test $GET</a>
-
-
 <?php
     echo "Study " . $_GET['subject'] . " at " . $_GET['web'];
 ?>
@@ -457,8 +455,7 @@ if ($color == "blue") {
 
 ### 数组
 
-
-可一个数组变量中存储多个值  
+一个数组变量可以存储多个值  
 数组是很常用的数据结构，分为：普通数组和关联数组
 
 > 用序号做索引的叫普通数组，用字符串做索引的叫关联数组
@@ -488,9 +485,9 @@ echo "I like " . $cars[0] . ", " . $cars[1];
 echo count($cars);
 
 // 遍历
-$arrlength = count($cars);
-for ($x = 0; $x < $arrlength; $x++) {
-    echo $cars[$x];
+$len = count($cars);
+for ($i = 0; $i < $len; $i++) {
+    echo $cars[$i];
 }
 
 // 遍历关联数组
@@ -531,8 +528,8 @@ asort($friendAges);
 arsort($friendAges);
 
 //ksort() krsort() 关联数组排序 key
-ksort($age);
-krsort($age);
+ksort($friendAges);
+krsort($friendAges);
 ```
 
 ### 对象
@@ -579,17 +576,16 @@ null类型只有一个值，就是 `null`
 ```php
 <?php
 
-$x="Hello world!";
-$x=null;
+$x = "Hello world!";
+$x = null;
 var_dump($x);
 
 ?>
-
 ```
 
 ## 常量
 
-常量是一个简单值的标识符。该值在脚本中不能改变。 常量在整个脚本中都可以使用
+常量是一个简单值的标识符，常量在脚本中不能改变，并且在整个脚本中都可以使用
 
 > 常量名不需要加 `$` 修饰符
 
@@ -635,7 +631,7 @@ $s = '10'
 var_dump($n == $s); // true
 var_dump($n === $s); // false
 
-// 数组绝对相等，要求对应位置的键值都相等
+// 数组绝对相等，要求对应位置的键值绝对相等(值和类型都相等)
 $a = array(10, '20')
 $b = array('10', 20)
 var_dump($a == $b); // true
@@ -668,6 +664,7 @@ if ($t < "20") {
 }
 
 $t = date("H");
+// 多分支
 if ($t < "10") {
     echo "good morning!";
 } else if ($t < "20") {
@@ -689,7 +686,7 @@ switch ($favcolor) {
         echo "Your favorite color is green!";
         break;
     default:
-        echo "Your favorite color is neither red, blue, or green!";
+        echo "Your favorite color is others";
 }
 
 // 条件循环
@@ -717,8 +714,6 @@ $x = array("one", "two", "three");
 foreach ($x as $value) {
     echo $value . "<br>";
 }
-
-
 ?>
 ```
 
@@ -750,114 +745,112 @@ echo "1 + 16 = " . add(1, 16);
 
 ## 魔术变量
 
-有八个魔术常量它们的值随着它们在代码中的位置改变而改变。
+魔术常量的值跟它们在代码中的位置相关，不同位置会返回不同的值
 
--   \_LINE\_\_
-    文件中的当前行号。
--   **FILE**
-    文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。
--   **DIR**
-    文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。
--   **FUNCTION**
-    函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。
+- `__LINE__` 文件中的当前行号。
+- `__FILE__` 文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。
+- `__DIR__` 文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。
+- `__FUNCTION__` 返回该函数被定义时的名字
 
-```php
-<?php
-function test() {
-	echo  '函数名为：' . __FUNCTION__ ;
-}
-test();
-?>
-```
-
--   **CLASS** 类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。
-
-在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 **CLASS** 对 trait 也起作用。当用在 trait 方法中时，**CLASS** 是调用 trait 方法的类的名字。
-
-```php
-<?php
-class test {
-	function _print() {
-		echo '类名为：'  . __CLASS__ . "<br>";
-		echo  '函数名为：' . __FUNCTION__ ;
-	}
-}
-$t = new test();
-$t->_print();
-?>
-```
-
--   **TRAIT** Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。
-
-Trait 名包括其被声明的作用区域（例如 Foo\Bar）。
-
-从基类继承的成员被插入的 SayWorld Trait 中的 MyHelloWorld 方法所覆盖。其行为 MyHelloWorld 类中定义的方法一致。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。
-
-```php
-<?php
-class Base {
-    public function sayHello() {
-        echo 'Hello ';
+    ```php
+    <?php
+    function test() {
+        echo  '函数名为：' . __FUNCTION__ ;
     }
-}
+    test();
+    ?>
+    ```
 
-trait SayWorld {
-    public function sayHello() {
-        parent::sayHello();
-        echo 'World!';
+- `__CLASS__` 返回该类被定义时的名字  
+   类名包括其被声明的作用区域（例如 `Foo\Bar`）`__CLASS__` 对 trait 也起作用。当用在 trait 方法中时，`__CLASS__` 是调用 trait 方法的类的名字。
+
+    ```php
+    <?php
+    class test {
+        function printInfo() {
+            echo '类名为：'  . __CLASS__ . "<br>";
+            echo  '函数名为：' . __FUNCTION__ ;
+        }
     }
-}
+    $t = new test();
+    $t->printInfo();
+    ?>
+    ```
 
-class MyHelloWorld extends Base {
-    use SayWorld;
-}
+-  `__TRAIT__` Trait 的名字, 自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。
 
-$o = new MyHelloWorld();
-$o->sayHello();
-?>
-```
+    Trait 名包括其被声明的作用区域（例如 Foo\Bar）。
 
--   **METHOD** 类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）
+    从基类继承的成员sayHello被插入的 SayWorld Trait 中的 sayHello 方法所覆盖。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。
 
-```php
-<?php
-function test() {
-	echo  '函数名为：' . __METHOD__ ;
-}
-test();
-?>
-```
+    ```php
+    <?php
+    class Base {
+        public function sayHello() {
+            echo 'Hello ';
+        }
+    }
 
--   **NAMESPACE** 当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。
+    trait SayWorld {
+        public function sayHello() {
+            parent::sayHello();
+            echo 'World!';
+        }
+    }
 
-```php
-<?php
-namespace MyProject;
+    class MyHelloWorld extends Base {
+        use SayWorld;
+    }
 
-echo '命名空间为："', __NAMESPACE__, '"'; // 输出 "MyProject"
-?>
-```
+    $o = new MyHelloWorld();
+    $o->sayHello();
+    ?>
+    ```
 
-### 命名空间
+- `__METHOD__` 返回方法名/函数名
+
+    ```php
+    <?php
+    function test() {
+        echo  '函数名为：' . __METHOD__ ;
+    }
+    test();
+    ?>
+    ```
+
+- `__NAMESPACE__` 返回当前命名空间的名称
+
+    ```php
+    <?php
+    namespace MyProject;
+
+    echo '命名空间为："', __NAMESPACE__, '"'; // 输出 "MyProject"
+    ?>
+    ```
+
+## 命名空间
 
 PHP 命名空间(namespace)是在 PHP 5.3 中加入的，如果你学过 C#和 Java，那命名空间就不算什么新事物。 不过在 PHP 当中还是有着相当重要的意义。
 
 PHP 命名空间可以解决以下两类问题：
 
--   用户代码与 PHP 内部的类/函数/常量之间的名字冲突。
--   创建别名（或简短）的名称，提高源代码的可读性。
+- 用户代码与 PHP 内部的类/函数/常量之间的名字冲突。
+- 创建别名，提高源代码的可读性。
 
 默认情况下，所有常量、类和函数名都放在全局空间下，就和 PHP 支持命名空间之前一样。
-如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间
+如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间  
 
+定义 'MyProject' 命名空间
 ```php
 < ?php
-// 定义代码在 'MyProject' 命名空间中
 namespace MyProject;
 
 // ... 代码 ...
 
-//也可以在同一个文件中定义不同的命名空间代码
+```
+
+也可以在同一个文件中定义不同的命名空间代码
+```php
 namespace MyProject1;
 // MyProject1 命名空间中的PHP代码
 
@@ -872,36 +865,28 @@ namespace MyProject3 {
 ?>
 ```
 
-在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前。
+在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。  
+所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前。
 
 ```php
 <?php
-declare(encoding='UTF-8'); //定义多个命名空间和不包含在命名空间中的代码
+declare(encoding='UTF-8');
 namespace MyProject {
-
-const CONNECT_OK = 1;
-class Connection { /* ... */ }
-function connect() { /* ... */  }
+    const CONNECT_OK = 1;
+    class Connection { /* ... */ }
+    function connect() { /* ... */  }
 }
 
-namespace { // 全局代码
-session_start();
-$a = MyProject\connect();
-echo MyProject\Connection::start();
+// namespace不带名称，则表示全局命名空间
+namespace { 
+    session_start();
+    $a = MyProject\connect();
+    echo MyProject\Connection::start();
 }
 ?>
 ```
 
-以下代码会出现语法错误：
-
-```php
-<html>
-<?php
-namespace MyProject; // 命名空间前出现了“<html>” 会致命错误 -　命名空间必须是程序脚本的第一条语句
-?>
-```
-
-子命名空间
+### 子命名空间
 
 ```php
 <?php
