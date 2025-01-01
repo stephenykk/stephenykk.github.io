@@ -886,77 +886,132 @@ namespace {
 ?>
 ```
 
+以下代码会出现语法错误：
+
+```php
+<html>
+<?php
+namespace MyProject; // 命名空间前出现了“<html>” 会致命错误 -　命名空间必须是程序脚本的第一条语句
+?>
+```
+
 ### 子命名空间
+
+类似父文件夹包含子文件夹，命名空间下还可以划分子命名空间。子命名空间同样可以包含类、函数和常量等。
 
 ```php
 <?php
-namespace MyProject\Sub\Level;  //声明分层次的单个命名空间
-//创建了常量 MyProject\Sub\Level\CONNECT_OK，
-//类 MyProject\Sub\Level\Connection
-//和函数 MyProject\Sub\Level\Connect。
+namespace MyProject\Sub\Level;
 
 const CONNECT_OK = 1;
+
 class Connection { /* ... */ }
+
 function Connect() { /* ... */  }
 
 ?>
 ```
 
-**命名空间使用**
-PHP 命名空间中的类名可以通过三种方式引用：
+### 命名空间的使用
 
-1. 非限定名称，或不包含前缀的类名称，例如 $a=new foo(); 或 foo::staticmethod();。如果当前命名空间是 currentnamespace，foo 将被解析为 currentnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，则 foo 会被解析为 foo。 警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。**~~无命名空间前缀的引用，默认在当前命名空间查找，然后到全局命名空间找**
+PHP命名空间里的类可以通过三种方式引用：非限定名称，限定名称，完全限定名称。
 
-2. 限定名称,或包含前缀的名称，例如 $a = new subnamespace\foo(); 或 subnamespace\foo::staticmethod();。如果当前的命名空间是 currentnamespace，则 foo 会被解析为 currentnamespace\subnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，foo 会被解析为 subnamespace\foo。 **~~带相对命名空间前缀的(类似相对路径)引用，自动在开头添加调用代码所处的命名空间**
+1. 非限定名称  
 
-3. 完全限定名称，或包含了全局前缀操作符的名称，例如， $a = new \currentnamespace\foo(); 或 \currentnamespace\foo::staticmethod();。在这种情况下，foo 总是被解析为代码中的文字名(literal name)currentnamespace\foo。**~~带绝对命名空间前缀的引用(类似绝对路径) 引用路径已明确 不用查找**
+    非限定名称即不包含前缀的类名称。  
 
-file1.php
+    用非限定名称访问类和类的静态方法
+    ```php
+    $a = new foo(); 
+    foo::staticmethod();
+    ?>
+    ```
+
+    如果当前命名空间是 MyBlog, 则 `foo` 将被解析为 `MyBlog\foo`。非限定名称的引用默认在当前命名空间查找，找不到的话就会到全局命名空间找
+
+2. 限定名称  
+    限定名称即包含前缀的类名称。  
+
+    ```php
+    $a = new BlogCommon\foo(); 
+    BlogCommon\foo::staticmethod();
+    ?>
+    ```    
+    如果当前的命名空间是 MyBlog 则 `foo` 会被解析为 `MyBlog\BlogCommon\foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
+
+3. 完全限定名称  
+    包含了全局前缀操作符的名称
+    ```php
+    $a = new \MyBlog\foo();
+    \MyBlog\foo::staticmethod();
+    ?>
+    ```
+    `foo` 总是被解析为 `\MyBlog\foo`。带绝对命名空间前缀的引用,引用路径已明确，不会添加任何前缀。(*类似绝对路径*)
+
+### 命名空间综合示例
+
+假设现在有两个文件：`lufy.php` 和 `onePiece.php`，它们分别属于两个不同的命名空间 `OnePiece\Lufy` 和 `OnePiece`   
+
+lufy.php 代码如下
 
 ```php
 <?php
-namespace Foo\Bar\subnamespace;
+namespace OnePiece\Lufy;
 
-const FOO = 1;
-function foo() {}
-class foo
-{
-    static function staticmethod() {}
+const FAV = 'Eating';
+function sayHi() {
+    echo "hello everyone";
+}
+class Ability {
+    static function learn($name) {
+        echo "Lufy is learning ability $name!";
+    }
 }
 ?>
 ```
 
-file2.php
+onePiece.php 代码如下
 
 ```php
 <?php
-namespace Foo\Bar;
-include 'file1.php';
+namespace OnePiece;
+include 'lufy.php';
 
-const FOO = 2;
-function foo() {}
-class foo
-{
-    static function staticmethod() {}
+const FAV = 'Opening Party';
+function sayHi() {
+    echo "hihi everyone";
+}
+class Ability {
+    static function learn($name) {
+        echo "Zoro and others are learning ability $name!";
+    }
 }
 
-/* 非限定名称 */
-foo(); // 解析为函数 Foo\Bar\foo
-foo::staticmethod(); // 解析为类 Foo\Bar\foo的静态方法staticmethod。
-echo FOO; // resolves to constant Foo\Bar\FOO
+// 非限定名称
 
-/* 限定名称 */
-subnamespace\foo(); // 解析为函数 Foo\Bar\subnamespace\foo
-subnamespace\foo::staticmethod(); // 解析为类 Foo\Bar\subnamespace\foo,
-                                  // 以及类的方法 staticmethod
-echo subnamespace\FOO; // 解析为常量 Foo\Bar\subnamespace\FOO
+// 解析为 \OnePiece\sayHi
+sayHi();
 
-/* 完全限定名称 */
-\Foo\Bar\foo(); // 解析为函数 Foo\Bar\foo
-\Foo\Bar\foo::staticmethod(); // 解析为类 Foo\Bar\foo, 以及类的方法 staticmethod
-echo \Foo\Bar\FOO; // 解析为常量 Foo\Bar\FOO
+// 解析为 \OnePiece\Ability::learn
+Ability::learn('php'); 
+
+// 限定名称
+
+// 解析为 \OnePiece\Lufy\sayHi
+Lufy\sayHi(); 
+
+// 解析为类 \OnePiece\Lufy\Ability, 以及类的方法 learn
+Lufy\Ability::learn('php'); 
+
+// 完全限定名称
+
+\OnePiece\Lufy\sayHi(); 
+\OnePiece\Lufy\Ability::learn('php');
+
 ?>
 ```
+
+### 命名空间内访问全局空间
 
 在命名空间内部访问全局类、函数和常量：
 
@@ -974,70 +1029,60 @@ $c = new \Exception('error'); // 实例化全局类 Exception
 ?>
 ```
 
-**命名空间和动态语言特征**
+## 动态语言特征
 
-PHP 命名空间的实现受到其语言自身的动态特征的影响。因此，如果要将下面的代码转换到命名空间中，动态访问元素。
+PHP动态访问类、函数和常量
+
+> 类和函数的名称存在变量中，然后用该变量动态调用类和函数，这种极其动态的访问方式很强大，但是不常用
 
 ```php
 //example.php
 
 <?php
-class classname
-{
-    function __construct()
-    {
-        echo __METHOD__,"\n";
+class MyClass {
+    function __construct() {
+        echo __METHOD__, "\n";
     }
 }
-function funcname()
-{
-    echo __FUNCTION__,"\n";
-}
-const constname = "global";
 
-$a = 'classname';
-$obj = new $a; // prints classname::__construct
-$b = 'funcname';
-$b(); // prints funcname
-echo constant('constname'), "\n"; // prints global
+function myFunction(){
+    echo __FUNCTION__, "\n";
+}
+
+const MY_FAV = "LEARNING";
+
+$a = 'MyClass';
+$obj = new $a; // MyClass::__construct
+
+$b = 'myFunction';
+$b(); // myFunction
+
+echo constant('MY_FAV'), "\n"; // LEARNING
 ?>
 ```
 
+动态访问命名空间下的类、函数和常量
+
 ```php
 <?php
-namespace namespacename;
-class classname
-{
-    function __construct()
-    {
-        echo __METHOD__,"\n";
+namespace OnePiece;
+class MyClass {
+    function __construct() {
+        echo __METHOD__, "\n";
     }
 }
-function funcname()
-{
-    echo __FUNCTION__,"\n";
+function myFunction() {
+    echo __FUNCTION__, "\n";
 }
-const constname = "namespaced";
+const MY_CODE = "TIDY";
 
-include 'example1.php';//全局命名空间和某个命名空间有相同类 函数 和 常量 分别区别访问
+$a = 'OnePiece\MyClass';
+$obj = new $a; // prints OnePiece\MyClass::__construct
 
-$a = 'classname';
-$obj = new $a; // prints classname::__construct
-$b = 'funcname';
-$b(); // prints funcname
-echo constant('constname'), "\n"; // prints global
+$b = 'OnePiece\myFunction';
+$b(); // OnePiece\myFunction
 
-/* note that if using double quotes, "\\namespacename\\classname" must be used */
-$a = '\namespacename\classname';
-$obj = new $a; // prints namespacename\classname::__construct
-$a = 'namespacename\classname';
-$obj = new $a; // also prints namespacename\classname::__construct
-$b = 'namespacename\funcname';
-$b(); // prints namespacename\funcname
-$b = '\namespacename\funcname';
-$b(); // also prints namespacename\funcname
-echo constant('\namespacename\constname'), "\n"; // prints namespaced
-echo constant('namespacename\constname'), "\n"; // also prints namespaced
+echo constant('OnePiece\MY_CODE'), "\n"; // prints namespaced
 ?>
 ```
 
