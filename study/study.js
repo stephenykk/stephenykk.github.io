@@ -293,6 +293,6 @@ async function injectFont(fontName, fontURL, isObjectURL = false) {
 }
 
 
-// insertNoReferrerMeta()
+insertNoReferrerMeta()
 
 // defineMyFonts();
