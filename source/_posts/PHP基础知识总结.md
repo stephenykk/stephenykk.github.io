@@ -828,6 +828,38 @@ echo "1 + 16 = " . add(1, 16);
     ?>
     ```
 
+## 动态语言特征
+
+PHP动态访问类、函数和常量
+
+> 类和函数的名称存在变量中，然后用该变量动态调用类和函数，这种极其动态的访问方式很强大，但是不常用
+
+```php
+//example.php
+
+<?php
+class MyClass {
+    function __construct() {
+        echo __METHOD__, "\n";
+    }
+}
+
+function myFunction(){
+    echo __FUNCTION__, "\n";
+}
+
+const MY_FAV = "LEARNING";
+
+$a = 'MyClass';
+$obj = new $a; // MyClass::__construct
+
+$b = 'myFunction';
+$b(); // myFunction
+
+echo constant('MY_FAV'), "\n"; // LEARNING
+?>
+```
+
 ## 命名空间
 
 PHP 命名空间(namespace)是在 PHP 5.3 中加入的，如果你学过 C#和 Java，那命名空间就不算什么新事物。 不过在 PHP 当中还是有着相当重要的意义。
@@ -1029,66 +1061,39 @@ $c = new \Exception('error'); // 实例化全局类 Exception
 ?>
 ```
 
-## 动态语言特征
-
-PHP动态访问类、函数和常量
-
-> 类和函数的名称存在变量中，然后用该变量动态调用类和函数，这种极其动态的访问方式很强大，但是不常用
-
-```php
-//example.php
-
-<?php
-class MyClass {
-    function __construct() {
-        echo __METHOD__, "\n";
-    }
-}
-
-function myFunction(){
-    echo __FUNCTION__, "\n";
-}
-
-const MY_FAV = "LEARNING";
-
-$a = 'MyClass';
-$obj = new $a; // MyClass::__construct
-
-$b = 'myFunction';
-$b(); // myFunction
-
-echo constant('MY_FAV'), "\n"; // LEARNING
-?>
-```
+### 动态访问命名空间
 
 动态访问命名空间下的类、函数和常量
 
 ```php
 <?php
 namespace OnePiece;
+
 class MyClass {
     function __construct() {
         echo __METHOD__, "\n";
     }
 }
+
 function myFunction() {
     echo __FUNCTION__, "\n";
 }
+
 const MY_CODE = "TIDY";
 
 $a = 'OnePiece\MyClass';
-$obj = new $a; // prints OnePiece\MyClass::__construct
+$obj = new $a; // OnePiece\MyClass::__construct
 
 $b = 'OnePiece\myFunction';
 $b(); // OnePiece\myFunction
 
-echo constant('OnePiece\MY_CODE'), "\n"; // prints namespaced
+echo constant('OnePiece\MY_CODE'), "\n"; // TIDY
 ?>
 ```
 
-**namespace 关键字和**NAMESPACE**常量**
+### 命名空间魔术变量
 
-常量**NAMESPACE**的值是包含当前命名空间名称的字符串。在全局的，不包括在任何命名空间中的代码，它包含一个空的字符串
+命名空间魔术变量 `__NAMESPACE__`的值是当前命名空间名称，在全局命名空间中的，它的值为空字符串
 
 ```php
 <?php
@@ -1098,14 +1103,8 @@ echo '"', __NAMESPACE__, '"'; // 输出 "MyProject"
 ?>
 ```
 
-```php
-<?php
 
-echo '"', __NAMESPACE__, '"'; // 输出 ""
-?>
-```
-
-使用**NAMESPACE**动态创建名称
+使用`__NAMESPACE__`动态访问类，并创建实例。
 
 ```php
 <?php
@@ -1118,27 +1117,36 @@ function get($classname)
 }
 ?>
 ```
+### `namespace`关键字
 
-关键字 namespace 可用来显式访问当前命名空间或子命名空间中的元素。它等价于类中的 self 操作符。
+关键字 `namespace` 的作用有两个  
+- 声明一个命名空间
+- 用来显式访问当前命名空间或子命名空间中的元素。它等价于类中的 `self` 操作符。
 
 ```php
 <?php
-namespace MyProject;
+namespace OnePiece;
 
-use blah\blah as mine; // see "Using namespaces: importing/aliasing"
+function sayHi() {
+    echo "Hi, everybody~~";
+}
 
-blah\mine(); // calls function blah\blah\mine()
-namespace\blah\mine(); // calls function MyProject\blah\mine()
+class Ability {
+    static function learn($name) {
+        echo "I can learn ", $name, "\n";
+    }
+}
 
-namespace\func(); // calls function MyProject\func()
-namespace\sub\func(); // calls function MyProject\sub\func()
-namespace\cname::method(); // calls static method "method" of class MyProject\cname
-$a = new namespace\sub\cname(); // instantiates object of class MyProject\sub\cname
-$b = namespace\CONSTANT; // assigns value of constant MyProject\CONSTANT to $b
+const LIKE_COLOR = 'SKY-BLUE';
+
+namespace\sayHi(); 
+namespace\Ability::learn('PHP'); 
+echo namespace\LIKE_COLOR; 
+
 ?>
 ```
 
-**使用命名空间：别名/导入**
+### 导入命名空间和使用别名
 PHP 命名空间支持 有两种使用别名或导入方式：为类名称使用别名，或为命名空间名称使用别名。注意 PHP 不支持导入函数或常量。
 
 在 PHP 中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的三种导入方式的例子：
