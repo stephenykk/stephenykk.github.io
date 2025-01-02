@@ -840,7 +840,7 @@ PHP 命名空间可以解决以下两类问题：
 默认情况下，所有常量、类和函数名都放在全局空间下，就和 PHP 支持命名空间之前一样。
 如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间  
 
-定义 'MyProject' 命名空间
+声明 `MyProject` 命名空间
 ```php
 < ?php
 namespace MyProject;
@@ -849,7 +849,7 @@ namespace MyProject;
 
 ```
 
-也可以在同一个文件中定义不同的命名空间代码
+也可以在同一个php文件中定义不同的命名空间代码
 ```php
 namespace MyProject1;
 // MyProject1 命名空间中的PHP代码
@@ -891,7 +891,8 @@ namespace {
 ```php
 <html>
 <?php
-namespace MyProject; // 命名空间前出现了“<html>” 会致命错误 -　命名空间必须是程序脚本的第一条语句
+namespace MyProject; 
+// 命名空间前出现了“<html>” 会致命错误
 ?>
 ```
 
@@ -937,7 +938,7 @@ PHP命名空间里的类可以通过三种方式引用：非限定名称，限�
     BlogCommon\foo::staticmethod();
     ?>
     ```    
-    如果当前的命名空间是 MyBlog 则 `foo` 会被解析为 `MyBlog\BlogCommon\foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
+    如果当前的命名空间是 `MyBlog` 则 `foo` 会被解析为 `MyBlog\BlogCommon\foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
 
 3. 完全限定名称  
     包含了全局前缀操作符的名称
@@ -1013,7 +1014,7 @@ Lufy\Ability::learn('php');
 
 ### 命名空间内访问全局空间
 
-在命名空间内部访问全局类、函数和常量：
+在命名空间内部访问全局类、函数和常量, 用 `\` 前缀即可：
 
 ```php
 <?php
