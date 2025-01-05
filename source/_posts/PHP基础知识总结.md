@@ -43,6 +43,46 @@ php -a
 
 ## 基本语法
 
+PHP基本语法相关的练习，可参考代码库(https://gitee.com/stephenykk/php-starter)   
+
+以下示例中的自定义方法定义在`common.php`中, 内容如下:
+
+```php
+<?php
+function clog($msg, $tag = 'p')
+{
+    // echo $msg, "\n";
+    echo "<$tag>", $msg, "</$tag>";
+}
+
+function newline()
+{
+    echo "<br/>";
+}
+
+function clogList($arr)
+{
+    echo "<ol>";
+    foreach ($arr as $val) {
+        clog($val, 'li');
+    }
+    echo "</ol>";
+}
+
+function title($ttl, $level = 2)
+{
+    $tag = "h$level";
+    clog($ttl, $tag);
+}
+
+function comment($con)
+{
+    clog(':: ' . $con, tag: 'blockquote');
+}
+
+?>
+```
+
 ### 脚本位置
 
 PHP脚本可放在文档的任何位置，PHP脚本以 `<?php` 开始，以 `?>` 结束
@@ -260,6 +300,20 @@ function myTest($x) {
 ## 超全局变量
 
 
+PHP 中预定义了不少超级全局变量（*superglobals*）, 它们在全部作用域中都可直接使用。
+
+- `$GLOBALS`
+- `$_SERVER`
+- `$_REQUEST`
+- `$_POST`
+- `$_GET`
+- `$_COOKIE`
+- `$_FILES`
+- `$_ENV`
+- `$_SESSION`
+
+### $GLOBALS
+
 PHP将所有全局变量存储在一个名为 `$GLOBALS` 的数组中。 这个数组可以在函数内部访问，可直接用来更新全局变量。
 
 > 超全局变量 `$GLOBALS` 可直接访问，不需要加 `global` 声明
@@ -279,17 +333,7 @@ echo $y;
 ?>
 ```
 
-PHP 中预定义了不少超级全局变量（*superglobals*）, 它们在全部作用域中都可直接使用。
-
-- `$GLOBALS`
-- `$_SERVER`
-- `$_REQUEST`
-- `$_POST`
-- `$_GET`
-- `$_COOKIE`
-- `$_FILES`
-- `$_ENV`
-- `$_SESSION`
+### $_SERVER
 
 `$_SERVER`是一个包含服务端信息的关联数组
 
@@ -311,6 +355,8 @@ echo $_SERVER['SCRIPT_NAME'];
 ?>
 ```
 
+### $_REQUEST
+
 `$_REQUEST` 用于收集 HTML 表单提交的数据。
 
 ```php
@@ -326,14 +372,15 @@ echo $_SERVER['SCRIPT_NAME'];
 ?>
 
 ```
+### $_POST
 
 `$_POST` 用于收集POST方式提交的表单数据
 
 ```php
 <!--页面post给自己-->
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-Name: <input type="text" name="fname">
-<input type="submit">
+    Name: <input type="text" name="fname">
+    <input type="submit">
 </form>
 
 <?php
@@ -341,9 +388,9 @@ Name: <input type="text" name="fname">
     echo $name;
 ?>
 ```
+### $_GET
 
-`$_GET` 用于收集GET方式提交的表单数据/URL 中发送的数据
-
+`$_GET` 用于收集GET方式提交的表单数据/URL中发送的数据
 
 ```php
 
@@ -407,7 +454,7 @@ echo strpos("Hello world!","world");
 
 ### 整型
 
-整型数值有多种进制表示形式
+整型数值有多种进制表示形式，进制转换函数 `base_convert()`
 
 ```php
 <?php
@@ -568,7 +615,7 @@ print_vars($myCar);
 ?>
 ```
 
-### null类型
+### null
 
 null值表示变量没有值   
 null类型只有一个值，就是 `null`
@@ -590,7 +637,7 @@ var_dump($x);
 > 常量名不需要加 `$` 修饰符
 
 
-设置常量，使用 `define()` 函数：
+定义常量，使用 `define()` 函数：
 
 `define(string constant_name, mixed value, case_sensitive = true)`
 
@@ -603,7 +650,7 @@ var_dump($x);
 ```php
 <?php
 
-define("GREETING", "Welcome to W3CSchool.cc!");
+define("GREETING", "Welcome to Hero College!");
 echo GREETING;
 
 ?>
@@ -614,7 +661,7 @@ echo GREETING;
 - 逻辑运算符： `!`, `&&`, `||`, `and`, `or`, `xor`
 - 关系运算符： `==`, `!=`, `<>`, `===`, `!==`
 
-> `===` 检查类型和值是否都相等，`!==` 检查类型和值是否不相等
+> `===` 检查类型和值是否都相等，`!==` 检查类型和值是否不完全相等
 
 ```php
 <?php
@@ -642,7 +689,7 @@ var_dump($a === $b); // false
 
 ## 流程控制
 
-分支和循环流程控制方式和其他语言一致
+分支和循环流程的控制语法和JAVA等语言一样
 
 ```php
 <?php
@@ -766,13 +813,13 @@ echo "1 + 16 = " . add(1, 16);
 
     ```php
     <?php
-    class test {
+    class Car {
         function printInfo() {
             echo '类名为：'  . __CLASS__ . "<br>";
             echo  '函数名为：' . __FUNCTION__ ;
         }
     }
-    $t = new test();
+    $t = new Car();
     $t->printInfo();
     ?>
     ```
@@ -781,7 +828,10 @@ echo "1 + 16 = " . add(1, 16);
 
     Trait 名包括其被声明的作用区域（例如 Foo\Bar）。
 
-    从基类继承的成员sayHello被插入的 SayWorld Trait 中的 sayHello 方法所覆盖。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。
+    从基类继承的成员sayHello被插入的 SayWorld Trait 中的 sayHello 方法所覆盖。     
+    优先顺序是： 
+    1. 当前类中的方法会覆盖 trait 方法，
+    2. trait 方法又覆盖了基类中的方法。
 
     ```php
     <?php
@@ -830,7 +880,7 @@ echo "1 + 16 = " . add(1, 16);
 
 ## 动态语言特征
 
-PHP动态访问类、函数和常量
+PHP支持动态访问类、函数和常量
 
 > 类和函数的名称存在变量中，然后用该变量动态调用类和函数，这种极其动态的访问方式很强大，但是不常用
 
@@ -897,7 +947,7 @@ namespace MyProject3 {
 ?>
 ```
 
-在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。  
+在声明命名空间之前，唯一合法的代码是用于定义源文件编码方式的 declare 语句。  
 所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前。
 
 ```php
@@ -955,31 +1005,31 @@ PHP命名空间里的类可以通过三种方式引用：非限定名称，限�
 
     用非限定名称访问类和类的静态方法
     ```php
-    $a = new foo(); 
-    foo::staticmethod();
+    $a = new Foo(); 
+    Foo::staticmethod();
     ?>
     ```
 
-    如果当前命名空间是 MyBlog, 则 `foo` 将被解析为 `MyBlog\foo`。非限定名称的引用默认在当前命名空间查找，找不到的话就会到全局命名空间找
+    如果当前命名空间是 MyBlog, 则 `Foo` 将被解析为 `MyBlog\Foo`。非限定名称的引用默认在当前命名空间查找，找不到的话就会到全局命名空间找
 
 2. 限定名称  
     限定名称即包含前缀的类名称。  
 
     ```php
-    $a = new BlogCommon\foo(); 
-    BlogCommon\foo::staticmethod();
+    $a = new BlogCommon\Foo(); 
+    BlogCommon\Foo::staticmethod();
     ?>
     ```    
-    如果当前的命名空间是 `MyBlog` 则 `foo` 会被解析为 `MyBlog\BlogCommon\foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
+    如果当前的命名空间是 `MyBlog` 则 `Foo` 会被解析为 `MyBlog\BlogCommon\Foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
 
 3. 完全限定名称  
     包含了全局前缀操作符的名称
     ```php
-    $a = new \MyBlog\foo();
-    \MyBlog\foo::staticmethod();
+    $a = new \MyBlog\Foo();
+    \MyBlog\Foo::staticmethod();
     ?>
     ```
-    `foo` 总是被解析为 `\MyBlog\foo`。带绝对命名空间前缀的引用,引用路径已明确，不会添加任何前缀。(*类似绝对路径*)
+    `Foo` 总是被解析为 `\MyBlog\Foo`。带绝对命名空间前缀的引用,引用路径已明确，不会添加任何前缀。(*类似绝对路径*)
 
 ### 命名空间综合示例
 
@@ -1012,7 +1062,7 @@ include 'lufy.php';
 
 const FAV = 'Opening Party';
 function sayHi() {
-    echo "hihi everyone";
+    echo "hi, everyone! we are a team!";
 }
 class Ability {
     static function learn($name) {
@@ -1083,7 +1133,7 @@ function myFunction() {
 const MY_CODE = "TIDY";
 
 $a = 'OnePiece\MyClass';
-$obj = new $a; // OnePiece\MyClass::__construct
+$obj = new $a(); // OnePiece\MyClass::__construct
 
 $b = 'OnePiece\myFunction';
 $b(); // OnePiece\myFunction
@@ -1147,46 +1197,87 @@ echo namespace\LIKE_COLOR;
 ?>
 ```
 
-### 导入命名空间和使用别名
-PHP 命名空间支持 有两种使用别名或导入方式：为类名称使用别名，或为命名空间名称使用别名。注意 PHP 不支持导入函数或常量。
+### 命名空间别名
+PHP支持为命名空间和命名空间内部类定义别名  
 
-在 PHP 中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的三种导入方式的例子：
+> 注意：PHP不支持为导入命名空间内的函数或常量定义别名。
 
-1. 使用 use 操作符导入/使用别名
+
+使用 `use` 关键字定义别名
+
+`captain-lufy.php`代码如下:
 
 ```php
 <?php
-namespace foo;
-use My\Full\Classname as Another;
+namespace Cartoon\OnePiece\Lufy;
 
-// 下面的例子与 use My\Full\NSname as NSname 相同
-use My\Full\NSname;
+include 'inc/header.php';
 
-// 导入一个全局类
-use \ArrayObject;
+function sayHi()
+{
+	clog("hi, I am lufy");
+}
 
-$obj = new namespace\Another; // 实例化 foo\Another 对象
-$obj = new Another; // 实例化 My\Full\Classname　对象
-NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func
-$a = new ArrayObject(array(1)); // 实例化 ArrayObject 对象
-// 如果不使用 "use \ArrayObject" ，则实例化一个 foo\ArrayObject 对象
-?>
+class Hobby
+{
+	var $likings;
+
+	function add($name)
+	{
+		$this->likings[] = $name;
+	}
+
+	function show()
+	{
+		print_r($this->likings);
+	}
+}
+
+
+// $lufyHobby = new Hobby();
+// $lufyHobby->add('eating');
+// $lufyHobby->add('sleeping');
+// $lufyHobby->show();
+
+include 'inc/footer.php';
 ```
 
-2. 一行中包含多个 use 语句
+`use-namespace.php`用于测试命名空间别名，代码如下
 
 ```php
 <?php
-use My\Full\Classname as Another, My\Full\NSname;
 
-$obj = new Another; // 实例化 My\Full\Classname 对象
+include 'captain-lufy.php';
+
+// 直接用完整命名空间路径引用里面的方法
+Cartoon\OnePiece\Lufy\sayHi();
+
+// 同 use Cartoon\OnePiece\Lufy as Lufy;
+use Cartoon\OnePiece\Lufy;
+Lufy\sayHi();
+
+use Cartoon\OnePiece\Lufy as Lu;
+Lu\sayHi();
+
+// 可以给命名空间内的类起别名
+use Cartoon\OnePiece\Lufy\Hobby as Hob;
+$hob = new Hob();
+$hob->add('running');
+$hob->show();
+```
+
+一行中包含多个 use 语句
+
+```php
+<?php
+use My\Full\Classname as MyClass, My\Full\NSname;
+
+$obj = new MyClass; // 实例化 My\Full\Classname 对象
 NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func
 ?>
 ```
 
 导入操作是在编译执行的，但动态的类名称、函数名称或常量名称则不是。
-
-3. 导入和动态名称
 
 ```php
 <?php
@@ -1194,13 +1285,11 @@ use My\Full\Classname as Another, My\Full\NSname;
 
 $obj = new Another; // 实例化一个 My\Full\Classname 对象
 $a = 'Another';
-$obj = new $a;      // 实际化一个 Another 对象
+$obj = new $a;      // 实例化一个 Another 对象
 ?>
 ```
 
 另外，导入操作只影响非限定名称和限定名称。完全限定名称由于是确定的，故不受导入的影响。
-
-4. 导入和完全限定名称
 
 ```php
 <?php
@@ -1212,13 +1301,11 @@ $obj = new Another\thing; // instantiates object of class My\Full\Classname\thin
 $obj = new \Another\thing; // instantiates object of class Another\thing
 ?>
 ```
-
-**使用命名空间：后备全局函数/常量**
-
+### 命名空间查找
 在一个命名空间中，当 PHP 遇到一个非限定的类、函数或常量名称时，它使用不同的优先策略来解析该名称。
 
--   **类名称总是解析到当前命名空间中的名称(找不到就报错咯)**。因此在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称
--   函数和常量来说，如果当前命名空间中不存在该函数或常量，PHP 会退而使用全局空间中的函数或常量。
+- 类名总是解析到当前命名空间(找不到就会报错)。因此在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称
+- 函数和常量来说，如果当前命名空间中不存在该函数或常量，PHP 会退而使用全局空间中的函数或常量。
 
 ```php
 <?php
@@ -1232,8 +1319,8 @@ $c = new ArrayObject; // 致命错误, 找不到 A\B\C\ArrayObject 类
 ?>
 ```
 
-**全局空间**
-如果没有定义任何命名空间，所有的类与函数的定义都是在全局空间，与 PHP 引入命名空间概念前一样。在名称前加上前缀 \ 表示该名称是全局空间中的名称，即使该名称位于其它的命名空间中时也是如此。
+### 全局命名空间
+如果没有定义任何命名空间，所有的类与函数的定义都是在全局空间，与 PHP 引入命名空间概念前一样。在名称前加上前缀 `\` 表示该名称是全局空间中的名称。
 
 ```php
 <?php
@@ -1248,30 +1335,34 @@ function fopen() {
 ?>
 ```
 
-**命名空间的顺序 略..**
+## 文件处理
 
-## PHP 文件处理
+### 打开文件
 
-**打开文件**
+打开文件用函数`fopen()`
 
+```php
+<?php
 $file = fopen($fname, mode) //文件的名称, 打开模式
+```
+文件打开模式
 
--   r 只读。在文件的开头开始。
--   r+ 读/写。在文件的开头开始。
--   w 只写。打开并清空文件的内容；如果文件不存在，则创建新文件。
--   w+ 读/写。打开并清空文件的内容；如果文件不存在，则创建新文件。
--   a 追加。打开并向文件末尾进行写操作，如果文件不存在，则创建新文件。
--   a+ 读/追加。通过向文件末尾写内容，来保持文件内容。
--   x 只写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
--   x+ 读/写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
+- `r` 只读。在文件的开头开始。
+- `r+` 读/写。在文件的开头开始。
+- `w` 只写。打开并清空文件的内容；如果文件不存在，则创建新文件。
+- `w+` 读/写。打开并清空文件的内容；如果文件不存在，则创建新文件。
+- `a` 追加。打开并向文件末尾进行写操作，如果文件不存在，则创建新文件。
+- `a+` 读/追加。通过向文件末尾写内容，来保持文件内容。
+- `x` 只写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
+- `x+` 读/写。创建新文件。如果文件已存在，则返回 FALSE 和一个错误。
 
-注释：如果 fopen() 函数无法打开指定文件，则返回 0 (false)。
+如果 `fopen()` 函数无法打开指定文件，则返回 0 (false)。
 
 ```php
 <?php
 //打开文件
 $file = fopen("welcome.txt", "r") or exit("Unable to open file!");
-//Output a line of the file until the end is reached
+// Output a line of the file until the end is reached
 
 //是否到达文件末尾
 while(!feof($file))
@@ -1285,139 +1376,232 @@ fclose($file);
 ?>
 ```
 
-**Filesystem 函数**
+文件系统相关的函数
 
--   basename() 返回路径中的文件名部分。
--   chgrp() 改变文件组。
--   chmod() 改变文件模式。
--   chown() 改变文件所有者。
--   clearstatcache() 清除文件状态缓存。
--   copy() 复制文件。
--   delete() 参见 unlink() 或 unset()
--   dirname() 返回路径中的目录名称部分。
--   disk_free_space() 返回目录的可用空间。
--   disk_total_space() 返回一个目录的磁盘总容量。
--   diskfreespace() disk_free_space() 的别名。
--   fclose() 关闭打开的文件。
--   feof() 测试文件指针是否到了文件末尾。
--   fflush() 向打开的文件刷新缓冲输出。
--   fgetc() 从打开的文件中返回字符。
--   fgetcsv() 从打开的文件中解析一行，校验 CSV 字段。
--   fgets() 从打开的文件中返回一行。
--   fgetss() 从打开的文件中返回一行，并过滤掉 HTML 和 PHP 标签。
--   file() 把文件读入一个数组中。
--   file_exists() 检查文件或目录是否存在。
--   file_get_contents() 把文件读入字符串。~~获取文件内容
--   file_put_contents() 把字符串写入文件。~~写入文件内容
--   fileatime() 返回文件的上次访问时间。
--   filectime() 返回文件的上次修改时间。
--   filegroup() 返回文件的组 ID。
--   fileinode() 返回文件的 inode 编号。
--   filemtime() 返回文件内容的上次修改时间。
--   fileowner() 返回文件的用户 ID （所有者）。
--   fileperms() 返回文件的权限。
--   filesize() 返回文件大小。
--   filetype() 返回文件类型。
--   flock() 锁定或释放文件。
--   fnmatch() 根据指定的模式来匹配文件名或字符串。
--   fopen() 打开一个文件或 URL。
--   fpassthru() 从打开的文件中读数据，直到文件末尾（EOF），并向输出缓冲写结果。
--   fputcsv() 把行格式化为 CSV 并写入一个打开的文件中。
--   fputs() fwrite() 的别名。
--   fread() 读取打开的文件。
--   fscanf() 根据指定的格式对输入进行解析。
--   fseek() 在打开的文件中定位。
--   fstat() 返回关于一个打开的文件的信息。
--   ftell() 返回在打开文件中的当前位置。
--   ftruncate() 把打开文件截断到指定的长度。
--   fwrite() 写入打开的文件。
--   glob() 返回一个包含匹配指定模式的文件名/目录的数组。
--   is_dir() 判断文件是否是一个目录。
--   is_executable() 判断文件是否可执行。
--   is_file() 判断文件是否是常规的文件。
--   is_link() 判断文件是否是连接。
--   is_readable() 判断文件是否可读。
--   is_uploaded_file() 判断文件是否是通过 HTTP POST 上传的。
--   is_writable() 判断文件是否可写。
--   is_writeable() is_writable() 的别名。
--   lchgrp() 改变符号连接的组所有权。
--   lchown() 改变符号连接的用户所有权。
--   link() 创建一个硬连接。
--   linkinfo() 返回有关一个硬连接的信息。
--   lstat() 返回关于文件或符号连接的信息。
--   mkdir() 创建目录。
--   move_uploaded_file() 把上传的文件移动到新位置。
--   parse_ini_file() 解析一个配置文件。
--   parse_ini_string() 解析一个配置字符串。
--   pathinfo() 返回关于文件路径的信息。
--   pclose() 关闭由 popen() 打开的进程。
--   popen() 打开一个进程。
--   readfile() 读取一个文件，并写入到输出缓冲。
--   readlink() 返回符号连接的目标。
--   realpath() 返回绝对路径名。
--   realpath_cache_get() 返回高速缓存条目。
--   realpath_cache_size() 返回高速缓存大小。
--   rename() 重命名文件或目录。
--   rewind() 倒回文件指针的位置。
--   rmdir() 删除空的目录。
--   set_file_buffer() 设置已打开文件的缓冲大小。
--   stat() 返回关于文件的信息。
--   symlink() 创建符号连接。
--   tempnam() 创建唯一的临时文件。
--   tmpfile() 创建唯一的临时文件。
--   touch() 设置文件的访问和修改时间。
--   umask() 改变文件的文件权限。
--   unlink() 删除文件。
+- `basename()` 返回路径中的文件名部分。
+- `dirname()` 返回路径中的目录名称部分。
+- `realpath()` 返回绝对路径名。
+- `pathinfo()` 返回关于文件路径的信息。
 
-## PHP JSON
+- `copy()` 复制文件。
+- `delete()` 参见 unlink() 或 unset()
+- `rename()` 重命名文件或目录。
+- `mkdir()` 创建目录。
+- `rmdir()` 删除空的目录。
+- `unlink()` 删除文件。
+- `is_dir()` 判断文件是否是一个目录。
+- `is_file()` 判断文件是否是常规的文件。
+- `fstat()` 返回关于一个打开的文件的信息。
 
--   json_encode 对变量进行 JSON 编码
--   json_decode 对 JSON 格式的字符串进行解码，转换为 PHP 变量
--   json_last_error 返回最后发生的错误
+- `fclose()` 关闭打开的文件。
+- `feof()` 测试文件指针是否到了文件末尾。
+- `fgetc()` 从打开的文件中返回字符。
+- `fgets()` 从打开的文件中返回一行。
+- `fgetss()` 从打开的文件中返回一行，并过滤掉 HTML 和 PHP 标签。
+- `file()` 把文件读入一个数组中。
+- `file_exists()` 检查文件或目录是否存在。
+- `file_get_contents()` 把文件读入字符串。~~获取文件内容
+- `file_put_contents()` 把字符串写入文件。~~写入文件内容
 
-**string json_encode ( $value [, $options = 0 ] )**
-参数
+- `fgetcsv()` 从打开的文件中解析一行，校验 CSV 字段。
+- `fputcsv()` 把行格式化为 CSV 并写入一个打开的文件中。
 
-value: 要编码的值。该函数只对 UTF-8 编码的数据有效。
-options:由以下常量组成的二进制掩码：JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_NUMERIC_CHECK,JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES, JSON_FORCE_OBJECT
+- `filesize()` 返回文件大小。
+- `filetype()` 返回文件类型。
+- `fopen()` 打开一个文件或 URL。
+- `fread()` 读取打开的文件。
+- `readfile()` 读取一个文件，并写入到输出缓冲。
+- `fputs()` fwrite() 的别名。
+- `ftruncate()` 把打开文件截断到指定的长度。
+- `fwrite()` 写入打开的文件。
+- `fscanf()` 根据指定的格式对输入进行解析。
+
+- `fseek()` 在打开的文件中定位。
+- `ftell()` 返回在打开文件中的当前位置。
+- `rewind()` 倒回文件指针的位置。
+
+- `glob()` 返回一个包含匹配指定模式的文件名/目录的数组。
+- `move_uploaded_file()` 把上传的文件移动到新位置。
+- `stat()` 返回关于文件的信息。
+
+## JSON处理
+
+- `json_encode()` 对变量进行 JSON 编码
+- `json_decode()` 对 JSON 格式的字符串进行解码，转换为 PHP 变量
 
 ```php
 <?php
    $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
    echo json_encode($arr);
-
-
-    class Emp {
-       public $name = "";
-       public $hobbies  = "";
-       public $birthdate = "";
-   }
-   $e = new Emp();
-   $e->name = "sachin";
-   $e->hobbies  = "sports";
-   $e->birthdate = date('m/d/Y h:i:s a', "8/5/1974 12:20:03 p");
-   $e->birthdate = date('m/d/Y h:i:s a', strtotime("8/5/1974 12:20:03"));
-
-   echo json_encode($e);
 ?>
 ```
-
-**mixed json_decode ($json [,$assoc = false [, $depth = 512 [, $options = 0 ]]])**
-参数
-
-json_string: 待解码的 JSON 字符串，必须是 UTF-8 编码数据
-
-assoc: 当该参数为 TRUE 时，将返回数组，FALSE 时返回对象。
-
-depth: 整数类型的参数，它指定递归深度
-
-options: 二进制掩码，目前只支持 JSON_BIGINT_AS_STRING 。
+json字符串解码为php关联数组
 
 ```php
 <?php
    $json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-
    var_dump(json_decode($json));
    var_dump(json_decode($json, true));
 ?>
 ```
+
+## 面向对象
+
+PHP面向对象的基本用法
+
+```php
+<?php
+include "./inc/header.php";
+
+class Animal
+{
+	var $name;
+
+	public function hi()
+	{
+		echo 'hi, ', $this->name, "\n";
+	}
+
+	public static function ho()
+	{
+		// 单引号内的特殊序列不会被转义 eg: '\n'
+		echo 'ho func called', "\n";
+	}
+
+	function move()
+	{
+		echo "animal is running";
+	}
+}
+
+title('面向对象');
+
+
+comment('访问属性和方法');
+$dog = new Animal();
+$dog->name = 'husky';
+$dog->hi();
+
+comment('可添加任意属性');
+$dog->like = 'running';
+clog($dog->like);
+
+$prop = 'name';
+$arr = array('name', 'like');
+
+function getProp()
+{
+	global $arr;
+	return $arr[1];
+}
+
+
+comment('访问动态属性(属性由变量或方法返回值决定)');
+clog(getProp() . '<==');
+clog($dog->$prop);
+clog($dog->{$prop});
+clog($dog->{$arr[1]});
+clog($dog->{getProp()});
+
+comment('打印声明的类');
+print_r(get_declared_classes());
+//var_dump(Animal); // error
+//print_r(Animal);
+comment('打印类的方法');
+print_r(get_class_methods($dog));
+
+comment('打印对象');
+print_r($dog);
+
+
+comment('访问静态方法');
+Animal::ho();
+
+comment('查看对象有哪些属性 (即自省)');
+print_r(get_object_vars($dog));
+
+comment('三元运算符');
+clog('1' == 1 ? 'yes' : 'n');
+clog('1' == 10 ? 'y' : 'n');
+
+include 'inc/footer.php';
+```
+
+## 模块化
+php可以通过 `include` , `require`, `require_once`等语句引入其他php模块。
+
+`header.php`的代码如下
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Learning</title>
+    <style>
+        body {
+            padding: 20px;
+            font-weight: 200;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 500;
+            text-align: center;
+        }
+
+        blockquote {
+            margin: 0;
+            margin-top: 30px;
+            background: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: cadetblue;
+        }
+
+        ul,
+        ol {
+            margin: 30px 0;
+            padding: 10px 30px;
+            background: #f3fafa;
+        }
+
+        li {
+            margin: 10px;
+            font-size: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <?php
+    require_once 'common.php';
+    ?>
+```
+
+`module.php`用于测试导入其他php模块
+
+```php
+<?php
+include 'inc/header.php';
+// require('captain-lufy.php');
+require 'captain-lufy.php';
+use Cartoon\OnePiece\Lufy;
+
+Lufy\sayHi();
+
+
+include 'inc/footer.php';
+
+```
+
+## 总结
+本文从初学者的角度对php做了个全面的介绍，但是没有详细介绍比较常用的数组和面向对象等部分。如果本文的内容基本都掌握，看懂基础的php代码应该不成问题。  
+
+php曾经很流行，现在有些免费的虚拟机(如: infinityfree)多数提供的是php集成环境，可以让我们托管一些简单的个人应用，因而对php进行学习了解还是有点必要的。
