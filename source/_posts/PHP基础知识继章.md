@@ -245,4 +245,53 @@ $a = &$b;
 
 ```
 
+## 常量
+### 常量定义
+定义常量有 `define()` 和 `const` 两种方式  
 
+语法: `define(常量名, 常量值, [isIgnoreCase])`
+```php
+<?php
+define('MAX_TIME', 5);
+const MAX_WIDTH = 200;
+
+?>
+```
+
+### 常量访问
+访问常量不需要加`$`前缀，直接访问; 还可以用 `constant()` 动态访问常量
+
+```php
+<?php
+const HOST = 'pzj.fun';
+echo HOST;
+$name = 'HOST';
+echo constant($name);
+```
+### 常量方法
+常量相关的方法:
+- `defined($name)` 判断常量是否定义
+- `get_defined_constants()` 获取常量数组
+
+```php
+<?php
+const HOST = 'pzj.fun';
+echo defined('HOST') ? 'yes' : 'no';
+print_r(get_defined_constants());
+
+?>
+```
+
+## 进制转换
+十六进制、八进制、二进制和十进制之间的转换
+
+> 十进制 decimal, hexdec -> hex to decimal
+
+- `hexdec()` 十六进制转十进制
+- `dechex()` 十进制转十六进制
+
+- `bindec()` 二进制转十进制
+- `decbin()` 十进制转二进制
+
+- `octdec()` 八进制转十进制
+- `decoct()` 十进制转八进制
