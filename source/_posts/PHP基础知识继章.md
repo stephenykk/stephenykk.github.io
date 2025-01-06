@@ -158,6 +158,9 @@ echo isset($C) ? 'y' : 'n'; // n 变量区分大小写
 
 ### 可变变量  
 变量名是变量
+
+> shell也支持类似的语法，熟悉shell的同学应该会似曾相识
+
 ```php
 <?php
 $color = 'pink'; 
