@@ -295,3 +295,99 @@ print_r(get_defined_constants());
 
 - `octdec()` 八进制转十进制
 - `decoct()` 十进制转八进制
+
+## herodoc
+
+所见即所得输出大段文本，支持变量解析
+
+```php
+<?php
+$puntuation = '!!';
+$con = <<<EOF
+一壶浊酒喜相逢
+古今多少事
+都付笑谈中$puntuation
+EOF;
+
+echo $con;
+```
+
+## nowdoc
+所见即所得输出大段文本，不支持变量解析, `$puntuation`不会被解析
+
+```php
+<?php
+
+$puntuation = '!!';
+
+$poem = <<<'EOF'
+秦时明月汉时关，
+万里长征人未还$puntuation
+EOF;
+
+echo $poem;
+```
+
+## 数据类型
+
+### 获取数据类型
+
+`gettype($name)` 返回类型的名称
+
+```php
+<?php
+echo gettype('hi');
+```
+
+### 判断数据类型
+
+- `is_int()`
+- `is_float()`
+- `is_string()`
+- `is_bool()`
+- `is_null()`
+- `is_array()`
+- `is_object()`     
+- `is_resource()`
+
+### 类型转换
+
+专用类型转换函数
+- `boolval()`
+- `floatval()`
+- `intval()`
+- `strval()`
+
+通用类型转换函数 `settype($var, $typename)`
+
+```php
+<?php
+$n = '10';
+echo gettype($n);
+settype($n, 'int');
+echo gettype($n);
+```
+强制类型转换 `(typeName)`
+
+- `(int)`
+- `(float)`
+- `(string)`
+- `(bool)`
+- `(array)`
+- `(object)`
+- `(unset)` 转换为null
+
+```php
+<?php
+$a = '12';
+$v = (int)$a;
+var_dump($v); // int
+```
+
+## 文件加载
+- `require`
+- `require_once`
+- `include`
+- `include_once`
+
+`require`和`include`都是加载目标脚本，并执行它的代码；`require`比较严格，遇到失败时，会终止脚本，
