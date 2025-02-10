@@ -7,7 +7,6 @@ category: SQL
 
 > 原文地址[❤️ SQL 零基础入门图文教程！ - 掘金](https://juejin.cn/post/7017619911153287182?searchId=20240113214612C4340640798DFAE8DE8D)
 
-本文已参与「[掘力星计划](https://juejin.cn/post/7012210233804079141/ "https://juejin.cn/post/7012210233804079141/")」，赢取创作大礼包，挑战创作激励金。
 
 # 📚 前言
 
@@ -19,7 +18,6 @@ SQL 对于现在的互联网公司生产研发等岗位几乎是一个必备技�
 
 **![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb8b49a1eeb94d298c9ac04077c2fbd3~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp) 文章结尾有 SQL 小测验哦！看看你能得几分？**
 
-## **👉🏻 [点我跳转到 SQL 测验！](#jump_100 "#jump_100")**
 
 # 🌴 SQL 介绍
 
@@ -1201,10 +1199,4 @@ select sysdate from dual;
 
 # 🍺 写在最后
 
-**上述如果都学完了的话，可以来做个小测验：[SQL 测验](https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql "https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql")**，看看掌握的怎么样！ **❤️ 测验会被记分：**
-
-每道题的分值是 1 分。在您完成全部的 20 道题之后，系统会为您的测验打分，并提供您做错的题目的正确答案。其中，绿色为正确答案，而红色为错误答案。
-
-**☞ [现在就开始测验！](https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql "https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql")** 祝您好运。
-
-### **⭐️ 将你的得分写在下方的 `评论区` 中吧，让我看看大家的水平如何？⭐️**
+**上述如果都学完了的话，可以来做个小测验：[SQL 测验](https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql "https://www.w3school.com.cn/quiz/quiz.asp?quiz=sql")**，看看掌握的怎么样！

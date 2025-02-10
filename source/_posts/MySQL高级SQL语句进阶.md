@@ -101,7 +101,9 @@ SELECT * FROM store_info WHERE Store_Name IN ('Los Angeles', 'Houston');
 
 ![d6.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b355d611be140258f665d53231da6b9~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=890&h=242&s=46981&e=png&b=000000)
 
-## 2\. 通配符 —— 通常与 LIKE 搭配 一起使用
+## 2\. 通配符
+
+通常与 LIKE 搭配 一起使用
 
 > % ：百分号表示零个、一个或多个字符
 >

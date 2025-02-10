@@ -3,11 +3,14 @@ title: SQL基础入门
 banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2024-12-10 21:28:17
-tags:
+tags: SQL
+categories: SQL
+
 ---
-  > 转载自: [https://segmentfault.com/a/1190000045376785](https://segmentfault.com/a/1190000045376785)
+
+> 转载自: [https://segmentfault.com/a/1190000045376785](https://segmentfault.com/a/1190000045376785)
   
-  ## MySQL是什么
+## MySQL是什么
 
 Mysql是一个数据管理系统，管理的是数据库，mysql下可以管理多个数据库。
 
@@ -288,29 +291,28 @@ NULL值 sql中对空值的判断 不能用= 使用is,非空验证用 not null
 
 ## 数据库的常用类型
 
-整数类型 tinyint（0-255）1字节 int 4字节
+整数类型 tinyint（0-255）1字节 int 4字节 
 
-文本 char（定长） varchar（变长） text
+文本 char（定长） varchar（变长） text 
 
 浮点型 double（7，2） decimal（10，2）
 
 时间
 
-#### tips：
 
-double时双精度的而decimal是精确的我们建议使用decimal保存金融、汇率、税率、价格等
+double是双精度的，而decimal是精确的我们建议使用decimal保存金融、汇率、税率、价格等
 
-数据库是需要优化的其中之一是选择合适的数据类型
+数据库是需要优化的,其中之一是选择合适的数据类型
 
-1 start transaction 开始一个事务
+1. start transaction 开始一个事务
 
-2 savepoint 保存点名--设置保存点
+2. savepoint 保存点名--设置保存点
 
-3 rollback to 保存点名--回退事务
+3. rollback to 保存点名--回退事务
 
-4 rollback 回退全部事务
+4. rollback 回退全部事务
 
-5 commit 提交事务，所以的操作生效， 不能回退
+5. commit 提交事务，所以的操作生效， 不能回退
 
 ```pgsql
 create table TEXT(
@@ -395,13 +397,13 @@ RELEASE SAVEPOINT 子句，会从当前的事务 SAVEPOINT 集合中，移除指
 3.  隔离性： 事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离。
 4.  持久性： 持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。
     
-    ## 数据库面试问题
+## 数据库面试问题
     
-    ### mb3和mb4有什么区别
+### mb3和mb4有什么区别
     
-    ```arduino
-     首先m表示max，b表示byte，mb3表示一个字符最多占用三个byte同理mb4占用4个，最大的不同在于mb4比mb3多出来的一字节可以表示表情文字。英文占用一个字节、中东地区的阿拉伯语占2字节，东亚地区语言占3字节。
-    ```
+```arduino
+  首先m表示max，b表示byte，mb3表示一个字符最多占用三个byte同理mb4占用4个，最大的不同在于mb4比mb3多出来的一字节可以表示表情文字。英文占用一个字节、中东地区的阿拉伯语占2字节，东亚地区语言占3字节。
+```
     
 
 ### 数据库连接命令是什么
