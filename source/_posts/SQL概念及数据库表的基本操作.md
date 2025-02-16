@@ -221,7 +221,3 @@ INSERT INTO persons VALUES (1,'Alice',24,'female','Beijing','2021-10-29 12:00:00
 ```sql
 INSERT INTO persons(name,age,gender,address) VALUES ('Bob',25,'male','Shanghai');
 ```
-
-**原创不易，如果小伙伴们觉得有帮助，麻烦点个赞再走呗~**
-
-**最后，感谢女朋友在工作和生活中的包容、理解与支持 ！** ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84505e3c967e43bfb7900f08e9ff110d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)

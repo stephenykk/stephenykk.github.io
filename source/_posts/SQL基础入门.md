@@ -4,11 +4,13 @@ banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2024-12-10 21:28:17
 tags: SQL
-category: SQL
+categories: SQL
+
 ---
-  > 转载自: [https://segmentfault.com/a/1190000045376785](https://segmentfault.com/a/1190000045376785)
+
+> 转载自: [https://segmentfault.com/a/1190000045376785](https://segmentfault.com/a/1190000045376785)
   
-  ## MySQL是什么
+## MySQL是什么
 
 Mysql是一个数据管理系统，管理的是数据库，mysql下可以管理多个数据库。
 
@@ -22,31 +24,31 @@ Mysql是一个数据管理系统，管理的是数据库，mysql下可以管理�
 
 #### 查看数据库：
 
-```abnf
+```sql
 show databases;
 ```
 
 #### 进入数据库：
 
-```abnf
+```sql
 use 数据库名;
 ```
 
 #### 查看数据库的表：
 
-```pgsql
+```sql
 show tables;
 ```
 
 #### 新建数据库：
 
-```n1ql
+```sql
 create database 数据库名;
 ```
 
 #### 删除数据表：
 
-```css
+```sql
 dorp table 表名
 ```
 
@@ -64,13 +66,13 @@ insert into 表名 value（数据，数据，数据），（数据，数据，�
 
 #### 删除数据：
 
-```pgsql
+```sql
 delete from student where name='王刚';
 ```
 
 #### 修改数据：
 
-```routeros
+```sql
 update student set age=20 where name=’李白‘;
 ```
 
@@ -78,7 +80,7 @@ update student set age=20 where name=’李白‘;
 
 #### 查询语句：
 
-```axapta
+```sql
 select * from student； 查询student表中的所有数据。
 select student_id,student_name from student; 查询指定的列名。
 ```
@@ -95,14 +97,14 @@ as name name是蓝色的 关键字 有些关键字会改变语法语义可以使
 
 根据指定的条件，检索数据，返回执行结果。
 
-```axapta
+```sql
 select student_id,student_name,birthday,gender from student 
 where student_name='李四';
 ```
 
 #### 多条件查询：
 
-```axapta
+```sql
 select student_id,student_name,birthday,gender from student 
 where student_name='李四' and student_id = 9;
 select student_id,student_name,birthday,gender from student 
@@ -111,13 +113,13 @@ where student_name='李四' or gender = '女';
 
 #### 使用in 关键字匹配多个值
 
-```apache
+```sql
 SELECT * FROM student WHERE student_id IN (1,3,8,10,12);
 ```
 
 也可以使用not in 排除匹配项
 
-```apache
+```sql
 SELECT * FROM student WHERE student_id NOT IN (1,3,8,10,12);
 ```
 
@@ -125,25 +127,25 @@ SELECT * FROM student WHERE student_id NOT IN (1,3,8,10,12);
 
 查询学生表中姓名姓张的学生：
 
-```n1ql
+```sql
 SELECT * FROM student WHERE student_name LIKE '张%'
 ```
 
 查询学生表中姓名三个字的学生：
 
-```n1ql
+```sql
 SELECT * FROM student where student_name LIKE '___';
 ```
 
 查询学生表中姓名姓张两个字的学生：
 
-```n1ql
+```sql
 SELECT * FROM student WHERE student_name LIKE '张_';
 ```
 
 查询学生表中姓名带张的学生：
 
-```n1ql
+```sql
 SELECT * FROM student WHERE student_name LIKE '%张%';
 ```
 
@@ -155,13 +157,13 @@ SELECT * FROM student WHERE student_name LIKE '%张%';
 
 倒序 （倒叙）DESC
 
-```n1ql
+```sql
 SELECT * FROM student ORDER BY student_id DESC;
 ```
 
 也可以使用多列进行排序 当第一列的值相同时再通过第二列的内容进行排序
 
-```n1ql
+```sql
 SELECT * FROM student ORDER BY student_name,student_id DESC;
 ```
 
@@ -175,19 +177,19 @@ SELECT * FROM student ORDER BY student_name,student_id DESC;
 
 查询前三个数据 LIMIT
 
-```n1ql
+```sql
 select * FROM student LIMIT 3;
 ```
 
 查询4-7
 
-```n1ql
+```sql
 select * from student limit 3,4;
 ```
 
 前三名就是
 
-```n1ql
+```sql
 select * from student limit 0,3;
 ```
 
@@ -199,13 +201,13 @@ union 会将结果一样的数据合并一个（去重）（整体去重）
 
 union 前后关联的结果集的列数必须一样和类型无关
 
-```n1ql
+```sql
 select student_id from student union select * from student;
 ```
 
 结果去重：（DISTINCT）
 
-```pgsql
+```sql
 SELECT DISTINCT name FROM student;
 ```
 
@@ -221,7 +223,7 @@ SELECT DISTINCT name FROM student;
 
 \-- 成绩表中不及格的信息
 
-```sqf
+```sql
 SELECT * FROM score WHERE score < 60;
 ```
 
@@ -229,14 +231,14 @@ SELECT * FROM score WHERE score < 60;
 
 方式一
 
-```sqf
+```sql
 SELECT DISTINCT * FROM student,score WHERE 
 score.score < 60 and student.student_id = score.student_id;
 ```
 
 方式二
 
-```n1ql
+```sql
 SELECT student_name FROM student WHERE student_id in
  (SELECT DISTINCT student_id FROM score WHERE score < 60);
 ```
@@ -245,7 +247,7 @@ SELECT student_name FROM student WHERE student_id in
 
 \-- 总成绩最高的学生id
 
-```n1ql
+```sql
  SELECT * FROM( SELECT student_id,SUM(score) as sumscore FROM score GROUP BY student_id )
  as a ORDER BY sumscore DESC LIMIT 1;
 ```
@@ -264,13 +266,13 @@ SELECT student_name FROM student WHERE student_id in
 
 \-- left join 以左表为主表 结果集中包含主表的所有数据,结果集中显示副表中和主表有关联的数据
 
-```n1ql
+```sql
 SELECT a.*,b.* FROM student a left JOIN score b on a.student_id = b.student_id;
 ```
 
 \-- 内链接 只显示两个有关联的数据
 
-```n1ql
+```sql
 SELECT a.*,b.* FROM student a INNER JOIN score b ON a.student_id = b.student_id;
 ```
 
@@ -278,7 +280,7 @@ SELECT a.*,b.* FROM student a INNER JOIN score b ON a.student_id = b.student_id;
 
 \-- mysql 借助union实现全外链接
 
-```n1ql
+```sql
 SELECT a.*,b.* FROM student a left JOIN score b on a.student_id = b.student_id;
  UNION
  SELECT a.*,b.* FROM student a RIGHT JOIN score b on a.student_id = b.student_id;
@@ -289,31 +291,30 @@ NULL值 sql中对空值的判断 不能用= 使用is,非空验证用 not null
 
 ## 数据库的常用类型
 
-整数类型 tinyint（0-255）1字节 int 4字节
+整数类型 tinyint（0-255）1字节 int 4字节 
 
-文本 char（定长） varchar（变长） text
+文本 char（定长） varchar（变长） text 
 
 浮点型 double（7，2） decimal（10，2）
 
 时间
 
-#### tips：
 
-double时双精度的而decimal是精确的我们建议使用decimal保存金融、汇率、税率、价格等
+double是双精度的，而decimal是精确的我们建议使用decimal保存金融、汇率、税率、价格等
 
-数据库是需要优化的其中之一是选择合适的数据类型
+数据库是需要优化的,其中之一是选择合适的数据类型
 
-1 start transaction 开始一个事务
+1. start transaction 开始一个事务
 
-2 savepoint 保存点名--设置保存点
+2. savepoint 保存点名--设置保存点
 
-3 rollback to 保存点名--回退事务
+3. rollback to 保存点名--回退事务
 
-4 rollback 回退全部事务
+4. rollback 回退全部事务
 
-5 commit 提交事务，所以的操作生效， 不能回退
+5. commit 提交事务，所以的操作生效， 不能回退
 
-```pgsql
+```sql
 create table TEXT(
   id int,
   name VARCHAR(32)
@@ -396,18 +397,18 @@ RELEASE SAVEPOINT 子句，会从当前的事务 SAVEPOINT 集合中，移除指
 3.  隔离性： 事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离。
 4.  持久性： 持久性是指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。
     
-    ## 数据库面试问题
+## 数据库面试问题
     
-    ### mb3和mb4有什么区别
+### mb3和mb4有什么区别
     
-    ```arduino
-     首先m表示max，b表示byte，mb3表示一个字符最多占用三个byte同理mb4占用4个，最大的不同在于mb4比mb3多出来的一字节可以表示表情文字。英文占用一个字节、中东地区的阿拉伯语占2字节，东亚地区语言占3字节。
-    ```
+```sql
+  首先m表示max，b表示byte，mb3表示一个字符最多占用三个byte同理mb4占用4个，最大的不同在于mb4比mb3多出来的一字节可以表示表情文字。英文占用一个字节、中东地区的阿拉伯语占2字节，东亚地区语言占3字节。
+```
     
 
 ### 数据库连接命令是什么
 
-```markdown
+```sql
     mysql -u root -p；
 
     -u：代表用户
