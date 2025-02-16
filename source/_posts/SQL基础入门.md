@@ -3,7 +3,8 @@ title: SQL基础入门
 banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2024-12-10 21:28:17
-tags:
+tags: SQL
+category: SQL
 ---
   > 转载自: [https://segmentfault.com/a/1190000045376785](https://segmentfault.com/a/1190000045376785)
   
