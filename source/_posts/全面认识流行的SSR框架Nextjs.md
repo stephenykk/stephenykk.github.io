@@ -1,12 +1,15 @@
 ---
 title: 全面认识流行的SSR框架Nextjs
-tags: 
-- Nextjs
-- SSR
-categories: 
-- Nextjs
-
+banner: /images/banner_camera.jpg
+cover: /images/banner_desk.jpg
+tags:
+  - Nextjs
+  - SSR
+categories:
+  - Nextjs
+date: 2025-02-17 20:55:33
 ---
+
 
 现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，`Next.js`是一个基于react的SSR框架，能够帮助我们快速搭建SSR项目.
 
