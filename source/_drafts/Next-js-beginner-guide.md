@@ -40,7 +40,7 @@ npx create-next-app@latest my-app
 
 
 在 Next.js version 13, 引入了全新的App Router，它是基于`React Server Components`实现的.
-App Router 会把所有的代码都放在名为`app`文件夹中. `app` 文件夹可以和 `pages` 文件夹共同存在，运行我们将旧项目逐步地切换到新的 App Router。
+App Router 会把所有的代码都放在名为`app`文件夹中. `app` 文件夹可以和 `pages` 文件夹共同存在，允许我们将旧项目逐步地切换到新的 App Router。
 
 ![using two routing system](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnext-router-directories.png&w=1920&q=75)
 
@@ -74,22 +74,34 @@ App Router 会把所有的代码都放在名为`app`文件夹中. `app` 文件�
 -  `{folder}/{subfolder}/page.tsx` 定义页面 (*page handler*)
 -  `{folder}/{subfolder}/route.ts` 定义接口 (*api handler*)
 
+
+![nest layout](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layout.png&w=1920&q=75)
+![nest layout views](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layouts-ui.png&w=1920&q=75)
+
+
 ### 动态路由
  - `[folder]` 动态路由 
  - `[...folder]` catch-all 动态路由 
  - `[[...folder]]` optional catch-all 动态路由 
 
 ### 分组路由
-`(folder)` 带括号的文件夹用于分组，对路由路径没有影响，在同一个分组下的页面可以共享一个layout
+`(folder)` 带括号的文件夹用于分组，对路由路径没有影响，在同一个分组下的页面可以共享一个layout, 可用分组路由根据业务模块组织代码文件
+
+![route group](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Froute-group-organisation.png&w=1920&q=75)
 
 ### 私有文件夹
-`_folder` 带有下划线的文件夹, 里面的文件不会被渲染, 只能被其他文件引用
+`_folder` 带有下划线的文件夹, 里面的文件会被路由系统忽略，不会被识别为路由（即使包含 `page.tsx`）, 只能被其他文件引用。
 
 ### 并列路由
 `@folder` （*文件夹名为slot名*) 定义并列路由, 可以在同一个layout下渲染多个页面
 
+![parallel route](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fparallel-routes.png&w=1920&q=75)
+
 ### 拦截路由
 `(.)folder` `(..)folder` `(..)(..)folder`  `(...)floder` 拦截路由是指在当前页面通过`<Link>`跳转时, 若目标页面有对应的拦截路由，则会渲染该拦截路由下的page.
+
+![intercept route](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fintercepting-routes-soft-navigate.png&w=1920&q=75)
+![intercept route project stucture](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fintercepted-routes-files.png&w=1920&q=75)
 
 ### 特殊文件名约定
 
@@ -280,38 +292,83 @@ export async function generateMetadata(
 export default function Page({ params, searchParams }: Props) {}
 ```
 
-## 常见问题
-
-### 如何在layout中访问请求对象?
-
-出于在页面间导航时重用layout的目的，`layout.tsx` 不能访问原始的request对象。但是，你可以使用`headers()`和`cookies()`方法来访问相对的请求信息。
-
-
-### 如何访问页面的URL?
-
-page默认是server component, 所以无法直接访问URL, 可以使用`usePathname`和`useSearchParams`来获取URL, 另外page的props中也有`params`和`searchParams`属性, 可以直接访问.
-
-
-### Server component中怎样重定向到其他页面?
-
-在server component中, 可以使用`redirect()`或`permanentRedirect()`方法来重定向到其他页面.
-
-
-### 怎样设置cookies?
- 可以在`Server Actions`, `Middleware` or `Route Handlers`使用`cookies()`方法来设置cookies.
-You can set cookies in `Server Actions` or `Route Handlers` using the cookies function.
-
-> 注意: 我们不能在page或layout中直接设置cookies, 因为HTTP不允许在流式传输开始后设置cookies。
 
 ## 渲染
 
 ### Server component
 `server component` 应当声明为 `async` function, 因为通常都需要请求数据，然后通过props传递给`client component`  
-`server component` 不能包含交互，即不可进行DOM事件监听 
+`server component` 不能包含交互，即不可进行DOM事件监听  
+`server component` 在后端渲染后，会被缓存，提高再次请求的响应速度。  
+渲染任务会根据 route segment 和`<Suspense>` boundaries进行分割，并且通过流的方式发送给客户端，以减少等待时间。  
+组件树通常会是`server component`和`client component`的互相交织，`server component`会被优先渲染执行。
+
+
+服务端组件的内容, 也称为 `React Server Component Payload`， 它包含:
+- `server component`的渲染得到的虚拟Dom
+- `client component`的占位元素和引用
+- `server component`传给`client component`的props
+
+渲染过程:  
+1. 根据服务端返回的html，渲染一个不可交互的页面
+1. 获取路由对应的服务端组件的内容(`React Server Component Payload`) 用来调和客户端和服务端组件树，更新DOM.
+1. 执行hydration, 使页面可以交互
 
 ### Client component
 `client component` 不可以声明为 `async` function, 否则会报错  
 作为入口路由的一部分时，`client components`也会在服务端执行。
+
+`client component` 可以使用 `useEffect` 和 `useState` 等React hooks，绑定DOM事件，调用浏览器API.  
+
+如果一个组件通过`use client`声明为客户端组件，那么它的子孙组件都会默认为客户端组件，除非显式声明为服务端组件。
+
+
+默认地，被识别为路由的文件夹下的layout和page会并行渲染。  
+
+
+渲染类型:
+- `static` (静态渲染) : 在构建时渲染，适用于静态页面，如博客文章，不会频繁更新。
+- `dynamic` (动态渲染) : 在请求时渲染，适用于需要频繁更新的页面，如用户个人主页，购物车等。
+
+Nextjs会自动选择使用`static rendering`还是`dynamic rendering`, 如果页面使用到`dynamic functions`那么就会采用动态渲染。
+
+`dynamic functions`是指:
+- `cookies()`
+- `headers()`
+- `props.searchParams`
+
+
+常用组件开发模式：  
+`server component` fetch data, 通过props传递data给 `client component`
+
+
+
+Next.js应用本质上就是一个包含服务端组件和客户端组件的组件树，当其中一个组件通过`use client`声明为客户端组件时，它就形成了一个client subtree
+
+client subtrees 也可以包含 `server components` 或者调用 `server actions` 
+
+```jsx
+<ClientComponent>
+  <ServerComponent />
+</ClientComponent>
+```
+
+在收到请求时，Next.js会先渲染server components，然后返回一个包含server components渲染结果的RSC payload，这个payload会包含client subtree的引用，在客户端，React会使用RSC payload来协调client subtree。 
+
+既然 client component 的渲染是在 server component的渲染之后，那么就不能在 client component 中导入 server component，因为那会导致一个新的请求回传到服务器，应该通过props将 server component 传递给 client component。
+
+```js
+// app/page.tsx
+import ClientComp from './client-component'
+import ServerComp from './server-component'
+
+export default function() {
+ return (
+  <ClientComp>
+      <ServerComp />
+  </ClientComp>
+)
+}
+```
 
 ## 数据请求
 
@@ -335,11 +392,11 @@ You can set cookies in `Server Actions` or `Route Handlers` using the cookies fu
 - `route handler` 
 - `server actions`
 
-fetch 语法: `fetch(api, { cahce: 'force-cache' })`
 
-渲染类型:
-- `static` (静态渲染) : 在构建时渲染，适用于静态页面，如博客文章，不会频繁更新。
-- `dynamic` (动态渲染) : 在请求时渲染，适用于需要频繁更新的页面，如用户个人主页，购物车等。
+由于fetch会缓存数据，所以在服务端组件之间不需要使用单向数据流模式，通过props传递数据。直接在每个服务端组件fetch相同的接口即可，接口只会被请求一次。  
+
+server component 不需要通过fetch方法调用 route handler，它可以直接访问数据库  
+
 
 若用`<Suspense>`包裹组件，则组件会动态渲染，作为入口路由进行全页面渲染时不会包含该动态组件。
 
@@ -347,41 +404,26 @@ fetch 语法: `fetch(api, { cahce: 'force-cache' })`
 <Suspense fallback={<Loading />}> <Cart /> </Suspense>
 ```
 
-### 客户端请求
-客户端请求数据适用于这些场景:
-- 部分渲染，部分UI仅在客户端渲染，这部分UI所包含的数据只能从客户端发请求获得
-- 实时数据，如：搜索结果
+### fetch缓存
 
+fetch 设置缓存语法: `fetch(api, { cahce: 'force-cache' })`  
 
+fetch缓存有效性验证:
+1. time-based   
+  `fetch(api, {next: { revalidate: 3600 }})`
+2. tag-based & path-based  
+  ```js
+    import { revalidatePath, revalidateTag } from 'next/cache'
 
-**nextjs 14, fetch api will cached by default**
+    export async function createPost() {
+      revalidatePath('/posts')
+    }
 
-multiple components in the component tree need the same data, just request the same api, do not need to globally fetch data and pass down, because of fetch cached
+    fetch(api, { next: {tags: ['haha'] }})
+    revalidateTag('haha')
+  ```
 
-can use react cache to memorize data requests for db during a react render pass
-
-```js
-import { cache } from react
-
-export const getitem = cache(async(id) => await db.item.findOne(id))
-
-
-// swr or react query  , enable caching
-import useSWR from 'swr'
-
-Response.json(data)
-```
-
-server component do not need to call route handler, it can directlly access db  
-
-
-parallel and sequential data fetching  
-`<Suspense fallback={<Loading />}> <Playlist artistId={artist.id} /> </Suspense>`  
-partial render and user can  interacte with it
-
-by default, layout and page are rendered in parallel.
-
-define data fetch fn outside the page component
+可以把获取数据的方法定义在page组件外部，然后在page组件中调用，这样就可以在多个组件中复用获取数据的方法。
 
 ```js
 async function getArtist() {
@@ -395,94 +437,53 @@ async function getAlbums() {
 
 export default async function page() {
   const [artist, albums] = await Promise.all([getArtist(), getAlbums()])
+
   return (
    <> <h1> {artist.name} </h1> <Albums list={albums} /> </>
   )
 }
 ```
 
-can use `<Suspense>` to break up the rendering work
+### 客户端请求
+客户端请求数据适用于这些场景:
+- 部分渲染，部分UI仅在客户端渲染，这部分UI所包含的数据只能从客户端发请求获得
+- 实时数据，如：搜索结果
 
 
-preloading data
-
-```js
-// app/item/[id]/page.tsx
-
-export default async function page({ params: {id} }) {
-  preloadDataOfItem(id) // fetch data , do not use 'await' to block 'checkAvailable'
-  const ok = await checkAvailable(id)
-
-  return ok ? <Item id={id} /> : null
-}
-```
-
-use `cache` and `server-only` with preload pattern  
-
-```js
-import { cache } from 'react'
-import `server-only`
-```
-
-preload data and cache response  
-
-prevent sensitive data from being exposed to client
-
-`next.config.js`  
-
-```js
-experimental: { taint: true }
-```
-
-caching and revalidating
-```js
-import { unstable_cache } from 'next/cache'
-fetch(api, { cache: 'force-cache'})
-```
-
-revalidating data
-
-time-based
-on-demand: tag-based or path-based approach
-
-`fetch(api, {next: { revalidate: 3600 }})`
-
-segment config options: `export const revalidate = 3600`
-
-```js
-import { revalidatePath, revalidateTag } from 'next/cache'
-
-export async function createPost() {
-  revalidatePath('/posts')
-}
-
-fetch(api, { next: {tags: ['haha'] }})
-revalidateTag('haha')
-```
-
-if revalidating error, will take use the latest cached data, next time do revalidate again
+### Server action
 
 **server actions and mutations**
 
-server actions are `async` functions run on the server, can be called in `server component` and `client component`
+server actions 是运行在服务端的 `async function`, 它可以在 `server component` 和 `client component` 被调用
 
-`'user server'` directive in the top of ts file, or on the top of async function body
+声明server actions:
+
+1. `'user server'` 指令，放在函数声明之前  
+  ```js
+    export default function Page() {
+      // server action
+      async function create() {
+        'user server'
+        // todo
+      }
+
+      return (<div>hi</div>)
+    }
+  ```
+2. `'user server'` 指令， 放在代码文件顶部  
+
+  ```js
+    // app/actions.ts
+    'user server'
+
+    export async function create() {
+      // todo
+    }
+  ```
+
+在client component中，使用server action
+
 ```js
-export default function Page() {
-  // server action
-  async function create() {
-     'user server'
-     // todo
-  }
-
-  return (<div>hi</div>)
-}
-
-// app/actions.ts
-'user server'
-
-export async function create() {...}
-
 // client component
 // app/ui/button.tsx
 'use client'
@@ -493,28 +494,10 @@ export function MyButton() {
   return <Button onClick={create} />
 }
 ```
-pass server action as props 
-props named as `action` or ending with `Action` are assumed to receive server actions
 
+Nextjs扩展了 `<form>` 元素，允许它的 `action` 属性接收server action
 
-form action  
-event handler  
-useEffect
-props
-
-server action integrate with caching and revalidation  
-
-server action will return the UI and new data  
-
-server actions inherit the route segment config from page or layout  
-
-react extend the `<form>` element to allow server actions to be invoked with the `action` prop  
-
-`<button>` `<input type="submit" />` support `formAction` prop. multiple server actions in a form
-
-`event.currentTarget.form?.requestSubmit()`  
-
-server-side form validation. `zod`
+`useActionState` hook, 可以获取server action的执行状态
 
 ```js
 // app/ui/signup.tsx
@@ -542,285 +525,29 @@ explort function Signup () {
 ```
 
 
-```js
-useFormStatus()  
-useOptimistic()
-```
+server action 应当被看做一个公开的接口，不过这个接口的地址是一些没有语义的随机字符
 
-server action use in event handler  
-debounce server action  
 
-server action use in `useEffect`
 
+## 常见问题
 
-error handling, nearest 'error.js'
+### 如何在layout中访问请求对象?
 
-in server action revalidate data
-```js
-import { revalidatePath } from 'next/cache'
+出于在页面间导航时重用layout的目的，`layout.tsx` 不能访问原始的request对象。但是，你可以使用`headers()`和`cookies()`方法来访问相对的请求信息。
 
-export async function createPost() {
-  revalidatePath('/posts')
-}
 
-```
-in server action, use redirect, `redirect()` should be used outside of `try...catch`
+### 如何访问页面的URL?
 
-```js
-import { redirect } from 'next/navigation'
+page默认是server component, 所以无法直接访问URL, 可以使用`usePathname`和`useSearchParams`来获取URL, 另外page的props中也有`params`和`searchParams`属性, 可以直接访问.
 
-redirect('/post/123')
-```
 
-in server action, use cookies
+### Server component中怎样重定向到其他页面?
 
-```js
-'use server'
+在server component中, 可以使用`redirect()`或`permanentRedirect()`方法来重定向到其他页面.
 
-import { cookies } from 'next/headers'
 
-export async function exampleAction() {
-  const cookieStore = cookies()
-  const val = cookieStore.get('name')?.value
-  cookieStore.set('name', 'lufy')
-  cookieStore.delete('name')
-}
-```
+### 怎样设置cookies?
+ 可以在`Server Actions`, `Middleware` or `Route Handlers`使用`cookies()`方法来设置cookies.
+You can set cookies in `Server Actions` or `Route Handlers` using the cookies function.
 
-server action security
-
-server action should be treated as public-facing API
-
-```js
-'use server'
-
-import { auth } from './lib'
-
-export function addItem() {
-  const { user } = auth()
-  if (!user) {
-    throw new Error('please sign in')
-  }
-}
-```
-react taint APIs  
-
-server action use `POST` method , avoid csrf attack  
-
-NEXT_SERVER_ACTION_ENCRYPTION_KEY , compare `origin` header and `host` header  
-
-server component  
-
-render and cached on the server  
-rendering work is split by route segments to enable streaming and partial rendering
-
-**render strategies**
-- static rendering
-- dynamic rendering
-- streaming
-
-benefits of server rendering
-
-data fetching more closer to data source, faster , safer, reduce requests, caching
-
-reduce the amount of client-side js, less client-side js to download , parse and execute
-
-First Cotnentful Paint , initial page load   
-
-**SEO**  
-
-server components allow to split the rendering work into chunks and stream them to the client as they become ready.   
-user can see parts of the page earlier
-
-
-by default, nextjs use server components
-
-how are server components rendered?
-
-the rendering work is split into chunks by route segments and `<Suspense>` boundaries
-
-server component special format: `React Server Component Payload`
-
-> show a fast non-interactive preview of the route  
-> react server component payload is used to reconcile the client and server component tree and update dom
-> js instructions hydrate client components, make app interactive
-
-
-*what is the react server component payload?*  
-render result of server component  
-placeholder for where client component should be rendered  
-props passed from server component to client component.  
-
-*static rendering*
-routes are rendered at build time. result can be cached and push to CDN   
-no personalized data
-
-
-*dynamic rendering*  
-routes are rendered for each user at request time.  
-personalized data or data only be known at request time, such as cookie and search params
-
-
-*switch to dynamic rendering*  
-`dynamic function` or uncached data request is discovered , dynamically render the whole route
-
-> nextjs automatically choose static rendering or dynamic rendering based on the features and apis used.
-
-**dynamic functions**
-- cookies headers searchParams
-- `cookies()`
-- `headers()`
-- `searchParams` prop
-
-*streaming is built into app router by default.*  
-
-
-*client components*  
-prerender on the server  
-use client js to run in browser  
-
-
-*benefits of client rendering*  
-- interactivity, client component can use state effects and event listeners  
-- browser apis  
-
-`'use client'`, declare a boundary between a server component and client component
-all child module and child components are considered part of the client bundle.
-
-by default, all components in the app router are server components
-
-define multiple `'use client'` entry points in component tree, will split application into multiple client bundles
-
-*how are client component rendered?*  
-
-full page load: use react apis to render a static html preview on the server for client component and server component.
-
-*on server:*  
-render server component into server component payload which includes references to client component
-nextjs use `RSC` payload and client component `js instructions `to render html for the page route on the server.
-
-*on client:*  
-show a fast non-interactive preview of the page  
-server component payload is used to reconcile the client and server component trees and update the dom  
-the `js instructions` are used to hydrate client components and make UI interactive
-
-
-> hydrate is the process of attaching event listeners to dom , make ui interactive  `hydrateRoot()`
-
-*subsequent navigation*  
-client components are rendered entirely on the client, this means the client component js bundle is downloaded and parsed,  
-react use RSC payload to reconcile the client and server component tree.
-
-after declared the `'use client'` boundary, if want to go back to the server environment (eg: reduce bundle size, fetch data on server)
-
-*server and client composition pattern*  
-
-*server component pattern*  
-do some work on the server, like fetching data , accessing db, or other backend services
-share data between components ( *a layout and a page depend on the same data* )
-
-*react context is not available on the server*   
-instead of using react context or passing data as props, we can use `fetch` or react `cache` function to fetch the same data in components
-
-keep server-only code out of the client environment
-
-```js
-// lib/data.ts
-export async function getData() {
-  const res = await fetch(api, headers: { authorization: process.env.API_KEY /* sensitive data */ } )
-  return res.json()
-}
-```
-
-private environment variable: `API_KEY`
-public environment variable: `NEXT_PUBLIC_XXX`
-
-```js
-npm i server-only
-
-import 'server-only'
-
-export async function getData() {... }
-```
-
-like this, to aviod accidentally import 'getData' into client component
-
-the corresponding package `client-only`  
-
-server component is a new react feature,  `'use server'` directive, `'use client'` directive
-
-third-party packages without `'use client'` directive, won't work within server components, wrap it in a new jsx file
-
-create `context` in the app/layout will cause error
-
-should render 'context.provider' as deep as possible in the tree.
-
-
-*client component*  
-to reduce the client js bundle size, recommend moving client component down component tree
-
-fetch data in a server component, pass data down as props to client component  
-
-*interleaving server and client components*  
-
-app is a component tree including server components and client component, add `'use client'` to mark a subtree as client component tree
-
-client subtrees can nested server components or call server actions ` <ClientComponent><ServerComponent /> </ClientComponent>`
-
-> at request time, server components are rendered first, including those nested inside client subtree. the rendered result (RSC payload) will contain references to the locations of the client subtree. on client, react use RSC payload to reconcile server component and client component into a single tree.
-
-> since client components are rendered after server components, can not import a server component into a client component (it would require a new request back to the server), should pass the server component as 'props' to a client component
-
-```js
-// app/page.tsx
-import ClientComp from './client-component'
-import ServerComp from './server-component'
-
-export default function() {
- return (
-  <ClientComp>
-      <ServerComp />
-  </ClientComp>
-)
-}
-```
-
-*partial prerendering*  
-
-combine static component and dynamic component together in the same route
-
-during the build , nextjs prerender as much of the route as possible, 
-dynamic components should be wrapped with a `<Suspense>` boundary,  suspense boundary fallback will be included in the prerendered html.   
-partial prerendering is an experimental feature
-
-*next.config.js*  
-```js
-experimental: { ppr: 'incremental' } next.js v15
-experimental: { ppr: true } next.js v14
-
-export const experimental_ppr = true
-```
-
-----------
-
-- *server component only renders on the server*
-- *client componen renders on both the client and server side*
-
-> server component fetch data, will block the request.
-
-no global stores, the store should be created per request. do not share store across requests   
-server component should not read or write redux store.  RSC can not use hooks or context.   
-store should only contains global mutable data
-
-next.js multi-page architecture
-
-`makeStore` create store instance per-request 
-
-
-`useEffect` only runs on the client  
-`useSelector`  `useState` runs both on server and client?
-
-state levels: 
-- app level 
-- request level 
-- route level or page level
+> 注意: 我们不能在page或layout中直接设置cookies, 因为HTTP不允许在流式传输开始后设置cookies。
