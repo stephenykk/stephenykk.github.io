@@ -1,217 +1,160 @@
 ---
-title: Next.js beginner guide
-tags:
+title: 全面认识流行的SSR框架Nextjs
+tags: 
+- Nextjs
+- SSR
+categories: 
+- Nextjs
+
 ---
 
-## introduction
-`Next.js` is a react framework for building full-stack web application.
-you use react build ui, next.js help to do optimizations and provides a lot of other features.
+现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，`Next.js`是一个基于react的SSR框架，能够帮助我们快速搭建SSR项目.
 
-`Next.js` will automatically configures building tool, and also with built-in ts eslint and tailwind.css configuration
+希望本文能让大家对`Next.js`有一个全面的了解，看完后有所收获 :)
 
-### main features
+## 简介
+`Next.js` 是一个基于react的SSR框架, 用于构建全栈web应用. 开发者只需专注于用react构建UI, `Next.js` 帮助我们做优化（SEO / 图片加载 / 页面性能等）, 并且提供了很多其他功能.
 
-- file-system based router
-- client-side and server-side rendering
-- simplified data fetching, extended fetch api
-- support a lot of styling methods, including css module, tailwind css and css-in-js, sass
-- optimizations for images and scripts
-- support ts
+`Next.js`使用webpack作为构建工具, 并且默认配置好了TS、Eslint和tailwind.css.
 
+## 特点
+- 基于file-system的路由
+- 客户端和服务端渲染
+- 扩展fetch API, 简化数据请求
+- 支持很多样式方案, 如: css module, tailwind css and css-in-js, sass
+- 优化图片和脚本加载
+- 全面支持TS
 
-## routing
-app router and pages router
+## 安装
 
-> app router supports latest react features, such as `server component`, `streaming` and `server actions`
-
+创建next.js项目
 ```shell
-# create a new next.js app
 npx create-next-app@latest my-app
 ```
 
 
-```shell
-# project structure
-app/{layout.tsx, page.tsx}
-pages/{index.tsx, _app.tsx, _document.tsx}
-public/images
-routing files ( layout.tsx page.tsx route.ts  loading.tsx not-found.tsx error.tsx  global-error.tsx default.tsx )
-```
+## 路由
+支持两种路由方式: **app router** 和 **pages router**
 
+> app router 支持最新的react特性, 如 `server component`, `streaming` and `server actions`
 
-### nested routes
--  `{folder}/{subfolder}/page.tsx`
--  `{folder}/{subfolder}/route.ts`
-
-### dynamic routes
- - `[folder]` dynamic route segment 
- - `[...folder]` catch-all route segment 
- - `[[...folder]]` optional catch-all segment 
-
-### route groups and private folders
-- `(folder)` group routes without affecting routing, pages under the same group can share the same layout.
-- `_folder` out of routing  system
-
-### parallel and intercepted routes
-- `@folder` named slot 
-- `(.)folder` `(..)folder` `(..)(..)folder`  `(...)floder` intercept routes
-
-> parallel routes allow you to render multiple pages in the same layout.
-
-## SEO
-
-[什么是robots.txt和sitemap.xml？](https://cloud.tencent.com/developer/article/1666216)
-
-- `sitemap.xml`
-- `sitemap.ts`
-- `robots.txt`
-- `robots.ts`
-
-
-## frequently asked questions
-
-### How can I access the request object in a layout?
-
-`layout.tsx` can not access the raw request object, for reusing the layout when navigate between pages, developers can use `headers` and `cookies` methods to access relative request info.
-
-
-### How can I access the URL on a page?
-
-By default, pages are Server Components. You can access the route segments through the `params` prop and the URL search params through the `searchParams` prop for a given page.
-
-If you are using Client Components, you can use `usePathname`, `useSelectedLayoutSegment`, and `useSelectedLayoutSegments` for more complex routes.
-
-
-### How can I redirect from a Server Component?
-You can use `redirect` from a page to a relative or absolute URL. redirect is a temporary (307) redirect, while `permanentRedirect` is a permanent (308) redirect.
-
-
-### How can I set cookies?
-You can set cookies in `Server Actions` or `Route Handlers` using the cookies function.
-
-Since HTTP does not allow setting cookies after streaming starts, you *cannot set cookies from a page or layout directly*. You can also set cookies from `Middleware`.
-
-
-### How can I invalidate the App Router cache?
-
-There are multiple layers of caching in `Next.js`, and thus, multiple ways to invalidate different parts of the cache. [Learn more about caching](https://nextjs.org/docs/app/building-your-application/caching).
-
-
-
-
-> If you're new to `Next.js`, we recommend starting with the `Routing`, `Rendering`, `Data Fetching` and `Styling` sections, as they introduce the fundamental `Next.js` , Then, you can dive deeper into the other sections such as `Optimizing` and `Configuring`. Finally, once you're ready, checkout the `Deploying` and `Upgrading` sections.
-
-
-
----
-
-## routing system
-
-folder structure example:
+项目结构示例:
 
 ![hierarchical folders](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fterminology-component-tree.png&w=1920&q=75)
 
 
-In version 13, Next.js introduced a new App Router built on `React Server Components`.
-The App Router works in a new directory named `app`. The `app` directory works alongside the `pages` directory to allow for incremental adoption. 
+在 Next.js version 13, 引入了全新的App Router，它是基于`React Server Components`实现的.
+App Router 会把所有的代码都放在名为`app`文件夹中. `app` 文件夹可以和 `pages` 文件夹共同存在，允许我们将旧项目逐步地切换到新的 App Router。
 
 ![using two routing system](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnext-router-directories.png&w=1920&q=75)
 
 
-By default, components inside `app` are `React Server Components`. This is a performance optimization and allows you to easily adopt them, and you can also use `Client Components`.
+默认地出于性能优化的考虑, `app`文件夹下的组件都是 `Server Components`，不过我们也可以在文件开头声明`use client`把组件变为`Client Components`.
 
 
-### Roles of Folders and Files
+### 文件夹和文件的作用
 
-Next.js uses a file-system based router where:
+- `Folders` 用于定义路由. 如: `app/dashboard`
+- `Files` 用于定义路由对应的UI, 如 `app/dashboard/layout.tsx` 和 `app/dashboard/page.tsx`
 
-- `Folders` are used to define routes. 
-- `Files` are used to create UI that is shown for a route segment.
-
-
-### Route Segments
-
-Each folder in a route represents a `route segment`. Each `route segment` is mapped to a corresponding `segment` in a `URL path`.
-
-![route segments](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Froute-segments-to-path-segments.png&w=1920&q=75)
-
-
-### Nested Routes
-
-To create a nested route, you can nest folders inside each other. For example, you can add a new `/dashboard/settings` route
-
-
-### File Conventions
-
-Next.js provides a set of special files to create UI with specific behavior in nested routes:
-
-- `layout.tsx`	Shared UI for a segment and its children
-- `page.tsx`	Unique UI of a route and make routes publicly accessible
-- `loading.tsx`	Loading UI for a segment and its children
-- `not-found.tsx`	Not found UI for a segment and its children
-- `error.tsx`	Error UI for a segment and its children
-- `global-error.tsx`	Global Error UI
-- `route.ts`	Server-side API endpoint
-- `template.tsx`	Specialized re-rendered Layout UI
-- `default.tsx`	Fallback UI for Parallel Routes
-
-
-### Component Hierarchy
-
-The React components defined in special files of a route segment are rendered in a specific hierarchy:
-
-- `layout.js`
-- `template.js`
-- `error.js` (React error boundary)
-- `loading.js` (React suspense boundary)
-- `not-found.js` (React error boundary)
-- `page.js` or nested `layout.js`
-
-![Component Hierarchy](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Ffile-conventions-component-hierarchy.png&w=1920&q=75)
-
-
-In a nested route, the components of a segment will be nested inside the components of its parent segment.
-
-![nested routes component hierarchy](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-file-conventions-component-hierarchy.png&w=1920&q=75)
-
-
-### Colocation
-In addition to special files, you have the option to colocate your own files (e.g. `components`, `styles`, `tests`, etc) inside folders in the `app` directory.
-
-This is because while folders define routes, only the contents returned by `page.js` or `route.js` are publicly addressable.
-
-> only folders that contain `page.tsx` or `route.ts` are public, `page.tsx` will be treated as a page handler, `route.ts` will be treated as a api handler
-
-![colocation](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fproject-organization-colocation.png&w=1920&q=75)
-
-
-### Advanced Routing Patterns
-
-- `Parallel Routes:`  
-    Allow you to simultaneously show two or more pages in the same view that can be navigated independently. You can use them for split views that have their own sub-navigation. E.g. Dashboards.
-- `Intercepting Routes:`  
-    Allow you to intercept a route and show it in the context of another route. You can use these when keeping the context for the current page is important. E.g. Seeing all tasks while editing one task or expanding a photo in a feed.
-
-
-### Creating Routes
-
-Each **folder** represents a **route segment** that maps to a **URL segment**.
 
 ![route segment](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Froute-segments-to-path-segments.png&w=1920&q=75)
 
 
-A special `page.js` file is used to make route segments publicly accessible.
+`page.js` 可以让当前文件夹被识别为路由，即可被公开访问
 
 ![public route](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fdefining-routes.png&w=1920&q=75)
 
-In this example, the `/dashboard/analytics` URL path is not publicly accessible because it does not have a corresponding `page.js` file. This folder could be used to store `components`, `stylesheets`, `images`, or other colocated files.
+在这个例子中， `/dashboard/analytics` URL 不是可以公开访问的，因为它不包含`page.js`.
 
-### Creating UI
+### Route Segments
 
-`Special file conventions` are used to create UI for each `route segment`. The most common are `page.tsx` to show UI unique to a route, and `layout.tsx` to show UI that is shared across multiple routes.
+每个文件夹代表一个 `route segment`. 每个 `route segment` 又对应 `URL Path`的一个 `segment`
+
+![route segments](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Froute-segments-to-path-segments.png&w=1920&q=75)
+
+
+### 嵌套路由
+-  `{folder}/{subfolder}/page.tsx` 定义页面 (*page handler*)
+-  `{folder}/{subfolder}/route.ts` 定义接口 (*api handler*)
+
+
+![nest layout](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layout.png&w=1920&q=75)
+![nest layout views](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layouts-ui.png&w=1920&q=75)
+
+
+### 动态路由
+ - `[folder]` 动态路由 
+ - `[...folder]` catch-all 动态路由 
+ - `[[...folder]]` optional catch-all 动态路由 
+
+### 分组路由
+`(folder)` 带括号的文件夹用于分组，对路由路径没有影响，在同一个分组下的页面可以共享一个layout, 可用分组路由根据业务模块组织代码文件
+
+![route group](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Froute-group-organisation.png&w=1920&q=75)
+
+### 私有文件夹
+`_folder` 带有下划线的文件夹, 里面的文件会被路由系统忽略，不会被识别为路由（即使包含 `page.tsx`）, 只能被其他文件引用。
+
+### 并列路由
+`@folder` （*文件夹名为slot名*) 定义并列路由, 可以在同一个layout下渲染多个页面
+
+![parallel route](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fparallel-routes.png&w=1920&q=75)
+
+### 拦截路由
+`(.)folder` `(..)folder` `(..)(..)folder`  `(...)floder` 拦截路由是指在当前页面通过`<Link>`跳转时, 若目标页面有对应的拦截路由，则会渲染该拦截路由下的page.
+
+![intercept route](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fintercepting-routes-soft-navigate.png&w=1920&q=75)
+![intercept route project stucture](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fintercepted-routes-files.png&w=1920&q=75)
+
+### 特殊文件名约定
+
+Next.js 提供了一组特殊文件去创建特殊组件，然后组织嵌套在一起，得到最终的UI
+
+- `layout.tsx`	布局组件，定义它下面pages共享的UI
+- `page.tsx`	页面组件，使当前文件路径可作为路由，被公开访问
+- `loading.tsx`	当前路由下的Loading组件
+- `not-found.tsx`	当前路由的Not found组件
+- `error.tsx`	当前路由的Error组件
+- `global-error.tsx`	全局的Error组件
+- `route.ts`	Server-side API endpoint
+- `template.tsx`	特殊的每次都重复渲染的Layout UI
+- `default.tsx`	Fallback UI for Parallel Routes
+
+### 特殊组件嵌套方式
+
+特殊组件都是当前路由所对应页面UI的一部分，它们交织形成完整的页面。
+
+
+![Component Hierarchy](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Ffile-conventions-component-hierarchy.png&w=1920&q=75)
+
+
+在嵌套路由中, 每个层级的route segment对应的特殊组件树，也会嵌套形成更大更深的组件树
+
+![nested routes component hierarchy](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-file-conventions-component-hierarchy.png&w=1920&q=75)
+
+
+### 其他文件组织方式
+我们可以把`components`, `styles`, `tests`等文件夹直接放在`app`目录下，这样它们就可以被其他文件引用了。因为它们不包含 `page.tsx` 或 `route.ts`，所以它们不会被Next.js识别为路由。
+
+同样，识别为路由的文件夹下面，也可以放 `components`, `styles`, `tests`等文件夹，这样它们就可以被当前路由下的页面引用了。
+
+```shell
+- app
+ - product
+   - page.tsx
+   - components
+   - Modal.tsx
+```
+
+这是因为当文件夹被识别为路由时，只有`page.tsx`或`route.ts`返回的内容，才是会被用户访问到的。如上例中，`Modal.tsx`的内容，不会被用户访问到，但是可以被`product`路由下的页面引用。
+
+
+![colocation](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fproject-organization-colocation.png&w=1920&q=75)
+
 
 ### Pages
-A page is UI that is unique to a route. You can define a page by default exporting a component from a `page.js` file.
+`page.tsx` 是对应当前route segment的页面组件
 
 ![page](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fpage-special-file.png&w=1920&q=75)
 
@@ -222,21 +165,14 @@ export default function Page() {
 }
 ```
 
+- 为了让文件夹被识别为页面路由，`page.js`文件是必须的。
+- Pages 默认是`Server Components`, 不过也可声明为 `Client Component`.
+- Pages 可以fetch data. 
 
-> A page is always the leaf of the route subtree.
-> A `page.js` file is required to make a route segment publicly accessible.
-> Pages are `Server Components` by default, but can be set to a `Client Component`.
-> Pages can fetch data. 
+### Layouts
+layout是跨route共享的UI，在导航时，layout会保持状态，保持交互性，不会重新渲染。layout也可以嵌套。
 
-
-### Layouts and Templates
-The special files `layout.js` and `template.js` allow you to create UI that is shared between routes.
-
-
-#### Layouts
-A layout is UI that is shared between multiple routes. On navigation, layouts preserve state, remain interactive, and do not re-render. Layouts can also be nested.
-
-For example, the layout will be shared with the /dashboard and /dashboard/settings pages:
+举个例子，以下的layout会被 `/dashboard` 和 `/dashboard/settings` 共享
 
 ![layout](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Flayout-special-file.png&w=1920&q=75)
 
@@ -259,9 +195,9 @@ export default function DashboardLayout({
 ```
 
 
-#### Root Layout (Required)
+### Root Layout
 
-The root layout is defined at the top level of the app directory and applies to all routes. This layout is required and must contain `html` and `body` tags, allowing you to modify the initial HTML returned from the server.
+root layout 是必须的，它位于`app/layout.tsx`, 不同于其他层级的layout, route layout必须包含 `html` 和 `body` 标签, 允许我们定义初始返回给浏览器的html内容。
 
 ```tsx
 export default function RootLayout({
@@ -281,25 +217,21 @@ export default function RootLayout({
 ```
 
 
-#### Nesting Layouts
-
-By default, layouts in the folder hierarchy are nested, which means they wrap child layouts via their `children` prop. 
+### Nesting Layouts
+layout是可以嵌套的，parent layout通过 `children` prop包裹child layout。
 
 ![nest layout](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layout.png&w=1920&q=75)
 ![nest layout views](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnested-layouts-ui.png&w=1920&q=75)
 
 
-> Only the `root layout` can contain `<html>` and `<body>` tags.
-> When a `layout.js` and `page.js` file are defined in the same folder, the layout will wrap the page.
-> Layouts are `Server Components` by default but can be set to a Client Component.
-> Layouts can fetch data.
-> Passing data between a parent layout and its children is not possible. However, you can fetch the same data in a route more than once, and React will automatically dedupe the requests without affecting performance.
-> You can use `Route Groups` to opt specific route segments in and out of shared layouts.
-> You can use `Route Groups` to create multiple `root layouts`. 
+当文件夹同时包含 `layout.js` 和 `page.js` 文件时，按照前面所说的特殊文件组织方式，layout会包裹page.  
+Layouts 可以 fetch data.  
+parent layout 和 child layout之间传递数据是不可能的，但是可以直接fetch相同的接口获取数据，fetch API会复用缓存数据, 避免性能影响  
+可以利用分组路由`Route Groups` 把需要相同布局的pages组织在一起，另外还可以利用`Route Groups`创建多个 `root layouts`.
 
 
 #### Templates
-Templates are similar to layouts in that they wrap a child layout or page. Unlike layouts that persist across routes and maintain state, templates create a new instance for each of their children on navigation
+Templates 类似 layouts, 不同的地方是templates在导航时为每个子路由创建一个新的实例。
 
 
 ![template](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Ftemplate-special-file.png&w=1920&q=75)
@@ -311,9 +243,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
 ```
 
 ### Metadata
-You can modify the `<head>` HTML elements such as `title` and `meta` using the` Metadata APIs`.
-
-Metadata can be defined by exporting a `metadata` object or `generateMetadata` function in a `layout.js` or `page.js` file.
+若需要修改 `<head>` HTML elements，可以使用 Metadata APIs。
+Metadata APIs 可以在 `page.js` 或 `layout.js` 文件中定义。
+导出 `metadata` 对象或 `generateMetadata` 函数来定义 metadata。
 
 ```tsx
 import type { Metadata } from 'next'
@@ -330,10 +262,7 @@ export async function generateMetadata({ params }) {
   }
 }
 ```
-
-The `metadata` object and `generateMetadata` function exports are only supported in `Server Components`.
-You **cannot** export both the `metadata` object and `generateMetadata` function from the same route segment.
-
+`generateMetadata`中可以发起数据请求，并且可以利用`params`参数获取当前路由的参数。
 
 ```tsx
 import type { Metadata, ResolvingMetadata } from 'next'
@@ -367,84 +296,138 @@ export async function generateMetadata(
 export default function Page({ params, searchParams }: Props) {}
 ```
 
-> If metadata doesn't depend on runtime information, it should be defined using the `static metadata object` rather than `generateMetadata`.
-> `fetch` requests are automatically memoized for the same data across generateMetadata, generateStaticParams, Layouts, Pages, and Server Components. React cache can be used if fetch is unavailable.
-> `searchParams` are only available in page.js segments.
-> The `redirect()` and `notFound()` Next.js methods can also be used inside `generateMetadata`.
 
-=============================================================================================================
+## 渲染
 
-
-
-`server component` should be `async` function  
-`client component` can **not** be `async` function, otherwise will throw some errors
-
-`server component` can not contain `interactions`  
-during full page load: `client components` are prerendered on the server  
-
-`server action` can be use in `client component`, will send an ajax to the route , return backend data, use with `<form action>` or element onClick callback
-hide real api ( *for sensitive data* )
+### Server component
+`server component` 应当声明为 `async` function, 因为通常都需要请求数据，然后通过props传递给`client component`  
+`server component` 不能包含交互，即不可进行DOM事件监听  
+`server component` 在后端渲染后，会被缓存，提高再次请求的响应速度。  
+渲染任务会根据 route segment 和`<Suspense>` boundaries进行分割，并且通过流的方式发送给客户端，以减少等待时间。  
+组件树通常会是`server component`和`client component`的互相交织，`server component`会被优先渲染执行。
 
 
---------
+服务端组件的内容, 也称为 `React Server Component Payload`， 它包含:
+- `server component`的渲染得到的虚拟Dom
+- `client component`的占位元素和引用
+- `server component`传给`client component`的props
 
-**fetch data on server or client**  
+渲染过程:  
+1. 根据服务端返回的html，渲染一个不可交互的页面
+1. 获取路由对应的服务端组件的内容(`React Server Component Payload`) 用来调和客户端和服务端组件树，更新DOM.
+1. 执行hydration, 使页面可以交互
 
-**server**  
-- less request, sensitive data, fater then client request, cached
-- whole page rerender on server
+### Client component
+`client component` 不可以声明为 `async` function, 否则会报错  
+作为入口路由的一部分时，`client components`也会在服务端执行。
 
-fetch  
-orm  
+`client component` 可以使用 `useEffect` 和 `useState` 等React hooks，绑定DOM事件，调用浏览器API.  
 
-
-**client**  
-- partial render
-- realtime data
-
-route handler    
-fetching lib  
-
-use fetch api: `server component` / `route handler` / `server actions`
+如果一个组件通过`use client`声明为客户端组件，那么它的子孙组件都会默认为客户端组件，除非显式声明为服务端组件。
 
 
-dynamically render (render on request time) / statically render (render on build time)
-
-fetch(api, { cahce: 'force-cache' })
-
-wrap component using fetch in Suspense , dynamically render this component , but not the entire page
+默认地，被识别为路由的文件夹下的layout和page会并行渲染。  
 
 
-`<Suspense fallback={<Loading />}> <Cart /> </Suspense>`
+渲染类型:
+- `static` (静态渲染) : 在构建时渲染，适用于静态页面，如博客文章，不会频繁更新。
+- `dynamic` (动态渲染) : 在请求时渲染，适用于需要频繁更新的页面，如用户个人主页，购物车等。
 
-**nextjs 14, fetch api will cached by default**
+Nextjs会自动选择使用`static rendering`还是`dynamic rendering`, 如果页面使用到`dynamic functions`那么就会采用动态渲染。
 
-multiple components in the component tree need the same data, just request the same api, do not need to globally fetch data and pass down, because of fetch cached
-
-can use react cache to memorize data requests for db during a react render pass
-
-```js
-import { cache } from react
-
-export const getitem = cache(async(id) => await db.item.findOne(id))
+`dynamic functions`是指:
+- `cookies()`
+- `headers()`
+- `props.searchParams`
 
 
-// swr or react query  , enable caching
-import useSWR from 'swr'
+常用组件开发模式：  
+`server component` fetch data, 通过props传递data给 `client component`
 
-Response.json(data)
+
+
+Next.js应用本质上就是一个包含服务端组件和客户端组件的组件树，当其中一个组件通过`use client`声明为客户端组件时，它就形成了一个client subtree
+
+client subtrees 也可以包含 `server components` 或者调用 `server actions` 
+
+```jsx
+<ClientComponent>
+  <ServerComponent />
+</ClientComponent>
 ```
 
-server component do not need to call route handler, it can directlly access db  
+在收到请求时，Next.js会先渲染server components，然后返回一个包含server components渲染结果的RSC payload，这个payload会包含client subtree的引用，在客户端，React会使用RSC payload来协调client subtree。 
+
+既然 client component 的渲染是在 server component的渲染之后，那么就不能在 client component 中导入 server component，因为那会导致一个新的请求回传到服务器，应该通过props将 server component 传递给 client component。
+
+```js
+// app/page.tsx
+import ClientComp from './client-component'
+import ServerComp from './server-component'
+
+export default function() {
+ return (
+  <ClientComp>
+      <ServerComp />
+  </ClientComp>
+)
+}
+```
+
+## 数据请求
+
+### Server action
+
+`server action` 可以在 `client component` 中使用, 会发送ajax请求给对应的路由，返回后端数据，可以隐藏真实API，可通过 `<form action>` 或 element onClick callback触发。
+
+### 服务端请求
+在 `server component` 中，可以使用 `fetch` 函数来发送请求，获取数据。  
+全页面刷新时，`server component` 会重新执行，获取最新的数据。
+
+服务端请求的优点有:
+- 减少请求数量
+- 保护敏感数据
+- 离数据源更近，更快获得数据
+- 可缓存，提高性能
+
+可以使用fetch API在服务端请求的地方:
+
+- `server component` 
+- `route handler` 
+- `server actions`
 
 
-parallel and sequential data fetching  
-`<Suspense fallback={<Loading />}> <Playlist artistId={artist.id} /> </Suspense>`  
-partial render and user can  interacte with it
+由于fetch会缓存数据，所以在服务端组件之间不需要使用单向数据流模式，通过props传递数据。直接在每个服务端组件fetch相同的接口即可，接口只会被请求一次。  
 
-by default, layout and page are rendered in parallel.
+server component 不需要通过fetch方法调用 route handler，它可以直接访问数据库  
 
-define data fetch fn outside the page component
+
+若用`<Suspense>`包裹组件，则组件会动态渲染，作为入口路由进行全页面渲染时不会包含该动态组件。
+
+```jsx
+<Suspense fallback={<Loading />}> <Cart /> </Suspense>
+```
+
+### fetch缓存
+
+fetch 设置缓存语法: `fetch(api, { cahce: 'force-cache' })`  
+
+fetch缓存有效性验证:
+1. time-based   
+  `fetch(api, {next: { revalidate: 3600 }})`
+2. tag-based & path-based  
+  ```js
+    import { revalidatePath, revalidateTag } from 'next/cache'
+
+    export async function createPost() {
+      revalidatePath('/posts')
+    }
+
+    fetch(api, { next: {tags: ['haha'] }})
+    revalidateTag('haha')
+  ```
+
+可以把获取数据的方法定义在page组件外部，然后在page组件中调用，这样就可以在多个组件中复用获取数据的方法。
 
 ```js
 async function getArtist() {
@@ -458,94 +441,53 @@ async function getAlbums() {
 
 export default async function page() {
   const [artist, albums] = await Promise.all([getArtist(), getAlbums()])
+
   return (
    <> <h1> {artist.name} </h1> <Albums list={albums} /> </>
   )
 }
 ```
 
-can use `<Suspense>` to break up the rendering work
+### 客户端请求
+客户端请求数据适用于这些场景:
+- 部分渲染，部分UI仅在客户端渲染，这部分UI所包含的数据只能从客户端发请求获得
+- 实时数据，如：搜索结果
 
 
-preloading data
-
-```js
-// app/item/[id]/page.tsx
-
-export default async function page({ params: {id} }) {
-  preloadDataOfItem(id) // fetch data , do not use 'await' to block 'checkAvailable'
-  const ok = await checkAvailable(id)
-
-  return ok ? <Item id={id} /> : null
-}
-```
-
-use `cache` and `server-only` with preload pattern  
-
-```js
-import { cache } from 'react'
-import `server-only`
-```
-
-preload data and cache response  
-
-prevent sensitive data from being exposed to client
-
-`next.config.js`  
-
-```js
-experimental: { taint: true }
-```
-
-caching and revalidating
-```js
-import { unstable_cache } from 'next/cache'
-fetch(api, { cache: 'force-cache'})
-```
-
-revalidating data
-
-time-based
-on-demand: tag-based or path-based approach
-
-`fetch(api, {next: { revalidate: 3600 }})`
-
-segment config options: `export const revalidate = 3600`
-
-```js
-import { revalidatePath, revalidateTag } from 'next/cache'
-
-export async function createPost() {
-  revalidatePath('/posts')
-}
-
-fetch(api, { next: {tags: ['haha'] }})
-revalidateTag('haha')
-```
-
-if revalidating error, will take use the latest cached data, next time do revalidate again
+### Server action
 
 **server actions and mutations**
 
-server actions are `async` functions run on the server, can be called in `server component` and `client component`
+server actions 是运行在服务端的 `async function`, 它可以在 `server component` 和 `client component` 被调用
 
-`'user server'` directive in the top of ts file, or on the top of async function body
+声明server actions:
+
+1. `'user server'` 指令，放在函数声明之前  
+  ```js
+    export default function Page() {
+      // server action
+      async function create() {
+        'user server'
+        // todo
+      }
+
+      return (<div>hi</div>)
+    }
+  ```
+2. `'user server'` 指令， 放在代码文件顶部  
+
+  ```js
+    // app/actions.ts
+    'user server'
+
+    export async function create() {
+      // todo
+    }
+  ```
+
+在client component中，使用server action
+
 ```js
-export default function Page() {
-  // server action
-  async function create() {
-     'user server'
-     // todo
-  }
-
-  return (<div>hi</div>)
-}
-
-// app/actions.ts
-'user server'
-
-export async function create() {...}
-
 // client component
 // app/ui/button.tsx
 'use client'
@@ -556,28 +498,10 @@ export function MyButton() {
   return <Button onClick={create} />
 }
 ```
-pass server action as props 
-props named as `action` or ending with `Action` are assumed to receive server actions
 
+Nextjs扩展了 `<form>` 元素，允许它的 `action` 属性接收server action
 
-form action  
-event handler  
-useEffect
-props
-
-server action integrate with caching and revalidation  
-
-server action will return the UI and new data  
-
-server actions inherit the route segment config from page or layout  
-
-react extend the `<form>` element to allow server actions to be invoked with the `action` prop  
-
-`<button>` `<input type="submit" />` support `formAction` prop. multiple server actions in a form
-
-`event.currentTarget.form?.requestSubmit()`  
-
-server-side form validation. `zod`
+`useActionState` hook, 可以获取server action的执行状态
 
 ```js
 // app/ui/signup.tsx
@@ -605,285 +529,32 @@ explort function Signup () {
 ```
 
 
-```js
-useFormStatus()  
-useOptimistic()
-```
+server action 应当被看做一个公开的接口，不过这个接口的地址是一些没有语义的随机字符
 
-server action use in event handler  
-debounce server action  
 
-server action use in `useEffect`
 
+## 常见问题
 
-error handling, nearest 'error.js'
+### 如何在layout中访问请求对象?
 
-in server action revalidate data
-```js
-import { revalidatePath } from 'next/cache'
+出于在页面间导航时重用layout的目的，`layout.tsx` 不能访问原始的request对象。但是，你可以使用`headers()`和`cookies()`方法来访问相对的请求信息。
 
-export async function createPost() {
-  revalidatePath('/posts')
-}
 
-```
-in server action, use redirect, `redirect()` should be used outside of `try...catch`
+### 如何访问页面的URL?
 
-```js
-import { redirect } from 'next/navigation'
+page默认是server component, 所以无法直接访问URL, 可以使用`usePathname`和`useSearchParams`来获取URL, 另外page的props中也有`params`和`searchParams`属性, 可以直接访问.
 
-redirect('/post/123')
-```
 
-in server action, use cookies
+### Server component中怎样重定向到其他页面?
 
-```js
-'use server'
+在server component中, 可以使用`redirect()`或`permanentRedirect()`方法来重定向到其他页面.
 
-import { cookies } from 'next/headers'
 
-export async function exampleAction() {
-  const cookieStore = cookies()
-  const val = cookieStore.get('name')?.value
-  cookieStore.set('name', 'lufy')
-  cookieStore.delete('name')
-}
-```
+### 怎样设置cookies?
+ 可以在`Server Actions`, `Middleware` or `Route Handlers`使用`cookies()`方法来设置cookies.
+You can set cookies in `Server Actions` or `Route Handlers` using the cookies function.
 
-server action security
+> 注意: 我们不能在page或layout中直接设置cookies, 因为HTTP不允许在流式传输开始后设置cookies。
 
-server action should be treated as public-facing API
-
-```js
-'use server'
-
-import { auth } from './lib'
-
-export function addItem() {
-  const { user } = auth()
-  if (!user) {
-    throw new Error('please sign in')
-  }
-}
-```
-react taint APIs  
-
-server action use `POST` method , avoid csrf attack  
-
-NEXT_SERVER_ACTION_ENCRYPTION_KEY , compare `origin` header and `host` header  
-
-server component  
-
-render and cached on the server  
-rendering work is split by route segments to enable streaming and partial rendering
-
-**render strategies**
-- static rendering
-- dynamic rendering
-- streaming
-
-benefits of server rendering
-
-data fetching more closer to data source, faster , safer, reduce requests, caching
-
-reduce the amount of client-side js, less client-side js to download , parse and execute
-
-First Cotnentful Paint , initial page load   
-
-**SEO**  
-
-server components allow to split the rendering work into chunks and stream them to the client as they become ready.   
-user can see parts of the page earlier
-
-
-by default, nextjs use server components
-
-how are server components rendered?
-
-the rendering work is split into chunks by route segments and `<Suspense>` boundaries
-
-server component special format: `React Server Component Payload`
-
-> show a fast non-interactive preview of the route  
-> react server component payload is used to reconcile the client and server component tree and update dom
-> js instructions hydrate client components, make app interactive
-
-
-*what is the react server component payload?*  
-render result of server component  
-placeholder for where client component should be rendered  
-props passed from server component to client component.  
-
-*static rendering*
-routes are rendered at build time. result can be cached and push to CDN   
-no personalized data
-
-
-*dynamic rendering*  
-routes are rendered for each user at request time.  
-personalized data or data only be known at request time, such as cookie and search params
-
-
-*switch to dynamic rendering*  
-`dynamic function` or uncached data request is discovered , dynamically render the whole route
-
-> nextjs automatically choose static rendering or dynamic rendering based on the features and apis used.
-
-**dynamic functions**
-- cookies headers searchParams
-- `cookies()`
-- `headers()`
-- `searchParams` prop
-
-*streaming is built into app router by default.*  
-
-
-*client components*  
-prerender on the server  
-use client js to run in browser  
-
-
-*benefits of client rendering*  
-- interactivity, client component can use state effects and event listeners  
-- browser apis  
-
-`'use client'`, declare a boundary between a server component and client component
-all child module and child components are considered part of the client bundle.
-
-by default, all components in the app router are server components
-
-define multiple `'use client'` entry points in component tree, will split application into multiple client bundles
-
-*how are client component rendered?*  
-
-full page load: use react apis to render a static html preview on the server for client component and server component.
-
-*on server:*  
-render server component into server component payload which includes references to client component
-nextjs use `RSC` payload and client component `js instructions `to render html for the page route on the server.
-
-*on client:*  
-show a fast non-interactive preview of the page  
-server component payload is used to reconcile the client and server component trees and update the dom  
-the `js instructions` are used to hydrate client components and make UI interactive
-
-
-> hydrate is the process of attaching event listeners to dom , make ui interactive  `hydrateRoot()`
-
-*subsequent navigation*  
-client components are rendered entirely on the client, this means the client component js bundle is downloaded and parsed,  
-react use RSC payload to reconcile the client and server component tree.
-
-after declared the `'use client'` boundary, if want to go back to the server environment (eg: reduce bundle size, fetch data on server)
-
-*server and client composition pattern*  
-
-*server component pattern*  
-do some work on the server, like fetching data , accessing db, or other backend services
-share data between components ( *a layout and a page depend on the same data* )
-
-*react context is not available on the server*   
-instead of using react context or passing data as props, we can use `fetch` or react `cache` function to fetch the same data in components
-
-keep server-only code out of the client environment
-
-```js
-// lib/data.ts
-export async function getData() {
-  const res = await fetch(api, headers: { authorization: process.env.API_KEY /* sensitive data */ } )
-  return res.json()
-}
-```
-
-private environment variable: `API_KEY`
-public environment variable: `NEXT_PUBLIC_XXX`
-
-```js
-npm i server-only
-
-import 'server-only'
-
-export async function getData() {... }
-```
-
-like this, to aviod accidentally import 'getData' into client component
-
-the corresponding package `client-only`  
-
-server component is a new react feature,  `'use server'` directive, `'use client'` directive
-
-third-party packages without `'use client'` directive, won't work within server components, wrap it in a new jsx file
-
-create `context` in the app/layout will cause error
-
-should render 'context.provider' as deep as possible in the tree.
-
-
-*client component*  
-to reduce the client js bundle size, recommend moving client component down component tree
-
-fetch data in a server component, pass data down as props to client component  
-
-*interleaving server and client components*  
-
-app is a component tree including server components and client component, add `'use client'` to mark a subtree as client component tree
-
-client subtrees can nested server components or call server actions ` <ClientComponent><ServerComponent /> </ClientComponent>`
-
-> at request time, server components are rendered first, including those nested inside client subtree. the rendered result (RSC payload) will contain references to the locations of the client subtree. on client, react use RSC payload to reconcile server component and client component into a single tree.
-
-> since client components are rendered after server components, can not import a server component into a client component (it would require a new request back to the server), should pass the server component as 'props' to a client component
-
-```js
-// app/page.tsx
-import ClientComp from './client-component'
-import ServerComp from './server-component'
-
-export default function() {
- return (
-  <ClientComp>
-      <ServerComp />
-  </ClientComp>
-)
-}
-```
-
-*partial prerendering*  
-
-combine static component and dynamic component together in the same route
-
-during the build , nextjs prerender as much of the route as possible, 
-dynamic components should be wrapped with a `<Suspense>` boundary,  suspense boundary fallback will be included in the prerendered html.   
-partial prerendering is an experimental feature
-
-*next.config.js*  
-```js
-experimental: { ppr: 'incremental' } next.js v15
-experimental: { ppr: true } next.js v14
-
-export const experimental_ppr = true
-```
-
-----------
-
-- *server component only renders on the server*
-- *client componen renders on both the client and server side*
-
-> server component fetch data, will block the request.
-
-no global stores, the store should be created per request. do not share store across requests   
-server component should not read or write redux store.  RSC can not use hooks or context.   
-store should only contains global mutable data
-
-next.js multi-page architecture
-
-`makeStore` create store instance per-request 
-
-
-`useEffect` only runs on the client  
-`useSelector`  `useState` runs both on server and client?
-
-state levels: 
-- app level 
-- request level 
-- route level or page level
+## 总结
+Next.js是一个强大的React框架，它提供了许多功能，如静态网站生成、服务器端渲染和API路由。通过使用Next.js，我们可以轻松地构建高性能的Web应用程序。
