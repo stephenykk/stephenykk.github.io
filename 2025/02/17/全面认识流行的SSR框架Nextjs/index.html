@@ -1,0 +1,783 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>全面认识流行的SSR框架Nextjs - JKK随笔</title>
+
+  
+    <meta name="description" content="现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，Next.js是一个基于react的SSR框架，能够帮助我们快速搭建SSR项目. 希望本文能让大家对Next.js有一个全面的了解，看完后有所收获 :) 简介Next.js 是一个基于react的SS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全面认识流行的SSR框架Nextjs">
+<meta property="og:url" content="https://panzhenjie.fun/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，Next.js是一个基于react的SSR框架，能够帮助我们快速搭建SSR项目. 希望本文能让大家对Next.js有一个全面的了解，看完后有所收获 :) 简介Next.js 是一个基于react的SS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/terminology-component-tree.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/next-router-directories.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/route-segments-to-path-segments.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/defining-routes.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/route-segments-to-path-segments.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/nested-layout.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/nested-layouts-ui.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/route-group-organisation.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/parallel-routes.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/intercepting-routes-soft-navigate.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/intercepted-routes-files.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/file-conventions-component-hierarchy.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/nested-file-conventions-component-hierarchy.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/project-organization-colocation.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/page-special-file.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/layout-special-file.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/nested-layout.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/nested-layouts-ui.png&w=1920&q=75">
+<meta property="og:image" content="https://nextjs.org/_next/image?url=/docs/light/template-special-file.png&w=1920&q=75">
+<meta property="article:published_time" content="2025-02-17T12:55:33.000Z">
+<meta property="article:modified_time" content="2025-02-17T12:55:33.322Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="Nextjs">
+<meta property="article:tag" content="SSR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nextjs.org/_next/image?url=/docs/light/terminology-component-tree.png&w=1920&q=75">
+  
+  
+  
+  <meta name="keywords" content="Nextjs,SSR">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/"><span class="title">全面认识流行的SSR框架Nextjs</span></a><a class="item title" href="/2024/12/10/SQL%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/"><span class="title">SQL基础入门</span></a><a class="item title" href="/2024/02/26/SQL%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL零基础入门图文教程</span></a><a class="item title" href="/2024/03/01/MySQL%E9%AB%98%E7%BA%A7SQL%E8%AF%AD%E5%8F%A5%E8%BF%9B%E9%98%B6/"><span class="title">MySQL高级SQL语句进阶</span></a><a class="item title" href="/2024/03/01/SQL%E6%A6%82%E5%BF%B5%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><span class="title">SQL概念及数据库表的基本操作</span></a><a class="item title" href="/2024/03/01/PHP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP基础知识总结</span></a><a class="item title" href="/2025/01/07/PHP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%BB%88%E7%AB%A0/"><span class="title">PHP基础知识终章</span></a><a class="item title" href="/2024/04/10/curl%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/"><span class="title">curl实用教程</span></a><a class="item title" href="/2024/02/26/Python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"><span class="title">Python基础教程</span></a><a class="item title" href="/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/"><span class="title">软硬链接小白文</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Nextjs/">Nextjs</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-17T12:55:33.000Z">2025-02-17</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-17T12:55:33.322Z">2025-02-17</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>全面认识流行的SSR框架Nextjs</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，<code>Next.js</code>是一个基于react的SSR框架，能够帮助我们快速搭建SSR项目.</p>
+<p>希望本文能让大家对<code>Next.js</code>有一个全面的了解，看完后有所收获 :)</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>Next.js</code> 是一个基于react的SSR框架, 用于构建全栈web应用. 开发者只需专注于用react构建UI, <code>Next.js</code> 帮助我们做优化（SEO &#x2F; 图片加载 &#x2F; 页面性能等）, 并且提供了很多其他功能.</p>
+<p><code>Next.js</code>使用webpack作为构建工具, 并且默认配置好了TS、Eslint和tailwind.css.</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>基于file-system的路由</li>
+<li>客户端和服务端渲染</li>
+<li>扩展fetch API, 简化数据请求</li>
+<li>支持很多样式方案, 如: css module, tailwind css and css-in-js, sass</li>
+<li>优化图片和脚本加载</li>
+<li>全面支持TS</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>创建next.js项目</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npx create-next-app@latest my-app<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h2><p>支持两种路由方式: <strong>app router</strong> 和 <strong>pages router</strong></p>
+<blockquote>
+<p>app router 支持最新的react特性, 如 <code>server component</code>, <code>streaming</code> and <code>server actions</code></p>
+</blockquote>
+<p>项目结构示例:</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/terminology-component-tree.png&w=1920&q=75" alt="hierarchical folders"></p>
+<p>在 Next.js version 13, 引入了全新的App Router，它是基于<code>React Server Components</code>实现的.<br>App Router 会把所有的代码都放在名为<code>app</code>文件夹中. <code>app</code> 文件夹可以和 <code>pages</code> 文件夹共同存在，允许我们将旧项目逐步地切换到新的 App Router。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/next-router-directories.png&w=1920&q=75" alt="using two routing system"></p>
+<p>默认地出于性能优化的考虑, <code>app</code>文件夹下的组件都是 <code>Server Components</code>，不过我们也可以在文件开头声明<code>use client</code>把组件变为<code>Client Components</code>.</p>
+<h3 id="文件夹和文件的作用"><a href="#文件夹和文件的作用" class="headerlink" title="文件夹和文件的作用"></a>文件夹和文件的作用</h3><ul>
+<li><code>Folders</code> 用于定义路由. 如: <code>app/dashboard</code></li>
+<li><code>Files</code> 用于定义路由对应的UI, 如 <code>app/dashboard/layout.tsx</code> 和 <code>app/dashboard/page.tsx</code></li>
+</ul>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/route-segments-to-path-segments.png&w=1920&q=75" alt="route segment"></p>
+<p><code>page.js</code> 可以让当前文件夹被识别为路由，即可被公开访问</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/defining-routes.png&w=1920&q=75" alt="public route"></p>
+<p>在这个例子中， <code>/dashboard/analytics</code> URL 不是可以公开访问的，因为它不包含<code>page.js</code>.</p>
+<h3 id="Route-Segments"><a href="#Route-Segments" class="headerlink" title="Route Segments"></a>Route Segments</h3><p>每个文件夹代表一个 <code>route segment</code>. 每个 <code>route segment</code> 又对应 <code>URL Path</code>的一个 <code>segment</code></p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/route-segments-to-path-segments.png&w=1920&q=75" alt="route segments"></p>
+<h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><ul>
+<li><code>&#123;folder&#125;/&#123;subfolder&#125;/page.tsx</code> 定义页面 (<em>page handler</em>)</li>
+<li><code>&#123;folder&#125;/&#123;subfolder&#125;/route.ts</code> 定义接口 (<em>api handler</em>)</li>
+</ul>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/nested-layout.png&w=1920&q=75" alt="nest layout"><br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/nested-layouts-ui.png&w=1920&q=75" alt="nest layout views"></p>
+<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><ul>
+<li><code>[folder]</code> 动态路由 </li>
+<li><code>[...folder]</code> catch-all 动态路由 </li>
+<li><code>[[...folder]]</code> optional catch-all 动态路由</li>
+</ul>
+<h3 id="分组路由"><a href="#分组路由" class="headerlink" title="分组路由"></a>分组路由</h3><p><code>(folder)</code> 带括号的文件夹用于分组，对路由路径没有影响，在同一个分组下的页面可以共享一个layout, 可用分组路由根据业务模块组织代码文件</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/route-group-organisation.png&w=1920&q=75" alt="route group"></p>
+<h3 id="私有文件夹"><a href="#私有文件夹" class="headerlink" title="私有文件夹"></a>私有文件夹</h3><p><code>_folder</code> 带有下划线的文件夹, 里面的文件会被路由系统忽略，不会被识别为路由（即使包含 <code>page.tsx</code>）, 只能被其他文件引用。</p>
+<h3 id="并列路由"><a href="#并列路由" class="headerlink" title="并列路由"></a>并列路由</h3><p><code>@folder</code> （<em>文件夹名为slot名</em>) 定义并列路由, 可以在同一个layout下渲染多个页面</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/parallel-routes.png&w=1920&q=75" alt="parallel route"></p>
+<h3 id="拦截路由"><a href="#拦截路由" class="headerlink" title="拦截路由"></a>拦截路由</h3><p><code>(.)folder</code> <code>(..)folder</code> <code>(..)(..)folder</code>  <code>(...)floder</code> 拦截路由是指在当前页面通过<code>&lt;Link&gt;</code>跳转时, 若目标页面有对应的拦截路由，则会渲染该拦截路由下的page.</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/intercepting-routes-soft-navigate.png&w=1920&q=75" alt="intercept route"><br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/intercepted-routes-files.png&w=1920&q=75" alt="intercept route project stucture"></p>
+<h3 id="特殊文件名约定"><a href="#特殊文件名约定" class="headerlink" title="特殊文件名约定"></a>特殊文件名约定</h3><p>Next.js 提供了一组特殊文件去创建特殊组件，然后组织嵌套在一起，得到最终的UI</p>
+<ul>
+<li><code>layout.tsx</code>	布局组件，定义它下面pages共享的UI</li>
+<li><code>page.tsx</code>	页面组件，使当前文件路径可作为路由，被公开访问</li>
+<li><code>loading.tsx</code>	当前路由下的Loading组件</li>
+<li><code>not-found.tsx</code>	当前路由的Not found组件</li>
+<li><code>error.tsx</code>	当前路由的Error组件</li>
+<li><code>global-error.tsx</code>	全局的Error组件</li>
+<li><code>route.ts</code>	Server-side API endpoint</li>
+<li><code>template.tsx</code>	特殊的每次都重复渲染的Layout UI</li>
+<li><code>default.tsx</code>	Fallback UI for Parallel Routes</li>
+</ul>
+<h3 id="特殊组件嵌套方式"><a href="#特殊组件嵌套方式" class="headerlink" title="特殊组件嵌套方式"></a>特殊组件嵌套方式</h3><p>特殊组件都是当前路由所对应页面UI的一部分，它们交织形成完整的页面。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/file-conventions-component-hierarchy.png&w=1920&q=75" alt="Component Hierarchy"></p>
+<p>在嵌套路由中, 每个层级的route segment对应的特殊组件树，也会嵌套形成更大更深的组件树</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/nested-file-conventions-component-hierarchy.png&w=1920&q=75" alt="nested routes component hierarchy"></p>
+<h3 id="其他文件组织方式"><a href="#其他文件组织方式" class="headerlink" title="其他文件组织方式"></a>其他文件组织方式</h3><p>我们可以把<code>components</code>, <code>styles</code>, <code>tests</code>等文件夹直接放在<code>app</code>目录下，这样它们就可以被其他文件引用了。因为它们不包含 <code>page.tsx</code> 或 <code>route.ts</code>，所以它们不会被Next.js识别为路由。</p>
+<p>同样，识别为路由的文件夹下面，也可以放 <code>components</code>, <code>styles</code>, <code>tests</code>等文件夹，这样它们就可以被当前路由下的页面引用了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">- app<br> - product<br>   - page.tsx<br>   - components<br>   - Modal.tsx<br></code></pre></td></tr></table></figure>
+
+<p>这是因为当文件夹被识别为路由时，只有<code>page.tsx</code>或<code>route.ts</code>返回的内容，才是会被用户访问到的。如上例中，<code>Modal.tsx</code>的内容，不会被用户访问到，但是可以被<code>product</code>路由下的页面引用。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/project-organization-colocation.png&w=1920&q=75" alt="colocation"></p>
+<h3 id="Pages"><a href="#Pages" class="headerlink" title="Pages"></a>Pages</h3><p><code>page.tsx</code> 是对应当前route segment的页面组件</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/page-special-file.png&w=1920&q=75" alt="page"></p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// `app/page.tsx` is the UI for the `/` URL</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, Home page!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>为了让文件夹被识别为页面路由，<code>page.js</code>文件是必须的。</li>
+<li>Pages 默认是<code>Server Components</code>, 不过也可声明为 <code>Client Component</code>.</li>
+<li>Pages 可以fetch data.</li>
+</ul>
+<h3 id="Layouts"><a href="#Layouts" class="headerlink" title="Layouts"></a>Layouts</h3><p>layout是跨route共享的UI，在导航时，layout会保持状态，保持交互性，不会重新渲染。layout也可以嵌套。</p>
+<p>举个例子，以下的layout会被 <code>/dashboard</code> 和 <code>/dashboard/settings</code> 共享</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/layout-special-file.png&w=1920&q=75" alt="layout"></p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">DashboardLayout</span>(<span class="hljs-params">&#123;</span><br><span class="hljs-params">  children, // will be a page or nested layout</span><br><span class="hljs-params">&#125;: &#123;</span><br><span class="hljs-params">  children: React.ReactNode</span><br><span class="hljs-params">&#125;</span>) &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span></span><br><span class="language-xml">      &#123;/* Include shared UI here e.g. a header or sidebar */&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span></span><br><span class="language-xml"> </span><br><span class="language-xml">      &#123;children&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="Root-Layout"><a href="#Root-Layout" class="headerlink" title="Root Layout"></a>Root Layout</h3><p>root layout 是必须的，它位于<code>app/layout.tsx</code>, 不同于其他层级的layout, route layout必须包含 <code>html</code> 和 <code>body</code> 标签, 允许我们定义初始返回给浏览器的html内容。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">RootLayout</span>(<span class="hljs-params">&#123;</span><br><span class="hljs-params">  children,</span><br><span class="hljs-params">&#125;: &#123;</span><br><span class="hljs-params">  children: React.ReactNode</span><br><span class="hljs-params">&#125;</span>) &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml">        &#123;/* Layout UI */&#125;</span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>&#123;children&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="Nesting-Layouts"><a href="#Nesting-Layouts" class="headerlink" title="Nesting Layouts"></a>Nesting Layouts</h3><p>layout是可以嵌套的，parent layout通过 <code>children</code> prop包裹child layout。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/nested-layout.png&w=1920&q=75" alt="nest layout"><br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/nested-layouts-ui.png&w=1920&q=75" alt="nest layout views"></p>
+<p>当文件夹同时包含 <code>layout.js</code> 和 <code>page.js</code> 文件时，按照前面所说的特殊文件组织方式，layout会包裹page.<br>Layouts 可以 fetch data.<br>parent layout 和 child layout之间传递数据是不可能的，但是可以直接fetch相同的接口获取数据，fetch API会复用缓存数据, 避免性能影响<br>可以利用分组路由<code>Route Groups</code> 把需要相同布局的pages组织在一起，另外还可以利用<code>Route Groups</code>创建多个 <code>root layouts</code>.</p>
+<h4 id="Templates"><a href="#Templates" class="headerlink" title="Templates"></a>Templates</h4><p>Templates 类似 layouts, 不同的地方是templates在导航时为每个子路由创建一个新的实例。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://nextjs.org/_next/image?url=/docs/light/template-special-file.png&w=1920&q=75" alt="template"></p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Template</span>(<span class="hljs-params">&#123; children &#125;: &#123; children: React.ReactNode &#125;</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>&#123;children&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h3><p>若需要修改 <code>&lt;head&gt;</code> HTML elements，可以使用 Metadata APIs。<br>Metadata APIs 可以在 <code>page.js</code> 或 <code>layout.js</code> 文件中定义。<br>导出 <code>metadata</code> 对象或 <code>generateMetadata</code> 函数来定义 metadata。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> &#123; <span class="hljs-title class_">Metadata</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next&#x27;</span><br> <br><span class="hljs-comment">// either Static metadata</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">metadata</span>: <span class="hljs-title class_">Metadata</span> = &#123;<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;...&#x27;</span>,<br>&#125;<br> <br><span class="hljs-comment">// or Dynamic metadata</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateMetadata</span>(<span class="hljs-params">&#123; params &#125;</span>) &#123;<br>  <span class="hljs-keyword">return</span> &#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;...&#x27;</span>,<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>generateMetadata</code>中可以发起数据请求，并且可以利用<code>params</code>参数获取当前路由的参数。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> &#123; <span class="hljs-title class_">Metadata</span>, <span class="hljs-title class_">ResolvingMetadata</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next&#x27;</span><br> <br><span class="hljs-keyword">type</span> <span class="hljs-title class_">Props</span> = &#123;<br>  <span class="hljs-attr">params</span>: &#123; <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span> &#125;<br>  <span class="hljs-attr">searchParams</span>: &#123; [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | <span class="hljs-literal">undefined</span> &#125;<br>&#125;<br> <br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateMetadata</span>(<span class="hljs-params"></span><br><span class="hljs-params">  &#123; params, searchParams &#125;: Props,</span><br><span class="hljs-params">  parent: ResolvingMetadata</span><br><span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">Metadata</span>&gt; &#123;<br>  <span class="hljs-comment">// read route params</span><br>  <span class="hljs-keyword">const</span> id = params.<span class="hljs-property">id</span><br> <br>  <span class="hljs-comment">// fetch data</span><br>  <span class="hljs-keyword">const</span> product = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`https://.../<span class="hljs-subst">$&#123;id&#125;</span>`</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> res.<span class="hljs-title function_">json</span>())<br> <br>  <span class="hljs-comment">// optionally access and extend (rather than replace) parent metadata</span><br>  <span class="hljs-keyword">const</span> previousImages = (<span class="hljs-keyword">await</span> parent).<span class="hljs-property">openGraph</span>?.<span class="hljs-property">images</span> || []<br> <br>  <span class="hljs-keyword">return</span> &#123;<br>    <span class="hljs-attr">title</span>: product.<span class="hljs-property">title</span>,<br>    <span class="hljs-attr">openGraph</span>: &#123;<br>      <span class="hljs-attr">images</span>: [<span class="hljs-string">&#x27;/some-specific-page-image.jpg&#x27;</span>, ...previousImages],<br>    &#125;,<br>  &#125;<br>&#125;<br> <br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params">&#123; params, searchParams &#125;: Props</span>) &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h2><h3 id="Server-component"><a href="#Server-component" class="headerlink" title="Server component"></a>Server component</h3><p><code>server component</code> 应当声明为 <code>async</code> function, 因为通常都需要请求数据，然后通过props传递给<code>client component</code><br><code>server component</code> 不能包含交互，即不可进行DOM事件监听<br><code>server component</code> 在后端渲染后，会被缓存，提高再次请求的响应速度。<br>渲染任务会根据 route segment 和<code>&lt;Suspense&gt;</code> boundaries进行分割，并且通过流的方式发送给客户端，以减少等待时间。<br>组件树通常会是<code>server component</code>和<code>client component</code>的互相交织，<code>server component</code>会被优先渲染执行。</p>
+<p>服务端组件的内容, 也称为 <code>React Server Component Payload</code>， 它包含:</p>
+<ul>
+<li><code>server component</code>的渲染得到的虚拟Dom</li>
+<li><code>client component</code>的占位元素和引用</li>
+<li><code>server component</code>传给<code>client component</code>的props</li>
+</ul>
+<p>渲染过程:  </p>
+<ol>
+<li>根据服务端返回的html，渲染一个不可交互的页面</li>
+<li>获取路由对应的服务端组件的内容(<code>React Server Component Payload</code>) 用来调和客户端和服务端组件树，更新DOM.</li>
+<li>执行hydration, 使页面可以交互</li>
+</ol>
+<h3 id="Client-component"><a href="#Client-component" class="headerlink" title="Client component"></a>Client component</h3><p><code>client component</code> 不可以声明为 <code>async</code> function, 否则会报错<br>作为入口路由的一部分时，<code>client components</code>也会在服务端执行。</p>
+<p><code>client component</code> 可以使用 <code>useEffect</code> 和 <code>useState</code> 等React hooks，绑定DOM事件，调用浏览器API.  </p>
+<p>如果一个组件通过<code>use client</code>声明为客户端组件，那么它的子孙组件都会默认为客户端组件，除非显式声明为服务端组件。</p>
+<p>默认地，被识别为路由的文件夹下的layout和page会并行渲染。  </p>
+<p>渲染类型:</p>
+<ul>
+<li><code>static</code> (静态渲染) : 在构建时渲染，适用于静态页面，如博客文章，不会频繁更新。</li>
+<li><code>dynamic</code> (动态渲染) : 在请求时渲染，适用于需要频繁更新的页面，如用户个人主页，购物车等。</li>
+</ul>
+<p>Nextjs会自动选择使用<code>static rendering</code>还是<code>dynamic rendering</code>, 如果页面使用到<code>dynamic functions</code>那么就会采用动态渲染。</p>
+<p><code>dynamic functions</code>是指:</p>
+<ul>
+<li><code>cookies()</code></li>
+<li><code>headers()</code></li>
+<li><code>props.searchParams</code></li>
+</ul>
+<p>常用组件开发模式：<br><code>server component</code> fetch data, 通过props传递data给 <code>client component</code></p>
+<p>Next.js应用本质上就是一个包含服务端组件和客户端组件的组件树，当其中一个组件通过<code>use client</code>声明为客户端组件时，它就形成了一个client subtree</p>
+<p>client subtrees 也可以包含 <code>server components</code> 或者调用 <code>server actions</code> </p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsx">&lt;<span class="hljs-title class_">ClientComponent</span>&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ServerComponent</span> /&gt;</span></span><br>&lt;/<span class="hljs-title class_">ClientComponent</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在收到请求时，Next.js会先渲染server components，然后返回一个包含server components渲染结果的RSC payload，这个payload会包含client subtree的引用，在客户端，React会使用RSC payload来协调client subtree。 </p>
+<p>既然 client component 的渲染是在 server component的渲染之后，那么就不能在 client component 中导入 server component，因为那会导致一个新的请求回传到服务器，应该通过props将 server component 传递给 client component。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// app/page.tsx</span><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">ClientComp</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./client-component&#x27;</span><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">ServerComp</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./server-component&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br> <span class="hljs-keyword">return</span> (<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ClientComp</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">ServerComp</span> /&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">ClientComp</span>&gt;</span></span><br>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="数据请求"><a href="#数据请求" class="headerlink" title="数据请求"></a>数据请求</h2><h3 id="Server-action"><a href="#Server-action" class="headerlink" title="Server action"></a>Server action</h3><p><code>server action</code> 可以在 <code>client component</code> 中使用, 会发送ajax请求给对应的路由，返回后端数据，可以隐藏真实API，可通过 <code>&lt;form action&gt;</code> 或 element onClick callback触发。</p>
+<h3 id="服务端请求"><a href="#服务端请求" class="headerlink" title="服务端请求"></a>服务端请求</h3><p>在 <code>server component</code> 中，可以使用 <code>fetch</code> 函数来发送请求，获取数据。<br>全页面刷新时，<code>server component</code> 会重新执行，获取最新的数据。</p>
+<p>服务端请求的优点有:</p>
+<ul>
+<li>减少请求数量</li>
+<li>保护敏感数据</li>
+<li>离数据源更近，更快获得数据</li>
+<li>可缓存，提高性能</li>
+</ul>
+<p>可以使用fetch API在服务端请求的地方:</p>
+<ul>
+<li><code>server component</code> </li>
+<li><code>route handler</code> </li>
+<li><code>server actions</code></li>
+</ul>
+<p>由于fetch会缓存数据，所以在服务端组件之间不需要使用单向数据流模式，通过props传递数据。直接在每个服务端组件fetch相同的接口即可，接口只会被请求一次。  </p>
+<p>server component 不需要通过fetch方法调用 route handler，它可以直接访问数据库  </p>
+<p>若用<code>&lt;Suspense&gt;</code>包裹组件，则组件会动态渲染，作为入口路由进行全页面渲染时不会包含该动态组件。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jsx">&lt;<span class="hljs-title class_">Suspense</span> fallback=&#123;<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Loading</span> /&gt;</span></span>&#125;&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Cart</span> /&gt;</span></span> &lt;/<span class="hljs-title class_">Suspense</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="fetch缓存"><a href="#fetch缓存" class="headerlink" title="fetch缓存"></a>fetch缓存</h3><p>fetch 设置缓存语法: <code>fetch(api, &#123; cahce: &#39;force-cache&#39; &#125;)</code>  </p>
+<p>fetch缓存有效性验证:</p>
+<ol>
+<li>time-based<br>  <code>fetch(api, &#123;next: &#123; revalidate: 3600 &#125;&#125;)</code></li>
+<li>tag-based &amp; path-based    <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; revalidatePath, revalidateTag &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/cache&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">createPost</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-title function_">revalidatePath</span>(<span class="hljs-string">&#x27;/posts&#x27;</span>)<br>&#125;<br><br><span class="hljs-title function_">fetch</span>(api, &#123; <span class="hljs-attr">next</span>: &#123;<span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;haha&#x27;</span>] &#125;&#125;)<br><span class="hljs-title function_">revalidateTag</span>(<span class="hljs-string">&#x27;haha&#x27;</span>)<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>可以把获取数据的方法定义在page组件外部，然后在page组件中调用，这样就可以在多个组件中复用获取数据的方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getArtist</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(api)<br>  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">json</span>()<br>&#125;<br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAlbums</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(api)<br>  <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">json</span>()<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">page</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> [artist, albums] = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([<span class="hljs-title function_">getArtist</span>(), <span class="hljs-title function_">getAlbums</span>()])<br><br>  <span class="hljs-keyword">return</span> (<br>   <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span> &#123;artist.name&#125; <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">Albums</span> <span class="hljs-attr">list</span>=<span class="hljs-string">&#123;albums&#125;</span> /&gt;</span> <span class="hljs-tag">&lt;/&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="客户端请求"><a href="#客户端请求" class="headerlink" title="客户端请求"></a>客户端请求</h3><p>客户端请求数据适用于这些场景:</p>
+<ul>
+<li>部分渲染，部分UI仅在客户端渲染，这部分UI所包含的数据只能从客户端发请求获得</li>
+<li>实时数据，如：搜索结果</li>
+</ul>
+<h3 id="Server-action-1"><a href="#Server-action-1" class="headerlink" title="Server action"></a>Server action</h3><p><strong>server actions and mutations</strong></p>
+<p>server actions 是运行在服务端的 <code>async function</code>, 它可以在 <code>server component</code> 和 <code>client component</code> 被调用</p>
+<p>声明server actions:</p>
+<ol>
+<li><code>&#39;user server&#39;</code> 指令，放在函数声明之前    <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-comment">// server action</span><br>  <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">create</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-string">&#x27;user server&#x27;</span><br>    <span class="hljs-comment">// todo</span><br>  &#125;<br><br>  <span class="hljs-keyword">return</span> (<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>hi<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><code>&#39;user server&#39;</code> 指令， 放在代码文件顶部</li>
+</ol>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// app/actions.ts</span><br><span class="hljs-string">&#x27;user server&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">create</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-comment">// todo</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在client component中，使用server action</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// client component</span><br><span class="hljs-comment">// app/ui/button.tsx</span><br><span class="hljs-string">&#x27;use client&#x27;</span><br><br><span class="hljs-keyword">import</span> &#123; create &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/app/actions&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">MyButton</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;create&#125;</span> /&gt;</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Nextjs扩展了 <code>&lt;form&gt;</code> 元素，允许它的 <code>action</code> 属性接收server action</p>
+<p><code>useActionState</code> hook, 可以获取server action的执行状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// app/ui/signup.tsx</span><br><br><span class="hljs-string">&#x27;use client&#x27;</span><br><br><span class="hljs-keyword">import</span> &#123; useActionState &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span><br><span class="hljs-comment">// old version react it is called &#x27;useFormState&#x27;  </span><br><span class="hljs-comment">// import &#123; useFormState &#125; from &#x27;react-dom&#x27;</span><br><span class="hljs-keyword">import</span> &#123; createUser &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/app/actions&#x27;</span><br><br><span class="hljs-keyword">const</span> initialState = &#123; <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;&#x27;</span> &#125;<br><br>explort <span class="hljs-keyword">function</span> <span class="hljs-title function_">Signup</span> () &#123;<br>  <span class="hljs-keyword">const</span> [state, formAction, pending] = <span class="hljs-title function_">useActionState</span>(createUser, initialState)<br><br>  <span class="hljs-keyword">return</span> (<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">&#123;formAction&#125;</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;state?.message&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">&#123;pending&#125;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">submit</span>&gt;</span>submit<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span><br>  )<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p>server action 应当被看做一个公开的接口，不过这个接口的地址是一些没有语义的随机字符</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="如何在layout中访问请求对象"><a href="#如何在layout中访问请求对象" class="headerlink" title="如何在layout中访问请求对象?"></a>如何在layout中访问请求对象?</h3><p>出于在页面间导航时重用layout的目的，<code>layout.tsx</code> 不能访问原始的request对象。但是，你可以使用<code>headers()</code>和<code>cookies()</code>方法来访问相对的请求信息。</p>
+<h3 id="如何访问页面的URL"><a href="#如何访问页面的URL" class="headerlink" title="如何访问页面的URL?"></a>如何访问页面的URL?</h3><p>page默认是server component, 所以无法直接访问URL, 可以使用<code>usePathname</code>和<code>useSearchParams</code>来获取URL, 另外page的props中也有<code>params</code>和<code>searchParams</code>属性, 可以直接访问.</p>
+<h3 id="Server-component中怎样重定向到其他页面"><a href="#Server-component中怎样重定向到其他页面" class="headerlink" title="Server component中怎样重定向到其他页面?"></a>Server component中怎样重定向到其他页面?</h3><p>在server component中, 可以使用<code>redirect()</code>或<code>permanentRedirect()</code>方法来重定向到其他页面.</p>
+<h3 id="怎样设置cookies"><a href="#怎样设置cookies" class="headerlink" title="怎样设置cookies?"></a>怎样设置cookies?</h3><p> 可以在<code>Server Actions</code>, <code>Middleware</code> or <code>Route Handlers</code>使用<code>cookies()</code>方法来设置cookies.<br>You can set cookies in <code>Server Actions</code> or <code>Route Handlers</code> using the cookies function.</p>
+<blockquote>
+<p>注意: 我们不能在page或layout中直接设置cookies, 因为HTTP不允许在流式传输开始后设置cookies。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Next.js是一个强大的React框架，它提供了许多功能，如静态网站生成、服务器端渲染和API路由。通过使用Next.js，我们可以轻松地构建高性能的Web应用程序。</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/&title=全面认识流行的SSR框架Nextjs - JKK随笔&pics=/images/banner_desk.jpg&summary=现在主流的前端框架大多用于创建SPA应用，SPA的缺点是首屏等待时间长和SEO不友好，对于面向个人消费者的应用来说，这很影响体验。因而前后端同构的SSR方案应运而生，但是自己搭建SSR项目却比较费劲，Next.js是一个基于react..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=全面认识流行的SSR框架Nextjs - JKK随笔&amp;body=https://panzhenjie.fun/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/01/07/PHP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%BB%88%E7%AB%A0/">PHP基础知识终章</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\03\12\Nextjs项目最佳实践\" title="Nextjs项目最佳实践"><span class="title">Nextjs项目最佳实践</span></a><a class="item" href="\2024\03\12\手把手带你入门NextJs\" title="手把手带你入门NextJs"><span class="title">手把手带你入门NextJs</span></a><a class="item" href="\2024\07\31\一文吃透-React-SSR-服务端渲染和同构原理\" title="一文吃透 React SSR 服务端渲染和同构原理"><span class="title">一文吃透 React SSR 服务端渲染和同构原理</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1"><span class="toc-text">路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E5%92%8C%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">文件夹和文件的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Route-Segments"><span class="toc-text">Route Segments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E8%B7%AF%E7%94%B1"><span class="toc-text">嵌套路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-text">动态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E8%B7%AF%E7%94%B1"><span class="toc-text">分组路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">私有文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%88%97%E8%B7%AF%E7%94%B1"><span class="toc-text">并列路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E8%B7%AF%E7%94%B1"><span class="toc-text">拦截路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%96%87%E4%BB%B6%E5%90%8D%E7%BA%A6%E5%AE%9A"><span class="toc-text">特殊文件名约定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%BB%84%E4%BB%B6%E5%B5%8C%E5%A5%97%E6%96%B9%E5%BC%8F"><span class="toc-text">特殊组件嵌套方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F"><span class="toc-text">其他文件组织方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pages"><span class="toc-text">Pages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Layouts"><span class="toc-text">Layouts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Root-Layout"><span class="toc-text">Root Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nesting-Layouts"><span class="toc-text">Nesting Layouts</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Templates"><span class="toc-text">Templates</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Metadata"><span class="toc-text">Metadata</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93"><span class="toc-text">渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-component"><span class="toc-text">Server component</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-component"><span class="toc-text">Client component</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%AF%B7%E6%B1%82"><span class="toc-text">数据请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-action"><span class="toc-text">Server action</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%AF%B7%E6%B1%82"><span class="toc-text">服务端请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fetch%E7%BC%93%E5%AD%98"><span class="toc-text">fetch缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82"><span class="toc-text">客户端请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-action-1"><span class="toc-text">Server action</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8layout%E4%B8%AD%E8%AE%BF%E9%97%AE%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1"><span class="toc-text">如何在layout中访问请求对象?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E9%A1%B5%E9%9D%A2%E7%9A%84URL"><span class="toc-text">如何访问页面的URL?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-component%E4%B8%AD%E6%80%8E%E6%A0%B7%E9%87%8D%E5%AE%9A%E5%90%91%E5%88%B0%E5%85%B6%E4%BB%96%E9%A1%B5%E9%9D%A2"><span class="toc-text">Server component中怎样重定向到其他页面?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E6%A0%B7%E8%AE%BE%E7%BD%AEcookies"><span class="toc-text">怎样设置cookies?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
