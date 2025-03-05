@@ -5,18 +5,15 @@ cover: /images/banner_desk.jpg
 date: 2025-03-04 17:46:08
 tags:
 ---
+> 转载自: [https://juejin.cn/post/7023258157241597983](https://juejin.cn/post/7023258157241597983)
 
-# 企业内网 DNS
-  
-  > 转载自: [https://juejin.cn/post/7023258157241597983?searchId=202503041304170979B6A047417EA78513](https://juejin.cn/post/7023258157241597983?searchId=202503041304170979B6A047417EA78513)
-  
-  # 什么是 DNS​
+## 什么是 DNS​
 
 需要先介绍为什么需要域名，一方面是便于流通好记的，当然基于 ip 去定位资源是比较繁琐的，特别是在现在 ipv6 的情况下。在这是为了可以在业务层面更好的去更换 ip 地址，域名肯定是唯一的， 但是随着公司业务逐渐开发发展服务弹性伸缩负载均衡高可用等，使得统一个域名不用用户解析出的 ip 是不一样的，所以域名也可以保证与 ip 的解耦。保证服务可以随着业务逐步迭代。同时，DNS解析作为网络请求过程中第一步，DNS 解析的性能也是非常重要的。所以需要设置合理的 DNS 解析架构。  
   
 那什么是 DNS 呢，DNS 本质是为了维护域名和 ip 的映射关系的服务，同时 DNS 分为了公网的 DNS 以及私有的 DNS 服务。  
 
-# **域名结构**
+## 域名结构
 
 比如一个域名 mail.tsinghua.edu.cn. 这个域名分为了几个层次，比如根 . , 顶级域名 cn，二级域名 edu，三级域名 tsinghua，四级域名 mail，如下图所示：  
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ae0f8945500436b816913398d9b01ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)  
@@ -35,7 +32,7 @@ tags:
 **Local DNS**: 用户上网需要通过 ISP(互联网服务提供商, 比如电信、网通等) 的网络接入互联网, ISP 会分配给用户一个 DNS 服务器，该服务器就是 Local DNS。Local DNS 能够不断**迭代** 根 NS、顶NS、权威 NS，直到能够解析出该域名 ip 后返回给用户。  
 **​**  
 
-# **DNS 解析原理**
+## DNS 解析原理
 
 **​**
 
@@ -75,17 +72,15 @@ tags:
 
 **在整个过程中涉及到了 Local DNS 如果选择各个 NS 返回的下一个 NS 列表中唯一一个 ip 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。**
 
-# **DNS 自定义区域**
+## DNS 自定义区域
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b10f9f11e1e464dbde84f0f24373bcb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e71168f460641a8b5e641d7e8afd5bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)  
 
-# DNS 常用命令
+## DNS 常用命令
 
 ### 1\. 查看域名对应的 NS
 
 > dig 域名 可以查看域名的解析 NS 列表，同时也可以看出缓存时间
-
-### ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ef7ab946136142a1821f5f3808a2e600~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
 ### 2\. 指定 Local DNS 进行域名解析
 
@@ -109,15 +104,15 @@ tags:
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f806d7950a584293bf66b0a1ff3f2da7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
-# DNS 性能分析
+## DNS 性能分析
 
-#### CNAME 次数过多
+### CNAME 次数过多
 
-#### 设置 TTL 不合理
+### 设置 TTL 不合理
 
-#### DNS 多点就近部署架构升级
+### DNS 多点就近部署架构升级
 
-# 企业内网 DNS
+## 企业内网 DNS
 
 -   内网 web 服务
 -   hostname 应该设置为 FQDN 如何维护主机名和内网 ip 关系
