@@ -19,9 +19,17 @@ tags: DNS
   
 那什么是 DNS 呢？  
 
+DNS (Domain Name System)，直译就是域名系统，它所提供的服务是将域名转换为主机 IP 地址，这一过程我们称为{% mark 域名解析 color:purple %}。  
+
 {% mark DNS 本质是为了维护域名和 IP 的映射关系的服务 color:purple %}
 
 > DNS 分为了公网的 DNS 服务 和 私有的 DNS 服务。  
+
+## DNS相关术语
+
+-   注册局：域名注册局是管理顶级域名的组织，它们创建域名后缀，设置域名规则，并与注册商合作向公众出售域名，如 VeriSign 管理 `.com` 域名，CNNIC 管理 `.cn` 域名
+-   注册商：域名注册商是经过认证可向公众销售域名的组织，如 GoDaddy，万网等
+-   权威 NS 记录：域名服务器记录，用来指定该域名由哪个 DNS 服务器来进行解析。若不指定，默认一般由注册商的 DNS 服务器提供免费的域名解析服务
 
 ## 域名结构
 
@@ -72,6 +80,19 @@ tags: DNS
 
 **在整个过程中, 涉及到 Local DNS 如何从各个 NS 返回的下一个 NS 列表中选择一个唯一 IP 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。**
 
+## DNS 解析示例
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3231b686d7ac4bd490d8e7990a978c48~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
+
+上图就是我们非常熟悉的互联网域名解析流程，客户端会到本地 DNS 服务器递归查询出记录结果，而本地 DNS 服务器的缓存中没有相应的记录，则会依次从根域名服务器，顶级域名服务器，权限域名服务器迭代查询出记录结果。我们可以使用下面的命令来了解下本地 DNS 服务器是如何迭代查询出记录结果的
+
+```shell
+dig @8.8.8.8 www.baidu.com +trace
+```
+
+> 递归查询和迭代查询的区别为，递归查询是 A->B->C->D，而迭代查询是 A->B, A->C, A->D。本地 DNS 服务器一般是网络服务商提供的 DNS，也可以自己修改为常用的公共 DNS
+
+
 ## DNS 自定义区域
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b10f9f11e1e464dbde84f0f24373bcb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
@@ -79,6 +100,7 @@ tags: DNS
 ## DNS 资源记录
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e71168f460641a8b5e641d7e8afd5bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)  
+
 
 ## DNS 常用命令
 
@@ -88,7 +110,7 @@ tags: DNS
 
 ### 2\. 指定 Local DNS 进行域名解析
 
-`dig {Local DNS IP} {domain}` 可以使用这个方法进行 CDN 的调度测试
+`dig @{Local DNS IP} {domain}` 可以使用这个方法进行 CDN 的调度测试
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aaac5d9dca154b46ba929360c03904ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
