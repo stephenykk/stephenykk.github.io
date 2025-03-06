@@ -12,7 +12,7 @@ tags: DNS
 
 在介绍域名前，我们先来看看为什么需要域名？  
 1. 域名易读易记  
-网络中的计算机是通过IP去定位资源的，但是IP难读难记，对人不友好；所以就设计了一层通过域名查找IP的解析系统。  
+网络中的计算机是通过IP去定位资源的，但是IP难读难记，对人不友好；所以就设计了一套通过域名查找IP的解析系统。  
 2. 域名可以与IP解耦  
 企业或单位的域名通常是固定的， 但是随着业务逐渐发展, 服务弹性伸缩和负载均衡高可用等因素，使得同一个域名不同用户解析出的 IP 可以是不一样的，所以域名也可以保证与 IP 的解耦。  
 此外，DNS解析作为网络请求过程的第一步，DNS 解析的性能很重要，需要设置合理的 DNS 解析架构。  
@@ -52,25 +52,25 @@ tags: DNS
 
 1.  用户在浏览器中输入网址开始访问 [www.aaa.com](http://www.aaa.com%E3%80%82%E9%A6%96%E5%85%88%E4%BC%9A%E5%B0%86 "http://www.aaa.com%E3%80%82%E9%A6%96%E5%85%88%E4%BC%9A%E5%B0%86") 首先会将 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 进行域名地址的解析工作，解析成 IP 地址。
     
-2.  浏览器会从本地缓存中查看是否有 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 域名 DNS 解析缓存，{% mark 浏览器DNS缓存一般是 1min 左右 color:purple %}(不同的浏览器不一致), 同时对于 chrome 浏览器你可以通过 chrome://net-internals/#dns 链接清除浏览器本地缓存的 DNS 解析。如果没有对应域名的缓存，会继续访问设备上本地 host。
+2.  浏览器会从本地缓存中查看是否有 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 域名 DNS 解析缓存，{% mark 浏览器DNS缓存一般是 1min 左右 color:purple %}(*不同的浏览器不一致*), 同时对于 chrome 浏览器你可以通过 chrome://net-internals/#dns 链接清除浏览器本地缓存的 DNS 解析。如果没有对应域名的缓存，会继续访问设备上本地 host。
     
-3.  {% mark 本地 host 是一个 域名和 IP 的映射表 color:purple %}，在 Linux 里是位于“`/etc/hosts`”文件中，在 Windows 里是位于 “`C:\\WINDOWS\\system32\\drivers\\etc\\hosts`” 文件中。如果没有对应的域名映射，则浏览器的网络模块会读取设备被分配的 Local DNS 地址，给 ISP 分配的 Local DNS 发送域名解析请求，要求 Local DNS 对 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 地址进行解析，最终给浏览器解析的 IP 地址或者解析错误日志信息。
+3.  {% mark 本地 host 是一个 域名和 IP 的映射表 color:purple %}，在 Linux 里位于 `/etc/hosts` 文件中，在 Windows 里是位于 “`C:\\WINDOWS\\system32\\drivers\\etc\\hosts`” 文件中。如果没有对应的域名映射，则浏览器的网络模块会读取设备被分配的 Local DNS 地址，给 ISP 分配的 Local DNS 发送域名解析请求，要求 Local DNS 对 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 地址进行解析，最终给浏览器解析的 IP 地址或者解析错误日志信息。
     
 
-4. Local DNS 一般在电脑网络适配器属性中可以查看，当然我们也可以修改 Local DNS， 比如改写成 8.8.8.8， 或者公司内部的 DNS 解析服务。{% mark Local DNS 收到用户的请求后，会根据域名的结构，从根NS **迭代** 地请求各个 NS 得到解析后的 IP color:purple %} 。Local DNS 服务器中保存了 13 处 根域名服务器地址(*几乎根域名服务器地址是不会更换的*)。Local DNS 会将 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 地址解析请求发送给一个就近的根域名服务器。
+4. Local DNS 一般在电脑网络适配器属性中可以查看，当然我们也可以修改 Local DNS， 比如改写成 8.8.8.8， 或者公司内部的 DNS 解析服务。{% mark Local DNS 收到用户的请求后，会根据域名的结构，从根NS **迭代** 地请求各个 NS 得到最终的 IP color:purple %} 。Local DNS 服务器中保存了 13 处 根域名服务器地址(*几乎根域名服务器地址是不会更换的*)。Local DNS 会将 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 地址解析请求发送给一个就近的根域名服务器。
 
 
-5. 根域名服务器地址发现这个域名是属于 `.com` 顶级域名下的，则返回 `.com` 顶级NS列表 和 IP 地址给 Local DNS 。Local DNS 得到顶级 NS 列表后，进一步选择一个就近的顶级 NS 服务器，去请求解析结果。
+5. 根域名服务器发现这个域名是属于 `.com` 顶级域名下的，则返回 `.com` 顶级NS列表 和 IP 地址给 Local DNS 。Local DNS 得到顶级 NS 列表后，进一步选择一个就近的顶级 NS 服务器，去请求解析结果。
 
 6.  顶级 NS 接收到来自 Local DNS 请求后，发现这是来自于 `.aaa` 这个二级域名下的，它把在它这里登记注册的 `aaa.com` NS列表返回给 local DNS。 此时返回一个 `CNAME` 地址 [www.aaa.lxdns.com。](http://www.aaa.lxdns.com%E3%80%82 "http://www.aaa.lxdns.com%E3%80%82")
     
-7.  local DNS 发现返回的 NS 列表中通过 NS 策略选择出一个 `CNAME` 记录，所以就是用 [www.aaa.lxdns.com](http://www.aaa.lxdns.com "http://www.aaa.lxdns.com") 地址继续重复 4 5 6 步骤 直到请求到 lxdns.com NS。
+7.  local DNS 发现返回的 NS 列表中通过 NS 策略选择出一个 `CNAME` 记录，所以就是用 [www.aaa.lxdns.com](http://www.aaa.lxdns.com "http://www.aaa.lxdns.com") 地址继续重复 4 5 6 步骤 直到请求到 `lxdns.com NS`。
     
 
-8.  在 `lxdns.com` NS 中成功解析出 [www.aaa.lxdns.com](http://www.aaa.lxdns.com "http://www.aaa.lxdns.com") `A 记录`，将 IP 1.1.1.1 返回给 Local DNS，Local DNS 返回给浏览器，浏览器发出 http 请求到 1.1.1.1 服务中开始请求内容。
+8.  在 `lxdns.com NS` 中成功解析出 [www.aaa.lxdns.com](http://www.aaa.lxdns.com "http://www.aaa.lxdns.com") `A 记录`，将 IP 1.1.1.1 返回给 Local DNS，Local DNS 返回给浏览器，浏览器发起到 1.1.1.1 的 http 请求加载内容。
 
 
-**在整个过程中, 涉及到 Local DNS 如何从各个 NS 返回的下一个 NS 列表中唯一一个 IP 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。**
+**在整个过程中, 涉及到 Local DNS 如何从各个 NS 返回的下一个 NS 列表中选择一个唯一 IP 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。**
 
 ## DNS 自定义区域
 
@@ -98,13 +98,13 @@ tags: DNS
 
 ### 4.查看 DNS 完整解析路径
 
-> dig +trace 域名 +additional
+`dig +trace {domain} +additional`
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/144df4c1bcc640e4b2b513c570adc686~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75e45a361c5f44148811a71973256659~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
 ### 5.测试网络延迟
 
-> ping serverIp
+`ping {ip}`
 
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f806d7950a584293bf66b0a1ff3f2da7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp)
 
