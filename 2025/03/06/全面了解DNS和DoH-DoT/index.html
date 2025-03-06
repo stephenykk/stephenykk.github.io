@@ -17,26 +17,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>PNPM初级教程和实践 - JKK随笔</title>
+  <title>全面了解DNS和DoH/DoT - JKK随笔</title>
 
   
-    <meta name="description" content="workspace初始化 monorepo 项目结构1234567891011121314151617181920# 创建root projectmkdir mono-projectcd mono-projectpnpm init# 创建 workspace 配置文件# pnpm-workspace.yamlpackages:  - &quot;examples&#x2F;*&quot;  - &quot;">
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6913507512859754509  DNS (Domain Name System)，直译就是域名系统，它所提供的服务是将域名转换为主机 IP 地址，这一过程我们称为域名解析 标准互联网域名解析流程在介绍之前我们来了解几个名词  注册局：域名注册局是管理顶级域名的组织，它们创建域名后缀，设置域名规则，并与注册商合作向公众出售域名，如">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PNPM初级教程和实践">
-<meta property="og:url" content="https://panzhenjie.fun/2024/03/05/Pnpm%E5%88%9D%E7%BA%A7%E6%95%99%E7%A8%8B%E5%92%8C%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:title" content="全面了解DNS和DoH&#x2F;DoT">
+<meta property="og:url" content="https://panzhenjie.fun/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/index.html">
 <meta property="og:site_name" content="JKK随笔">
-<meta property="og:description" content="workspace初始化 monorepo 项目结构1234567891011121314151617181920# 创建root projectmkdir mono-projectcd mono-projectpnpm init# 创建 workspace 配置文件# pnpm-workspace.yamlpackages:  - &quot;examples&#x2F;*&quot;  - &quot;">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;6913507512859754509  DNS (Domain Name System)，直译就是域名系统，它所提供的服务是将域名转换为主机 IP 地址，这一过程我们称为域名解析 标准互联网域名解析流程在介绍之前我们来了解几个名词  注册局：域名注册局是管理顶级域名的组织，它们创建域名后缀，设置域名规则，并与注册商合作向公众出售域名，如">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-05T14:28:33.000Z">
-<meta property="article:modified_time" content="2024-08-29T12:44:10.908Z">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3231b686d7ac4bd490d8e7990a978c48~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6e50f02039614fd1b82887b5b08d3af5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="article:published_time" content="2025-03-06T12:20:17.000Z">
+<meta property="article:modified_time" content="2025-03-06T12:32:04.574Z">
 <meta property="article:author" content="stephenykk">
-<meta property="article:tag" content="pnpm">
-<meta property="article:tag" content="monorepo">
-<meta name="twitter:card" content="summary">
+<meta property="article:tag" content="DNS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3231b686d7ac4bd490d8e7990a978c48~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
   
   
   
-  <meta name="keywords" content="pnpm,monorepo">
+  <meta name="keywords" content="DNS">
 
   <!-- feed -->
   
@@ -74,43 +76,100 @@
 
 
 
-<div class="article banner top">
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-05T14:28:33.000Z">2024-03-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-08-29T12:44:10.908Z">2024-08-29</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-06T12:20:17.000Z">2025-03-06</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-06T12:32:04.574Z">2025-03-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>PNPM初级教程和实践</span></h1>
+        <h1 class="text title"><span>全面了解DNS和DoH/DoT</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="workspace"><a href="#workspace" class="headerlink" title="workspace"></a>workspace</h2><h3 id="初始化-monorepo-项目结构"><a href="#初始化-monorepo-项目结构" class="headerlink" title="初始化 monorepo 项目结构"></a>初始化 monorepo 项目结构</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建root project</span><br><span class="hljs-built_in">mkdir</span> mono-project<br><span class="hljs-built_in">cd</span> mono-project<br>pnpm init<br><br><span class="hljs-comment"># 创建 workspace 配置文件</span><br><span class="hljs-comment"># pnpm-workspace.yaml</span><br>packages:<br>  - <span class="hljs-string">&quot;examples/*&quot;</span><br>  - <span class="hljs-string">&quot;shares/*&quot;</span><br><br><span class="hljs-built_in">mkdir</span> -p examples/app<br><span class="hljs-built_in">mkdir</span> -p shares/down-cli<br><br><span class="hljs-built_in">cd</span> examples/app<br>pnpm init<br><br><span class="hljs-built_in">cd</span> shares/down-cli<br>pnpm init<br><br></code></pre></td></tr></table></figure>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6913507512859754509">https://juejin.cn/post/6913507512859754509</a></p>
+</blockquote>
+<p>DNS (Domain Name System)，直译就是域名系统，它所提供的服务是将域名转换为主机 IP 地址，这一过程我们称为域名解析</p>
+<h2 id="标准互联网域名解析流程"><a href="#标准互联网域名解析流程" class="headerlink" title="标准互联网域名解析流程"></a>标准互联网域名解析流程</h2><p>在介绍之前我们来了解几个名词</p>
+<ul>
+<li>注册局：域名注册局是管理顶级域名的组织，它们创建域名后缀，设置域名规则，并与注册商合作向公众出售域名，如 VeriSign 管理 <code>.com</code> 域名，CNNIC 管理 <code>.cn</code> 域名</li>
+<li>注册商：域名注册商是经过认证可向公众销售域名的组织，如 GoDaddy，万网等</li>
+<li>顶级域名：<code>.com</code>，<code>.cn</code>，<code>.net</code>，<code>.org</code> 等被称为顶级域名</li>
+<li>二级域名：这个就是我们常用等域名，比如 <code>baidu.com</code>，<code>taobao.com</code> 等被称为二级域名</li>
+<li>权威 NS 记录：域名服务器记录，用来指定该域名由哪个 DNS 服务器来进行解析。若不指定，默认一般由注册商的 DNS 服务器提供免费的域名解析服务</li>
+</ul>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3231b686d7ac4bd490d8e7990a978c48~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>上图就是我们非常熟悉的互联网域名解析流程，客户端会到本地 DNS 服务器递归查询出记录结果，而本地 DNS 服务器的缓存中没有相应的记录，则会依次从根域名服务器，顶级域名服务器，权限域名服务器迭代查询出记录结果。我们可以使用下面的命令来了解下本地 DNS 服务器是如何迭代查询出记录结果的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">dig @8.8.8.8 www.baidu.com +trace<br></code></pre></td></tr></table></figure>
 
-<p>配置子项目的<code>package.json</code>文件, app 依赖 down-cli</p>
-<p><em>app&#x2F;package.json</em> 配置如下</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;app&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;down&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;down --help&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;hi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;echo app hello&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;dependencies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;down-cli&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;workspace:*&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>递归查询和迭代查询的区别为，递归查询是 A-&gt;B-&gt;C-&gt;D，而迭代查询是 A-&gt;B, A-&gt;C, A-&gt;D。本地 DNS 服务器一般是网络服务商提供的 DNS，也可以自己修改为常用的公共 DNS</p>
+</blockquote>
+<h2 id="标准-DNS-面临的安全问题"><a href="#标准-DNS-面临的安全问题" class="headerlink" title="标准 DNS 面临的安全问题"></a>标准 DNS 面临的安全问题</h2><p>我们知道标准 DNS 协议如同大多数早期互联网协议一样，完全没有考虑安全问题，数据是通过明文传输的。常见的针对 DNS 的攻击手段有</p>
+<ol>
+<li>DNS 欺骗&#x2F;缓存中毒 (DNS Cache Poisoning)：原理是利用 DNS 协议设计时的安全缺陷，通过伪造 ARP 应答包，当 ARP 欺骗成功后，只有嗅探到目标主机发出 DNS 请求包就解析后立即构造一个伪造的 DNS 返回包欺骗目标主机，解析器则会将返回包的结果保存进 DNS 缓存表中，而后当真实的 DNS 返回包到来时则会被丢弃。简单来说就是冒充 DNS 服务器</li>
+<li>DNS 劫持 (DNS Hijacking)：结果和 DNS 缓存一样，都是篡改 DNS 解析结果，只是不单单针对的是解析器中的 DNS 缓存表，而是针对 DNS 解析链路上的每一步。比如<ul>
+<li>通过木马病毒或恶意软件篡改 DNS 配置 (hosts 文件，DNS 服务器地址，DNS 缓存表等)</li>
+<li>利用路由器漏洞篡改路由器的 DNS 配置</li>
+</ul>
+</li>
+</ol>
+<p>防御 DNS 威胁的最知名方式之一是使用 DNSSEC 协议，DNSSEC 通过对数据进行数字签名来防止攻击，以帮助确保其有效性。为确保进行安全查找，此签名必须在 DNS 查找过程的每个级别进行，但不幸的是，它当前尚未得到普遍采用</p>
+<h2 id="DoH"><a href="#DoH" class="headerlink" title="DoH"></a>DoH</h2><p>DoH，DNS over HTTPS，是一种安全解析域名的方案。2018年 DoH 正式成为国际标准 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc8484" title="https://tools.ietf.org/html/rfc8484">RFC8484</a>，通过加密的 HTTPS 协议进行 DNS 解析请求，代替标准的，基于 UDP 的 DNS 协议，可以有效避免域名被运 DNS 劫持，DNS 欺骗&#x2F;缓存中毒等域名安全问题。现如今 DoH&#x2F;DoT 在 Google，Firefox 等浏览器已经获得了支持，微软也放出消息将在 Windows 10 系统的后续开发中加入 DoH&#x2F;DoT 支持，苹果在 WWDC 大会宣布 iOS 14 与 macOS 11 新增对加密 DNS 的支持 (包括 DoH&#x2F;DoT)，同时 DoH&#x2F;DoT 已经获得部分公共 DNS 支持，如下所示</p>
+<table>
+<thead>
+<tr>
+<th>提供商</th>
+<th>网址</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cloudflare DNS</td>
+<td><a target="_blank" rel="noopener" href="https://cloudflare-dns.com/dns-query" title="https://cloudflare-dns.com/dns-query">cloudflare-dns.com&#x2F;dns-query</a></td>
+<td><a target="_blank" rel="noopener" href="https://www.cloudflare.com/zh-cn/learning/dns/what-is-1.1.1.1/" title="https://www.cloudflare.com/zh-cn/learning/dns/what-is-1.1.1.1/">www.cloudflare.com/zh-cn/learn…</a></td>
+</tr>
+<tr>
+<td>Google Public DNS</td>
+<td><a target="_blank" rel="noopener" href="https://dns.google/dns-query" title="https://dns.google/dns-query">dns.google&#x2F;dns-query</a></td>
+<td><a target="_blank" rel="noopener" href="https://developers.google.com/speed/public-dns" title="https://developers.google.com/speed/public-dns">developers.google.com&#x2F;speed&#x2F;publi…</a></td>
+</tr>
+<tr>
+<td>阿里云公共 DNS</td>
+<td><a target="_blank" rel="noopener" href="https://dns.alidns.com/dns-query" title="https://dns.alidns.com/dns-query">dns.alidns.com&#x2F;dns-query</a></td>
+<td><a target="_blank" rel="noopener" href="https://www.alidns.com/" title="https://www.alidns.com/">www.alidns.com/</a></td>
+</tr>
+</tbody></table>
+<p>现在我们借助公共 DNS 来了解下 DoH，可以参考这份<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/1.1.1.1/dns-over-https" title="https://developers.cloudflare.com/1.1.1.1/dns-over-https">文档</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs auto">json 代码解读复制代码$ curl -H &#x27;accept: application/dns-json&#x27; &#x27;https://cloudflare-dns.com/dns-query?name=baidu.com&amp;type=A&#x27;<br><br>&#123;<br>    &quot;Status&quot;: 0,<br>    &quot;TC&quot;: false,<br>    &quot;RD&quot;: true,<br>    &quot;RA&quot;: true,<br>    &quot;AD&quot;: false,<br>    &quot;CD&quot;: false,<br>    &quot;Question&quot;: [<br>        &#123;<br>            &quot;name&quot;: &quot;baidu.com&quot;,<br>            &quot;type&quot;: 1<br>        &#125;<br>    ],<br>    &quot;Answer&quot;: [<br>        &#123;<br>            &quot;name&quot;: &quot;baidu.com&quot;,<br>            &quot;type&quot;: 1,<br>            &quot;TTL&quot;: 546,<br>            &quot;data&quot;: &quot;220.181.38.148&quot;<br>        &#125;,<br>        &#123;<br>            &quot;name&quot;: &quot;baidu.com&quot;,<br>            &quot;type&quot;: 1,<br>            &quot;TTL&quot;: 546,<br>            &quot;data&quot;: &quot;39.156.69.79&quot;<br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><em>down-cli&#x2F;package.json</em> 配置如下:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;down-cli&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;hi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;echo down hello&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;bin&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;down&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;bin/index.js&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>Status，DNS 查询的响应状态码，可以参考 <a target="_blank" rel="noopener" href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6" title="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6">RFC1035</a></li>
+<li>TC，Truncation，标准的 DNS 协议封包最大长度为 512Bytes，超过就会发生截断，但是由于 DoH 使用的是 HTTPS 协议，不会存在截断问题，所以 TC 位恒为 false</li>
+<li>RD，Recursion Desired，递归期望，与 RA 对应，由于请求端携带发送，值为 true 则表示递归解析，否则表示迭代解析</li>
+<li>RA，Recursion Available，递归可用，DNS 服务器是否支持递归查询，大多数 DNS 服务器都是支持递归查询的，除了少部分根 DNS 服务器</li>
+<li>AD，如果为 true 表示每一条记录都是经过 DNSSEC validation</li>
+<li>CD，Checking Disabled，如果为 true 表示禁用 DNSSEC validation</li>
+<li>Question name，请求域名</li>
+<li>Question type，请求 DNS 解析记录，常见的解析记录有，<code>A</code>，<code>TXT</code> 等，具体可以参考 <a target="_blank" rel="noopener" href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4" title="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4">RFC1035</a></li>
+<li>Answer name</li>
+<li>Answer type</li>
+<li>Answer TTL</li>
+<li>Answer data，解析结果</li>
+</ul>
+<h2 id="DoT"><a href="#DoT" class="headerlink" title="DoT"></a>DoT</h2><p>DoT，DNS over TLS，同样也是一种安全解析域名的方案，国际标准 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7858" title="https://tools.ietf.org/html/rfc7858">RFC7858</a>。DoH 和 DoT 都是替代标准 DNS 的方案，那么两者有什么差别呢？</p>
+<p>从网络安全的角度来看，DoT 可以说更好，它使网络管理员能够监视和阻止 DNS 查询，这对于识别和阻止恶意流量非常重要。另一方面，DoH 查询隐藏在常规 HTTPS 流量中，两者使用的都是 443 端口，这就意味着很难区分是常规 HTTPS 流量还是 DoH 流量</p>
+<p>从隐私安全的角度来看，DoH 更好，就如前面所说，我们是很难区分是常规 HTTPS 流量还是 DoH 流量的，那么就从间接增强了用户的隐私性</p>
+<h2 id="在浏览器上使用-DoH"><a href="#在浏览器上使用-DoH" class="headerlink" title="在浏览器上使用 DoH"></a>在浏览器上使用 DoH</h2><p>我们前面讲过现如今 DoH&#x2F;DoT 在 Google，Firefox 等浏览器已经获得了支持，这里我将演示 Chrome 87 如何使用 DoH，过程如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">rust 代码解读复制代码设置 -&gt; 隐私设置和安全性 -&gt; 安全 -&gt; 使用安全 DNS<br></code></pre></td></tr></table></figure>
 
-<p><em>down-cli&#x2F;bin&#x2F;index.js</em></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-meta">#!/usr/bin/env node</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;down command starting..&quot;</span>);<br></code></pre></td></tr></table></figure>
-
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>在 root project 下面执行 <code>pnpm i</code>, pnpm 会自动安装依赖，子项目间的相互依赖会 link 到对应项目的 node_modules 文件夹下.</p>
-<p>比如, 以上的项目结构，<code>app/node_modules/down-cli</code> 会软链接到 <code>down-cli/bin/index.js</code></p>
-<h3 id="执行子项目的命令"><a href="#执行子项目的命令" class="headerlink" title="执行子项目的命令"></a>执行子项目的命令</h3><p>配置 root project 的 npm scripts 执行指定子项目的命令</p>
-<p><code>mono-project/package.json</code></p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;mono-project&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;app-hi&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pnpm run --filter app hi&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;app-hi2&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pnpm run --filter ./examples/* hi&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;down&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pnpm --filter app down&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<p>更多 <code>--filter</code> 参数的用法可查帮助信息 <code>pnpm help run</code></p>
-<p>在 root project 下执行, <code>pnpm down</code> 可测试子项目的命令，实现脚本工具(<code>down-cli</code>)的开发调试</p>
-<p>在 root project 下，按照指定子项目的依赖: <code>pnpm add lodash --filter app</code></p>
-<p>同理，发布某个子工程对应的 package, <code>pnpm publish --filter app</code> or <code>pnpm publish --F app</code></p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6e50f02039614fd1b82887b5b08d3af5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>接下来打开 <a target="_blank" rel="noopener" href="https://1.1.1.1/help" title="https://1.1.1.1/help">https://1.1.1.1/help</a> 验证下你的浏览器是否真的是用了 DoH，如果使用了 VPN 或者其他代理工具的话，请暂时关掉，不然会测试不了。其它的浏览器配置可以参考这份文档，<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/web-browser" title="https://developers.cloudflare.com/1.1.1.1/dns-over-https/web-browser">Configure your browser to use DNS over HTTPS</a></p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -122,25 +181,28 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2024/03/05/Pnpm%E5%88%9D%E7%BA%A7%E6%95%99%E7%A8%8B%E5%92%8C%E5%AE%9E%E8%B7%B5/" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2024/03/05/Pnpm%E5%88%9D%E7%BA%A7%E6%95%99%E7%A8%8B%E5%92%8C%E5%AE%9E%E8%B7%B5/&title=PNPM初级教程和实践 - JKK随笔&summary=workspace初始化 monorepo 项目结构1234567891011121314151617181920# 创建root projectmkdir mono-projectcd mono-projectpnpm init# ..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=PNPM初级教程和实践 - JKK随笔&amp;body=https://panzhenjie.fun/2024/03/05/Pnpm%E5%88%9D%E7%BA%A7%E6%95%99%E7%A8%8B%E5%92%8C%E5%AE%9E%E8%B7%B5/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/&title=全面了解DNS和DoH/DoT - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://juejin.cn/post/6913507512859754509
+
+DNS (Domain Name System)，直译就是域名系统，它所提供的服务是将域名转换为主机 IP 地址，这一过程我们称为域名..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=全面了解DNS和DoH/DoT - JKK随笔&amp;body=https://panzhenjie.fun/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2024/03/05/Pnpm%E5%88%9D%E7%BA%A7%E6%95%99%E7%A8%8B%E5%92%8C%E5%AE%9E%E8%B7%B5/"/>
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/07/Grid%E5%B8%83%E5%B1%80%E8%AF%A6%E8%A7%A3/">Grid布局详解</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/01/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/">前端脚手架开发指南</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/">开发者都应该了解的DNS知识</a></div></section></div>
 
 <div class="related-wrap" id="related-posts">
     <section class='header'>
       <div class='title cap theme'>您可能感兴趣的文章</div>
     </section>
     <section class='body'>
-    <div class="related-posts"><a class="item" href="\2024\03\01\前端脚手架开发指南\" title="前端脚手架开发指南"><span class="title">前端脚手架开发指南</span></a><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+    <div class="related-posts"><a class="item" href="\2025\03\04\开发者都应该了解的DNS知识\" title="开发者都应该了解的DNS知识"><span class="title">开发者都应该了解的DNS知识</span></a><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
 
 
   <div class="related-wrap md-text" id="comments">
@@ -167,7 +229,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#workspace"><span class="toc-text">workspace</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-monorepo-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-text">初始化 monorepo 项目结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%AD%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">执行子项目的命令</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E4%BA%92%E8%81%94%E7%BD%91%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E6%B5%81%E7%A8%8B"><span class="toc-text">标准互联网域名解析流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86-DNS-%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-text">标准 DNS 面临的安全问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DoH"><span class="toc-text">DoH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DoT"><span class="toc-text">DoT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8A%E4%BD%BF%E7%94%A8-DoH"><span class="toc-text">在浏览器上使用 DoH</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
