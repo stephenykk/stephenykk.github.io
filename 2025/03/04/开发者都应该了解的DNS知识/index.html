@@ -20,12 +20,12 @@
   <title>开发者都应该了解的DNS知识 - JKK随笔</title>
 
   
-    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7023258157241597983  什么是 DNS​需要先介绍为什么需要域名，一方面是便于流通好记的，当然基于 ip 去定位资源是比较繁琐的，特别是在现在 ipv6 的情况下。在这是为了可以在业务层面更好的去更换 ip 地址，域名肯定是唯一的， 但是随着公司业务逐渐开发发展服务弹性伸缩负载均衡高可用等，使得统一个域名不用用户解析出的">
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7023258157241597983  什么是 DNS​在介绍域名前，我们先来看看为什么需要域名？    域名易读易记网络中的计算机是通过IP去定位资源的，但是IP难读难记，对人不友好；所以就设计了一套通过域名查找IP的解析系统。   域名可以与IP解耦企业或单位的域名通常是固定的， 但是随着业务逐渐发展, 服务弹性伸缩和负载均衡高可用等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开发者都应该了解的DNS知识">
 <meta property="og:url" content="https://panzhenjie.fun/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="JKK随笔">
-<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7023258157241597983  什么是 DNS​需要先介绍为什么需要域名，一方面是便于流通好记的，当然基于 ip 去定位资源是比较繁琐的，特别是在现在 ipv6 的情况下。在这是为了可以在业务层面更好的去更换 ip 地址，域名肯定是唯一的， 但是随着公司业务逐渐开发发展服务弹性伸缩负载均衡高可用等，使得统一个域名不用用户解析出的">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7023258157241597983  什么是 DNS​在介绍域名前，我们先来看看为什么需要域名？    域名易读易记网络中的计算机是通过IP去定位资源的，但是IP难读难记，对人不友好；所以就设计了一套通过域名查找IP的解析系统。   域名可以与IP解耦企业或单位的域名通常是固定的， 但是随着业务逐渐发展, 服务弹性伸缩和负载均衡高可用等">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ae0f8945500436b816913398d9b01ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a33ffb990e444600a803f559a4311721~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
@@ -37,16 +37,15 @@
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75e45a361c5f44148811a71973256659~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
 <meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f806d7950a584293bf66b0a1ff3f2da7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
 <meta property="article:published_time" content="2025-03-04T09:46:08.000Z">
-<meta property="article:modified_time" content="2025-03-05T21:37:26.738Z">
+<meta property="article:modified_time" content="2025-03-06T11:56:58.887Z">
 <meta property="article:author" content="stephenykk">
-<meta property="article:tag" content="frontend">
-<meta property="article:tag" content="IT blog">
+<meta property="article:tag" content="DNS">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ae0f8945500436b816913398d9b01ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
   
   
   
-  <meta name="keywords" content="frontend,IT blog">
+  <meta name="keywords" content="DNS">
 
   <!-- feed -->
   
@@ -88,7 +87,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-04T09:46:08.000Z">2025-03-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-05T21:37:26.738Z">2025-03-06</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-04T09:46:08.000Z">2025-03-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-06T11:56:58.887Z">2025-03-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -102,65 +101,58 @@
   </div><article class="md-text content"><blockquote>
 <p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7023258157241597983">https://juejin.cn/post/7023258157241597983</a></p>
 </blockquote>
-<h2 id="什么是-DNS​"><a href="#什么是-DNS​" class="headerlink" title="什么是 DNS​"></a>什么是 DNS​</h2><p>需要先介绍为什么需要域名，一方面是便于流通好记的，当然基于 ip 去定位资源是比较繁琐的，特别是在现在 ipv6 的情况下。在这是为了可以在业务层面更好的去更换 ip 地址，域名肯定是唯一的， 但是随着公司业务逐渐开发发展服务弹性伸缩负载均衡高可用等，使得统一个域名不用用户解析出的 ip 是不一样的，所以域名也可以保证与 ip 的解耦。保证服务可以随着业务逐步迭代。同时，DNS解析作为网络请求过程中第一步，DNS 解析的性能也是非常重要的。所以需要设置合理的 DNS 解析架构。  </p>
-<p>那什么是 DNS 呢，DNS 本质是为了维护域名和 ip 的映射关系的服务，同时 DNS 分为了公网的 DNS 以及私有的 DNS 服务。  </p>
-<h2 id="域名结构"><a href="#域名结构" class="headerlink" title="域名结构"></a>域名结构</h2><p>比如一个域名 mail.tsinghua.edu.cn. 这个域名分为了几个层次，比如根 . , 顶级域名 cn，二级域名 edu，三级域名 tsinghua，四级域名 mail，如下图所示：<br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ae0f8945500436b816913398d9b01ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"><br><strong>根域名服务器:</strong> 根级 DNS 服务全球一共有 13 集群，其中 10 个在美国，其他分别在英国、瑞典、日本。根服务器主要用来管理互联网的主目录。大部分采用 anycast + BGP 方式管理服务集群，anycast 技术可以是的多台服务对外暴露同一个 ip 地址，由路由层面的 BGP 机房选择一个就近的服务器进行解析任务。根域名服务器存储了顶级的 NS(name server 域名服务器) 列表。<br>​</p>
-<p><strong>顶级域名服务器</strong>：顶级域名主要描述了该域名的性质，一是国家和地区顶级域名（ccTLDs），目前200多个国家都按照ISO3166国家代码分配了顶级域名，例如中国是cn，日本是jp等；二是通用顶级域名（gTLDs），例如表示工商企业的.com，表示网络提供商的 .net，表示非盈利组织的 .org等。三是新顶级域名（New gTLD）如通用的 .xyz、代表“高端”的 .top、代表“红色”的 .red、代表“人”的 .men 等一千多种。<br>​</p>
-<p><strong>二级域名服务器</strong>：一般是指域名注册人选择使用的网上名称，如“yahoo．com”；上网的商业组织通常使用自己的商标、商号或其他商业标志作为自己的网上名称，如“microsoft．com”。二级以上的域名都是非注册类型的域名可以每一个服务自己去定义。<br>​</p>
-<p><strong>权威域名服务器</strong>：值提供 ip 解析能力的，或者能够控制最终 ip 地址解析的服务器，一般是 二级域名服务器。<br>​</p>
-<p><strong>Local DNS</strong>: 用户上网需要通过 ISP(互联网服务提供商, 比如电信、网通等) 的网络接入互联网, ISP 会分配给用户一个 DNS 服务器，该服务器就是 Local DNS。Local DNS 能够不断<strong>迭代</strong> 根 NS、顶NS、权威 NS，直到能够解析出该域名 ip 后返回给用户。<br><strong>​</strong>  </p>
-<h2 id="DNS-解析原理"><a href="#DNS-解析原理" class="headerlink" title="DNS 解析原理"></a>DNS 解析原理</h2><p><strong>​</strong></p>
-<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a33ffb990e444600a803f559a4311721~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"><br><strong>​</strong></p>
-<p><strong>用户接入 ISP 提供的网络后，会给用户分配一个 ISP 提供的解析 DNS 的 ip 地址，称为 Local DNS。</strong><br><strong>​</strong>  </p>
+<h2 id="什么是-DNS​"><a href="#什么是-DNS​" class="headerlink" title="什么是 DNS​"></a>什么是 DNS​</h2><p>在介绍域名前，我们先来看看为什么需要域名？  </p>
 <ol>
-<li><p>用户在浏览器中输入网址开始访问 <a target="_blank" rel="noopener" href="http://www.aaa.com.首先会将/" title="http://www.aaa.com%E3%80%82%E9%A6%96%E5%85%88%E4%BC%9A%E5%B0%86">www.aaa.com。首先会将</a> <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 进行域名地址的解析工作，解析成 ip 地址。</p>
-</li>
-<li><p>浏览器会从本地缓存中查看是否有之前访问过 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 域名 DNS 解析缓存，这个缓存一般是 1min 左右(不同的浏览器不一致), 同时对于 chrome 浏览器你可以通过 chrome:&#x2F;&#x2F;net-internals&#x2F;#dns 链接清除浏览器本地缓存的 DNS 解析。如果没有对应域名的缓存，会继续访问设备上本地 host。</p>
-</li>
-<li><p>本地 host 是一个 域名和解析 ip 的映射表，在 Linux 里是位于“&#x2F;etc&#x2F;hosts”文件中，在 Windows 里是位于 “C:\WINDOWS\system32\drivers\etc\hosts” 文件中。如果没有对应的域名的映射，则浏览器的网络模块会读取设备被分配的 Local DNS 地址，给 ISP 分配的 Local DNS 发送域名解析请求，要求 Local DNS 对 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 地址进行解析，最终给浏览器解析的 ip 地址或者解析错误日志信息。</p>
-</li>
+<li>域名易读易记<br>网络中的计算机是通过IP去定位资源的，但是IP难读难记，对人不友好；所以就设计了一套通过域名查找IP的解析系统。  </li>
+<li>域名可以与IP解耦<br>企业或单位的域名通常是固定的， 但是随着业务逐渐发展, 服务弹性伸缩和负载均衡高可用等因素，使得同一个域名不同用户解析出的 IP 可以是不一样的，所以域名也可以保证与 IP 的解耦。<br>此外，DNS解析作为网络请求过程的第一步，DNS 解析的性能很重要，需要设置合理的 DNS 解析架构。</li>
 </ol>
-<p>​  </p>
-<ol start="4">
-<li>这里 Local DNS 一般在电脑网络模块中的 DNS 中都会又看到，当然也可以修改 Local DNS， 比如改写成 8.8.8.8， 或者公司内部的 DNS 解析服务。Local DNS 得到用户的请求后，会根据域名的结构，从根NS **迭代 **的请求各个 NS 得到解析后的 ip。Local DNS 服务器中保存了 13 处 根域名服务器地址(几乎根域名服务器地址是不会更换的)。Local DNS 会将 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 的解析地址请求发送给选择的一个就近的根域名服务器。</li>
-</ol>
-<p>​  </p>
-<ol start="5">
-<li>根域名服务器地址发现这个域名是属于 .com 顶级域名下的，则返回 .com 顶级NS列表 和 IP 地址给 Local DNS 。Local DNS 得到顶级 NS 列表后，进一步选择一个就近的顶级 NS 服务器，去请求解析结果。</li>
-</ol>
-<p>​  </p>
-<ol start="6">
-<li><p>顶级 NS 接收到来自 Local DNS 请求后，发现这是来自于 .aaa 这个二级域名下的，它把在它这里登记注册的 aaa.com NS列表返回给 local DNS。此时返回一个 CNAME 地址 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com./" title="http://www.aaa.lxdns.com%E3%80%82">www.aaa.lxdns.com。</a></p>
-</li>
-<li><p>local DNS 发现返回的 NS 列表中通过 NS 策略选择出一个 CNAME 记录，所以就是用 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com/" title="http://www.aaa.lxdns.com">www.aaa.lxdns.com</a> 地址继续重复 4 5 6 步骤 直到请求到 lxdns.com NS。</p>
-</li>
-</ol>
-<p>​  </p>
-<ol start="8">
-<li>在 lxdns.com NS 中成功解析出 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com/" title="http://www.aaa.lxdns.com">www.aaa.lxdns.com</a> A 记录，将 ip 1.1.1.1 返回给 Local DNS，Local DNS 返回给浏览器，浏览器发出 http 请求到 1.1.1.1 服务中开始请求内容。</li>
-</ol>
-<p><strong>​</strong></p>
-<p><strong>在整个过程中涉及到了 Local DNS 如果选择各个 NS 返回的下一个 NS 列表中唯一一个 ip 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。</strong></p>
-<h2 id="DNS-自定义区域"><a href="#DNS-自定义区域" class="headerlink" title="DNS 自定义区域"></a>DNS 自定义区域</h2><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b10f9f11e1e464dbde84f0f24373bcb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e71168f460641a8b5e641d7e8afd5bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png">  </p>
-<h2 id="DNS-常用命令"><a href="#DNS-常用命令" class="headerlink" title="DNS 常用命令"></a>DNS 常用命令</h2><h3 id="1-查看域名对应的-NS"><a href="#1-查看域名对应的-NS" class="headerlink" title="1. 查看域名对应的 NS"></a>1. 查看域名对应的 NS</h3><blockquote>
-<p>dig 域名 可以查看域名的解析 NS 列表，同时也可以看出缓存时间</p>
+<p>那什么是 DNS 呢？  </p>
+<mark class="tag-plugin colorful mark" color="purple">DNS 本质是为了维护域名和 IP 的映射关系的服务</mark>
+
+<blockquote>
+<p>DNS 分为了公网的 DNS 服务 和 私有的 DNS 服务。  </p>
 </blockquote>
-<h3 id="2-指定-Local-DNS-进行域名解析"><a href="#2-指定-Local-DNS-进行域名解析" class="headerlink" title="2. 指定 Local DNS 进行域名解析"></a>2. 指定 Local DNS 进行域名解析</h3><blockquote>
-<p>dig @LocalDNSIP 域名 可以使用这个方法进行 CDN 的调度测试</p>
-</blockquote>
+<h2 id="域名结构"><a href="#域名结构" class="headerlink" title="域名结构"></a>域名结构</h2><p>比如一个域名 <code>mail.tsinghua.edu.cn.</code> 这个域名分为了几个层次，比如根<code>.</code>, 顶级域名 <code>cn</code>，二级域名 <code>edu</code>，三级域名 <code>tsinghua</code>，四级域名 <code>mail</code>，如下图所示：<br><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9ae0f8945500436b816913398d9b01ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png">  </p>
+<p><strong>根域名服务器:</strong> <mark class="tag-plugin colorful mark" color="purple">根级 DNS 服务全球一共有 13 集群</mark>，其中 10 个在美国，其他分别在英国、瑞典、日本。根服务器主要用来管理互联网的主目录。大部分采用 anycast + BGP 方式管理服务集群，anycast 技术可以是的多台服务对外暴露同一个 IP 地址，由路由层面的 BGP 机房选择一个就近的服务器进行解析任务。根域名服务器存储了顶级的 NS(name server) 服务器列表。<br>​</p>
+<p><strong>顶级域名服务器</strong>：<mark class="tag-plugin colorful mark" color="purple">顶级域名主要描述该域名的性质</mark>，<mark class="tag-plugin colorful mark" color="purple">一是国家和地区顶级域名</mark>（ccTLDs），目前200多个国家都按照ISO3166国家代码分配了顶级域名，例如中国是<code>cn</code>，日本是<code>jp</code>等；<mark class="tag-plugin colorful mark" color="purple">二是通用顶级域名</mark>（gTLDs），例如表示工商企业的<code>.com</code>，表示网络提供商的 <code>.net</code>，表示非盈利组织的 <code>.org</code> 等。<mark class="tag-plugin colorful mark" color="purple">三是新顶级域名</mark>（New gTLD）如通用的 <code>.xyz</code>、代表“高端”的 <code>.top</code>、代表“红色”的 <code>.red</code>、代表“人”的 <code>.men</code> 等一千多种。<br>​</p>
+<p><strong>二级域名服务器</strong>：<mark class="tag-plugin colorful mark" color="purple">二级域名一般是指域名注册人选择使用的名称</mark>，如 <code>yahoo．com</code>；上网的商业组织通常使用自己的商标、商号或其他商业标志作为自己的网上名称，如“microsoft．com”。二级以上的域名都是非注册类型的域名可以每一个服务自己去定义。<br>​</p>
+<p><strong>权威域名服务器</strong>：<mark class="tag-plugin colorful mark" color="purple">权威域名服务器指提供 IP 解析能力的DNS，或者能够控制最终 IP 地址解析的服务器，一般是 二级域名服务器</mark>。<br>​</p>
+<p><strong>Local DNS</strong>: 用户上网需要通过 ISP(互联网服务提供商, 比如电信、网通等) 的网络接入互联网, <mark class="tag-plugin colorful mark" color="purple">ISP 会分配给用户一个 DNS 服务器，该服务器就是 Local DNS</mark>。Local DNS 能够不断<strong>迭代</strong> <code>根NS</code>、<code>顶级NS</code>、<code>权威 NS</code>，直到能够解析出该域名 IP 后返回给用户。  </p>
+<h2 id="DNS-解析原理"><a href="#DNS-解析原理" class="headerlink" title="DNS 解析原理"></a>DNS 解析原理</h2><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a33ffb990e444600a803f559a4311721~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png">  </p>
+<p><strong>用户接入 ISP 提供的网络后，会给用户分配一个 ISP 提供的解析 DNS 的 IP 地址，称为 Local DNS</strong>  </p>
+<ol>
+<li><p>用户在浏览器中输入网址开始访问 <a target="_blank" rel="noopener" href="http://www.aaa.com.首先会将/" title="http://www.aaa.com%E3%80%82%E9%A6%96%E5%85%88%E4%BC%9A%E5%B0%86">www.aaa.com</a> 首先会将 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 进行域名地址的解析工作，解析成 IP 地址。</p>
+</li>
+<li><p>浏览器会从本地缓存中查看是否有 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 域名 DNS 解析缓存，<mark class="tag-plugin colorful mark" color="purple">浏览器DNS缓存一般是 1min 左右</mark>(<em>不同的浏览器不一致</em>), 同时对于 chrome 浏览器你可以通过 chrome:&#x2F;&#x2F;net-internals&#x2F;#dns 链接清除浏览器本地缓存的 DNS 解析。如果没有对应域名的缓存，会继续访问设备上本地 host。</p>
+</li>
+<li><mark class="tag-plugin colorful mark" color="purple">本地 host 是一个 域名和 IP 的映射表</mark>，在 Linux 里位于 `/etc/hosts` 文件中，在 Windows 里是位于 “`C:\\WINDOWS\\system32\\drivers\\etc\\hosts`” 文件中。如果没有对应的域名映射，则浏览器的网络模块会读取设备被分配的 Local DNS 地址，给 ISP 分配的 Local DNS 发送域名解析请求，要求 Local DNS 对 [www.aaa.com](http://www.aaa.com "http://www.aaa.com") 地址进行解析，最终给浏览器解析的 IP 地址或者解析错误日志信息。
+
+</li>
+<li><p>Local DNS 一般在电脑网络适配器属性中可以查看，当然我们也可以修改 Local DNS， 比如改写成 8.8.8.8， 或者公司内部的 DNS 解析服务。<mark class="tag-plugin colorful mark" color="purple">Local DNS 收到用户的请求后，会根据域名的结构，从根NS **迭代** 地请求各个 NS 得到最终的 IP</mark> 。Local DNS 服务器中保存了 13 处 根域名服务器地址(<em>几乎根域名服务器地址是不会更换的</em>)。Local DNS 会将 <a target="_blank" rel="noopener" href="http://www.aaa.com/" title="http://www.aaa.com">www.aaa.com</a> 地址解析请求发送给一个就近的根域名服务器。</p>
+</li>
+<li><p>根域名服务器发现这个域名是属于 <code>.com</code> 顶级域名下的，则返回 <code>.com</code> 顶级NS列表 和 IP 地址给 Local DNS 。Local DNS 得到顶级 NS 列表后，进一步选择一个就近的顶级 NS 服务器，去请求解析结果。</p>
+</li>
+<li><p>顶级 NS 接收到来自 Local DNS 请求后，发现这是来自于 <code>.aaa</code> 这个二级域名下的，它把在它这里登记注册的 <code>aaa.com</code> NS列表返回给 local DNS。 此时返回一个 <code>CNAME</code> 地址 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com./" title="http://www.aaa.lxdns.com%E3%80%82">www.aaa.lxdns.com。</a></p>
+</li>
+<li><p>local DNS 发现返回的 NS 列表中通过 NS 策略选择出一个 <code>CNAME</code> 记录，所以就是用 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com/" title="http://www.aaa.lxdns.com">www.aaa.lxdns.com</a> 地址继续重复 4 5 6 步骤 直到请求到 <code>lxdns.com NS</code>。</p>
+</li>
+<li><p>在 <code>lxdns.com NS</code> 中成功解析出 <a target="_blank" rel="noopener" href="http://www.aaa.lxdns.com/" title="http://www.aaa.lxdns.com">www.aaa.lxdns.com</a> <code>A 记录</code>，将 IP 1.1.1.1 返回给 Local DNS，Local DNS 返回给浏览器，浏览器发起到 1.1.1.1 的 http 请求加载内容。</p>
+</li>
+</ol>
+<p><strong>在整个过程中, 涉及到 Local DNS 如何从各个 NS 返回的下一个 NS 列表中选择一个唯一 IP 的问题，一般对于 bind9 等软件都实现了通过多点部署 DNS 就近选择。</strong></p>
+<h2 id="DNS-自定义区域"><a href="#DNS-自定义区域" class="headerlink" title="DNS 自定义区域"></a>DNS 自定义区域</h2><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b10f9f11e1e464dbde84f0f24373bcb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
+<h2 id="DNS-资源记录"><a href="#DNS-资源记录" class="headerlink" title="DNS 资源记录"></a>DNS 资源记录</h2><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e71168f460641a8b5e641d7e8afd5bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png">  </p>
+<h2 id="DNS-常用命令"><a href="#DNS-常用命令" class="headerlink" title="DNS 常用命令"></a>DNS 常用命令</h2><h3 id="1-查看域名对应的-NS"><a href="#1-查看域名对应的-NS" class="headerlink" title="1. 查看域名对应的 NS"></a>1. 查看域名对应的 NS</h3><p><code>dig &#123;domain&#125;</code> dig 命令可以查看域名的解析 NS 列表，同时也可以看出缓存时间</p>
+<h3 id="2-指定-Local-DNS-进行域名解析"><a href="#2-指定-Local-DNS-进行域名解析" class="headerlink" title="2. 指定 Local DNS 进行域名解析"></a>2. 指定 Local DNS 进行域名解析</h3><p><code>dig &#123;Local DNS IP&#125; &#123;domain&#125;</code> 可以使用这个方法进行 CDN 的调度测试</p>
 <p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aaac5d9dca154b46ba929360c03904ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
 <h3 id="3-查看-DNS-的-TTL"><a href="#3-查看-DNS-的-TTL" class="headerlink" title="3.查看 DNS 的 TTL"></a>3.查看 DNS 的 TTL</h3><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/db96c745c9a4444bb8b945b042bd8202~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
-<h3 id="4-查看-DNS-完整解析路径"><a href="#4-查看-DNS-完整解析路径" class="headerlink" title="4.查看 DNS 完整解析路径"></a>4.查看 DNS 完整解析路径</h3><blockquote>
-<p>dig +trace 域名 +additional</p>
-</blockquote>
+<h3 id="4-查看-DNS-完整解析路径"><a href="#4-查看-DNS-完整解析路径" class="headerlink" title="4.查看 DNS 完整解析路径"></a>4.查看 DNS 完整解析路径</h3><p><code>dig +trace &#123;domain&#125; +additional</code></p>
 <p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/144df4c1bcc640e4b2b513c570adc686~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75e45a361c5f44148811a71973256659~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
-<h3 id="5-测试网络延迟"><a href="#5-测试网络延迟" class="headerlink" title="5.测试网络延迟"></a>5.测试网络延迟</h3><blockquote>
-<p>ping serverIp</p>
-</blockquote>
+<h3 id="5-测试网络延迟"><a href="#5-测试网络延迟" class="headerlink" title="5.测试网络延迟"></a>5.测试网络延迟</h3><p><code>ping &#123;ip&#125;</code></p>
 <p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f806d7950a584293bf66b0a1ff3f2da7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="image.png"></p>
 <h2 id="DNS-性能分析"><a href="#DNS-性能分析" class="headerlink" title="DNS 性能分析"></a>DNS 性能分析</h2><h3 id="CNAME-次数过多"><a href="#CNAME-次数过多" class="headerlink" title="CNAME 次数过多"></a>CNAME 次数过多</h3><h3 id="设置-TTL-不合理"><a href="#设置-TTL-不合理" class="headerlink" title="设置 TTL 不合理"></a>设置 TTL 不合理</h3><h3 id="DNS-多点就近部署架构升级"><a href="#DNS-多点就近部署架构升级" class="headerlink" title="DNS 多点就近部署架构升级"></a>DNS 多点就近部署架构升级</h3><h2 id="企业内网-DNS"><a href="#企业内网-DNS" class="headerlink" title="企业内网 DNS"></a>企业内网 DNS</h2><ul>
 <li>内网 web 服务</li>
-<li>hostname 应该设置为 FQDN 如何维护主机名和内网 ip 关系</li>
+<li>hostname 应该设置为 FQDN 如何维护主机名和内网 IP 关系</li>
 <li>一些中间件需要迁移扩容，所以需要使用域名对外服务</li>
 <li>对解析域名有更高的要求（安全-dnssec 效率-ttl）</li>
 <li>使用 bind9 工具去实现</li>
@@ -180,7 +172,9 @@
         <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/&title=开发者都应该了解的DNS知识 - JKK随笔&pics=/images/banner_desk.jpg&summary=
 转载自: https://juejin.cn/post/7023258157241597983
 
-什么是 DNS​需要先介绍为什么需要域名，一方面是便于流通好记的，当然基于 ip 去定位资源是比较繁琐的，特别是在现在 ipv6 的情..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=开发者都应该了解的DNS知识 - JKK随笔&amp;body=https://panzhenjie.fun/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+什么是 DNS​在介绍域名前，我们先来看看为什么需要域名？  
+
+域名易读易记网络中的计算机是通过IP去定位资源的，但是IP难读难记，..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=开发者都应该了解的DNS知识 - JKK随笔&amp;body=https://panzhenjie.fun/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/"/>
@@ -224,7 +218,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-DNS%E2%80%8B"><span class="toc-text">什么是 DNS​</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84"><span class="toc-text">域名结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="toc-text">DNS 解析原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%BA%E5%9F%9F"><span class="toc-text">DNS 自定义区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">DNS 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%90%8D%E5%AF%B9%E5%BA%94%E7%9A%84-NS"><span class="toc-text">1. 查看域名对应的 NS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%87%E5%AE%9A-Local-DNS-%E8%BF%9B%E8%A1%8C%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-text">2. 指定 Local DNS 进行域名解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9F%A5%E7%9C%8B-DNS-%E7%9A%84-TTL"><span class="toc-text">3.查看 DNS 的 TTL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E7%9C%8B-DNS-%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90%E8%B7%AF%E5%BE%84"><span class="toc-text">4.查看 DNS 完整解析路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F"><span class="toc-text">5.测试网络延迟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">DNS 性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CNAME-%E6%AC%A1%E6%95%B0%E8%BF%87%E5%A4%9A"><span class="toc-text">CNAME 次数过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-TTL-%E4%B8%8D%E5%90%88%E7%90%86"><span class="toc-text">设置 TTL 不合理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS-%E5%A4%9A%E7%82%B9%E5%B0%B1%E8%BF%91%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84%E5%8D%87%E7%BA%A7"><span class="toc-text">DNS 多点就近部署架构升级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E5%86%85%E7%BD%91-DNS"><span class="toc-text">企业内网 DNS</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-DNS%E2%80%8B"><span class="toc-text">什么是 DNS​</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84"><span class="toc-text">域名结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="toc-text">DNS 解析原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8C%BA%E5%9F%9F"><span class="toc-text">DNS 自定义区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E8%B5%84%E6%BA%90%E8%AE%B0%E5%BD%95"><span class="toc-text">DNS 资源记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">DNS 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%90%8D%E5%AF%B9%E5%BA%94%E7%9A%84-NS"><span class="toc-text">1. 查看域名对应的 NS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%87%E5%AE%9A-Local-DNS-%E8%BF%9B%E8%A1%8C%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-text">2. 指定 Local DNS 进行域名解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9F%A5%E7%9C%8B-DNS-%E7%9A%84-TTL"><span class="toc-text">3.查看 DNS 的 TTL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E7%9C%8B-DNS-%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90%E8%B7%AF%E5%BE%84"><span class="toc-text">4.查看 DNS 完整解析路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F"><span class="toc-text">5.测试网络延迟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS-%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">DNS 性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CNAME-%E6%AC%A1%E6%95%B0%E8%BF%87%E5%A4%9A"><span class="toc-text">CNAME 次数过多</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-TTL-%E4%B8%8D%E5%90%88%E7%90%86"><span class="toc-text">设置 TTL 不合理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS-%E5%A4%9A%E7%82%B9%E5%B0%B1%E8%BF%91%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84%E5%8D%87%E7%BA%A7"><span class="toc-text">DNS 多点就近部署架构升级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E5%86%85%E7%BD%91-DNS"><span class="toc-text">企业内网 DNS</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
