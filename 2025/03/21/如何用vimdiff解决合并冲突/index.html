@@ -1,0 +1,705 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>如何用vimdiff解决合并冲突 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7351300787648921619  vimdiff 介绍vimdiff 等同于 vim -d 命令，即 Vim 编辑器的 diff 模式。   该命令后面通常会接两个或多个文件名作为参数，这些文件会同时在 Vim 编辑器的分割窗口中打开，并高亮显示文件之间内容有差异的部分。   同时，该模式下还提供部分快捷按键用于完成文件内容的合并等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用vimdiff解决合并冲突">
+<meta property="og:url" content="https://panzhenjie.fun/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7351300787648921619  vimdiff 介绍vimdiff 等同于 vim -d 命令，即 Vim 编辑器的 diff 模式。   该命令后面通常会接两个或多个文件名作为参数，这些文件会同时在 Vim 编辑器的分割窗口中打开，并高亮显示文件之间内容有差异的部分。   同时，该模式下还提供部分快捷按键用于完成文件内容的合并等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6875152-f4c2b05fdeaf1444.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6875152-d34dda92bc969b52.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6875152-b90c5dc9c6064384.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6875152-22a3c389a3636e7b.png">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b14f62314a4a47abaeaa3d2c1f0f262c~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=818&h=425&s=67475&e=png&b=05333f">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448c40a555f04168aeee82369f35c537~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=511&h=144&s=6438&e=png&b=282a36">
+<meta property="article:published_time" content="2025-03-21T05:19:29.000Z">
+<meta property="article:modified_time" content="2025-03-25T18:11:05.524Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/6875152-f4c2b05fdeaf1444.png">
+  
+  
+  
+  <meta name="keywords" content="vim,git">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"><span class="title">如何用vimdiff解决合并冲突</span></a><a class="item title" href="/2025/03/26/%E4%B8%80%E4%B8%AA%E5%85%8D%E8%B4%B9%E5%AD%A6%E4%B9%A0%E7%94%9F%E8%AF%8D%E7%9A%84%E8%BD%BB%E5%BA%94%E7%94%A8/"><span class="title">一个免费学习生词的轻应用</span></a><a class="item title" href="/2025/03/04/%E5%BC%80%E5%8F%91%E8%80%85%E9%83%BD%E5%BA%94%E8%AF%A5%E4%BA%86%E8%A7%A3%E7%9A%84DNS%E7%9F%A5%E8%AF%86/"><span class="title">开发者都应该了解的DNS知识</span></a><a class="item title" href="/2024/04/12/Canvas%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><span class="title">Canvas入门知识图解</span></a><a class="item title" href="/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/"><span class="title">全面了解DNS和DoH/DoT</span></a><a class="item title" href="/2025/02/21/%E5%80%BC%E5%BE%97%E4%BA%86%E8%A7%A3%E7%9A%84Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"><span class="title">值得了解的Python虚拟环境</span></a><a class="item title" href="/2025/02/21/%E6%9C%89%E5%BF%85%E8%A6%81%E4%BA%86%E8%A7%A3python%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6requirements-txt/"><span class="title">有必要了解python项目的依赖管理文件requirements.txt</span></a><a class="item title" href="/2025/02/17/%E5%85%A8%E9%9D%A2%E8%AE%A4%E8%AF%86%E6%B5%81%E8%A1%8C%E7%9A%84SSR%E6%A1%86%E6%9E%B6Nextjs/"><span class="title">全面认识流行的SSR框架Nextjs</span></a><a class="item title" href="/2024/12/10/SQL%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/"><span class="title">SQL基础入门</span></a><a class="item title" href="/2024/02/26/SQL%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">SQL零基础入门图文教程</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-21T05:19:29.000Z">2025-03-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-25T18:11:05.524Z">2025-03-26</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>如何用vimdiff解决合并冲突</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7351300787648921619">https://juejin.cn/post/7351300787648921619</a></p>
+</blockquote>
+<h2 id="vimdiff-介绍"><a href="#vimdiff-介绍" class="headerlink" title="vimdiff 介绍"></a>vimdiff 介绍</h2><p><code>vimdiff</code> 等同于 <code>vim -d</code> 命令，即 <mark class="tag-plugin colorful mark" color="purple">Vim 编辑器的 diff 模式</mark>。  </p>
+<p>该命令后面通常会接两个或多个文件名作为参数，这些文件会同时在 Vim 编辑器的分割窗口中打开，并<mark class="tag-plugin colorful mark" color="purple">高亮显示文件之间内容有差异的部分</mark>。  </p>
+<p>同时，该模式下还提供部分快捷按键用于完成文件内容的合并等操作。</p>
+<h3 id="启动-vimdiff"><a href="#启动-vimdiff" class="headerlink" title="启动 vimdiff"></a>启动 vimdiff</h3><p><code>vimdiff</code> 命令常用于编辑同一文件的不同历史版本，对各文件的内容进行比对与调整。如下面两个文件：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable">$ </span>cat file1<br><span class="hljs-title class_">Line</span> one<br><span class="hljs-title class_">Line</span> <span class="hljs-number">2</span><br><span class="hljs-title class_">Line</span> three<br><br><br><span class="hljs-title class_">Line</span> <span class="hljs-number">4</span><br><span class="hljs-title class_">Line</span>     <span class="hljs-number">5</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable">$ </span>cat file2<br><span class="hljs-title class_">Line</span> <span class="hljs-number">1</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">2</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">3</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">4</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">5</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">6</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">7</span><br><span class="hljs-title class_">Line</span> <span class="hljs-number">8</span><br></code></pre></td></tr></table></figure>
+
+<p>可以使用 <code>vim -O2 file1 file2</code> 命令，在左右排列的两个窗口中同时打开 file1 和 file2 两个文件，如下图所示：  </p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//upload-images.jianshu.io/upload_images/6875152-f4c2b05fdeaf1444.png"></p>
+<p>而 <code>vimdiff file1 file2</code> 命令会以同样的形式打开这两个文件，并且用<strong>不同的背景色</strong>高亮显示彼此间有差别的内容，如下图：  </p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//upload-images.jianshu.io/upload_images/6875152-d34dda92bc969b52.png"></p>
+<p>从上面的两幅截图中可以得出 vimdiff 标记差别内容时的几个规则：</p>
+<ul>
+<li><mark class="tag-plugin colorful mark" color="purple">只在某一个文件中存在的行背景色设置为蓝色，而另一文件中的对应位置则被标记为绿色</mark>。（或者说，相对于另一个文件，当前文件中“多余”的行标记为蓝色，“缺少”的行则标记为绿色）</li>
+<li><mark class="tag-plugin colorful mark" color="purple">两个文件中同时存在但是内容有差异的行，都标记为粉色，而引起差异的文字标记为红色</mark></li>
+</ul>
+<p>除了 <code>vimdiff FILE_LEFT FILE_RIGHT</code> 或者 <code>vim -d FILE_LEFT FILE_RIGHT</code> 的形式外，也可以通过在 Vim 中输入命令进入 diff 模式。</p>
+<p>比如先进入 Vim 编辑 FILE_LEFT 文件（<code>vim FILE_LEFT</code>），再输入以下命令进入 diff 模式：<br><code>:vertical diffsplit FILE_RIGHT</code></p>
+<h3 id="光标移动"><a href="#光标移动" class="headerlink" title="光标移动"></a>光标移动</h3><p>可以使用下列两种快捷键，<mark class="tag-plugin colorful mark" color="purple">在文件的各个差异点之间前后移动</mark>：</p>
+<ul>
+<li><code>], c</code>：跳转到下个差异点</li>
+<li><code>[, c</code>：跳转到上个差异点</li>
+</ul>
+<p>至于光标<mark class="tag-plugin colorful mark" color="purple">在两个窗口之前的切换</mark>，可以使用如下按键：</p>
+<ul>
+<li><code>Ctrl-w, l</code>：光标切换到右侧的窗口</li>
+<li><code>Ctrl-w, h</code>：光标切换到左侧的窗口</li>
+<li><code>Ctrl-w, w</code>：光标在两个窗口间彼此切换</li>
+</ul>
+<h3 id="内容合并"><a href="#内容合并" class="headerlink" title="内容合并"></a>内容合并</h3><p>可以使用 <code>d, p</code> （即 diff put）命令，将当前差异点中的内容覆盖到另一文件中的对应位置。<br>如当光标位于左侧文件（file1）中的第一行时，依次按下 <code>d</code>、<code>p</code> 键，则 file1 中的 <code>Line one</code> 被推送到右侧，并替换掉 file2 中对应位置上的 <code>Line 1</code> 。截图如下：  </p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//upload-images.jianshu.io/upload_images/6875152-b90c5dc9c6064384.png"></p>
+<p>而 <code>d, o</code> （即 diff obtain）命令可以将另一窗口中差异点处的内容拉取到当前位置并进行替换操作。截图如下：  </p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="//upload-images.jianshu.io/upload_images/6875152-22a3c389a3636e7b.png"></p>
+<p>即在 file1 的第一行执行 <code>d o</code> 命令后，file2 中的第一行内容 <code>Line 1</code> 被拉取到 file1 中并替换掉原来位置上的 <code>Line one</code>。</p>
+<h3 id="多文件编辑"><a href="#多文件编辑" class="headerlink" title="多文件编辑"></a>多文件编辑</h3><p>vimdiff 实际上是 Vim 编辑器的 diff 模式，因此适用于 Vim 编辑器的命令和快捷键也同样可以在该模式下使用。常用的几个命令如下：</p>
+<ul>
+<li><code>:qa</code>：退出所有文件</li>
+<li><code>:wa</code>：保存所有文件</li>
+<li><code>:wqa</code>：保存并退出所有文件</li>
+<li><code>qa!</code>：强制退出（不保存）所有文件</li>
+<li><code>z o</code>：查看被折叠的内容</li>
+<li><code>z c</code>：重新折叠</li>
+</ul>
+<p>其他常用的命令与快捷键可参考 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/af14f639dadb">Vim 速查手册</a></p>
+<h2 id="vimdiff-解冲突"><a href="#vimdiff-解冲突" class="headerlink" title="vimdiff 解冲突"></a>vimdiff 解冲突</h2><p>使用 <code>vimdiff</code> 作为 Git 的合并工具确实可能会让新手感到困惑，但它是一个功能强大的工具，一旦掌握了它，就可以非常高效地进行代码合并和比较</p>
+<h3 id="Git配置"><a href="#Git配置" class="headerlink" title="Git配置"></a>Git配置</h3><p>在开始之前，需要知道如何将vimdiff设置为Git的合并工具。具体步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config merge.tool vimdiff<br>git config merge.conflictstyle diff3<br>git config mergetool.prompt <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+
+<p>这将<mark class="tag-plugin colorful mark" color="purple">把Git设置为默认的合并工具，在合并时显示共同祖先，并禁用打开vimdiff的提示</mark>。</p>
+<ul>
+<li><code>git config merge.tool vimdiff</code>: 这会将 <code>vimdiff</code> 设置为默认的合并工具。</li>
+<li><code>git config merge.conflictstyle diff3</code>: 这会告诉 Git 在合并冲突时显示共同祖先的版本，这样就可以看到两个分支以及它们的共同起点的内容。</li>
+<li><code>git config mergetool.prompt false</code>: 这会禁用打开合并工具时的提示，Git 将自动打开 <code>vimdiff</code> 而不询问是否想要继续。</li>
+</ul>
+<mark class="tag-plugin colorful mark" color="purple">完成这些设置后，当运行 `git mergetool` 命令来解决合并冲突时</mark>，Git 将自动使用 `vimdiff` 来打开有冲突的文件。
+
+<h3 id="创建冲突"><a href="#创建冲突" class="headerlink" title="创建冲突"></a>创建冲突</h3><p>下面用一个例子举例：</p>
+<p>创建一个名为”zoo”的目录，并进入”zoo”目录，然后初始化Git仓库，最后新建一个<code>animals.txt</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir zoo  # <br>cd zoo<br>git init<br>vi animals.txt<br></code></pre></td></tr></table></figure>
+
+<p>在文件中添加一些动物信息后并保存：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs auto">bash 代码解读复制代码cat<br>dog<br>octopus<br>octocat<br></code></pre></td></tr></table></figure>
+
+<p>之后提交该文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git add animals.txt<br>git commit -m &quot;Initial commit&quot;<br></code></pre></td></tr></table></figure>
+
+<p>添加文件<code>animals.txt</code>到Git，提交文件，并附上消息”Initial commit”。</p>
+<p>创建一个名为”octodog”的分支，并切换到”octodog”分支，并打开文件<code>animals.txt</code>，并将”octopus”改为”octodog”。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">git branch octodog<br>git checkout octodog<br>vi animals.txt  # let&#x27;s change octopus to octodog<br></code></pre></td></tr></table></figure>
+
+<p>添加文件<code>animals.txt</code>到Git，提交文件，并附上消息”Replace octopus with an octodog”。</p>
+<figure class="highlight plaintext"><figcaption><span>add animals.txt</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shellgit">git commit -m &quot;Replace octopus with an octodog&quot;<br></code></pre></td></tr></table></figure>
+
+<p>切换到”master”分支，打开文件<code>animals.txt</code>，并将”octopus”改为”octoman”。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git checkout master<br>vi animals.txt  # let&#x27;s change octopus to octoman<br></code></pre></td></tr></table></figure>
+
+<p>添加文件<code>animals.txt</code>到Git，提交文件，并附上消息”Replace octopus with an octoman”。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git add animals.txt<br>git commit -m &quot;Replace octopus with an octoman&quot;<br></code></pre></td></tr></table></figure>
+
+<p>合并”octodog”分支到”master”分支。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git merge octodog  # merge octodog into master<br></code></pre></td></tr></table></figure>
+
+<p>此时，会得到一个合并错误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">Auto-merging animals.txt<br>CONFLICT (content): Merge conflict in animals.txt<br>Automatic merge failed; fix conflicts and then commit the result.<br></code></pre></td></tr></table></figure>
+
+<p>这表明在<code>animals.txt</code>文件中存在合并冲突。</p>
+<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><p>解决这个冲突可以输入以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git mergetool<br></code></pre></td></tr></table></figure>
+
+<p>执行上述命令后，Git会尝试使用vimdiff作为合并工具来解决冲突。vimdiff会打开一个窗口，显示两个版本的文件，中间会有冲突标记。需要手动比较这两个版本，并选择一个解决方案来替换冲突的部分。使用 <code>hjkl</code> 键在窗口之间导航，使用 <code>:diffget LOCAL</code>、<code>:diffget REMOTE</code> 或 <code>:diffget BASE</code> 来将对应窗口的内容复制到 <code>MERGED</code> 窗口中。解决冲突后，保存并关闭文件，Git会提示你提交冲突的解决结果。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b14f62314a4a47abaeaa3d2c1f0f262c~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=818&h=425&s=67475&e=png&b=05333f"></p>
+<p>上述窗口看起来很迷糊，其实很好理解，下面解释一下都有什么。从左到右，从上到下：</p>
+<ol>
+<li><strong><code>LOCAL</code></strong>:<ul>
+<li>这是当前分支（通常是执行 <code>git merge</code> 命令时所在的分支）的文件内容。</li>
+<li>在合并过程中，这代表了您的最新更改。</li>
+</ul>
+</li>
+<li><strong><code>BASE</code></strong>:<ul>
+<li>这是两个分支的共同祖先的文件内容。</li>
+<li>它显示了自从两个分支从共同点分开以来，发生了哪些变化。</li>
+</ul>
+</li>
+<li><strong><code>REMOTE</code></strong>:<ul>
+<li>这是试图合并进来的分支的文件内容。</li>
+<li>在 <code>git merge</code> 命令中，`` 就是这里的 <code>REMOTE</code>。</li>
+</ul>
+</li>
+<li><strong><code>MERGED</code></strong>:<ul>
+<li>这是合并后的文件内容将显示的地方。</li>
+<li>目标是将 <code>LOCAL</code> 和 <code>REMOTE</code> 的更改合并到这个窗口中，以解决所有冲突。</li>
+</ul>
+</li>
+</ol>
+<p>假设想要保留“octodog”的更改（来自REMOTE）。为此，将光标移动到MERGED文件（Ctrl + w, j），然后移动到合并冲突区域。接着，可以选择保留LOCAL版本、BASE版本或REMOTE版本中的哪一部分，或者合并这些内容。完成后，保存并关闭文件，Git会提示你提交冲突的解决结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">vim 代码解读复制代码:diffget RE<br></code></pre></td></tr></table></figure>
+
+<p>这会将REMOTE中相应的更改添加到MERGED文件中，也可以：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">:diffg RE` - 从REMOTE获取内容<br>:diffg BA` - 从BASE获取内容<br>:diffg LO` - 从LOCAL获取内容<br></code></pre></td></tr></table></figure>
+
+<p>这些命令允许快速地从一个特定的版本中获取内容，并将其应用于MERGED区域。一旦解决了所有的冲突，保存并关闭文件，Git会提示提交冲突的解决结果。</p>
+<p>保存文件并退出（快速写入并退出多个文件的方法是：:wqa）。一旦解决了所有冲突并保存了文件后运行<code>git commit</code>，完成这些步骤后，就成功地解决了合并冲突，并将更改提交到了 Git 仓库。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448c40a555f04168aeee82369f35c537~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=511&h=144&s=6438&e=png&b=282a36"></p>
+<p>以下是一些其他的命令：</p>
+<ul>
+<li>使用<code>:diffthis</code>命令来打开两个版本之间的差异，这样可以更清楚地看到差异。</li>
+<li>使用<code>:nextdiffto</code>命令来切换到下一个差异，这样可以逐步解决多个冲突。</li>
+<li>使用<code>:diffoff</code>命令来关闭差异显示，这样可以更专注于编辑。</li>
+<li>使用<code>:diffmerge</code>命令来合并两个版本，这将覆盖当前的MERGED区域。</li>
+<li>使用<code>:diffmergeoff</code>命令来关闭合并显示，这样可以回到正常的编辑模式。</li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/&title=如何用vimdiff解决合并冲突 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://juejin.cn/post/7351300787648921619
+
+vimdiff 介绍vimdiff 等同于 vim -d 命令，即 Vim 编辑器的 diff 模式。  
+该命令后面通常会接两个或多..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=如何用vimdiff解决合并冲突 - JKK随笔&amp;body=https://panzhenjie.fun/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/03/26/%E4%B8%80%E4%B8%AA%E5%85%8D%E8%B4%B9%E5%AD%A6%E4%B9%A0%E7%94%9F%E8%AF%8D%E7%9A%84%E8%BD%BB%E5%BA%94%E7%94%A8/">一个免费学习生词的轻应用</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/03/06/%E5%85%A8%E9%9D%A2%E4%BA%86%E8%A7%A3DNS%E5%92%8CDoH-DoT/">全面了解DNS和DoH/DoT</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vimdiff-%E4%BB%8B%E7%BB%8D"><span class="toc-text">vimdiff 介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-vimdiff"><span class="toc-text">启动 vimdiff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E6%A0%87%E7%A7%BB%E5%8A%A8"><span class="toc-text">光标移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E5%90%88%E5%B9%B6"><span class="toc-text">内容合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91"><span class="toc-text">多文件编辑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vimdiff-%E8%A7%A3%E5%86%B2%E7%AA%81"><span class="toc-text">vimdiff 解冲突</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%E9%85%8D%E7%BD%AE"><span class="toc-text">Git配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%86%B2%E7%AA%81"><span class="toc-text">创建冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81"><span class="toc-text">解决冲突</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
