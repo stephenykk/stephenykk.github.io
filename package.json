@@ -15,7 +15,8 @@
     "cg": "hexo clean && hexo g",
     "p": "pnpm push:master",
     "d": "hexo g && npm run fix-images && hexo d",
-    "pd": "npm run pull && npm run p && npm run d"
+    "pd": "npm run pull && npm run p && npm run d",
+    "r": "npm run pd"
   },
   "hexo": {
     "version": "7.1.1"
