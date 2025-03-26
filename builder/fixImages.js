@@ -80,13 +80,13 @@ async function fixImgSrc(filePath) {
       tagData.attrs['new-src'] = query.update(dataSrc, queryObj)
     }
 
-    const withoutProtocol =
-      dataSrc && !/^http/.test(dataSrc) && !dataSrc.startsWith("/images/banner");
-    if (withoutProtocol) {
+    const withoutDomain =
+      dataSrc && !/^(https?:)?\/\//.test(dataSrc) && !dataSrc.startsWith("/images/banner");
+    if (withoutDomain) {
       tagData.attrs['new-src'] = MY_DOMAIN + (dataSrc.startsWith('/') ? '' : '/') + dataSrc
     }
 
-    const isKeep = isSpecialSignature || withoutProtocol
+    const isKeep = isSpecialSignature || withoutDomain
 
     return isKeep
   })
