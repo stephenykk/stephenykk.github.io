@@ -325,7 +325,7 @@
       <div class='title cap theme'>您可能感兴趣的文章</div>
     </section>
     <section class='body'>
-    <div class="related-posts"><a class="item" href="\2024\03\01\MySQL高级SQL语句进阶\" title="MySQL高级SQL语句进阶"><span class="title">MySQL高级SQL语句进阶</span></a><a class="item" href="\2024\02\26\SQL零基础入门图文教程\" title="SQL零基础入门图文教程"><span class="title">SQL零基础入门图文教程</span></a><a class="item" href="\2024\12\10\SQL基础入门\" title="SQL基础入门"><span class="title">SQL基础入门</span></a></div></section></div>
+    <div class="related-posts"><a class="item" href="\2024\03\01\MySQL高级SQL语句进阶\" title="MySQL高级SQL语句进阶"><span class="title">MySQL高级SQL语句进阶</span></a><a class="item" href="\2024\12\10\SQL基础入门\" title="SQL基础入门"><span class="title">SQL基础入门</span></a><a class="item" href="\2024\02\26\SQL零基础入门图文教程\" title="SQL零基础入门图文教程"><span class="title">SQL零基础入门图文教程</span></a></div></section></div>
 
 
   <div class="related-wrap md-text" id="comments">
@@ -482,7 +482,7 @@
     }),
 
     jq: (fn) => {
-      if (typeof jQuery === 'https://panzhenjie.fun/') {
+      if (typeof jQuery === 'undefined') {
         utils.js(deps.jquery).then(fn)
       } else {
         fn()
@@ -703,7 +703,7 @@ var _hmt = _hmt || [];
   var needFancybox = document.querySelectorAll(selector).length !== 0;
   if (!needFancybox) {
     const els = document.getElementsByClassName('ds-memos');
-    if (els != https://panzhenjie.fun/ && els.length > 0) {
+    if (els != undefined && els.length > 0) {
       needFancybox = true;
     }
   }
@@ -724,7 +724,7 @@ var _hmt = _hmt || [];
 </script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != https://panzhenjie.fun/) {
+    if (swiper_api != undefined) {
       utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';

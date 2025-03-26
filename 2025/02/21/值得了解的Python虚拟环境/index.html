@@ -73,7 +73,7 @@
 
 
 
-<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://panzhenjie.fun/images/banner_camera.jpg">
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Python/">Python</a></div>
@@ -121,7 +121,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">pip install &lt;package_name&gt; <br></code></pre></td></tr></table></figure>
 
 <h5 id="4-2-查看安装的包"><a href="#4-2-查看安装的包" class="headerlink" title="4.2 查看安装的包"></a>4.2 查看安装的包</h5><p>你可以使用 <code>pip list</code> 查看虚拟环境中安装的所有包：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs https://panzhenjie.fun/">pip list <br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pip list <br></code></pre></td></tr></table></figure>
 
 <h5 id="4-3-卸载包"><a href="#4-3-卸载包" class="headerlink" title="4.3 卸载包"></a>4.3 卸载包</h5><p>如果你不再需要某个包，可以使用 <code>pip uninstall</code> 卸载它：</p>
 <p><code>pip uninstall &lt;package_name&gt;</code></p>
@@ -130,7 +130,7 @@
 <p><code>pip freeze &gt; requirements.txt</code></p>
 <p>该命令会将虚拟环境中所有已安装的包及其版本记录到 <code>requirements.txt</code> 文件中。</p>
 <h5 id="5-2-安装-requirements-txt-中的依赖"><a href="#5-2-安装-requirements-txt-中的依赖" class="headerlink" title="5.2 安装 requirements.txt 中的依赖"></a>5.2 安装 <code>requirements.txt</code> 中的依赖</h5><p>当其他人获取到你的项目代码时，他们可以使用 <code>requirements.txt</code> 安装项目所需的所有依赖：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs https://panzhenjie.fun/">pip install -r requirements.txt <br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pip install -r requirements.txt <br></code></pre></td></tr></table></figure>
 
 <h4 id="6-退出虚拟环境"><a href="#6-退出虚拟环境" class="headerlink" title="6. 退出虚拟环境"></a>6. <strong>退出虚拟环境</strong></h4><p>当你完成工作后，可以通过以下命令退出虚拟环境：</p>
 <p><code>deactivate</code></p>
@@ -335,7 +335,7 @@
     }),
 
     jq: (fn) => {
-      if (typeof jQuery === 'https://panzhenjie.fun/') {
+      if (typeof jQuery === 'undefined') {
         utils.js(deps.jquery).then(fn)
       } else {
         fn()
@@ -556,7 +556,7 @@ var _hmt = _hmt || [];
   var needFancybox = document.querySelectorAll(selector).length !== 0;
   if (!needFancybox) {
     const els = document.getElementsByClassName('ds-memos');
-    if (els != https://panzhenjie.fun/ && els.length > 0) {
+    if (els != undefined && els.length > 0) {
       needFancybox = true;
     }
   }
@@ -577,7 +577,7 @@ var _hmt = _hmt || [];
 </script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != https://panzhenjie.fun/) {
+    if (swiper_api != undefined) {
       utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';

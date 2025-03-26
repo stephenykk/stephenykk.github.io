@@ -121,12 +121,8 @@
           <span class='name'>ejs</span>
         </a>
       
-        <a class='tag' href="/tags/Hexo/">
-          <span class='name'>Hexo</span>
-        </a>
-      
-        <a class='tag' href="/tags/stellar/">
-          <span class='name'>stellar</span>
+        <a class='tag' href="/tags/Canvas/">
+          <span class='name'>Canvas</span>
         </a>
       
         <a class='tag' href="/tags/CSS/">
@@ -137,12 +133,16 @@
           <span class='name'>Grid</span>
         </a>
       
-        <a class='tag' href="/tags/Canvas/">
-          <span class='name'>Canvas</span>
-        </a>
-      
         <a class='tag' href="/tags/Linux/">
           <span class='name'>Linux</span>
+        </a>
+      
+        <a class='tag' href="/tags/Hexo/">
+          <span class='name'>Hexo</span>
+        </a>
+      
+        <a class='tag' href="/tags/stellar/">
+          <span class='name'>stellar</span>
         </a>
       
         <a class='tag' href="/tags/%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E/">
@@ -165,12 +165,12 @@
           <span class='name'>curl</span>
         </a>
       
-        <a class='tag' href="/tags/Websocket/">
-          <span class='name'>Websocket</span>
+        <a class='tag' href="/tags/myapp/">
+          <span class='name'>myapp</span>
         </a>
       
-        <a class='tag' href="/tags/Typescript/">
-          <span class='name'>Typescript</span>
+        <a class='tag' href="/tags/Websocket/">
+          <span class='name'>Websocket</span>
         </a>
       
         <a class='tag' href="/tags/scaffold/">
@@ -185,8 +185,8 @@
           <span class='name'>git</span>
         </a>
       
-        <a class='tag' href="/tags/myapp/">
-          <span class='name'>myapp</span>
+        <a class='tag' href="/tags/Typescript/">
+          <span class='name'>Typescript</span>
         </a>
       
     </article>
@@ -323,7 +323,7 @@
     }),
 
     jq: (fn) => {
-      if (typeof jQuery === 'https://panzhenjie.fun/') {
+      if (typeof jQuery === 'undefined') {
         utils.js(deps.jquery).then(fn)
       } else {
         fn()
@@ -516,7 +516,7 @@ var _hmt = _hmt || [];
   var needFancybox = document.querySelectorAll(selector).length !== 0;
   if (!needFancybox) {
     const els = document.getElementsByClassName('ds-memos');
-    if (els != https://panzhenjie.fun/ && els.length > 0) {
+    if (els != undefined && els.length > 0) {
       needFancybox = true;
     }
   }
@@ -537,7 +537,7 @@ var _hmt = _hmt || [];
 </script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != https://panzhenjie.fun/) {
+    if (swiper_api != undefined) {
       utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';

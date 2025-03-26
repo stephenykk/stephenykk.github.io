@@ -73,7 +73,7 @@
 
 
 
-<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://panzhenjie.fun/images/banner_camera.jpg">
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/SQL/">SQL</a></div>
@@ -428,7 +428,7 @@ MySQL是什么Mysql是一个数据管理系统，管理的是数据库，mysql�
     }),
 
     jq: (fn) => {
-      if (typeof jQuery === 'https://panzhenjie.fun/') {
+      if (typeof jQuery === 'undefined') {
         utils.js(deps.jquery).then(fn)
       } else {
         fn()
@@ -649,7 +649,7 @@ var _hmt = _hmt || [];
   var needFancybox = document.querySelectorAll(selector).length !== 0;
   if (!needFancybox) {
     const els = document.getElementsByClassName('ds-memos');
-    if (els != https://panzhenjie.fun/ && els.length > 0) {
+    if (els != undefined && els.length > 0) {
       needFancybox = true;
     }
   }
@@ -670,7 +670,7 @@ var _hmt = _hmt || [];
 </script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != https://panzhenjie.fun/) {
+    if (swiper_api != undefined) {
       utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';

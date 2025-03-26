@@ -49,7 +49,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="https://panzhenjie.fun/" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
@@ -213,7 +213,7 @@
     }),
 
     jq: (fn) => {
-      if (typeof jQuery === 'https://panzhenjie.fun/') {
+      if (typeof jQuery === 'undefined') {
         utils.js(deps.jquery).then(fn)
       } else {
         fn()
@@ -406,7 +406,7 @@ var _hmt = _hmt || [];
   var needFancybox = document.querySelectorAll(selector).length !== 0;
   if (!needFancybox) {
     const els = document.getElementsByClassName('ds-memos');
-    if (els != https://panzhenjie.fun/ && els.length > 0) {
+    if (els != undefined && els.length > 0) {
       needFancybox = true;
     }
   }
@@ -427,7 +427,7 @@ var _hmt = _hmt || [];
 </script><script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const swiper_api = document.getElementById('swiper-api');
-    if (swiper_api != https://panzhenjie.fun/) {
+    if (swiper_api != undefined) {
       utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
       utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
         const effect = swiper_api.getAttribute('effect') || '';
