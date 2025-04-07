@@ -2,6 +2,8 @@ const path = require("node:path");
 const fs = require("node:fs");
 const {tag, query, Walker} = require("./utils");
 
+const MY_DOMAIN = 'https://panzhenjie.fun'
+
 
 function main() {
   // copy CNAME
@@ -73,10 +75,19 @@ async function fixImgSrc(filePath) {
     const dataSrc = tagData.attrs['data-src'] || ''
     const queryObj = query.parse(dataSrc, false)
     const signature = queryObj['x-signature'] || ''
-    const isKeep =  /[+/=]/.test(signature)
-    if (isKeep) {
+    const isSpecialSignature =  /[+/=]/.test(signature)
+    if (isSpecialSignature) {
       tagData.attrs['new-src'] = query.update(dataSrc, queryObj)
     }
+
+    const withoutDomain =
+      dataSrc && !/^(https?:)?\/\//.test(dataSrc) && !dataSrc.startsWith("/images/banner");
+    if (withoutDomain) {
+      tagData.attrs['new-src'] = MY_DOMAIN + (dataSrc.startsWith('/') ? '' : '/') + dataSrc
+    }
+
+    const isKeep = isSpecialSignature || withoutDomain
+
     return isKeep
   })
 
