@@ -11,13 +11,13 @@ categories: Python
   
   #### 1\. **安装虚拟环境工具**
 
-从 Python 3.3 开始，Python 自带了 `venv` 模块，无需额外安装。你可以直接使用它来[创建虚拟环境](https://so.csdn.net/so/search?q=%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83&spm=1001.2101.3001.7020)。
+从 Python 3.3 开始，Python 自带了 `venv` 模块，{% mark 无需额外安装 color:purple %}。你可以直接使用它来[创建虚拟环境](https://so.csdn.net/so/search?q=%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83&spm=1001.2101.3001.7020)。
 
 #### 2\. **创建虚拟环境**
 
 ##### 2.1 使用 `venv` 创建虚拟环境
 
-使用以下命令创建虚拟环境。这里我使用了 `venv` 来创建虚拟环境，并且命名为 `venv`，你也可以选择任何其他名称。
+使用以下命令创建虚拟环境。这里我使用了 `venv` 来创建虚拟环境，并且命名为 `myvenv`，你也可以选择任何其他名称。
 
 `python -m venv myvenv`
 
@@ -33,9 +33,10 @@ categories: Python
 -   **include**：包含用于编译 C 扩展模块的头文件。
 -   **Scripts**（Windows）：包含 `activate.bat` 等脚本。
 
+{% note "linux下安装，没有Scripts文件夹，执行 source bin/activate 激活虚拟环境" color:yellow %}
 * * *
 
-#### 3\. **激活虚拟环境（Windows下）**
+#### 3\. 激活虚拟环境
 
 -   `.\myvenv\Scripts\activate`
     
@@ -86,7 +87,7 @@ pip list
 
 该命令会将虚拟环境中所有已安装的包及其版本记录到 `requirements.txt` 文件中。
 
-##### 5.2 安装 `requirements.txt` 中的依赖
+##### 5.2 用 `requirements.txt` 安装依赖
 
 当其他人获取到你的项目代码时，他们可以使用 `requirements.txt` 安装项目所需的所有依赖：
 
@@ -102,9 +103,11 @@ pip install -r requirements.txt
 
 退出后，你的命令行会回到系统的默认 Python 环境。
 
+{% note "linux下也是执行 deactivate" %}
+
 #### 7\. **删除虚拟环境**
 
-如果你不再需要某个虚拟环境，可以删除它。只需要删除包含虚拟环境的文件夹即可（通常是 `venv` 文件夹）。
+如果你不再需要某个虚拟环境，可以删除它。只需要删除包含虚拟环境的文件夹即可（如上例的 `myvenv` 文件夹）。
 
 #### 8\. **使用虚拟环境的好处**
 
@@ -112,19 +115,21 @@ pip install -r requirements.txt
 -   **干净的工作环境**：不同项目之间的库版本不会互相影响。
 -   **便于部署**：通过 `requirements.txt` 文件，你可以轻松地为其他开发者或生产环境部署项目。
 
-#### 9.Python IDLE Shell 使用虚拟环境
+#### 9\.IDLE 使用虚拟环境
 
-Python IDLE Shell 可以使用虚拟环境，但设置起来稍微有点不同，因为 IDLE 默认启动的是系统 Python 环境。要在 IDLE 中使用虚拟环境，你需要手动指定虚拟环境中的 Python 解释器。
+Python IDLE Shell 可以使用虚拟环境，但设置起来稍微有点不同，因为 {% mark IDLE 默认启动的是系统 Python 环境。要在 IDLE 中使用虚拟环境，你需要手动指定虚拟环境中的 Python 解释器 color:purple %}。
 
+```shell
 myenv\\Scripts\\python.exe -m idlelib.idle
+```
 
 这样，IDLE 将会启动，并使用虚拟环境中的 Python 解释器。你可以在 IDLE 中执行代码，并确保它使用的是虚拟环境中安装的依赖，而不是全局 Python 环境中的库。
 
 注意：在IDLE没有关闭之前，不能安装其他包。因为显示IDLE的时候，命令还在执行。
 
-#### **检查 IDLE 是否使用虚拟环境**
+#### 10\.检查是否虚拟环境
 
-在 IDLE 中，你可以通过运行以下命令来检查当前 Python 环境是否是虚拟环境：
+在 IDLE 中，你可以通过运行以下命令来{% mark 检查当前 Python 环境是否是虚拟环境 color:purple %}：
 
 ```scss
 import sys 
