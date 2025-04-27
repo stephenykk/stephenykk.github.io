@@ -157,7 +157,7 @@
         </ul>
 
         <div id="loanTable">
-            <table class="month-table">
+            <table class="month-table" :class="{'has-ahead': hasAheadPay}">
                 <thead>
                     <tr>
                         <th>期数</th>

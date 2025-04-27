@@ -11,7 +11,7 @@ function getMonthlyPayment(loanAmount, interestRate, loanTerm) {
     );
 }
 
-function toFixed(num, decimal = 2) {
+function toFixed(num, decimal = 0) {
     return num.toFixed(decimal) * 1;
 }
 
