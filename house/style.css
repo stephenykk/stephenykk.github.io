@@ -84,10 +84,15 @@ input[readonly] {
     border-collapse: collapse;
     text-align: center;
     width: 100%;
+    min-width: 600px;
+}
+
+.month-table.has-ahead {
+    width: 1200px;
 }
 
 #loanTable {
-    min-width: 1000px;
+    width: 100%;
     overflow: auto;
 }
 
