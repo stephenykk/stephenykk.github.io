@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贷款计算</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="houseApp">
+        <h1 class="ta-c">贷款计算</h1>
+        <form id="loanForm" class="flex-row">
+            <div class="form-part">
+                <div class="flex lh-2 mt-20">
+                    <div class="label">房子总价</div><div class="value"><input readonly v-model.lazy="house.houseAmount" /></div>
+                </div>
+                <div class="flex lh-2 mt-20">
+                    <div class="label">首付比例</div><div class="value"><input v-model.lazy="baseInfo.firstPayRate" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">首付金额</div><div class="value"><input v-model.lazy="baseInfo.firstPayMoney" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">贷款金额</div><div class="value"><input readonly v-model.lazy="house.loanMoney" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">贷款利率</div><div class="value"><input v-model.lazy="baseInfo.loanRate" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">贷款年限</div><div class="value"><input v-model.lazy="baseInfo.loanYears" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">贷款时间</div><div class="value"><input v-model.lazy="baseInfo.startTime" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">月供金额</div><div class="value"><input readonly v-model.lazy="house.monthPayMoney" /></div>
+                </div>
+
+            </div>
+
+            <div class="form-part">
+                <div class="flex lh-2 mt-20">
+                    <div class="label">已还总金额</div><div class="value"><input readonly v-model.lazy="house.hasPayAmount" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">已还本金</div><div class="value"><input readonly v-model.lazy="house.hasPayBenjin" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">已还利息</div><div class="value"><input readonly v-model.lazy="house.hasPayLixi" /></div>
+                </div>
+                
+                <div class="flex lh-2 mt-20">
+                    <div class="label">剩余待还总额</div><div class="value"><input readonly v-model.lazy="house.remainPayAmount" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">剩余待还本金</div><div class="value"><input readonly v-model.lazy="house.remainPayBenjin" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label">剩余待还利息</div><div class="value"><input readonly v-model.lazy="house.remainPayLixi" /></div>
+                </div>
+                
+                <div class="flex lh-2 mt-20">
+                    <div class="label hotpink">累计还款金额</div><div class="value"><input readonly v-model.lazy="house.sumPayAmount" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">累计支付利息</div><div class="value"><input readonly v-model.lazy="house.sumPayLixi" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">总计成本</div><div class="value"><input readonly v-model.lazy="house.totalCost" /></div>
+                </div>
+            </div>
+
+
+            <div class="form-part">
+                <div class="flex lh-2 mt-20">
+                    <div class="label">当前时间</div><div class="value"><input readonly v-model.lazy="house.curTime" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">还清时间</div><div class="value"><input readonly v-model.lazy="house.endTime" /></div>
+                </div>
+
+                <div class="flex lh-2 mt-20">
+                    <div class="label blue">提前还款金额</div><div class="value"><input v-model.lazy="baseInfo.aheadPayMoney" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label blue">提前还款时间</div><div class="value"><input v-model.lazy="baseInfo.aheadPayTime" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">提前还还清时间</div><div class="value"><input readonly v-model.lazy="house.aheadEndTime" /></div>
+                </div>
+                <div class="flex lh-2  mt-20">
+                    <div class="label hotpink">提前还累计还款</div><div class="value"><input readonly v-model.lazy="house.aheadSumPayAmount" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">提前还累计利息</div><div class="value"><input readonly v-model.lazy="house.aheadSumPayLixi" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">提前还利息减少</div><div class="value"><input readonly v-model.lazy="(house.sumPayLixi - house.aheadSumPayLixi).toFixed(2)" /></div>
+                </div>
+                <div class="flex lh-2">
+                    <div class="label hotpink">提前还总计成本</div><div class="value"><input readonly v-model.lazy="house.aheadTotalCost" /></div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="housePrice mt-20">
+            <div class="flex">
+                <div class="label">房子现在市值</div>
+                <div class="value">
+                    <input v-model.lazy="baseInfo.nowHouseAmount" />
+                </div>
+            </div>
+        </div>
+
+        <ul class="advise-list">
+            <li class="advise">
+                <div class="advise-ttl">即使部分提前还款，也能节省不少利息，缩短还贷年限</div>
+                <div class="advise-desc">
+                    <p>
+                        可以在上面表单的 <span class="tag">提前还款金额</span> 和 <span class="tag">提前还款时间</span> 字段中，输入提前还款金额和时间，计算对比提前还款前后的利息和还款年限
+                    </p>
+                    <p>
+                        例如: 在2025-06-01提前还款3万, 那么就可以减少36000元利息(表明: 这3万本金在2025-06后产生的利息是36000元), 缩短还款年2年3个月
+                    </p>
+                    <p>
+                        例如: 在2025-06-01提前还款10万, 那么就可以减少100884元利息(表明: 这10万本金在2025-06后产生的利息是100884元), 缩短还款年6年9个月
+                    </p>
+                </div>
+            </li>
+            <li class="advise">
+                <div class="advise-ttl">在房子价格下行的趋势下，如果一直供完，损失比较大</div>
+                <div class="advise-desc">
+                    <p>
+                        如果房子现在市值已经低于贷款剩余本金时，一直供下去，只会损失更大; 相当于支付剩余待还本金+剩余待还利息，共 ${house.remainPayBenjin * 1 + house.remainPayLixi * 1} 元, 去购买一个只值 ${baseInfo.nowHouseAmount} 的房子
+                    </p>
+                    <p>
+                        如果一直供完，从上面表单可看到总成本为 ${house.totalCost} 元, 去购买一个只值 ${baseInfo.nowHouseAmount} 的房子(<i>供完时，房子价值应该会更低</i>), 损失金额为 ${house.totalCost - baseInfo.nowHouseAmount} 元
+                    </p>
+                </div>
+            </li>
+            <li class="advise">
+                <div class="advise-ttl">如果断供放弃房子，相对而言它的损失轻很多</div>
+                <div class="advise-desc">
+                    <p>房子的价值已经比剩余贷款本金还低，选择断供也是很常见的做法。此时的损失为: 首付(${baseInfo.firstPayMoney})+已还总金额(${house.hasPayAmount}) = ${baseInfo.firstPayMoney + house.hasPayAmount} 元; 相比一直供完，少损失 ${(house.totalCost - baseInfo.nowHouseAmount - (baseInfo.firstPayMoney + house.hasPayAmount)).toFixed(2)} 元.  (<i>剩余待还本金 ${house.remainPayBenjin} - 房子现在市值 ${baseInfo.nowHouseAmount} = ${(house.remainPayBenjin - baseInfo.nowHouseAmount).toFixed(2)} 元是否需要补交不确定?</i>)</p>
+                </div>
+            </li>
+
+            <li class="advise">
+                <div class="advise-ttl">如果提前全部还款，那么损失和断供差不多</div>
+                <div class="advise-desc">
+                    <p>尝试在 <span class="tag">提前还款金额</span> 输入剩余待还本金 416315 元，此时总成本为首付+提前还累计还款 = 810960.51  元，得到价值 ${baseInfo.nowHouseAmount} 的房子, 共损失为 ${810960.51  - baseInfo.nowHouseAmount} 元</p>
+
+                </div>
+            </li>
+        </ul>
+
+        <div id="loanTable">
+            <table class="month-table">
+                <thead>
+                    <tr>
+                        <th>期数</th>
+                        <th>日期</th>
+                        <th>月供金额</th>
+                        <th>还款本金</th>
+                        <th>还款利息</th>
+                        <th>年还利息</th>
+                        <th>剩余本金</th>
+                        <template v-if="hasAheadPay">
+                            <th>还款本金(提前还)</th>
+                            <th>还款利息(提前还)</th>
+                            <th style="width: 250px">年还利息(提前还)</th>
+                            <th>剩余本金(提前还)</th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in house.monthlyData" :class="{'active': item.isCur, 'ahead': house.aheadMonthlyData.length && item.isAhead, 'last-month': item.yearInterest}" :key="index">
+                        <td>${index + 1}</td>
+                        <td>${item.date}</td>
+                        <td>${item.monthlyPay}</td>
+                        <td>${item.monthlyBenjin}</td>
+                        <td>${item.monthlyInterest}</td>
+                        <td>${item.yearInterest || ''}</td>
+                        <td>${item.remainBenjin}</td>
+                        <template v-if="hasAheadPay">
+                            <template v-if="house.aheadMonthlyData[index]">
+                                <td>${house.aheadMonthlyData[index]?.monthlyBenjin}</td>
+                                <td>${house.aheadMonthlyData[index]?.monthlyInterest}</td>
+                                <td>
+                                    ${house.aheadMonthlyData[index]?.yearInterest || ''}
+                                    <i v-if="house.aheadMonthlyData[index]?.yearInterest">${' (年省:'+ house.aheadMonthlyData[index]?.yearSaveInterest +', 累计省:'+ house.aheadMonthlyData[index]?.totalSaveInterest +')'}</i>
+                                </td>
+                                <td>${house.aheadMonthlyData[index]?.remainBenjin}</td>
+
+                            </template>
+                            <template v-else>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <i v-if="item.yearInterest">0 ${' (年省:'+ item.yearInterest +', 累计省:'+ (lastTotalSaveInterest * 1 + extraYearSaves[index] *1) +')'}</i>
+                                </td>
+                                <td></td>
+
+                            </template>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="gotop-btn" @click="goTop">Top</button>
+    </div>
+
+
+    
+<script src="./main.js"></script>
+</body>
+</html>

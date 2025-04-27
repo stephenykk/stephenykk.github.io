@@ -1,0 +1,153 @@
+/* hide other sections */
+aside.l_left,
+.l_main > .banner,
+.l_right,
+.float-panel,
+.page-footer,
+.l_main #comments {
+    display: none !important;
+}
+.l_body {
+    display: block !important;
+}
+
+/* --------------------------------- */
+
+.flex {
+    display: flex;
+    padding: 3px 0;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.hotpink {
+    color: hotpink;
+}
+
+.blue {
+    color: blue;
+}
+
+.ta-c {
+    text-align: center;
+}
+.lh-2 {
+    line-height: 2;
+}
+
+input {
+    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: 3px;
+    font-size: 16px;
+}
+input[readonly] {
+    background: #eee;
+}
+
+.label {
+    width: 150px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+
+.label::after {
+    content: ": ";
+}
+
+.month-table {
+    table-layout: auto;
+    margin-top: 100px;
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+}
+
+.month-table td,
+.month-table th {
+    border: 1px solid #ccc;
+}
+
+.green {
+    color: green;
+}
+
+.month-table tr.active {
+    background: yellow;
+}
+.month-table tr.ahead {
+    background: skyblue;
+}
+.month-table td:nth-child(10),
+.month-table td:nth-child(6) {
+    color: hotpink;
+}
+
+.month-table td:nth-child(8),
+.month-table td:nth-child(9),
+.month-table td:nth-child(10),
+.month-table td:nth-child(11) {
+    /* background: #d2f3d2; */
+    background: #e5f5e5;
+}
+
+.month-table tr.last-month {
+    background: #eee;
+}
+
+#houseApp .advise-list {
+    margin-top: 50px;
+    padding: 30px;
+    background: #eee;
+    line-height: 2;
+    font-size: 16px;
+}
+.gotop-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+    border: 0;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background: #ccc;
+    color: #fff;
+    font-size: 20px;
+    line-height: 60px;
+}
+
+.gotop-btn:hover {
+    background: #ddd;
+}
+.advise-ttl {
+    font-size: 20px;
+}
+
+.tag {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: black;
+    margin: 0 5px;
+    padding: 3px 5px;
+    border-radius: 3px;;
+}
+
+.advise-list i {
+    color: #666;
+}
