@@ -1,0 +1,950 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>canvas进阶知识图解 - JKK随笔</title>
+
+  
+    <meta name="description" content="本文简介本文会涉及到 canvas 的知识包括：变形、像素控制、渐变、阴影、路径 变形这里说的变形是基于画布，全局进行变形。 变形主要包括：平移 translate、缩放 scale、旋转操作 rotate。 除了对应的方法外，还可以使用 transform 和 setTransform 对上面三种操作进行配置，这称为“变换矩阵”。 在学习“变形”之前，需要了解 W3C坐标系：  箭头所指是各轴自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canvas进阶知识图解">
+<meta property="og:url" content="https://panzhenjie.fun/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="本文简介本文会涉及到 canvas 的知识包括：变形、像素控制、渐变、阴影、路径 变形这里说的变形是基于画布，全局进行变形。 变形主要包括：平移 translate、缩放 scale、旋转操作 rotate。 除了对应的方法外，还可以使用 transform 和 setTransform 对上面三种操作进行配置，这称为“变换矩阵”。 在学习“变形”之前，需要了解 W3C坐标系：  箭头所指是各轴自">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d90106e58719454580a38194625c6c6d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70169c8418434eb9ae14533a3703c9e0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d8b311c7f1fc4ae7a039bf8b7c2ea066~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/611cfeb7500345c9b5eb124b79dcb5ba~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f590b372901241dca30d9d6864a39cb6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a87f79acfa9456687f6b3fe5d86cb65~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/182eb5559d17460cadaf66e163bd3eb0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe385fa52a174928a80020a9a492a7ea~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a446d9c4cc945d2abe860de6d93534b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fab9499235a047fa86864a44ffa2847b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c17e2c4193b4e2e9db4d7dd0bbc9478~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bc83f734407141be8ae389ce17d5369b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3befac289d644e54b00eb051e0c04d2c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34efd94414d5458c9902cffe32d71eb5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1f4ed87f8b994624aa19f9002e85cd16~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/141f958df67c4a6da0ce1c3254007ccb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/54cc6643e82c440790f294e60a7e93ee~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af28ca6ac4fd417d8bd2474345f39f90~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26feab0f63114394be1bdbf9c2a4255e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7f26f374b7e4f95b03fde0fd3c8a6cc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92509dc9758d484eb8468b3af31fb60c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c4428ec0c24c426cbf7464fd3e7e59ac~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbc996c9465846da8dc3bd13929c0587~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f26dbd82bd0a457896da5bc6343e6a30~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5893892d88fe4d958647023131db6ab9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd6870f4c11b4f9da080cdb67e30ad87~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c9085fbd2cb428e9018d4473d359644~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5dd42fc3b35a4b8c8498ff5365bcdf96~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15212edac5c348c289b2446910628fac~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34b1f5b9857548469d5879814b3280a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9221a812048d4f1cad73183e2fcd9291~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dab87c08c6be40b69fa183c81de735d4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3732a0ba88284becbe5df9f4992022c0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/656ede2322784bfb92d289fcdb056307~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/36bf6130afb249f8bc0b33bafa5da248~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/870b0b25b55d422e864a923dbab967b8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d619b92ec44b4b7680183619b7d5cb8d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="article:published_time" content="2025-04-08T03:29:00.000Z">
+<meta property="article:modified_time" content="2025-04-27T11:54:03.091Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="Canvas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d90106e58719454580a38194625c6c6d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+  
+  
+  
+  <meta name="keywords" content="Canvas">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><span class="title">浅说虚拟列表实现原理</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item title" href="/2025/04/10/three-js%E8%BD%BB%E6%9D%BE%E5%85%A5%E9%97%A8/"><span class="title">three.js轻松入门</span></a><a class="item title" href="/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><span class="title">一起聊聊IPv4/IPv6和局域网</span></a><a class="item title" href="/2025/04/21/IPv6%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3/"><span class="title">IPv6地址格式详解</span></a><a class="item title" href="/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><span class="title">canvas进阶知识图解</span></a><a class="item title" href="/2025/03/29/%E5%BC%BA%E5%A4%A7%E7%9A%84canvas%E5%BA%93Fabric-js%E5%9F%BA%E7%A1%80%E5%9B%BE%E8%A7%A3/"><span class="title">强大的canvas库Fabric.js基础图解</span></a><a class="item title" href="/2025/02/21/%E5%80%BC%E5%BE%97%E4%BA%86%E8%A7%A3%E7%9A%84Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"><span class="title">值得了解的Python虚拟环境</span></a><a class="item title" href="/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"><span class="title">如何用vimdiff解决合并冲突</span></a><a class="item title" href="/2025/03/26/%E4%B8%80%E4%B8%AA%E5%85%8D%E8%B4%B9%E5%AD%A6%E4%B9%A0%E7%94%9F%E8%AF%8D%E7%9A%84%E8%BD%BB%E5%BA%94%E7%94%A8/"><span class="title">一个免费学习生词的轻应用</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/Canvas/">Canvas</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-08T03:29:00.000Z">2025-04-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-27T11:54:03.091Z">2025-04-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>canvas进阶知识图解</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="本文简介"><a href="#本文简介" class="headerlink" title="本文简介"></a>本文简介</h2><p>本文会涉及到 <code>canvas</code> 的知识包括：变形、像素控制、渐变、阴影、路径</p>
+<h2 id="变形"><a href="#变形" class="headerlink" title="变形"></a>变形</h2><p>这里说的变形是基于画布，全局进行变形。</p>
+<p>变形主要包括：<code>平移 translate</code>、<code>缩放 scale</code>、<code>旋转操作 rotate</code>。</p>
+<p>除了对应的方法外，还可以使用 <code>transform</code> 和 <code>setTransform</code> 对上面三种操作进行配置，这称为“变换矩阵”。</p>
+<p>在学习“变形”之前，需要了解 <code>W3C坐标系</code>：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d90106e58719454580a38194625c6c6d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="01.png"></p>
+<p>箭头所指是各轴自己的正方向，x轴越往右（正方向）值越大，y轴越往下（正方向）值越大。</p>
+<h3 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h3><p>使用 <code>translate()</code> 方法可以实现平移效果（位移）。</p>
+<p><code>translate(x, y)</code> 接收2个参数，第一个参数代表x轴方向位移距离，第二个参数代表y轴方向位移距离。</p>
+<p>正数代表向正方向位移，负数代表向反方向位移。</p>
+<p>演示平移效果之前，我先创建一个矩形，长宽都是100，位置在画布的原点 (0, 0) ，也就是紧贴画布的左上角。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/70169c8418434eb9ae14533a3703c9e0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="02.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 紧贴原点的矩形，默认是黑色[]<br>  ctx.fillRect(0, 0, 100, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>如果此时在 <code>fillRect</code> 之前设置 <code>translate</code> 就可以实现整个画布位移的效果。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d8b311c7f1fc4ae7a039bf8b7c2ea066~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="03.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br><br>// 平移，往右平移10，往下平移20<br>ctx.translate(10, 20)<br><br>// 渲染矩形<br>ctx.fillRect(0, 0, 100, 100)<br></code></pre></td></tr></table></figure>
+
+<p>从上图可以看出，矩形距离画布顶部的距离是20，距离画布左侧的距离是10。</p>
+<p><strong>注意：<code>平移 translate()</code> 要写在 “绘制操作(本例是 <code>fillRect</code>)” 之前才有效。</strong></p>
+<p>如果在使用 <code>translate</code> 的前后都有渲染操作，画布会多次渲染，并不会自动清屏。</p>
+<p>比如这样</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/611cfeb7500345c9b5eb124b79dcb5ba~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="04.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.fillRect(0, 0, 100, 100)<br><br>  ctx.translate(10, 20)<br><br>  ctx.fillRect(0, 0, 100, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>再做个明显点的效果，每秒平移一次</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f590b372901241dca30d9d6864a39cb6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="05.gif"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.fillRect(0, 0, 100, 100)<br><br>  setInterval(() =&gt; &#123;<br>    ctx.translate(10, 20)<br>    ctx.fillRect(0, 0, 100, 100)<br>  &#125;, 1000)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>可以看出，每次使用 <code>translate()</code> 平移画布，都会基于上一次画布所在的位置进行平移。</p>
+<p>上图效果是 <code>canvas</code> 的默认效果，所以在执行 <code>translate</code> 之前可以执行 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7116784455561248775#heading-29" title="https://juejin.cn/post/7116784455561248775#heading-29">“清屏操作”</a>。</p>
+<h3 id="清屏"><a href="#清屏" class="headerlink" title="清屏"></a>清屏</h3><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a87f79acfa9456687f6b3fe5d86cb65~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="06.gif"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.fillRect(0, 0, 100, 100)<br><br>  setInterval(() =&gt; &#123;<br>    ctx.clearRect(0, 0, context.width, context.height)<br>    ctx.translate(10, 20)<br>    ctx.fillRect(0, 0, 100, 100)<br>  &#125;, 1000)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h3><p>缩放画布用到的方法是 <code>scale(x, y)</code> ，接收2个参数，第一个参数是x轴方向的缩放，第二个参数是y轴方向的缩放。</p>
+<p>当 <code>x</code> 或者 <code>y</code> 的值是 <code>0 ~ 1</code> 时代表缩小，比如取值为 0.5 时，表示比原本缩小一半；值为2时，比原本放大一倍。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/182eb5559d17460cadaf66e163bd3eb0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="07.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.font = &#x27;60px Arial&#x27;<br>  ctx.strokeStyle = &#x27;hotpink&#x27;<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br><br>  // 缩小<br>  ctx.scale(0.5, 0.5)<br>  <br>  // 重新渲染<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p><code>scale()</code> 方法同样会保留原本已经渲染的内容。</p>
+<p>如果不需要保留原本内容，可以使用 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7116784455561248775#heading-29" title="https://juejin.cn/post/7116784455561248775#heading-29">“清屏操作”</a>。</p>
+<p><strong>注意：<code>scale()</code> 会以上一次缩放为基准进行下一次缩放。</strong></p>
+<p><strong>副作用：</strong></p>
+<p>其实从上面的例子就可以看出 <code>scale()</code> 存在一点副作用的，从图中可以看出，缩放后文本的左上角坐标发生了“位移”，文本描边粗细也发生了变化。</p>
+<p>虽然说是副作用，但也很容易理解，整块画布缩放了，对应的坐标比例其实也跟着缩放嘛。</p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>使用 <code>rotate(angle)</code> 方法可以旋转画布，但默认的旋转原点是画布的左上角，也就是 <code>(0, 0)</code> 坐标。</p>
+<p>我计算旋转角度通常是用 <code>角度 * Math.PI / 180</code> 的方式表示。</p>
+<p>虽然这样书写代码看上去很长，但习惯后就比较直观的看出要旋转多少度。</p>
+<p><code>rotate(angle)</code> 中的参数 <code>angle</code> 代表角度，<code>angle</code> 的取值范围是 <code>-Math.PI * 2 ~ Math.pi * 2</code>。</p>
+<p>当旋转角度小于 0 时，画布逆时针旋转；反之顺时针旋转。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe385fa52a174928a80020a9a492a7ea~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="08.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.font = &#x27;60px Arial&#x27;<br>  ctx.strokeStyle = &#x27;pink&#x27;<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br><br>  // 旋转 45°<br>  ctx.rotate(45 * Math.PI / 180)<br>  <br>  // 重新渲染<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="修改原点"><a href="#修改原点" class="headerlink" title="修改原点"></a>修改原点</h3><p>如果需要修改旋转中心，可以使用 <code>translate()</code> 方法平移画布，通过计算移动到指定位置。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a446d9c4cc945d2abe860de6d93534b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="09.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.font = &#x27;60px Arial&#x27;<br>  ctx.strokeStyle = &#x27;pink&#x27;<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br><br>  // 设置旋转中心<br>  ctx.translate(90, -50)<br><br>  // 旋转<br>  ctx.rotate(45 * Math.PI / 180)<br>  <br>  // 重新渲染<br>  ctx.strokeText(&#x27;雷猴&#x27;, 40, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="变换矩阵"><a href="#变换矩阵" class="headerlink" title="变换矩阵"></a>变换矩阵</h3><p>变换矩阵常用方法有 <code>transform()</code> 和 <code>setTransform()</code> 两个方法。</p>
+<p>变换矩阵是一个稍微进阶一点的知识了，别怕！</p>
+<p>前面的 <code>平移 translate</code>、<code>缩放 scale</code>、<code>旋转操作 rotate</code> 可以说都是 <code>transform()</code> 的 “语法糖”。</p>
+<p>变换矩阵已经涉及到一点数学知识了，但本文不会讲到这些知识，只会讲讲 <code>transform()</code> 是怎么用的。</p>
+<h4 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h4><p><code>transform()</code> 一个方法就可以实现 <strong>平移、缩放、旋转</strong> 三种功能，它接收6个参数。</p>
+<p><code>transform(a, b, c, d, e, f)</code></p>
+<ul>
+<li><code>a</code>: 水平缩放（x轴方向），默认值是 1；</li>
+<li><code>b</code>: 水平倾斜（x轴方向），默认值是 0；</li>
+<li><code>c</code>: 垂直倾斜（y轴方向），默认值是 0；</li>
+<li><code>d</code>: 垂直缩放（y轴方向），默认值是 1；</li>
+<li><code>e</code>: 水平移动（x轴方向），默认值是 0；</li>
+<li><code>f</code>: 垂直移动（y轴方向），默认值是 0；</li>
+</ul>
+<p>这默认值看上去很乱，但如果这样排列一下是不是就比较容易理解了：</p>
+<p>(acebdf001)\begin{pmatrix}a &amp; c &amp; e \\\\ b &amp; d &amp; f \\\\ 0 &amp; 0 &amp; 1 \end{pmatrix}⎝⎛​ab0​cd0​ef1​⎠⎞​</p>
+<p>随便修改几个值试试效果：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fab9499235a047fa86864a44ffa2847b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="10.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;400&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 变换矩阵<br>  ctx.transform(1, 1, 1, 2, 30, 40)<br><br>  // 绘制矩形<br>  ctx.fillRect(10, 10, 100, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="setTransform"><a href="#setTransform" class="headerlink" title="setTransform"></a>setTransform</h4><p><code>setTransform(a, b, c, d, e, f)</code> 同样接收6个参数，和 <code>transform()</code> 一样</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c17e2c4193b4e2e9db4d7dd0bbc9478~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="11.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;400&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 变换矩阵<br>  ctx.setTransform(2, 1, 1, 2, 20, 10)<br><br>  // 绘制矩形<br>  ctx.fillRect(10, 10, 100, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="transform-和-setTransform-的区别"><a href="#transform-和-setTransform-的区别" class="headerlink" title="transform 和 setTransform 的区别"></a>transform 和 setTransform 的区别</h4><p><code>transform()</code> 每次执行都会参考上一次变换后的结果</p>
+<p>比如下面这个多次执行的情况：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bc83f734407141be8ae389ce17d5369b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="12.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;400&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br>  <br>  ctx.fillStyle = &#x27;rgba(10, 10, 10, 0.2)&#x27;<br>    <br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.transform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.transform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.transform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.transform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>而 <code>setTransform()</code> 每次调用都会基于最原始是状态进行变换。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3befac289d644e54b00eb051e0c04d2c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="13.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;400&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.fillStyle = &#x27;rgba(10, 10, 10, 0.2)&#x27;<br><br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.setTransform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.setTransform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.setTransform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>  ctx.setTransform(1, 0, 0, 1, 10, 10)<br>  ctx.fillRect(10, 10, 100, 100)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>不管改变多少次，<code>setTransform()</code> 都会参考原始状态进行变换。</p>
+<h2 id="控制像素"><a href="#控制像素" class="headerlink" title="控制像素"></a>控制像素</h2><p>位图是由像素点组成的，<code>canvas</code> 提供了几个 <code>api</code> 可以操作图片中的像素。</p>
+<p>很多工具网站也常用接下来说到的几个 <code>api</code> 做图片滤镜。</p>
+<p><strong>需要注意的是，<code>canvas</code> 提供的操作像素的方法，必须使用服务器才能运行起来，不然没有效果的。</strong></p>
+<p>可以搭建本地服务器运行本文案例，方法有很多种。</p>
+<p>比如你使用 <code>Vue</code> 或者 <code>React</code> 的脚手架搭建的项目，运行后就能跑起本文所有案例。</p>
+<p>又或者使用 <code>http-server</code> 启动本地服务。</p>
+<h3 id="getImageData"><a href="#getImageData" class="headerlink" title="getImageData()"></a>getImageData()</h3><p>首先要介绍的是 <code>getImageData()</code> 方法，这个方法可以获取指定区域内的所有像素。</p>
+<p><code>getImageData(x, y, width, height)</code> 接收4个参数，这4个参数表示选区范围。</p>
+<p><code>x</code> 和 <code>y</code> 代表选区的左上角坐标，<code>width</code> 表示选区宽度，<code>height</code> 表示选区高度。</p>
+<p>还是举例说明比较清楚。下图渲染到画布上的是我的猫_Bubble_。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34efd94414d5458c9902cffe32d71eb5~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="14.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;400&quot; height=&quot;400&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const img = new Image() // 创建图片对象<br>  img.src = &#x27;./bubble.jpg&#x27; // 加载本地图片<br><br>  // 图片加载完成后在执行其他操作<br>  img.onload = () =&gt; &#123;<br>    // 渲染图片<br>    ctx.drawImage(img, 0, 0)<br>    // 获取图片信息<br>    const imageData = ctx.getImageData(0, 0, img.width, img.height)<br>    console.log(imageData)<br>  &#125;<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>打印出来的信息可以点开大图看看</p>
+<ul>
+<li><code>data</code>: 图片像素数据集，以数组的形式存放，这是本文要讲的重点，需要关注！</li>
+<li><code>colorSpace</code>: 图片使用的色彩标准，这个属性在 <code>Chrome</code> 里有打印出来，<code>Firefox</code> 里没打印。不重要~</li>
+<li><code>height</code>: 图片高度</li>
+<li><code>width</code>: 图片宽度</li>
+</ul>
+<p>通过 <code>getImageData()</code> 获取到的信息中，需要重点关注的是 <code>data</code> ，它是一个一维数组，仔细观察发现里面的值没一个是大于255的，也不会小于0。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1f4ed87f8b994624aa19f9002e85cd16~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="15.png"></p>
+<p>其实 <code>data</code> 属性里记录了图片每个像素的 <code>rgba</code> 值分别是多少。</p>
+<ul>
+<li><code>r</code> 代表红色</li>
+<li><code>g</code> 代表绿色</li>
+<li><code>b</code> 代表蓝色</li>
+<li><code>a</code> 透明度</li>
+</ul>
+<p>这个和 <code>CSS</code> 里的 <code>rgba</code> 是同一个意思。</p>
+<p><strong><code>data</code> 里，4个元素记录1个像素的信息。也就是说，1个像素是由 <code>r</code>、<code>g</code>、<code>b</code>、<code>a</code> 4个元素组成。而且每个元素的取值范围是 0 - 255 的整数。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">data: **[r1, g1, b1, a1, r2, g2, b2, a2, ......]** <br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>像素点</th>
+<th>值</th>
+<th>颜色通道</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>imgData.data[0]</code></td>
+<td>49</td>
+<td>红色 r</td>
+</tr>
+<tr>
+<td><code>imgData.data[1]</code></td>
+<td>47</td>
+<td>绿色 g</td>
+</tr>
+<tr>
+<td><code>imgData.data[2]</code></td>
+<td>51</td>
+<td>蓝色 b</td>
+</tr>
+<tr>
+<td><code>imgData.data[3]</code></td>
+<td>255</td>
+<td>透明度 a</td>
+</tr>
+<tr>
+<td>……</td>
+<td>……</td>
+<td>……</td>
+</tr>
+<tr>
+<td><code>imgData.data[n-4]</code></td>
+<td>206</td>
+<td>红色 r</td>
+</tr>
+<tr>
+<td><code>imgData.data[n-2]</code></td>
+<td>200</td>
+<td>绿色 g</td>
+</tr>
+<tr>
+<td><code>imgData.data[n-3]</code></td>
+<td>200</td>
+<td>蓝色 b</td>
+</tr>
+<tr>
+<td><code>imgData.data[n-1]</code></td>
+<td>255</td>
+<td>透明度 a</td>
+</tr>
+</tbody></table>
+<p>如果一张图只有10个像素，通过 <code>getImageData()</code> 获取到的 <code>data</code> 信息中就有40个元素。</p>
+<h3 id="putImageData"><a href="#putImageData" class="headerlink" title="putImageData()"></a>putImageData()</h3><p><code>putImageData(imageData, x, y)</code> 可以将 <code>ImageData</code> 对象的数据（图片像素数据）绘制到画布上。</p>
+<p><code>putImageData(imgData, x, y, dirtyX, dirtyY, dirtyWidth, dirtyHeight)</code> 也可以接收更多参数。</p>
+<ul>
+<li><code>imageData</code>: 规定要放回画布的 <code>ImageData</code> 对象</li>
+<li><code>x</code>: <code>ImageData</code> 对象左上角的 x 坐标，以像素计</li>
+<li><code>y</code>: <code>ImageData</code> 对象左上角的 y 坐标，以像素计</li>
+<li><code>dirtyX</code>: 可选。水平值（x），以像素计，在画布上放置图像的位置</li>
+<li><code>dirtyY</code>: 可选。水平值（y），以像素计，在画布上放置图像的位置</li>
+<li><code>dirtyWidth</code>: 可选。在画布上绘制图像所使用的宽度</li>
+<li><code>dirtyHeight</code>: 可选。在画布上绘制图像所使用的高度</li>
+</ul>
+<p>比如，我要将图片复制到另一个位置</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/141f958df67c4a6da0ce1c3254007ccb~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="16.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;500&quot; height=&quot;500&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const img = new Image() // 创建图片对象<br>  img.src = &#x27;./bubble.jpg&#x27; // 加载本地图片<br><br>  // 图片加载完成后在执行其他操作<br>  img.onload = () =&gt; &#123;<br>    // 渲染图片<br>    ctx.drawImage(img, 0, 0)<br>    // 获取图片信息<br>    const imageData = ctx.getImageData(0, 0, img.width, img.height)<br><br>    // 将图片对象输出到 (100, 100) 的位置上<br>    ctx.putImageData(imageData, 100, 100)<br>  &#125;<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>可以实现复制的效果。</p>
+<h3 id="透明"><a href="#透明" class="headerlink" title="透明"></a>透明</h3><p>知道前面两个 <code>api</code> 就可以实现透明效果了。</p>
+<p>前面讲到，通过 <code>getImageData()</code> 获取的是一个数组类型的数据，每4个元素代表1个像素，就是<code>rgba</code>，而 <code>a</code> 表示透明通道，所以只需修改每组像素的最后1个元素的值，就能修改图片的不透明度。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/54cc6643e82c440790f294e60a7e93ee~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="17.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;500&quot; height=&quot;500&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const img = new Image() // 创建图片对象<br>  img.src = &#x27;./bubble.jpg&#x27; // 加载本地图片<br><br>  // 图片加载完成后在执行其他操作<br>  img.onload = () =&gt; &#123;<br>    // 渲染图片<br>    ctx.drawImage(img, 0, 0)<br>    // 获取图片信息<br>    const imageData = ctx.getImageData(0, 0, img.width, img.height)<br><br>    for (let i = 0; i &lt; imageData.data.length; i += 4) &#123;<br>      imageData.data[i + 3] = imageData.data[i + 3] * 0.5<br>    &#125;<br><br>    // 将图片对象输出到 (100, 100) 的位置上<br>    ctx.putImageData(imageData, 100, 100)<br>  &#125;<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="滤镜"><a href="#滤镜" class="headerlink" title="滤镜"></a>滤镜</h3><p>要做不同的滤镜效果，其实就是通过不同的算法去操作每个像素的值，我在 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7119893640264024071" title="https://juejin.cn/post/7119893640264024071">《Canvas 10款基础滤镜（原理篇）》</a> 讲到相关知识，有兴趣的工友可以<a target="_blank" rel="noopener" href="https://juejin.cn/post/7119893640264024071" title="https://juejin.cn/post/7119893640264024071">点进去看看</a></p>
+<h2 id="渐变"><a href="#渐变" class="headerlink" title="渐变"></a>渐变</h2><p>在 <code>css</code> 和 <code>svg</code> 里都有渐变，<code>canvas</code> 肯定也不会缺失这个能力啦。</p>
+<p><code>canvas</code> 提供了 <strong>线性渐变 <code>createLinearGradient</code></strong> 和 **径向渐变 <code>createRadialGradient</code>**。</p>
+<h3 id="线性渐变-createLinearGradient"><a href="#线性渐变-createLinearGradient" class="headerlink" title="线性渐变 createLinearGradient"></a>线性渐变 createLinearGradient</h3><p>在 <code>canvas</code> 中使用线性渐变步骤如下：</p>
+<ol>
+<li>创建线性渐变对象: <code>createLinearGradient(x1, y1, x2, y2)</code></li>
+<li>添加渐变颜色: <code>addColorStop(stop, color)</code></li>
+<li>设置填充色或描边颜色: <code>fillStyle</code> 或 <code>strokeStyle</code></li>
+</ol>
+<p><strong>createLinearGradient(x1, y1, x2, y2)</strong></p>
+<p>在 <code>createLinearGradient(x1, y1, x2, y2)</code> 中，<code>x1, y1</code> 表示渐变的起始位置，<code>x2, y2</code> 表示渐变的结束位置。</p>
+<p>比如水平方向的从左往右的线性渐变，此时的 <code>y1</code> 和 <code>y2</code> 的值是一样的。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af28ca6ac4fd417d8bd2474345f39f90~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="18.png"></p>
+<p>两个点就可以确定一个渐变方向。</p>
+<p><strong>addColorStop(stop, color)</strong></p>
+<p><code>addColorStop(stop, color)</code> 方法可以添加渐变色。</p>
+<p>第一个参数 <code>stop</code> 表示渐变色位置的偏移量，取值范围是 0 ~ 1。</p>
+<p>第二个参数 <code>color</code> 表示颜色。</p>
+<h4 id="填充渐变"><a href="#填充渐变" class="headerlink" title="填充渐变"></a>填充渐变</h4><p>实际编码演示一下</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26feab0f63114394be1bdbf9c2a4255e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="19.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 1. 创建线性渐变对象<br>  const lgrd = ctx.createLinearGradient(10, 10, 200, 10)<br><br>  // 2. 添加渐变颜色<br>  lgrd.addColorStop(0, &#x27;pink&#x27;)<br>  lgrd.addColorStop(1, &#x27;yellow&#x27;)<br><br>  // 设置填充色<br>  ctx.fillStyle = lgrd<br><br>  // 创建矩形，填充<br>  ctx.fillRect(10, 10, 200, 200)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>如果想修改渐变的方向，只需在使用 <code>createLinearGradient()</code> 时设置好起点和终点坐标即可。</p>
+<p>除了填充色，描边渐变和文本渐变同样可以做到。</p>
+<h4 id="描边渐变"><a href="#描边渐变" class="headerlink" title="描边渐变"></a>描边渐变</h4><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7f26f374b7e4f95b03fde0fd3c8a6cc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="20.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const lgrd = ctx.createLinearGradient(10, 10, 200, 10)<br><br>  lgrd.addColorStop(0, &#x27;pink&#x27;)<br>  lgrd.addColorStop(1, &#x27;yellow&#x27;)<br><br>  ctx.strokeStyle  = lgrd<br>  ctx.lineWidth = 10<br>  ctx.strokeRect(10, 10, 200, 200)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="文本渐变"><a href="#文本渐变" class="headerlink" title="文本渐变"></a>文本渐变</h4><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92509dc9758d484eb8468b3af31fb60c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="21.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const lgrd = ctx.createLinearGradient(10, 10, 200, 10)<br><br>  lgrd.addColorStop(0, &#x27;pink&#x27;)<br>  lgrd.addColorStop(1, &#x27;yellow&#x27;)<br><br>  const text = &#x27;雷猴&#x27;<br>  ctx.font = &#x27;bold 100px 黑体&#x27;<br>  ctx.fillStyle = lgrd<br>  ctx.fillText(text, 10, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="多色线性渐变"><a href="#多色线性渐变" class="headerlink" title="多色线性渐变"></a>多色线性渐变</h4><p>在 0 ~ 1 的范围内，<code>addColorStop</code> 可以设置多个颜色在不同的位置上。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c4428ec0c24c426cbf7464fd3e7e59ac~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="22.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br>lgrd.addColorStop(0, &#x27;#2a9d8f&#x27;) // 绿色<br>lgrd.addColorStop(0.5, &#x27;#e9c46a&#x27;) // 黄色<br>lgrd.addColorStop(1, &#x27;#f4a261&#x27;) // 橙色<br></code></pre></td></tr></table></figure>
+
+<h3 id="径向渐变-createRadialGradient"><a href="#径向渐变-createRadialGradient" class="headerlink" title="径向渐变 createRadialGradient"></a>径向渐变 createRadialGradient</h3><p>径向渐变是从一个点到另一个点扩散出去的渐变，是圆形（椭圆也可以）渐变。</p>
+<p>直接看效果</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbc996c9465846da8dc3bd13929c0587~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="23.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const rgrd = ctx.createRadialGradient(70, 70, 0, 70, 70, 60)<br>  rgrd.addColorStop(0, &#x27;yellow&#x27;)<br>  rgrd.addColorStop(1, &#x27;pink&#x27;)<br>  ctx.fillStyle = rgrd<br><br>  ctx.fillRect(10, 10, 120, 120)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>用 <code>createRadialGradient</code> 可以创建一个径向渐变的对象。使用步骤和 <code>createLinearGradient</code> 一样，但参数不同。</p>
+<p><code>createRadialGradient(x1, y1, r1, x2, y2, r2)</code></p>
+<ul>
+<li><code>x1, y1</code>: 渐变开始的圆心坐标</li>
+<li><code>r1</code>: 渐变开始的圆心半径</li>
+<li><code>x2, y2</code>: 渐变结束的圆心坐标</li>
+<li><code>r2</code>: 渐变结束的圆心半径</li>
+</ul>
+<p>同样使用 <code>addColorStop</code> 设置渐变颜色，同样支持多色渐变。</p>
+<h3 id="渐变的注意事项"><a href="#渐变的注意事项" class="headerlink" title="渐变的注意事项"></a>渐变的注意事项</h3><p>渐变的定位坐标是参照画布的，超出定位的部分会使用最临近的那个颜色。</p>
+<p>我用线性渐变举例。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f26dbd82bd0a457896da5bc6343e6a30~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="24.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;600&quot; height=&quot;600&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  const lgrd = ctx.createLinearGradient(200, 0, 400, 400)<br><br>  lgrd.addColorStop(0, &#x27;pink&#x27;)<br>  lgrd.addColorStop(1, &#x27;yellow&#x27;)<br><br>  ctx.fillStyle = lgrd<br><br>  ctx.fillRect(10, 10, 160, 160)<br><br>  ctx.fillRect(220, 10, 160, 160)<br><br>  ctx.fillRect(430, 10, 160, 160)<br><br>  ctx.fillRect(10, 210, 160, 160)<br><br>  ctx.fillRect(220, 210, 160, 160)<br><br>  ctx.fillRect(430, 210, 160, 160)<br><br>  ctx.fillRect(10, 430, 160, 160)<br><br>  ctx.fillRect(220, 430, 160, 160)<br><br>  ctx.fillRect(430, 430, 160, 160)<br><br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>上面的例子中，我只创建了一个渐变，然后创建了9个正方形。</p>
+<p>此时正方形的填充色取决于出现在画布中的位置。</p>
+<p>可以修改一下 <code>createLinearGradient()</code> 的定位数据对照理解。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5893892d88fe4d958647023131db6ab9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="25.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br>const lgrd = ctx.createLinearGradient(200, 0, 400, 400)<br></code></pre></td></tr></table></figure>
+
+<p>如果想每个图形都有自己的渐变色，这需要定制化配置，每个创建每个图形之前都单独创建一个渐变色。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dd6870f4c11b4f9da080cdb67e30ad87~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="26.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;600&quot; height=&quot;600&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 粉 - 黄 渐变<br>  const lgrd1 = ctx.createLinearGradient(10, 10, 160, 160)<br>  lgrd1.addColorStop(0, &#x27;pink&#x27;)<br>  lgrd1.addColorStop(1, &#x27;yellow&#x27;)<br>  ctx.fillStyle = lgrd1<br>  ctx.fillRect(10, 10, 160, 160)<br><br>  // 橘黄 - 蓝紫 渐变<br>  const lgrd2 = ctx.createLinearGradient(210, 10, 380, 160)<br>  lgrd2.addColorStop(0, &#x27;bisque&#x27;)<br>  lgrd2.addColorStop(1, &#x27;blueviolet&#x27;)<br>  ctx.fillStyle = lgrd2<br>  ctx.fillRect(220, 10, 160, 160)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>所以不管是填充色还是秒变颜色，每个元素最好都自己重新设定一下。不然可能会出现意想不到的效果~</p>
+<h2 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h2><p>阴影在前端也是很常用的特效。 <del>依稀记得当年还用 <code>png</code> 做阴影效果</del>。</p>
+<p>在 <code>canvas</code> 中，和阴影相关的属性主要有以下4个：</p>
+<ul>
+<li><code>shadowOffsetX</code>: 设置或返回阴影与形状的水平距离。默认值是0。大于0时向正方向偏移。</li>
+<li><code>shadowOffsetY</code>: 设置或返回阴影与形状的垂直距离。默认值是0。大于0时向正方向偏移。</li>
+<li><code>shadowColor</code>: 设置或返回用于阴影的颜色。 默认黑色。</li>
+<li><code>shadowBlur</code>: 设置或返回用于阴影的模糊级别。 默认值是0，数值越大模糊度越强。</li>
+</ul>
+<p>相信使用过 <code>css</code> 阴影属性的工友，理解起 <code>canvas</code> 阴影也会非常轻松。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c9085fbd2cb428e9018d4473d359644~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="27.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.shadowOffsetX = 10 // x轴偏移量<br>  ctx.shadowOffsetY = 10 // y轴偏移量<br>  ctx.shadowColor = &#x27;#f38181&#x27; // 阴影颜色<br>  ctx.shadowBlur = 10 // 阴影模糊度，默认0<br><br>  ctx.fillStyle = &#x27;#fce38a&#x27; // 填充色<br>  ctx.fillRect(30, 30, 200, 100)<br><br>  console.log(ctx.shadowOffsetX) // 输出阴影x轴方向的偏移量：10<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>除了图形外，文本和图片都可以设置阴影效果。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5dd42fc3b35a4b8c8498ff5365bcdf96~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="28.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.shadowOffsetX = 10 // x轴偏移量<br>  ctx.shadowOffsetY = 10 // y轴偏移量<br>  ctx.shadowColor = &#x27;#b83b5e&#x27; // 阴影颜色<br>  ctx.shadowBlur = 10 // 阴影模糊度，默认0<br><br>  const text = &#x27;雷猴&#x27;<br>  ctx.font = &#x27;bold 100px 黑体&#x27;<br>  ctx.fillStyle = &#x27;#fce38a&#x27;<br>  ctx.fillText(text, 10, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h2><p>在 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7116784455561248775#heading-17" title="https://juejin.cn/post/7116784455561248775#heading-17">Canvas 从入门到劝朋友放弃（图解版） —— 新开路径</a> 中我讲到 <strong>新开路径</strong> 和 <strong>关闭路径</strong> 的用法，本节会在上篇的基础上丰富更多使用细节。</p>
+<p>本节要讲的是</p>
+<ul>
+<li><code>beginPath()</code>: 新开路径</li>
+<li><code>closePath()</code>: 关闭路径</li>
+<li><code>isPointInPath()</code>: 判断某个点是否在当前路径内</li>
+</ul>
+<h3 id="beginPath"><a href="#beginPath" class="headerlink" title="beginPath()"></a>beginPath()</h3><p><code>beginPath()</code> 方法是用来开辟一条新的路径，这个方法会将当前路径之中的所有子路径都清除掉，以此来重置当前路径。</p>
+<p>如果你的画布上有几个基础图形（直线、多边形、圆形、弧、贝塞尔曲线），如果样式相互之间受到影响，那你可以立刻想想在绘制新图形之前是不是忘了使用 <code>beginPath()</code> 。</p>
+<p>先举几个例子说明一下。</p>
+<h4 id="污染：颜色、线条粗细受到污染"><a href="#污染：颜色、线条粗细受到污染" class="headerlink" title="污染：颜色、线条粗细受到污染"></a>污染：颜色、线条粗细受到污染</h4><p>后面的样式覆盖了前面的样式。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/15212edac5c348c289b2446910628fac~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="29.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 第一条线，粉色<br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.strokeStyle = &#x27;pink&#x27; // 粉色描边<br>  ctx.stroke()<br><br>  // 第二条线，红色<br>  ctx.moveTo(50, 80)<br>  ctx.lineTo(150, 80)<br>  ctx.strokeStyle = &#x27;red&#x27; // 红色描边<br>  ctx.lineWidth = 10 // 表面粗细<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="污染：图形路径污染"><a href="#污染：图形路径污染" class="headerlink" title="污染：图形路径污染"></a>污染：图形路径污染</h4><p>比如画布上有一条直线和一个圆形，不使用 <code>beginPath()</code> 开辟新路径的话，它们可能会“打架”。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34b1f5b9857548469d5879814b3280a6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="30.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 第一条线，粉色<br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.strokeStyle = &#x27;pink&#x27; // 粉色描边<br>  ctx.stroke()<br><br>  // 圆形<br>  ctx.arc(150, 120, 40, 0, 360 * Math.PI / 180)<br>  ctx.lineWidth = 4<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>明明直线和圆形是没有交集的，为什么会有一条倾斜的线把两个元素连接起来？</p>
+<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>除了上面两种情况外，可能还有其他更加奇怪的情况（像极喝醉了假酒），都可以先考虑是不是要使用 <code>beginPath()</code> 。</p>
+<p>比如这样做。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9221a812048d4f1cad73183e2fcd9291~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="31.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 第一条线，粉色<br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.strokeStyle = &#x27;pink&#x27; // 粉色描边<br>  ctx.lineWidth = 10<br>  ctx.stroke()<br><br>  // 圆形<br>  ctx.beginPath() // 开辟新的路径<br>  ctx.arc(150, 120, 40, 0, 360 * Math.PI / 180)<br>  ctx.strokeStyle = &#x27;skyblue&#x27; // 蓝色描边<br>  ctx.lineWidth = 4<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在使用 <code>arc</code> 或者 <code>moveTo</code> 方法之前加上一句 <code>ctx.beginPath()</code> 就可以有效解决以上问题。</p>
+<p>这个例子中，如果没用 <code>ctx.beginPath()</code> ，<code>canvas</code> 就会以为 线 和 圆形 都属于同一个路径，所以在画圆形时，下笔的时候就会把线的“结束点”和圆的“起点”相连起来。</p>
+<p><code>stroke()</code> 和 <code>fill()</code> 都是以最近的 <code>beginPath()</code> 后面所定义的状态样式为基础进行绘制的。</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>前面的样式会覆盖后面元素的默认样式，即使使用了 <code>beginPath()</code> 。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dab87c08c6be40b69fa183c81de735d4~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="32.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  // 第一条线，粉色<br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.strokeStyle = &#x27;pink&#x27; // 粉色描边<br>  ctx.lineWidth = 10 // 表面粗细<br>  ctx.stroke()<br><br>  // 第二条线，红色<br>  ctx.beginPath()<br>  ctx.moveTo(50, 80)<br>  ctx.lineTo(150, 80)<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>第一条先设置了 <code>strokeStyle</code> 和 <code>lineWidth</code> ，第二条线并没有设置这两个属性，即使在绘制第二条线的开始时使用了 <code>ctx.beginPath()</code> ，第二条线也会使用第一条线的 <code>strokeStyle</code> 和 <code>lineWidth</code> 。除非第二条线自己也有设置这两个属性，不然就会沿用之前的配置项。</p>
+<h4 id="“特殊情况”"><a href="#“特殊情况”" class="headerlink" title="“特殊情况”"></a>“特殊情况”</h4><p>还要补充一个 “特殊情况”。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3732a0ba88284becbe5df9f4992022c0~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="33.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const cnv = document.getElementById(&#x27;c&#x27;)<br>  const ctx = cnv.getContext(&#x27;2d&#x27;)<br><br>  // 第一条线，粉色<br>  ctx.moveTo(50, 30)<br>  ctx.lineTo(150, 30)<br>  ctx.strokeStyle = &#x27;pink&#x27; // 粉色描边<br>  ctx.lineWidth = 10 // 描边粗细<br>  ctx.stroke()<br><br>  // 矩形<br>  ctx.strokeStyle = &#x27;red&#x27; // 红色描边<br>  ctx.strokeRect(50, 50, 200, 100)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>这个例子中，绘制矩形 <code>rect</code> 前并没有用 <code>beginPath()</code> ，但矩形的红色描边并没有影响直线的粉色描边。</p>
+<p>其实还不止 <code>strokeRect()</code> ，还有 <code>fillRect()</code>、<code>strokeText()</code>、<code>fillText()</code> 都不会影响其他图形，这些方法都只会绘制图形，不会影响原本路径。</p>
+<h3 id="closePath"><a href="#closePath" class="headerlink" title="closePath()"></a>closePath()</h3><p><code>closePath()</code> 方法可以关闭当前路径，它可以显示封闭某段开放的路径。这个方法常用于关闭圆弧路径或者由圆弧、线段创建出来的开放路径。</p>
+<p><code>closePath()</code> 是关闭路径，并不是结束路径。</p>
+<p>关闭路径，指的是连接起点与终点，也就是能够自动封闭图形。</p>
+<p>结束路径，指的是开始新的路径。</p>
+<h4 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h4><p>举个例子会更直观</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/656ede2322784bfb92d289fcdb056307~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="34.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.lineTo(150, 140)<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>上面的代码通过 <code>moveTo</code> 和 <code>lineTo</code> 画了3个点，使用 <code>stroke()</code> 方法把这3个点连起来，就形成了上图效果。</p>
+<p>但如果此时在 <code>stroke()</code> 前使用 <code>closePath()</code> 方法，最终出来的路径将自动闭合（将起点和终点连接起来）。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/36bf6130afb249f8bc0b33bafa5da248~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="35.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;canvas id=&quot;c&quot; width=&quot;300&quot; height=&quot;200&quot; style=&quot;border: 1px solid #ccc;&quot;&gt;&lt;/canvas&gt;<br><br>&lt;script&gt;<br>  const context = document.getElementById(&#x27;c&#x27;)<br>  const ctx = context.getContext(&#x27;2d&#x27;)<br><br>  ctx.moveTo(50, 40)<br>  ctx.lineTo(150, 40)<br>  ctx.lineTo(150, 140)<br>  ctx.closePath() // 关闭路径<br>  ctx.stroke()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h4><p>看到上面的例子后，可能有些工友会觉得使用 <code>ctx.lineTo(50, 40)</code> 连接回起点也有同样效果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br>ctx.moveTo(50, 40)<br>ctx.lineTo(150, 40)<br>ctx.lineTo(150, 140)<br>ctx.lineTo(50, 40)<br>ctx.stroke()<br></code></pre></td></tr></table></figure>
+
+<p>确实在描边为1像素时看上去效果是差不多的，但如果此时将 <code>lineWidth</code> 的值设置得大一点，就能看到明显区别。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/870b0b25b55d422e864a923dbab967b8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="36.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br>ctx.lineWidth = 10<br>ctx.moveTo(50, 40)<br>ctx.lineTo(150, 40)<br>ctx.lineTo(150, 140)<br>ctx.lineTo(50, 40) // 连接回起点<br>ctx.stroke()<br></code></pre></td></tr></table></figure>
+
+<p>如果用 <code>closePath()</code> 自动闭合路径的话，会出现以下效果</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d619b92ec44b4b7680183619b7d5cb8d~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="37.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs auto">// 省略部分代码<br>ctx.lineWidth = 10<br>ctx.moveTo(50, 40)<br>ctx.lineTo(150, 40)<br>ctx.lineTo(150, 140)<br>ctx.closePath() // 关闭路径<br>ctx.stroke()<br></code></pre></td></tr></table></figure>
+
+<p>本文到此就完结了，但 <code>canvas</code> 的知识点还没完，还有很多很多，根本学不完的那种。</p>
+<p>接下来 <a target="_blank" rel="noopener" href="https://juejin.cn/column/7113168145912692773" title="https://juejin.cn/column/7113168145912692773">本专栏</a> 的文章会偏向于 <strong>知识点 + 案例</strong> 的方式讲解 <code>canvas</code> 。</p>
+<h2 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h2><p>⭐<a href="https://gitee.com/k21vin/thunder-monkey-canvas" title="https://link.juejin.cn/?target=https%3A%2F%2Fgitee.com%2Fk21vin%2Fthunder-monkey-canvas">雷猴 Canvas</a></p>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7116784455561248775" title="https://juejin.cn/post/7116784455561248775">《Canvas 从入门到劝朋友放弃（图解版）》</a></p>
+<p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7119893640264024071" title="https://juejin.cn/post/7119893640264024071">《Canvas 10款基础滤镜（原理篇）》</a></p>
+<p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7026941253845516324" title="https://juejin.cn/post/7026941253845516324">《Fabric.js 从入门到膨胀》</a></p>
+<p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7101683178741432356" title="https://juejin.cn/post/7101683178741432356">《『Three.js』起飞！》</a></p>
+<p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7173451612654927908" title="https://juejin.cn/post/7173451612654927908">《p5.js 光速入门》</a></p>
+<p>👍<a target="_blank" rel="noopener" href="https://juejin.cn/post/7118985770408345630" title="https://juejin.cn/post/7118985770408345630">《SVG 从入门到后悔，怎么不早点学起来（图解版）》</a></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/&title=canvas进阶知识图解 - JKK随笔&pics=/images/banner_desk.jpg&summary=本文简介本文会涉及到 canvas 的知识包括：变形、像素控制、渐变、阴影、路径
+变形这里说的变形是基于画布，全局进行变形。
+变形主要包括：平移 translate、缩放 scale、旋转操作 rotate。
+除了对应的方法外，还可以..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=canvas进阶知识图解 - JKK随笔&amp;body=https://panzhenjie.fun/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">聊聊canvas绘图状态管理</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/03/29/%E5%BC%BA%E5%A4%A7%E7%9A%84canvas%E5%BA%93Fabric-js%E5%9F%BA%E7%A1%80%E5%9B%BE%E8%A7%A3/">强大的canvas库Fabric.js基础图解</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\12\Canvas入门知识图解\" title="Canvas入门知识图解"><span class="title">Canvas入门知识图解</span></a><a class="item" href="\2025\04\08\聊聊canvas绘图状态管理\" title="聊聊canvas绘图状态管理"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item" href="\2025\04\10\three-js轻松入门\" title="three.js轻松入门"><span class="title">three.js轻松入门</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E7%AE%80%E4%BB%8B"><span class="toc-text">本文简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E5%BD%A2"><span class="toc-text">变形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E7%A7%BB"><span class="toc-text">平移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E5%B1%8F"><span class="toc-text">清屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%A9%E6%94%BE"><span class="toc-text">缩放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC"><span class="toc-text">旋转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8E%9F%E7%82%B9"><span class="toc-text">修改原点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5"><span class="toc-text">变换矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#transform"><span class="toc-text">transform</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#setTransform"><span class="toc-text">setTransform</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#transform-%E5%92%8C-setTransform-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">transform 和 setTransform 的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%83%8F%E7%B4%A0"><span class="toc-text">控制像素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#getImageData"><span class="toc-text">getImageData()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#putImageData"><span class="toc-text">putImageData()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%8F%E6%98%8E"><span class="toc-text">透明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%A4%E9%95%9C"><span class="toc-text">滤镜</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%90%E5%8F%98"><span class="toc-text">渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E6%B8%90%E5%8F%98-createLinearGradient"><span class="toc-text">线性渐变 createLinearGradient</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A1%AB%E5%85%85%E6%B8%90%E5%8F%98"><span class="toc-text">填充渐变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%8F%E8%BE%B9%E6%B8%90%E5%8F%98"><span class="toc-text">描边渐变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%B8%90%E5%8F%98"><span class="toc-text">文本渐变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%89%B2%E7%BA%BF%E6%80%A7%E6%B8%90%E5%8F%98"><span class="toc-text">多色线性渐变</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%84%E5%90%91%E6%B8%90%E5%8F%98-createRadialGradient"><span class="toc-text">径向渐变 createRadialGradient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%90%E5%8F%98%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">渐变的注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1"><span class="toc-text">阴影</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84"><span class="toc-text">路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#beginPath"><span class="toc-text">beginPath()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A1%E6%9F%93%EF%BC%9A%E9%A2%9C%E8%89%B2%E3%80%81%E7%BA%BF%E6%9D%A1%E7%B2%97%E7%BB%86%E5%8F%97%E5%88%B0%E6%B1%A1%E6%9F%93"><span class="toc-text">污染：颜色、线条粗细受到污染</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A1%E6%9F%93%EF%BC%9A%E5%9B%BE%E5%BD%A2%E8%B7%AF%E5%BE%84%E6%B1%A1%E6%9F%93"><span class="toc-text">污染：图形路径污染</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">解决办法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E2%80%9C%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%E2%80%9D"><span class="toc-text">“特殊情况”</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#closePath"><span class="toc-text">closePath()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-text">基础用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-1"><span class="toc-text">注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93"><span class="toc-text">代码仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB"><span class="toc-text">推荐阅读</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>

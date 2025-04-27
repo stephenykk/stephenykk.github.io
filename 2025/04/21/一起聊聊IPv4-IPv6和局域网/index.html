@@ -1,0 +1,777 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>一起聊聊IPv4/IPv6和局域网 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;www.cnblogs.com&#x2F;poloyy&#x2F;p&#x2F;14926631.html  背景 谁都知道 IP 地址是干嘛的，但是它出现的前因后果你真的知道吗？ 我觉得很有必要重新复习下计算机网络基础知识，实在太太太重要了 本篇文章素材均来自：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1DD4y127r4；这个 UP 感觉还是很不错 by the way：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一起聊聊IPv4&#x2F;IPv6和局域网">
+<meta property="og:url" content="https://panzhenjie.fun/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;www.cnblogs.com&#x2F;poloyy&#x2F;p&#x2F;14926631.html  背景 谁都知道 IP 地址是干嘛的，但是它出现的前因后果你真的知道吗？ 我觉得很有必要重新复习下计算机网络基础知识，实在太太太重要了 本篇文章素材均来自：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1DD4y127r4；这个 UP 感觉还是很不错 by the way：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132020329-2067904101.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132013684-1248388887.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132056170-2109382496.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132109120-225411904.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132129860-749207918.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132250650-2082973463.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132229547-778052807.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132233470-2084448301.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134512119-1792033516.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135735215-1667597713.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135814526-971072791.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134644144-481346600.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230447950-869827073.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230500290-1838843604.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230820559-476104605.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231245740-996875922.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231402176-1856156152.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624233021135-1454175735.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231644972-1715742511.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232347015-881402136.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232349501-2142032845.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232906490-313153819.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142530327-1798723244.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142544369-463811998.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142810222-1238632973.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144509912-736626409.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144520687-356973473.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150905809-1185822886.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150959868-1682289164.png">
+<meta property="article:published_time" content="2025-04-21T05:25:15.000Z">
+<meta property="article:modified_time" content="2025-04-27T11:54:03.092Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="network">
+<meta property="article:tag" content="IPv6">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132020329-2067904101.png">
+  
+  
+  
+  <meta name="keywords" content="network,IPv6">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><span class="title">浅说虚拟列表实现原理</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item title" href="/2025/04/10/three-js%E8%BD%BB%E6%9D%BE%E5%85%A5%E9%97%A8/"><span class="title">three.js轻松入门</span></a><a class="item title" href="/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><span class="title">一起聊聊IPv4/IPv6和局域网</span></a><a class="item title" href="/2025/04/21/IPv6%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3/"><span class="title">IPv6地址格式详解</span></a><a class="item title" href="/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><span class="title">canvas进阶知识图解</span></a><a class="item title" href="/2025/03/29/%E5%BC%BA%E5%A4%A7%E7%9A%84canvas%E5%BA%93Fabric-js%E5%9F%BA%E7%A1%80%E5%9B%BE%E8%A7%A3/"><span class="title">强大的canvas库Fabric.js基础图解</span></a><a class="item title" href="/2025/02/21/%E5%80%BC%E5%BE%97%E4%BA%86%E8%A7%A3%E7%9A%84Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"><span class="title">值得了解的Python虚拟环境</span></a><a class="item title" href="/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"><span class="title">如何用vimdiff解决合并冲突</span></a><a class="item title" href="/2025/03/26/%E4%B8%80%E4%B8%AA%E5%85%8D%E8%B4%B9%E5%AD%A6%E4%B9%A0%E7%94%9F%E8%AF%8D%E7%9A%84%E8%BD%BB%E5%BA%94%E7%94%A8/"><span class="title">一个免费学习生词的轻应用</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/network/">network</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-21T05:25:15.000Z">2025-04-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-27T11:54:03.092Z">2025-04-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>一起聊聊IPv4/IPv6和局域网</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/poloyy/p/14926631.html">https://www.cnblogs.com/poloyy/p/14926631.html</a></p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>谁都知道 IP 地址是干嘛的，但是它出现的前因后果你真的知道吗？</li>
+<li>我觉得很有必要重新复习下计算机网络基础知识，实在太太太重要了</li>
+<li>本篇文章素材均来自：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1DD4y127r4">https://www.bilibili.com/video/BV1DD4y127r4</a>；这个 UP 感觉还是很不错</li>
+<li>by the way：有时候学习一个知识点，官网的确是最准确的， 但一定不是通俗易懂的，借助大神做的一些动态图和类比场景，能更快吸收一个知识点</li>
+<li>最佳学习方式：看一遍官方，看一遍别人做的学习视频，再看一遍手动记录干货，形成自己的知识体系</li>
+</ul>
+<h2 id="为什么会出现-IP-地址"><a href="#为什么会出现-IP-地址" class="headerlink" title="为什么会出现 IP 地址"></a>为什么会出现 IP 地址</h2><h4 id="假设只有一台电脑"><a href="#假设只有一台电脑" class="headerlink" title="假设只有一台电脑"></a>假设只有一台电脑</h4><ul>
+<li>所有数据就会存储在这台电脑的硬盘上，和其他电脑本身不存在任何干系</li>
+<li>但一台电脑能做的事情是非常少的，很可能会出现多台电脑协同工作</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132020329-2067904101.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132020329-2067904101.png"></a></p>
+<h4 id="假设有两台电脑"><a href="#假设有两台电脑" class="headerlink" title="假设有两台电脑"></a>假设有两台电脑</h4><ul>
+<li>两台电脑协同工作，那肯定会出现数据交互的需求，那就需要用中间介质（比如 U 盘）来交换</li>
+<li>这种方式既不是数据实时传输，也非常耗时耗力</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132013684-1248388887.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132013684-1248388887.png"></a></p>
+<h4 id="线缆（网线）的出现"><a href="#线缆（网线）的出现" class="headerlink" title="线缆（网线）的出现"></a>线缆（网线）的出现</h4><p>两台电脑之间可以通过网线来实时传输数据</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132056170-2109382496.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132056170-2109382496.png"></a></p>
+<p>但假设有很多台电脑，那每两台电脑间都需要一条网线来连接，随着设备数量上升，需要的接口数量和线材数量也会越来越多，这是十分不合理的</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132109120-225411904.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132109120-225411904.png"></a></p>
+<h4 id="交换机的出现"><a href="#交换机的出现" class="headerlink" title="交换机的出现"></a>交换机的出现</h4><ul>
+<li>电脑和电脑之间的连接不再是<strong>点对点连接</strong>了</li>
+<li>而是全部都接入交换机，由交换机去分发来自不同设备的数据</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132129860-749207918.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132129860-749207918.png"></a></p>
+<h4 id="交换机的类型"><a href="#交换机的类型" class="headerlink" title="交换机的类型"></a>交换机的类型</h4><ul>
+<li>很多个接口的常规网络交换机</li>
+<li>服务器</li>
+<li>家里的路由器</li>
+</ul>
+<p>交换机详细介绍等后面的文章吧</p>
+<h4 id="非点对点连接的问题"><a href="#非点对点连接的问题" class="headerlink" title="非点对点连接的问题"></a>非点对点连接的问题</h4><ul>
+<li>点对点连接时，两台电脑交互数据的是通过对应接口的，所以数据一定会传送到目标主机上</li>
+<li>但是接入交换机之后，就不清楚数据发送给哪个目标主机了</li>
+<li><strong>类比：</strong>网购发货，没有填清楚收件人的地址，所以无法精准送货</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132250650-2082973463.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132250650-2082973463.png"></a></p>
+<h4 id="数字虚拟地址"><a href="#数字虚拟地址" class="headerlink" title="数字虚拟地址"></a>数字虚拟地址</h4><ul>
+<li>为了解决上述非点对点连接的问题，诞生了数字虚拟地址</li>
+<li>电脑发送数据的时候，带上这个数字虚拟地址，就能知道目标主机是谁了</li>
+<li><strong>栗子：</strong>182.168.0.1 主机要发送数据给 192.168.0.3 主机，就在数据的抬头（包头）上加上 192.168.0.1，这样数据到达交换机后就能准确发送给对应目标主机了</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132229547-778052807.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132229547-778052807.png"></a></p>
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ul>
+<li>此处采用的交换机是三层交换机，具有 DHCP 分配 IP 的功能</li>
+<li>MAC 地址为物理层面设备识别</li>
+<li>数据传输依赖 TCP&#x2F;UDP</li>
+</ul>
+<p> </p>
+<h4 id="IP-地址来了"><a href="#IP-地址来了" class="headerlink" title="IP 地址来了"></a>IP 地址来了</h4><ul>
+<li>其实数字虚拟地址就是 IP 地址</li>
+<li><strong>类比：</strong>网购发货的时候，发送的物品就是数据，收件人地址可以理解为 IP 地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132233470-2084448301.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624132233470-2084448301.png"></a></p>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>每个电脑都拥有自己的 IP 以后，加上连接的交换机，就能组成一个小的可以用来交换数据的网络，这就是局域网</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134512119-1792033516.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134512119-1792033516.png"></a></p>
+<h4 id="新加入一个局域网"><a href="#新加入一个局域网" class="headerlink" title="新加入一个局域网"></a>新加入一个局域网</h4><p>需要把两个局域网的交换机连接起来，组成一个更大的局域网 </p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135735215-1667597713.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135735215-1667597713.png"></a></p>
+<p>随着时间的推移，可能需要连接的局域网也会越来越大，那么局域网之间又会通过一个新的交换机来连接</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135814526-971072791.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624135814526-971072791.png"></a></p>
+<h4 id="广域网"><a href="#广域网" class="headerlink" title="广域网"></a>广域网</h4><ul>
+<li>上面有说到，随着局域网越来越多，这个网络也会变得越来越大，用户只需要连接一个交互机可能就能访问世界上绝大多数的设备，这就是广域网</li>
+<li>广域网就是一个设备数量超级庞大的局域网</li>
+<li>想要把世界各地的设备连接起来并不容易</li>
+<li>需要在多个重要城市架设<strong>骨干服务器</strong>，还要在不同区域布置<strong>分支服务器</strong>，然后让大家接入</li>
+<li>这需要大量的资金成本、后期维护</li>
+<li>做这种吃力不讨好活的就是 ISP（互联网服务提供商），在中国有联通、电信、移动</li>
+<li>正需要资金成本和维护成本，所以你的手机流量和家用宽带都是计费的</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134644144-481346600.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624134644144-481346600.png"></a></p>
+<h2 id="IPV-4"><a href="#IPV-4" class="headerlink" title="IPV 4"></a>IPV 4</h2><ul>
+<li>由 32 位二进制数构成</li>
+<li>理论上，可以提供 2^32 约 42.28 亿 个地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230447950-869827073.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230447950-869827073.png"></a></p>
+<h4 id="转成十进制"><a href="#转成十进制" class="headerlink" title="转成十进制"></a>转成十进制</h4><p>为了方便记忆和输入，每 8 个二进制数划分为一组，然后转换为十进制数，变成常用的 4 个 0-255 数字</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230500290-1838843604.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230500290-1838843604.png"></a></p>
+<h4 id="IP-地址的分类"><a href="#IP-地址的分类" class="headerlink" title="IP 地址的分类"></a>IP 地址的分类</h4><p>一些地址有特殊的用途，所以被保留下来不允许被大众使用，最后可能真正可用的 IP 地址只有 36.74 亿个</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230820559-476104605.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624230820559-476104605.png"></a></p>
+<h4 id="全球-IPV4-地址不够用"><a href="#全球-IPV4-地址不够用" class="headerlink" title="全球 IPV4 地址不够用"></a>全球 IPV4 地址不够用</h4><p>现在全球有75亿个人，假设只有四分之一的人用互联网，那么也有 18 亿人</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231245740-996875922.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231245740-996875922.png"></a></p>
+<p>但每个人的设备数量可能有多个，比如手机+IPAD+电脑，如果都想要独立的 IP 地址，那么 IPV4 很明显不够用</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231402176-1856156152.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231402176-1856156152.png"></a></p>
+<h4 id="IPV4-已经枯竭"><a href="#IPV4-已经枯竭" class="headerlink" title="IPV4 已经枯竭"></a>IPV4 已经枯竭</h4><ul>
+<li>2011 年底，打包分配的 IPV4 地址已经枯竭了</li>
+<li>2020 年底，亚太互联网信息中心将发布不出来一个新的地址</li>
+<li>除非有人返还旧的地址</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624233021135-1454175735.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624233021135-1454175735.png"></a></p>
+<h2 id="NAT-网络地址转换"><a href="#NAT-网络地址转换" class="headerlink" title="NAT 网络地址转换"></a>NAT 网络地址转换</h2><p>为了解决 IPV4 地址枯竭的问题，引入了 NAT 地址转换</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231644972-1715742511.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624231644972-1715742511.png"></a></p>
+<h4 id="上图"><a href="#上图" class="headerlink" title="上图"></a>上图</h4><ul>
+<li>五台电脑接入一个路由器</li>
+<li>路由器接入广域网的 IP 是 6.6.6.6</li>
+<li>对于家用来说，路由器由于是接入广域网并执行 NAT 的，所以路由器就是网关</li>
+</ul>
+<h4 id="传输场景，引入-NAT"><a href="#传输场景，引入-NAT" class="headerlink" title="传输场景，引入 NAT"></a>传输场景，引入 NAT</h4><ol>
+<li>假设电脑 A 需要访问外部的 8.8.8.8 设备</li>
+<li>那么就会将数据包发送给路由器</li>
+<li>路由器发现这个数据包是要发送给 8.8.8.8 的，就会将 IP <strong>映射</strong>成自己的 IP 6.6.6.6，并记录成映射表 </li>
+<li>最后，8.8.8.8 设备接收到的数据包的 IP 是 6.6.6.6</li>
+<li>这样五台电脑发送出去的数据包，都能通过路由器转换为 6.6.6.6，以这个 IP 去传输数据</li>
+<li>就能实现五台设备共用一个 IP</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232347015-881402136.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232347015-881402136.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232349501-2142032845.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232349501-2142032845.png"></a></p>
+<h4 id="接收方也可以作为网关"><a href="#接收方也可以作为网关" class="headerlink" title="接收方也可以作为网关"></a>接收方也可以作为网关</h4><p>这样它下面就会连接了很多台设备，那它们也可以共用 8.8.8.8 这个 IP</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232906490-313153819.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210624232906490-313153819.png"></a></p>
+<h4 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h4><ul>
+<li>左侧五台设备都是通过 6.6.6.6 来发送数据包的，但是右侧接收方并不知道发送过来的数据包应该给哪台设备接收</li>
+<li>而 8.8.8.8 的下行数据发送到 6.6.6.6 之后，也不知道给五台设备中的哪一台来接收</li>
+</ul>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>为了解决上面存在的问题，引入了端口映射</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142530327-1798723244.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142530327-1798723244.png"></a></p>
+<h4 id="具体表现方式"><a href="#具体表现方式" class="headerlink" title="具体表现方式"></a>具体表现方式</h4><ul>
+<li>其实就是在 IP 后面加端口 6.6.6.6:8080 </li>
+<li>网关就会以不同的端口去和外网交互，然后把这些端口映射给局域网内的各个设备</li>
+<li>传输数据包的时候，除了 IP 地址需要映射为网关 IP 之外，还需要将端口映射为网关的端口</li>
+<li>这样就能实现共用一个 IP 还能精准传送数据了（解决上面存在的问题），以实现 PAT 多对一映射了</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142544369-463811998.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142544369-463811998.png"></a></p>
+<p>其实就是因为 NAT 和端口映射的存在，才让 IPV4 即使在不够用的情况下还能坚持这么久</p>
+<h2 id="公有-IP-和私有-IP"><a href="#公有-IP-和私有-IP" class="headerlink" title="公有 IP 和私有 IP"></a>公有 IP 和私有 IP</h2><ul>
+<li>前面有说到 A、B、C、D、E 五台设备共同连接一个路由器，那么这五个设备就是寄宿在 6.6.6.6 网关下的私有 IP</li>
+<li>网关所拥有的的可以直接用来在广域网上交互数据的 6.6.6.6 就是公网IP</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142810222-1238632973.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625142810222-1238632973.png"></a></p>
+<h4 id="类比的栗子"><a href="#类比的栗子" class="headerlink" title="类比的栗子"></a>类比的栗子</h4><ol>
+<li>比如你居住在一个名叫月亮湾的小区，具体地址是15号楼二单元101</li>
+<li>假设全球只有一个小区叫这个名，那么只要别人提起月亮湾就知道是哪个月亮湾了，这种能直接通过地址访问，可以拿到大的层面上直接使用的地址就是<strong>公网 IP</strong></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144509912-736626409.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144509912-736626409.png"></a></p>
+<ol>
+<li>而小区内部其实就是<strong>局域网</strong>，你只要在小区内说是15号楼二单元101的，别人就知道你在哪</li>
+<li>假设隔壁小区也有15号楼二单元101，隔壁的隔壁小区也有15号楼二单元101，寄快递的时候只写15号楼二单元101不写月亮湾，那么快递肯定不知道寄去哪里</li>
+<li>像这种只能在小区内<strong>（局域网内）</strong>使用的 IP 就是<strong>私有</strong> <strong>IP</strong>，它只有连同一个局域网的其他设备才会知道</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144520687-356973473.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625144520687-356973473.png"></a></p>
+<h2 id="IPV-6"><a href="#IPV-6" class="headerlink" title="IPV 6"></a>IPV 6</h2><p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150905809-1185822886.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150905809-1185822886.png"></a></p>
+<p>能支持 3.4 * 10^ 38 个 IPV6 地址，这应该是多少亿亿亿个了吧…给每个生物分配一个都够用了</p>
+<p><a target="_blank" rel="noopener" href="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150959868-1682289164.png"><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://img2020.cnblogs.com/blog/1896874/202106/1896874-20210625150959868-1682289164.png"></a></p>
+<p>数字0-9，大写字母A-F</p>
+<h4 id="ipv4-和-ipv6-是两个完全不同的两个协议"><a href="#ipv4-和-ipv6-是两个完全不同的两个协议" class="headerlink" title="ipv4 和 ipv6 是两个完全不同的两个协议"></a>ipv4 和 ipv6 是两个完全不同的两个协议</h4><ul>
+<li>它们之间不能直接互通，必须要借助其他的设备去做转换和映射</li>
+<li>导致在短时间内，IPV6 替换 IPV4 是很困难的</li>
+</ul>
+<p>会持续更新知识点</p>
+<ul>
+<li><a href="#tid-BrSD2J">背景</a></li>
+<li><a href="#tid-mPkxMi">为什么会出现 IP 地址</a></li>
+<li>    <a href="#tid-F5rhSs">假设只有一台电脑</a></li>
+<li>    <a href="#tid-FPjNQF">假设有两台电脑</a></li>
+<li>    <a href="#tid-b3HJh4">线缆（网线）的出现</a></li>
+<li>    <a href="#tid-pdSZfP">交换机的出现</a></li>
+<li>    <a href="#tid-6Tm4mb">交换机的类型</a></li>
+<li>    <a href="#tid-HHAQPN">非点对点连接的问题</a></li>
+<li>    <a href="#tid-DtPeRa">数字虚拟地址</a></li>
+<li>    <a href="#tid-HRiTE5">说明</a></li>
+<li>    <a href="#tid-r4s6is">IP 地址来了</a></li>
+<li><a href="#tid-B5FJWt">局域网</a></li>
+<li>    <a href="#tid-zSHPdz">新加入一个局域网</a></li>
+<li>    <a href="#tid-H2ap83">广域网</a></li>
+<li><a href="#tid-bn3TxN">IPV 4</a></li>
+<li>    <a href="#tid-jnYQ6M">转成十进制</a></li>
+<li>    <a href="#tid-G8KCrc">IP 地址的分类</a></li>
+<li>    <a href="#tid-WaHGS6">全球 IPV4 地址不够用</a></li>
+<li>    <a href="#tid-ER8bQp">IPV4 已经枯竭</a></li>
+<li><a href="#tid-QCnfRB">NAT 网络地址转换</a></li>
+<li>    <a href="#tid-6dGNQf">上图</a></li>
+<li>    <a href="#tid-tn3Xsc">传输场景，引入 NAT</a></li>
+<li>    <a href="#tid-Gm3sRK">接收方也可以作为网关</a></li>
+<li>    <a href="#tid-QTMy3p">存在问题</a></li>
+<li><a href="#tid-SPFHDz">端口映射</a></li>
+<li>    <a href="#tid-FRyh4b">具体表现方式</a></li>
+<li><a href="#tid-6S6wXy">公有 IP 和私有 IP</a></li>
+<li>    <a href="#tid-tsn6Ei">类比的栗子</a></li>
+<li><a href="#tid-np4s3j">IPV 6</a></li>
+<li>    <a href="#tid-sP84cQ">ipv4 和 ipv6 是两个完全不同的两个协议</a></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/&title=一起聊聊IPv4/IPv6和局域网 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://www.cnblogs.com/poloyy/p/14926631.html
+
+背景
+谁都知道 IP 地址是干嘛的，但是它出现的前因后果你真的知道吗？
+我觉得很有必要重新复习下计算机网络基础知识，实在太太太..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=一起聊聊IPv4/IPv6和局域网 - JKK随笔&amp;body=https://panzhenjie.fun/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/21/IPv6%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3/">IPv6地址格式详解</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">浅说虚拟列表实现原理</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2025\04\21\IPv6地址格式详解\" title="IPv6地址格式详解"><span class="title">IPv6地址格式详解</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0-IP-%E5%9C%B0%E5%9D%80"><span class="toc-text">为什么会出现 IP 地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%87%E8%AE%BE%E5%8F%AA%E6%9C%89%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91"><span class="toc-text">假设只有一台电脑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%87%E8%AE%BE%E6%9C%89%E4%B8%A4%E5%8F%B0%E7%94%B5%E8%84%91"><span class="toc-text">假设有两台电脑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%BF%E7%BC%86%EF%BC%88%E7%BD%91%E7%BA%BF%EF%BC%89%E7%9A%84%E5%87%BA%E7%8E%B0"><span class="toc-text">线缆（网线）的出现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E5%87%BA%E7%8E%B0"><span class="toc-text">交换机的出现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">交换机的类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E7%82%B9%E5%AF%B9%E7%82%B9%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">非点对点连接的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80"><span class="toc-text">数字虚拟地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-text">说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IP-%E5%9C%B0%E5%9D%80%E6%9D%A5%E4%BA%86"><span class="toc-text">IP 地址来了</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-text">局域网</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%8A%A0%E5%85%A5%E4%B8%80%E4%B8%AA%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-text">新加入一个局域网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-text">广域网</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPV-4"><span class="toc-text">IPV 4</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E6%88%90%E5%8D%81%E8%BF%9B%E5%88%B6"><span class="toc-text">转成十进制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IP-%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">IP 地址的分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E7%90%83-IPV4-%E5%9C%B0%E5%9D%80%E4%B8%8D%E5%A4%9F%E7%94%A8"><span class="toc-text">全球 IPV4 地址不够用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IPV4-%E5%B7%B2%E7%BB%8F%E6%9E%AF%E7%AB%AD"><span class="toc-text">IPV4 已经枯竭</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAT-%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-text">NAT 网络地址转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E5%9B%BE"><span class="toc-text">上图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%9C%BA%E6%99%AF%EF%BC%8C%E5%BC%95%E5%85%A5-NAT"><span class="toc-text">传输场景，引入 NAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%96%B9%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3"><span class="toc-text">接收方也可以作为网关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98"><span class="toc-text">存在问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="toc-text">端口映射</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E8%A1%A8%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-text">具体表现方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E6%9C%89-IP-%E5%92%8C%E7%A7%81%E6%9C%89-IP"><span class="toc-text">公有 IP 和私有 IP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E6%AF%94%E7%9A%84%E6%A0%97%E5%AD%90"><span class="toc-text">类比的栗子</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPV-6"><span class="toc-text">IPV 6</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ipv4-%E5%92%8C-ipv6-%E6%98%AF%E4%B8%A4%E4%B8%AA%E5%AE%8C%E5%85%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%8D%8F%E8%AE%AE"><span class="toc-text">ipv4 和 ipv6 是两个完全不同的两个协议</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>

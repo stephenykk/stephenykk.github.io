@@ -1,0 +1,728 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>浅说虚拟列表实现原理 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000016734597  在前端性能优化的众多方案中，虚拟列表可以说是一个既经典又常见的话题。虽然很多开发者对它有所耳闻，但当被问到具体实现原理时，往往会觉得无从下手。今天，让我们用最直观的方式来一探虚拟列表的究竟。  虚拟列表的实现有多种方案，本文以 react-virtual-list 组件为基础进行分析。原文链接：h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅说虚拟列表实现原理">
+<meta property="og:url" content="https://panzhenjie.fun/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000016734597  在前端性能优化的众多方案中，虚拟列表可以说是一个既经典又常见的话题。虽然很多开发者对它有所耳闻，但当被问到具体实现原理时，往往会觉得无从下手。今天，让我们用最直观的方式来一探虚拟列表的究竟。  虚拟列表的实现有多种方案，本文以 react-virtual-list 组件为基础进行分析。原文链接：h">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734600?w=549&h=609">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734601?w=1406&h=608">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734602">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734603">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734604?w=1172&h=599">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734605">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000016734606?w=1194&h=866">
+<meta property="article:published_time" content="2025-04-21T03:28:27.000Z">
+<meta property="article:modified_time" content="2025-04-27T11:54:03.093Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="front-end">
+<meta property="article:tag" content="performance">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://segmentfault.com/img/remote/1460000016734600?w=549&h=609">
+  
+  
+  
+  <meta name="keywords" content="front-end,performance">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><span class="title">浅说虚拟列表实现原理</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item title" href="/2025/04/10/three-js%E8%BD%BB%E6%9D%BE%E5%85%A5%E9%97%A8/"><span class="title">three.js轻松入门</span></a><a class="item title" href="/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><span class="title">一起聊聊IPv4/IPv6和局域网</span></a><a class="item title" href="/2025/04/21/IPv6%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3/"><span class="title">IPv6地址格式详解</span></a><a class="item title" href="/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><span class="title">canvas进阶知识图解</span></a><a class="item title" href="/2025/03/29/%E5%BC%BA%E5%A4%A7%E7%9A%84canvas%E5%BA%93Fabric-js%E5%9F%BA%E7%A1%80%E5%9B%BE%E8%A7%A3/"><span class="title">强大的canvas库Fabric.js基础图解</span></a><a class="item title" href="/2025/02/21/%E5%80%BC%E5%BE%97%E4%BA%86%E8%A7%A3%E7%9A%84Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"><span class="title">值得了解的Python虚拟环境</span></a><a class="item title" href="/2025/03/21/%E5%A6%82%E4%BD%95%E7%94%A8vimdiff%E8%A7%A3%E5%86%B3%E5%90%88%E5%B9%B6%E5%86%B2%E7%AA%81/"><span class="title">如何用vimdiff解决合并冲突</span></a><a class="item title" href="/2025/03/26/%E4%B8%80%E4%B8%AA%E5%85%8D%E8%B4%B9%E5%AD%A6%E4%B9%A0%E7%94%9F%E8%AF%8D%E7%9A%84%E8%BD%BB%E5%BA%94%E7%94%A8/"><span class="title">一个免费学习生词的轻应用</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-21T03:28:27.000Z">2025-04-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-27T11:54:03.093Z">2025-04-27</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>浅说虚拟列表实现原理</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016734597">https://segmentfault.com/a/1190000016734597</a></p>
+</blockquote>
+<p>在前端性能优化的众多方案中，虚拟列表可以说是一个既经典又常见的话题。虽然很多开发者对它有所耳闻，但当被问到具体实现原理时，往往会觉得无从下手。今天，让我们用最直观的方式来一探虚拟列表的究竟。</p>
+<blockquote>
+<p>虚拟列表的实现有多种方案，本文以 react-virtual-list 组件为基础进行分析。原文链接：<a target="_blank" rel="noopener" href="https://github.com/dwqs/blog/">https://github.com/dwqs/blog/</a>…</p>
+</blockquote>
+<h2 id="什么是虚拟列表？"><a href="#什么是虚拟列表？" class="headerlink" title="什么是虚拟列表？"></a>什么是虚拟列表？</h2><p>想象一下你正在刷抖音：屏幕上虽然只显示一个视频，但你知道下面还有数不清的内容在等着你。虚拟列表就是这样一个聪明的技术 —— 它只把你眼前能看到的内容渲染出来，而不是一股脑儿地把所有内容都显示出来。这就像是魔术师的手法，让你感觉整个列表都在那里，实际上却只有一小部分在起作用。</p>
+<p>要理解虚拟列表,我们需要先搞清楚三个关键概念:</p>
+<h3 id="1-滚动容器"><a href="#1-滚动容器" class="headerlink" title="1. 滚动容器"></a>1. 滚动容器</h3><p>这是承载内容的”视口”(Viewport),可以理解为一个固定尺寸的框。它可以是浏览器窗口,也可以是页面中某个固定高度的<code>div</code>元素。就像是你在看一卷长画轴,滚动容器就是那个让你能通过它观看画作的框框。</p>
+<h3 id="2-可滚动区域"><a href="#2-可滚动区域" class="headerlink" title="2. 可滚动区域"></a>2. 可滚动区域</h3><p>这是内容的真实区域,决定了滚动条的高度。继续用画轴的比喻 —— 如果你有一卷100米长的画轴,那么可滚动区域就是这100米。在虚拟列表中,如果你有1000条数据,每条高度50像素,那么可滚动区域的高度就是50000像素。这个高度是虚拟的,但对用户来说,滚动体验和真实渲染是完全一致的。</p>
+<h3 id="3-可视区域"><a href="#3-可视区域" class="headerlink" title="3. 可视区域"></a>3. 可视区域</h3><p>这是用户通过滚动容器实际能看到的内容区域。还是用画轴的例子 —— 虽然画轴有100米长,但你通过框框一次只能看到20厘米的内容。在虚拟列表中,如果滚动容器高度是400像素,那么可视区域一次可能只能显示8-10条数据。</p>
+<p>这三者的关系可以用一个简单的类比来理解:</p>
+<ul>
+<li>滚动容器就像是火车车窗</li>
+<li>可滚动区域就像是火车外的整个风景</li>
+<li>可视区域就是你透过车窗在某一时刻看到的那部分风景</li>
+</ul>
+<p>虚拟列表的核心就是只渲染可视区域的内容,而不是整个可滚动区域的内容。当用户滚动时,我们动态计算并更新可视区域中应该显示的内容,从而大大减少了DOM节点的数量,提升了页面性能。</p>
+<p>实现虚拟列表的具体步骤如下：</p>
+<ul>
+<li>根据滚动条的位置，计算可见区域该展示长列表中哪部分的数据，得到这部分可视数据的 startIndex</li>
+<li>根据可见区域的高度，计算可容纳的列表项个数，结合 startIndex 得到可视数据的 endIndex</li>
+<li>根据 startIndex 和 endIndex 提取可视数据，并渲染可视数据列表</li>
+<li>因为滚动容器已向上滚动scrollTop, 所以可视数据列表需要paddingTop，top偏移同样的距离startOffset才能显示在可视区域</li>
+<li>由于需要用可视数据列表的上下padding来模拟完整列表的真实高度，得到真实的滚动条，所以还需要计算 endIndex 对应的数据相对于可滚动区域最底部的偏移位置 endOffset，并设置可视数据列表paddingBottom</li>
+</ul>
+<p>建议参考下图理解一下上面的步骤：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734600?w=549&h=609" alt="步骤图" title="步骤图"></p>
+<blockquote>
+<p>元素 L 代指当前列表中的最后一个元素</p>
+</blockquote>
+<p>从上图可以看出，<code>startOffset</code> 和 <code>endOffset</code> 会撑开容器元素的内容高度，让其可持续的滚动；此外，还能保持滚动条处于一个正确的位置。</p>
+<h2 id="为什么需要虚拟列表？"><a href="#为什么需要虚拟列表？" class="headerlink" title="为什么需要虚拟列表？"></a>为什么需要虚拟列表？</h2><p>虚拟列表是对长列表的一种优化方案。在前端开发中，会碰到一些不能使用分页方式来加载列表数据的业务场景，我们称这种列表叫做长列表。比如，在一些外汇交易系统中，前端会准实时的展示用户的持仓情况(收益、亏损、手数等)，此时对于用户的持仓列表一般是不能分页的。</p>
+<p>在本篇文章中，我们把长列表定义成数据长度大于 999，并且不能使用分页的形式来展示的列表。</p>
+<p>如果对长列表不作优化，完整地渲染一个长列表，到底需要多长时间呢？接下来会写一个简单的 demo 来测试以下。</p>
+<blockquote>
+<p>本文 demo 的测试环境：Macbook Pro(Core i7 2.2G, 16G), Chrome 69，React 16.4.1</p>
+</blockquote>
+<p>在 demo 中，我们先测一下浏览器渲染 10000 个简单的节点需要多长时间：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span><br><br><span class="hljs-keyword">const</span> count = <span class="hljs-number">10000</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">createMarkup</span> (doms) &#123;<br>  <span class="hljs-keyword">return</span> doms.<span class="hljs-property">length</span> ? &#123; <span class="hljs-attr">__html</span>: doms.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27; &#x27;</span>) &#125; : &#123; <span class="hljs-attr">__html</span>: <span class="hljs-string">&#x27;&#x27;</span> &#125;<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DOM</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>  <span class="hljs-title function_">constructor</span> (props) &#123;<br>    <span class="hljs-variable language_">super</span>(props)<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123;<br>      <span class="hljs-attr">simpleDOMs</span>: []<br>    &#125;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">onCreateSimpleDOMs</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">onCreateSimpleDOMs</span>.<span class="hljs-title function_">bind</span>(<span class="hljs-variable language_">this</span>)<br>  &#125;<br><br>  onCreateSimpleDOMs () &#123;<br>    <span class="hljs-keyword">const</span> array = []<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; count; i++) &#123;<br>      array.<span class="hljs-title function_">push</span>(<span class="hljs-string">&#x27;&lt;div&gt;&#x27;</span> + i + <span class="hljs-string">&#x27;&lt;/div&gt;&#x27;</span>)<br>    &#125;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<br>      <span class="hljs-attr">simpleDOMs</span>: array<br>    &#125;)<br>  &#125;<br><br>  render () &#123;<br>    <span class="hljs-keyword">return</span> (<br>      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#123;&#123;</span> <span class="hljs-attr">marginLeft:</span> &#x27;<span class="hljs-attr">10px</span>&#x27; &#125;&#125;&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Creat large of DOMs：<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.onCreateSimpleDOMs&#125;</span>&gt;</span>Create Simple DOMs<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dangerouslySetInnerHTML</span>=<span class="hljs-string">&#123;createMarkup(this.state.simpleDOMs)&#125;</span> /&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>    )<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当点击 Button 时，会调用 <code>onCreateSimpleDOMs</code> 创建 10000 个简单节点。从 Chrome 的 Performance 标签页看到的数据如下：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734601?w=1406&h=608" alt="simple doms" title="simple doms"></p>
+<p>从上图可以看到，从 Event Click 到 Paint，总共用了大约 693ms，渲染时的主要时间消耗情况如下：</p>
+<ul>
+<li>Recalculate Style：40.80ms</li>
+<li>Layout：518.55ms</li>
+<li>Update Layer Tree：11.84ms</li>
+</ul>
+<blockquote>
+<p>在 Recalculate Style 和 Layout 阶段，ReactDOM 调用了 <code>setInnerHTML</code> 方法，其内部主要通过 <code>innerHTML</code> 方法，将创建好的 html 片段添加到对应节点</p>
+</blockquote>
+<p>然后，我们创建 10000 个稍微复杂点的节点。修改组件如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">createMarkup</span> (doms) &#123;<br>  <span class="hljs-keyword">return</span> doms.<span class="hljs-property">length</span> ? &#123; <span class="hljs-attr">__html</span>: doms.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27; &#x27;</span>) &#125; : &#123; <span class="hljs-attr">__html</span>: <span class="hljs-string">&#x27;&#x27;</span> &#125;<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DOM</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>  <span class="hljs-title function_">constructor</span> (props) &#123;<br>    <span class="hljs-variable language_">super</span>(props)<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123;<br>      <span class="hljs-attr">complexDOMs</span>: []<br>    &#125;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">onCreateComplexDOMs</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">onCreateComplexDOMs</span>.<span class="hljs-title function_">bind</span>(<span class="hljs-variable language_">this</span>)<br>  &#125;<br><br>  onCreateComplexDOMs () &#123;<br>    <span class="hljs-keyword">const</span> array = []<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5000</span>; i++) &#123;<br>      array.<span class="hljs-title function_">push</span>(<span class="hljs-string">`</span><br><span class="hljs-string">        &lt;div class=&#x27;list-item&#x27;&gt;</span><br><span class="hljs-string">          &lt;p&gt;#<span class="hljs-subst">$&#123;i&#125;</span> eligendi voluptatem quisquam&lt;/p&gt;</span><br><span class="hljs-string">          &lt;p&gt;Modi autem fugiat maiores. Doloremque est sed quis qui nobis. Accusamus dolorem aspernatur sed rem.&lt;/p&gt;</span><br><span class="hljs-string">        &lt;/div&gt;</span><br><span class="hljs-string">      `</span>)<br>    &#125;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<br>      <span class="hljs-attr">complexDOMs</span>: array<br>    &#125;)<br>  &#125;<br><br>  render () &#123;<br>    <span class="hljs-keyword">return</span> (<br>      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#123;&#123;</span> <span class="hljs-attr">marginLeft:</span> &#x27;<span class="hljs-attr">10px</span>&#x27; &#125;&#125;&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Creat large of DOMs：<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.onCreateComplexDOMs&#125;</span>&gt;</span>Create Complex DOMs<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">dangerouslySetInnerHTML</span>=<span class="hljs-string">&#123;createMarkup(this.state.complexDOMs)&#125;</span> /&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>    )<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当点击 Button 时，会调用 <code>onCreateComplexDOMs</code>。从 Chrome 的 Performance 标签页看到的数据如下：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734602" alt="complex doms" title="complex doms"></p>
+<p>从上图可以看到，从 Event Click 到 Paint，总共用了大约 964.2ms，渲染时的主要时间消耗情况如下：</p>
+<ul>
+<li>Recalculate Style：117.07ms</li>
+<li>Layout：538.00ms</li>
+<li>Update Layer Tree：31.15ms</li>
+</ul>
+<p>对于上述测试各进行 5 次，然后取各指标的平均值，统计结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">-</th>
+<th align="center">Recalculate Style</th>
+<th align="center">Layout</th>
+<th align="center">Update Layer Tree</th>
+<th align="center">Total</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">渲染简单节点</td>
+<td align="center">199.66ms</td>
+<td align="center">523.72ms</td>
+<td align="center">12.572ms</td>
+<td align="center">735.952ms</td>
+</tr>
+<tr>
+<td align="center">渲染复杂节点</td>
+<td align="center">114.684ms</td>
+<td align="center">806.05ms</td>
+<td align="center">31.328ms</td>
+<td align="center">952.512ms</td>
+</tr>
+</tbody></table>
+<blockquote>
+<ol>
+<li>Total &#x3D; Recalculate Style + Layout + Update Layer Tree</li>
+<li>demo 的测试代码：test code</li>
+</ol>
+</blockquote>
+<p>从上面的测试结果中可以看到，渲染 10000 个节点就需要 700ms+，实际业务中的列表每个节点都需要 20 个左右的节点，布局也会复杂很多，在 Recalculate Style 和 Layout 阶段也会耗费更长的时间。那么，700ms 也仅能渲染 300 ~ 500 个左右的列表项，所以完整的长列表渲染基本上很难达到业务上的要求的。而非完整的长列表渲染一般有两种方式：按需渲染和延迟渲染(即懒渲染)。常见的无限滚动便是延迟渲染的一种实现，而虚拟列表则是按需渲染的一种实现。</p>
+<p>延迟渲染不在本文讨论范围。接下来，本文会简单介绍虚拟列表的一种实现方案。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>本章节将会创建一个 <code>VirtualizedList</code> 组件，并结合代码，慢慢梳理虚拟列表的实现。</p>
+<p>为了简化，我们设定 <code>window</code> 为滚动容器元素，给 <code>html</code> 和 <code>body</code> 元素均添加样式规则 <code>height: 100%</code>，设定可视区域为浏览器的窗口大小。<code>VirtualizedList</code> 在 DOM 元素的布局上将参考Twitter 的移动端：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">VirtualizedList</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Component</span> &#123;<br>  <span class="hljs-title function_">constructor</span> (props) &#123;<br>    <span class="hljs-variable language_">super</span>(props)<br>    <br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123;<br>      <span class="hljs-attr">startOffset</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-attr">endOffset</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-attr">visibleData</span>: []<br>    &#125;<br>    <br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(<span class="hljs-number">1000</span>).<span class="hljs-title function_">fill</span>(<span class="hljs-literal">true</span>)<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">startIndex</span> = <span class="hljs-number">0</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">endIndex</span> = <span class="hljs-number">0</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">scrollTop</span> = <span class="hljs-number">0</span><br>  &#125;<br>  <br>  render () &#123;<br>    <span class="hljs-keyword">const</span> &#123;startOffset, endOffset&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span><br>    <br>    <span class="hljs-keyword">return</span> (<br>      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;wrapper&#x27;</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#123;&#123;</span> <span class="hljs-attr">paddingTop:</span> `$&#123;<span class="hljs-attr">startOffset</span>&#125;<span class="hljs-attr">px</span>`, <span class="hljs-attr">paddingBottom:</span> `$&#123;<span class="hljs-attr">endOffset</span>&#125;<span class="hljs-attr">px</span>` &#125;&#125;&gt;</span></span><br><span class="language-xml">          &#123;</span><br><span class="language-xml">            // render list</span><br><span class="language-xml">          &#125;</span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>    )<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在虚拟列表上的实现上，也分为两种情形：列表项是固定高度的和列表项是动态高度的。</p>
+<h3 id="列表项是固定高度的"><a href="#列表项是固定高度的" class="headerlink" title="列表项是固定高度的"></a>列表项是固定高度的</h3><p>既然列表项是固定高度的，那约定没个列表项的高度为 60，列表数据的长度为 1000。</p>
+<p>首先，我们根据可视区域的高度估算可视区域能渲染的元素个数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> height = <span class="hljs-number">60</span><br><span class="hljs-keyword">const</span> bufferSize = <span class="hljs-number">5</span><br><span class="hljs-comment">// ...</span><br><br><span class="hljs-variable language_">this</span>.<span class="hljs-property">visibleCount</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">clientHeight</span> / height)<br></code></pre></td></tr></table></figure>
+
+<p>然后，计算 <code>startIndex</code> 和 <code>endIndex</code>，并先初始化初次需要渲染的数据：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br><br>updateVisibleData (scrollTop) &#123;<br>  <span class="hljs-keyword">const</span> visibleData = <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">slice</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">startIndex</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">endIndex</span>)<br>  <span class="hljs-keyword">const</span> endOffset = (<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">length</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">endIndex</span>) * height<br>    <br>  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<br>    <span class="hljs-attr">startOffset</span>: <span class="hljs-number">0</span>,<br>    endOffset,<br>    visibleData<br>  &#125;)<br>&#125;<br><br>componentDidMount () &#123;<br>  <span class="hljs-comment">// 计算可渲染的元素个数</span><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">visibleCount</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">innerHeight</span> / height) + bufferSize<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">endIndex</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">startIndex</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">visibleCount</span><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateVisibleData</span>()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如上文所说，<code>endOffset</code> 是计算 <code>endIndex</code> 对应的数据相对于可滚动区域底部的偏移位置。在本 demo 中，可滚动区域的高度就是 1000 <em>60，因而 <code>endIndex</code> 对应的数据相距底部的偏移就是 (1000 - endIndex)</em> 60。</p>
+<p>由于是初始化初次需要渲染的数据，因而 <code>startOffset</code> 的初始值是 0。</p>
+<p>根据上述代码，可以得知，要计算可见区域需要渲染的数据，只要计算出 <code>startIndex</code> 就行，因为 <code>visibleCount</code> 是一个定值，<code>bufferSize</code> 是一个缓冲值，用来增加一定的缓存区域，让正常滑动速度的时候不会显得那么突兀。而 <code>endIndex</code> 的值就等于 <code>startIndex</code> 加上 <code>visibleCount</code>；同时，当用户滚动改变可见区域的数据时，还需要计算 <code>startOffset</code> 的值，以保证新的数据会出现在用户浏览器的视口中：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734603" alt="startOffset" title="startOffset"></p>
+<p>如果不计算 <code>startOffset</code> 的值，那本应该渲染在可视区域内的元素会渲染到可视区域之外。从上图可以看到，<code>startOffset</code> 的值就是元素8的上边框 <strong>(可视区域内最上面一个元素)</strong> 到元素1的上边框的偏移量。元素8称为 <strong>锚点元素，即可视区域内的第一个元素。</strong> 因而，我们需要定义一个变量来缓存锚点元素的一些位置信息，同时也要缓存已渲染的元素的位置信息：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br><span class="hljs-comment">// 缓存已渲染元素的位置信息</span><br><span class="hljs-variable language_">this</span>.<span class="hljs-property">cache</span> = []<br><span class="hljs-comment">// 缓存锚点元素的位置信息</span><br><span class="hljs-variable language_">this</span>.<span class="hljs-property">anchorItem</span> = &#123;<br>  <span class="hljs-attr">index</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 锚点元素的索引值</span><br>  <span class="hljs-attr">top</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 锚点元素的顶部距离第一个元素的顶部的偏移量(即 startOffset)</span><br>  <span class="hljs-attr">bottom</span>: <span class="hljs-number">0</span> <span class="hljs-comment">// 锚点元素的底部距离第一个元素的顶部的偏移量</span><br>&#125;<br><span class="hljs-comment">// ...</span><br><br>cachePosition (node, index) &#123;<br>  <span class="hljs-keyword">const</span> rect = node.<span class="hljs-title function_">getBoundingClientRect</span>()<br>  <span class="hljs-keyword">const</span> top = rect.<span class="hljs-property">top</span> + <span class="hljs-variable language_">window</span>.<span class="hljs-property">pageYOffset</span><br>  <br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cache</span>.<span class="hljs-title function_">push</span>(&#123;<br>    index,<br>    top,<br>    <span class="hljs-attr">bottom</span>: top + height<br>  &#125;)<br>&#125;<br><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>方法 <code>cachePosition</code> 会在每个列表项组件渲染完后(<code>componentDidMount</code>)进行调用，<code>node</code> 是对应的列表项节点元素，<code>index</code> 是节点的索引值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// Item.jsx</span><br><br><span class="hljs-comment">// ...</span><br>componentDidMount () &#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span>.<span class="hljs-title function_">cachePosition</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">node</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span>.<span class="hljs-property">index</span>)<br>&#125;<br><br>render () &#123;<br>  <span class="hljs-comment">/* eslint-disable-next-line */</span><br>  <span class="hljs-keyword">const</span> &#123;index&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span><br><br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;list-item&#x27;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;node</span> =&gt;</span> &#123; this.node = node &#125;&#125;&gt;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>#$&#123;index&#125; eligendi voluptatem quisquam<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modi autem fugiat maiores. Doloremque est sed quis qui nobis. Accusamus dolorem aspernatur sed rem.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>缓存了锚点元素和已渲染元素的位置信息之后，接下来就可以处理用户的滚动行为了。以用户向下滚动(<code>scrollTop</code> 值增大的方向)为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br><span class="hljs-comment">// 计算 startIndex 和 endIndex</span><br>updateBoundaryIndex (scrollTop) &#123;<br>  scrollTop = scrollTop || <span class="hljs-number">0</span><br>  <span class="hljs-comment">//用户正常滚动下，根据 scrollTop 找到新的锚点元素位置</span><br>  <span class="hljs-keyword">const</span> anchorItem = <span class="hljs-variable language_">this</span>.<span class="hljs-property">cache</span>.<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item.<span class="hljs-property">bottom</span> &gt;= scrollTop)<br><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">anchorItem</span> = &#123;<br>    ...anchorItem<br>  &#125;<br><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">startIndex</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">anchorItem</span>.<span class="hljs-property">index</span><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">endIndex</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">startIndex</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">visibleCount</span><br>&#125;<br><br><span class="hljs-comment">// 滚动事件处理函数</span><br>handleScroll (e) &#123;<br>  <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">doc</span>) &#123;<br>    <span class="hljs-comment">// 兼容 iOS Safari/Webview</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">doc</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">scrollTop</span> ? <span class="hljs-variable language_">window</span>.<span class="hljs-property">document</span>.<span class="hljs-property">body</span> : <span class="hljs-variable language_">window</span>.<span class="hljs-property">document</span>.<span class="hljs-property">documentElement</span><br>  &#125;<br><br>  <span class="hljs-keyword">const</span> scrollTop = <span class="hljs-variable language_">this</span>.<span class="hljs-property">doc</span>.<span class="hljs-property">scrollTop</span><br>  <span class="hljs-keyword">if</span> (scrollTop &gt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">scrollTop</span>) &#123;<br>    <span class="hljs-keyword">if</span> (scrollTop &gt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">anchorItem</span>.<span class="hljs-property">bottom</span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateBoundaryIndex</span>(scrollTop)<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateVisibleData</span>()<br>    &#125;<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (scrollTop &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">scrollTop</span>) &#123;<br>    <span class="hljs-comment">// 向上滚动(`scrollTop` 值减小的方向)</span><br>  &#125;<br><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">scrollTop</span> = scrollTop<br>&#125;<br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>在滚动事件处理函数中，会去更新 <code>startIndex</code>、<code>endIndex</code> 以及新的锚点元素的位置信息(即更新 <code>startOffset</code>)，然后就可以动态的去更新可视区域的渲染数据了：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734604?w=1172&h=599" alt="demo.gif" title="demo.gif"></p>
+<blockquote>
+<p>完整的代码在可以戳：固定高度的虚拟列表实现</p>
+</blockquote>
+<h3 id="列表项是动态高度的"><a href="#列表项是动态高度的" class="headerlink" title="列表项是动态高度的"></a>列表项是动态高度的</h3><p>这种情形下，实现的思路和列表项固高大同小异。而小异之处就在于缓存列表项的位置信息时，怎么拿到列表项的精确高度？首先要更改 <code>cachePosition</code> 的部分逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br>cachePosition (node, index) &#123;<br>  <span class="hljs-keyword">const</span> rect = node.<span class="hljs-title function_">getBoundingClientRect</span>()<br>  <span class="hljs-keyword">const</span> top = rect.<span class="hljs-property">top</span> + <span class="hljs-variable language_">window</span>.<span class="hljs-property">pageYOffset</span><br><br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cache</span>.<span class="hljs-title function_">push</span>(&#123;<br>    index,<br>    top,<br>    <span class="hljs-attr">bottom</span>: top + rect.<span class="hljs-property">height</span> <span class="hljs-comment">// 将 height 更为 rect.height</span><br>  &#125;)<br>&#125;<br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>由于列表项的高度不固定，那要怎么计算 <code>visibleCount</code> 呢？我们先<strong>考虑每个列表项只是渲染一些纯文本</strong>。在实际项目中，有的列表项可能只有一行文本，有的列表项可能有多行文本，此时，我们要基于项目的实际情况，给列表项一个<strong>预估的高度</strong>：<code>estimatedItemHeight</code>。</p>
+<p>比如，有一个长列表要渲染用户的文章摘要，并规定摘要显示不超过三行，那么我们取列表的前 10 个列表项的高度平均值作为预估高度。当然，为了预估高度更精确，我们是可以扩大取样样本的。</p>
+<p>既然有了预估高度，那么将原先代码中的 <code>height</code> 替换成 <code>estimatedItemHeight</code>，就可以计算出 <code>visibleCount</code> 了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br><span class="hljs-keyword">const</span> estimatedItemHeight = <span class="hljs-number">80</span><br><br><span class="hljs-comment">// ...</span><br><br><span class="hljs-comment">// 计算可渲染的元素个数</span><br><span class="hljs-variable language_">this</span>.<span class="hljs-property">visibleCount</span> = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>(<span class="hljs-variable language_">window</span>.<span class="hljs-property">innerHeight</span> / estimatedItemHeight) + bufferSize<br><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>我们通过 faker.js 来创建一些随机数据，并赋值给 <code>data</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ...</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fakerData</span> () &#123;<br>  <span class="hljs-keyword">const</span> a = []<br>  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">1000</span>; i++) &#123;<br>    a.<span class="hljs-title function_">push</span>(&#123;<br>      <span class="hljs-attr">id</span>: i,<br>      <span class="hljs-attr">words</span>: faker.<span class="hljs-property">lorem</span>.<span class="hljs-title function_">words</span>(),<br>      <span class="hljs-attr">paragraphs</span>: faker.<span class="hljs-property">lorem</span>.<span class="hljs-title function_">sentences</span>()<br>    &#125;)<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> a<br>&#125;<br><span class="hljs-comment">// ...</span><br><br><span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = <span class="hljs-title function_">fakerData</span>()<br><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>修改一下列表项的 <code>render</code> 逻辑，其它不变：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// Item.jsx</span><br><br><span class="hljs-comment">// ...</span><br><br>render () &#123;<br>  <span class="hljs-comment">/* eslint-disable-next-line */</span><br>  <span class="hljs-keyword">const</span> &#123;index, item&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span><br><br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&#x27;list-item&#x27;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&#123;&#123;</span> <span class="hljs-attr">height:</span> &#x27;<span class="hljs-attr">auto</span>&#x27; &#125;&#125; <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;node</span> =&gt;</span> &#123; this.node = node &#125;&#125;&gt;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>#$&#123;index&#125; &#123;item.words&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;item.paragraphs&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+
+<p>此时，列表项的高度已经是动态的了，根据渲染的实际情况，我们给的预估高度是 80：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734605" alt="demo2.gif" title="demo2.gif"></p>
+<blockquote>
+<p>完整的代码在可以戳：动态高度的虚拟列表实现</p>
+</blockquote>
+<p>那如果列表项渲染的不是纯文本呢？比如渲染的是图文，那在 Item 组件的 <code>componentDidMount</code> 去调用 <code>cachePosition</code> 方法时，能拿到对应节点的正确高度吗？在渲染图文的情况下，因为图片会发起网络请求，此时并不能保证在列表项组件挂载(执行 <code>componentDidMount</code>)的时候图片渲染好了，那此时对应节点的高度就是不准确的，因而在用户滚动改变可见区域渲染的数据时，就可能出现元素相互重叠的情况：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://segmentfault.com/img/remote/1460000016734606?w=1194&h=866" alt="error" title="error"></p>
+<p>在这种情况下，如果我们能监听 Item 组件节点的大小变化就能获取其正确的高度了。ResizeObserver 或许就可以满足我们的需求，其提供了监听 DOM 元素大小变化的能力，但在撰写本文时，仅 Chrome 67 及以上版本支持，其它主流浏览器均为提供支持。以下是我搜集的一些资料，供你参考(自备梯子)：</p>
+<ul>
+<li>ResizeObserver: It’s Like document.onresize for Elements</li>
+<li>ResizeObserver</li>
+<li>caniuse#resizeobserver</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在本文中，首先对虚拟列表进行了简单的定义，然后从长列表的角度分析了为什么需要虚拟列表，最后就列表项固高和不固高两个场景下以一个简单的 demo 详细讲述了虚拟列表的实现思路。</p>
+<p>在列表项是动态高度的场景下，分析了渲染纯文本和图文混合的场景。前者给出了一个具体的 demo，针对后者对于怎么监听元素大小的变化提供了参考的 ResizeObserver 方案。基于 ResizeObserver 的方案呢，我也实现了一个支持渲染图文混合(当然也支持纯文本)的虚拟列表组件 react-virtual-list，供你参考。</p>
+<p>当然，这并不是唯一一种实现虚拟列表的方案。在组件 react-virtual-list 的实现过程中，也阅读了不同虚拟列表组件的源码，如: react-tiny-virtual-list、react-window、react-virtualized 等，后续的系列文章我会从源码的角度逐一分析。</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/&title=浅说虚拟列表实现原理 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://segmentfault.com/a/1190000016734597
+
+在前端性能优化的众多方案中，虚拟列表可以说是一个既经典又常见的话题。虽然很多开发者对它有所耳闻，但当被问到具体实现原理时，往往会觉得..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=浅说虚拟列表实现原理 - JKK随笔&amp;body=https://panzhenjie.fun/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/">一起聊聊IPv4/IPv6和局域网</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/04/10/three-js%E8%BD%BB%E6%9D%BE%E5%85%A5%E9%97%A8/">three.js轻松入门</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="toc-text">什么是虚拟列表？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%BB%9A%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-text">1. 滚动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%AF%E6%BB%9A%E5%8A%A8%E5%8C%BA%E5%9F%9F"><span class="toc-text">2. 可滚动区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8F%AF%E8%A7%86%E5%8C%BA%E5%9F%9F"><span class="toc-text">3. 可视区域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="toc-text">为什么需要虚拟列表？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E9%A1%B9%E6%98%AF%E5%9B%BA%E5%AE%9A%E9%AB%98%E5%BA%A6%E7%9A%84"><span class="toc-text">列表项是固定高度的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E9%A1%B9%E6%98%AF%E5%8A%A8%E6%80%81%E9%AB%98%E5%BA%A6%E7%9A%84"><span class="toc-text">列表项是动态高度的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
