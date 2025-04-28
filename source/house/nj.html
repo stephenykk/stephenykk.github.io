@@ -32,7 +32,7 @@
                     <div class="label">贷款年限</div><div class="value"><input v-model.lazy.number="baseInfo.loanYears" /></div>
                 </div>
                 <div class="flex lh-2">
-                    <div class="label">贷款时间</div><div class="value"><input v-model.lazy.number="baseInfo.startTime" /></div>
+                    <div class="label">贷款时间</div><div class="value"><input v-model.lazy="baseInfo.startTime" /></div>
                 </div>
                 <div class="flex lh-2">
                     <div class="label">月供金额</div><div class="value"><input readonly v-model.lazy.number="house.monthPayMoney" /></div>
@@ -75,20 +75,20 @@
 
             <div class="form-part">
                 <div class="flex lh-2 mt-20">
-                    <div class="label">当前时间</div><div class="value"><input readonly v-model.lazy.number="house.curTime" /></div>
+                    <div class="label">当前时间</div><div class="value"><input readonly v-model.lazy="house.curTime" /></div>
                 </div>
                 <div class="flex lh-2">
-                    <div class="label hotpink">还清时间</div><div class="value"><input readonly v-model.lazy.number="house.endTime" /></div>
+                    <div class="label hotpink">还清时间</div><div class="value"><input readonly v-model.lazy="house.endTime" /></div>
                 </div>
 
                 <div class="flex lh-2 mt-20">
                     <div class="label blue">提前还款金额</div><div class="value"><input v-model.lazy.number="baseInfo.aheadPayMoney" /></div>
                 </div>
                 <div class="flex lh-2">
-                    <div class="label blue">提前还款时间</div><div class="value"><input v-model.lazy.number="baseInfo.aheadPayTime" /></div>
+                    <div class="label blue">提前还款时间</div><div class="value"><input v-model.lazy="baseInfo.aheadPayTime" /></div>
                 </div>
                 <div class="flex lh-2">
-                    <div class="label hotpink">提前还还清时间</div><div class="value"><input readonly v-model.lazy.number="house.aheadEndTime" /></div>
+                    <div class="label hotpink">提前还还清时间</div><div class="value"><input readonly v-model.lazy="house.aheadEndTime" /></div>
                 </div>
                 <div class="flex lh-2  mt-20">
                     <div class="label hotpink">提前还累计还款</div><div class="value"><input readonly v-model.lazy.number="house.aheadSumPayAmount" /></div>

@@ -67,8 +67,10 @@ const getSum = (list, key) => {
 function getCurTime() {
     const today = new Date();
     today.setDate(1);
-    const curTime = today.toISOString().split("T")[0];
-    return curTime;
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    return `${year}-${fillZero(month)}-${fillZero(date)}`;
 }
 
 /**
@@ -310,8 +312,8 @@ window.myapp = new Vue({
     };
     const njInfo = {
       nowHouseAmount: 1350000,
-      firstPayRate: 0.3,
-      firstPayMoney: 471000,
+    firstPayRate: 0.25,
+    firstPayMoney: 375000,
       loanRate: 0.048,
       loanYears: 30,
       aheadPayMoney: 0,
