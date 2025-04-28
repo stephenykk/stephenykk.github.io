@@ -11,6 +11,21 @@ function getMonthlyPayment(loanAmount, interestRate, loanTerm) {
     );
 }
 
+function throttle(fn, delayMs) {
+    let lastTime = 0;
+    let timer = null
+    return function thrFn() {
+        const now = Date.now();
+        if (timer) clearTimeout(timer);
+        if (now - lastTime < delayMs) {
+            timer = setTimeout(thrFn, delayMs + 50);
+            return;
+        }
+        lastTime = now;
+        fn.apply(this, arguments);
+    };
+}
+
 function toFixed(num, decimal = 0) {
     return num.toFixed(decimal) * 1;
 }
@@ -52,8 +67,10 @@ const getSum = (list, key) => {
 function getCurTime() {
     const today = new Date();
     today.setDate(1);
-    const curTime = today.toISOString().split("T")[0];
-    return curTime;
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    return `${year}-${fillZero(month)}-${fillZero(date)}`;
 }
 
 /**
@@ -280,119 +297,151 @@ function getMonthlyDetail({
 }
 
 window.myapp = new Vue({
-    el: "#houseApp",
-    delimiters: ["${", "}"],
-    data(){
-        
-        const bhInfo = {
-            nowHouseAmount: 350000,
-            firstPayRate: 0.2,
-            firstPayMoney: 128000,
-            loanRate: 0.04,
-            loanYears: 30,
-            aheadPayMoney: 0,
-            aheadPayTime: getCurTime(),
-            startTime: "2016-03-01",
-        };
-        const njInfo = {
-            nowHouseAmount: 1350000,
-            firstPayRate: 0.3,
-            firstPayMoney: 471000,
-            loanRate: 0.048,
-            loanYears: 30,
-            aheadPayMoney: 0,
-            aheadPayTime: getCurTime(),
-            startTime: "2023-04-01",
-        };
-        
-        return location.pathname.endsWith("bh.html")
-            ? {baseInfo: bhInfo}
-            : {baseInfo: njInfo};
+  el: "#houseApp",
+  delimiters: ["${", "}"],
+  data() {
+    const bhInfo = {
+      nowHouseAmount: 350000,
+      firstPayRate: 0.2,
+      firstPayMoney: 128000,
+      loanRate: 0.04,
+      loanYears: 30,
+      aheadPayMoney: 0,
+      aheadPayTime: getCurTime(),
+      startTime: "2016-03-01",
+    };
+    const njInfo = {
+      nowHouseAmount: 1350000,
+    firstPayRate: 0.25,
+    firstPayMoney: 375000,
+      loanRate: 0.048,
+      loanYears: 30,
+      aheadPayMoney: 0,
+      aheadPayTime: getCurTime(),
+      startTime: "2023-04-01",
+    };
+
+    const winWidth = window.innerWidth;
+
+    return location.pathname.endsWith("bh.html")
+      ? { baseInfo: bhInfo, winWidth, scrollLeft: 0 , headerTableHeight: 69}
+      : { baseInfo: njInfo, winWidth, scrollLeft: 0 , headerTableHeight: 69};
+  },
+  computed: {
+    house() {
+      return this.getData(this.baseInfo);
     },
-    computed: {
-        house() {
-            return this.getData(this.baseInfo);
-        },
-        hasAheadPay() {
-            return this.house.aheadMonthlyData.length > 0;
-        },
-        lastTotalSaveInterest() {
-            if (!this.hasAheadPay) {
-                return 0;
-            }
-            const lastYearItem = this.house.aheadMonthlyData.filter(it => it.totalSaveInterest).pop();
-            return lastYearItem?.totalSaveInterest || 0;
-        },
-        extraYearSaves() {
-            if (!this.hasAheadPay) {
-                return {}
-            }
-            const {aheadMonthlyData, monthlyData} = this.house
-            const extraYearLs = []
-            monthlyData.forEach((it, index) => {
-                if (index < aheadMonthlyData.length) return false
-                if (it.yearInterest) {
-                    extraYearLs.push([index, it.yearInterest])
-                }
-            })
-            const extraYearSumLs = extraYearLs.map(([index, yearInterest], j) => {
-                const sumInterest = extraYearLs.slice(0, j + 1).reduce((sum, [index, yearInterest]) => sum + yearInterest, 0)
-                return [index, sumInterest]
-            })
-            const extraYearSumMap = Object.fromEntries(extraYearSumLs)
-            return extraYearSumMap
+    hasAheadPay() {
+      return this.house.aheadMonthlyData.length > 0;
+    },
+    lastTotalSaveInterest() {
+      if (!this.hasAheadPay) {
+        return 0;
+      }
+      const lastYearItem = this.house.aheadMonthlyData
+        .filter((it) => it.totalSaveInterest)
+        .pop();
+      return lastYearItem?.totalSaveInterest || 0;
+    },
+    extraYearSaves() {
+      if (!this.hasAheadPay) {
+        return {};
+      }
+      const { aheadMonthlyData, monthlyData } = this.house;
+      const extraYearLs = [];
+      monthlyData.forEach((it, index) => {
+        if (index < aheadMonthlyData.length) return false;
+        if (it.yearInterest) {
+          extraYearLs.push([index, it.yearInterest]);
         }
+      });
+      const extraYearSumLs = extraYearLs.map(([index, yearInterest], j) => {
+        const sumInterest = extraYearLs
+          .slice(0, j + 1)
+          .reduce((sum, [index, yearInterest]) => sum + yearInterest, 0);
+        return [index, sumInterest];
+      });
+      const extraYearSumMap = Object.fromEntries(extraYearSumLs);
+      return extraYearSumMap;
     },
-    methods: {
-        goTop() {
-            window.scrollTo({top: 0, behavior: "smooth"});
-
-        },
-        getData: ({
-            firstPayRate,
-            firstPayMoney,
-            loanRate,
-            loanYears,
-            aheadPayMoney,
-            startTime,
-            aheadPayTime,
-        }) => {
-            const houseAmount = toFixed(firstPayMoney / firstPayRate)
-            const loanMoney = toFixed(houseAmount - firstPayMoney)
-            const curTime = getCurTime()
-            if (!aheadPayTime) {
-                aheadPayTime = curTime; // 如果没有提前还款时间，则默认为当前时间
-            }
-            const detail = getMonthlyDetail({
-                firstPayMoney,
-                loanMoney,
-                loanRate,
-                loanYears,
-                startTime,
-                curTime,
-                aheadPayTime,
-                aheadPayMoney,
-            });
-
-            return {
-                firstPayRate,
-                firstPayMoney,
-                loanRate,
-                loanYears,
-                aheadPayMoney,
-                startTime,
-                houseAmount,
-                loanMoney,
-                curTime,
-                aheadPayTime,
-                ...detail
-            };
-        },
-        changeCurrentUser() {
-            LCache.set("curUser", this.currentUser);
-            showToast(`修改成功，当前用户是 ${this.currentUser || "默认用户"}`);
-        },
+  },
+  methods: {
+    goTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
+    goBottom() {
+      window.scrollTo({ top: 100000, behavior: "smooth" });
+    },
+    getData: ({
+      firstPayRate,
+      firstPayMoney,
+      loanRate,
+      loanYears,
+      aheadPayMoney,
+      startTime,
+      aheadPayTime,
+    }) => {
+      const houseAmount = toFixed(firstPayMoney / firstPayRate);
+      const loanMoney = toFixed(houseAmount - firstPayMoney);
+      const curTime = getCurTime();
+      if (!aheadPayTime) {
+        aheadPayTime = curTime; // 如果没有提前还款时间，则默认为当前时间
+      }
+      const detail = getMonthlyDetail({
+        firstPayMoney,
+        loanMoney,
+        loanRate,
+        loanYears,
+        startTime,
+        curTime,
+        aheadPayTime,
+        aheadPayMoney,
+      });
+
+      return {
+        firstPayRate,
+        firstPayMoney,
+        loanRate,
+        loanYears,
+        aheadPayMoney,
+        startTime,
+        houseAmount,
+        loanMoney,
+        curTime,
+        aheadPayTime,
+        ...detail,
+      };
+    },
+    changeCurrentUser() {
+      LCache.set("curUser", this.currentUser);
+      showToast(`修改成功，当前用户是 ${this.currentUser || "默认用户"}`);
+    },
+  },
+  mounted() {
+    const loanTableDiv = this.$refs.loanTable;
+    const onlyHeaderTable = this.$refs.onlyHeaderTable;
+    if (onlyHeaderTable) {
+      const headerTableHeight = onlyHeaderTable.offsetHeight;
+      this.headerTableHeight = headerTableHeight;
+      const observer = new ResizeObserver(() => {
+        const headerTableHeight = onlyHeaderTable.offsetHeight;
+        console.log("🚀 ~ observer ~ headerTableHeight:", headerTableHeight)
+        this.headerTableHeight = headerTableHeight;
+      });
+      observer.observe(onlyHeaderTable);
+    }
+
+    
+    const callback = throttle(() => {
+      const scrollLeft = loanTableDiv.scrollLeft;
+      if (scrollLeft !== this.scrollLeft) {
+        this.scrollLeft = scrollLeft;
+      }
+    }, 100);
+    if (loanTableDiv) {
+      loanTableDiv.addEventListener("scroll", callback);
+    }
+  },
 });
 
 

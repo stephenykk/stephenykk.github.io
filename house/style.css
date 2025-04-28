@@ -9,13 +9,29 @@ aside.l_left,
 }
 .l_body {
     display: block !important;
+    overflow-x: hidden;
 }
 
 /* --------------------------------- */
 
+body {
+    overflow-x: hidden;
+}
+
 .flex {
     display: flex;
     padding: 3px 0;
+}
+
+.fixed-right {
+    position: fixed;
+    z-index: 10000;
+    top: 0px;
+    right: 20px;
+    opacity: 0.6;
+    padding: 5px;
+    background: #fff;
+    border-radius: 4px;
 }
 
 .flex-row {
@@ -46,6 +62,7 @@ input {
     border-radius: 3px;
     font-size: 16px;
 }
+
 input[readonly] {
     background: #eee;
 }
@@ -56,12 +73,6 @@ input[readonly] {
     margin-right: 10px;
 }
 
-@media screen and (max-width: 640px){
-    .label {
-        width: 110px;
-        font-size: 14px;
-    }
-}
 
 .mt-10 {
     margin-top: 10px;
@@ -80,26 +91,58 @@ input[readonly] {
 
 .month-table {
     table-layout: auto;
-    margin-top: 100px;
     border-collapse: collapse;
     text-align: center;
     width: 100%;
-    min-width: 600px;
+    /* min-width: 600px; */
 }
 
 .month-table.has-ahead {
-    width: 1200px;
+    width: 1500px;
 }
 
 #loanTable {
     width: 100%;
     overflow: auto;
+    height: 1000px;
+}
+
+.md-text.content {
+    overflow: visible !important;
 }
 
 .month-table td,
 .month-table th {
     border: 1px solid #ccc;
 }
+
+.month-table th {
+    padding: 5px;
+    
+}
+
+.month-table thead tr {
+    background: #eee;
+
+    visibility: hidden;
+}
+
+.month-table.only-header{
+    margin-bottom: -69px;
+    position: sticky;
+    top: 0;
+}
+.month-table.only-header thead tr {
+    visibility: visible;
+
+}
+.month-table.only-header tbody  {
+    visibility: hidden;
+}
+.month-table.only-header td {
+    border: none;
+}
+
 
 .green {
     color: green;
@@ -130,28 +173,36 @@ input[readonly] {
 
 #houseApp .advise-list {
     margin-top: 50px;
+    margin-bottom: 100px;
     padding: 30px;
     background: #eee;
     line-height: 2;
     font-size: 16px;
 }
-.gotop-btn {
+.gotop-btn, .gobtm-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 70px;
     right: 10px;
     border: 0;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     background: #ccc;
     color: #fff;
-    font-size: 20px;
-    line-height: 60px;
+    transform: rotate(-90deg);
+    font-family: serif;
+    font-size: 30px;
+}
+.gobtm-btn {
+    bottom: 20px;
 }
 
-.gotop-btn:hover {
+.gotop-btn:hover, .gobtm-btn:hover {
     background: #ddd;
 }
+
+
 .advise-ttl {
     font-size: 20px;
     line-height: 1.5;
@@ -168,4 +219,29 @@ input[readonly] {
 
 .advise-list i {
     color: #666;
+}
+
+/* ---------------- media query ----------------- */
+
+@media screen and (max-width: 640px){
+    .label {
+        width: 110px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 130px;
+    }
+}
+
+
+
+@media screen and (max-width: 480px){
+    .month-table td {
+        font-size: 12px;
+    }
+
+    .md-text.content {
+        padding: 0;
+    }
 }
