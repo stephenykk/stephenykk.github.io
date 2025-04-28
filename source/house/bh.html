@@ -159,7 +159,7 @@
 
 
         <div class="table-container">
-            <table class="month-table only-header" :class="{'has-ahead': hasAheadPay}" :style="{marginLeft: scrollLeft * -1 + 'px'}">
+            <table ref="onlyHeaderTable" class="month-table only-header" :class="{'has-ahead': hasAheadPay}" :style="{marginLeft: scrollLeft * -1 + 'px', marginBottom: headerTableHeight * -1 + 'px'}">
                 <thead>
                     <tr>
                         <th>期数</th>

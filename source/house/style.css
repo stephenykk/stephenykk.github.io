@@ -9,6 +9,7 @@ aside.l_left,
 }
 .l_body {
     display: block !important;
+    overflow-x: hidden;
 }
 
 /* --------------------------------- */
@@ -103,7 +104,7 @@ input[readonly] {
     border-collapse: collapse;
     text-align: center;
     width: 100%;
-    min-width: 600px;
+    /* min-width: 600px; */
 }
 
 .month-table.has-ahead {
@@ -148,7 +149,7 @@ input[readonly] {
 .month-table.only-header tbody  {
     visibility: hidden;
 }
-.month-table.only-header th {
+.month-table.only-header td {
     border: none;
 }
 

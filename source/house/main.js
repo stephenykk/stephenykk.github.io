@@ -322,8 +322,8 @@ window.myapp = new Vue({
     const winWidth = window.innerWidth;
 
     return location.pathname.endsWith("bh.html")
-      ? { baseInfo: bhInfo, winWidth, scrollLeft: 0 }
-      : { baseInfo: njInfo, winWidth, scrollLeft: 0 };
+      ? { baseInfo: bhInfo, winWidth, scrollLeft: 0 , headerTableHeight: 69}
+      : { baseInfo: njInfo, winWidth, scrollLeft: 0 , headerTableHeight: 69};
   },
   computed: {
     house() {
@@ -416,8 +416,20 @@ window.myapp = new Vue({
     },
   },
   mounted() {
-    console.log(":::refs", this.$refs.loanTable);
     const loanTableDiv = this.$refs.loanTable;
+    const onlyHeaderTable = this.$refs.onlyHeaderTable;
+    if (onlyHeaderTable) {
+      const headerTableHeight = onlyHeaderTable.offsetHeight;
+      this.headerTableHeight = headerTableHeight;
+      const observer = new ResizeObserver(() => {
+        const headerTableHeight = onlyHeaderTable.offsetHeight;
+        console.log("🚀 ~ observer ~ headerTableHeight:", headerTableHeight)
+        this.headerTableHeight = headerTableHeight;
+      });
+      observer.observe(onlyHeaderTable);
+    }
+
+    
     const callback = throttle(() => {
       const scrollLeft = loanTableDiv.scrollLeft;
       if (scrollLeft !== this.scrollLeft) {
