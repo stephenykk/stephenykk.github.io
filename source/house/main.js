@@ -296,8 +296,8 @@ window.myapp = new Vue({
         };
         const njInfo = {
             nowHouseAmount: 1350000,
-            firstPayRate: 0.3,
-            firstPayMoney: 471000,
+            firstPayRate: 0.25,
+            firstPayMoney: 375000,
             loanRate: 0.048,
             loanYears: 30,
             aheadPayMoney: 0,
