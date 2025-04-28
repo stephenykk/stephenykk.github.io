@@ -73,16 +73,6 @@ input[readonly] {
     margin-right: 10px;
 }
 
-@media screen and (max-width: 640px){
-    .label {
-        width: 110px;
-        font-size: 14px;
-    }
-
-    input {
-        width: 130px;
-    }
-}
 
 .mt-10 {
     margin-top: 10px;
@@ -229,4 +219,29 @@ input[readonly] {
 
 .advise-list i {
     color: #666;
+}
+
+/* ---------------- media query ----------------- */
+
+@media screen and (max-width: 640px){
+    .label {
+        width: 110px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 130px;
+    }
+}
+
+
+
+@media screen and (max-width: 480px){
+    .month-table td {
+        font-size: 14px;
+    }
+
+    .md-text.content {
+        padding: 0;
+    }
 }
