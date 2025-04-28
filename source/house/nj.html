@@ -10,6 +10,7 @@
 <body>
     <div id="houseApp">
         <h1 class="ta-c">贷款计算</h1>
+        <div class="fixed-right">${winWidth}</div>
         <form id="loanForm" class="flex-row">
             <div class="form-part">
                 <div class="flex lh-2 mt-20">
@@ -159,8 +160,9 @@
             </li>
         </ul>
 
-        <div id="loanTable">
-            <table class="month-table"  :class="{'has-ahead': hasAheadPay}">
+
+        <div class="table-container">
+            <table class="month-table only-header" :class="{'has-ahead': hasAheadPay}" :style="{marginLeft: scrollLeft * -1 + 'px'}">
                 <thead>
                     <tr>
                         <th>期数</th>
@@ -179,38 +181,63 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in house.monthlyData" :class="{'active': item.isCur, 'ahead': house.aheadMonthlyData.length && item.isAhead, 'last-month': item.yearInterest}" :key="index">
-                        <td>${index + 1}</td>
-                        <td>${item.date}</td>
-                        <td>${item.monthlyPay}</td>
-                        <td>${item.monthlyBenjin}</td>
-                        <td>${item.monthlyInterest}</td>
-                        <td>${item.yearInterest || ''}</td>
-                        <td>${item.remainBenjin}</td>
-                        <template v-if="hasAheadPay">
-                            <template v-if="house.aheadMonthlyData[index]">
-                                <td>${house.aheadMonthlyData[index]?.monthlyBenjin}</td>
-                                <td>${house.aheadMonthlyData[index]?.monthlyInterest}</td>
-                                <td>
-                                    ${house.aheadMonthlyData[index]?.yearInterest || ''}
-                                    <i v-if="house.aheadMonthlyData[index]?.yearInterest">${' (年省:'+ house.aheadMonthlyData[index]?.yearSaveInterest +', 累计省:'+ house.aheadMonthlyData[index]?.totalSaveInterest +')'}</i>
-                                </td>
-                                <td>${house.aheadMonthlyData[index]?.remainBenjin}</td>
-
-                            </template>
-                            <template v-else>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <i v-if="item.yearInterest">0 ${' (年省:'+ item.yearInterest +', 累计省:'+ (lastTotalSaveInterest * 1 + extraYearSaves[index] *1) +')'}</i>
-                                </td>
-                                <td></td>
-
-                            </template>
-                        </template>
-                    </tr>
+                    <tr v-if="!hasAheadPay" class="last-month"><td>22</td> <td>2017年12月</td> <td>2446</td> <td>793</td> <td>1653</td> <td>20010</td> <td>495146</td> <!----></tr>
+                    <tr v-else class="last-month"><td>118</td> <td>2025年12月</td> <td>2446</td> <td>1092</td> <td>1355</td> <td>16492</td> <td>405285</td> <td>1134</td> <td>1313</td> <td> 16120 <i> (年省:372, 累计省:372)</i></td> <td>392694</td></tr>
                 </tbody>
             </table>
+            <div id="loanTable" ref="loanTable">
+                <table class="month-table" :class="{'has-ahead': hasAheadPay}">
+                    <thead>
+                        <tr>
+                            <th>期数</th>
+                            <th>日期</th>
+                            <th>月供金额</th>
+                            <th>还款本金</th>
+                            <th>还款利息</th>
+                            <th>年还利息</th>
+                            <th>剩余本金</th>
+                            <template v-if="hasAheadPay">
+                                <th>还款本金(提前还)</th>
+                                <th>还款利息(提前还)</th>
+                                <th style="width: 250px">年还利息(提前还)</th>
+                                <th>剩余本金(提前还)</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in house.monthlyData" :class="{'active': item.isCur, 'ahead': house.aheadMonthlyData.length && item.isAhead, 'last-month': item.yearInterest}" :key="index">
+                            <td>${index + 1}</td>
+                            <td>${item.date}</td>
+                            <td>${item.monthlyPay}</td>
+                            <td>${item.monthlyBenjin}</td>
+                            <td>${item.monthlyInterest}</td>
+                            <td>${item.yearInterest || ''}</td>
+                            <td>${item.remainBenjin}</td>
+                            <template v-if="hasAheadPay">
+                                <template v-if="house.aheadMonthlyData[index]">
+                                    <td>${house.aheadMonthlyData[index]?.monthlyBenjin}</td>
+                                    <td>${house.aheadMonthlyData[index]?.monthlyInterest}</td>
+                                    <td>
+                                        ${house.aheadMonthlyData[index]?.yearInterest || ''}
+                                        <i v-if="house.aheadMonthlyData[index]?.yearInterest">${' (年省:'+ house.aheadMonthlyData[index]?.yearSaveInterest +', 累计省:'+ house.aheadMonthlyData[index]?.totalSaveInterest +')'}</i>
+                                    </td>
+                                    <td>${house.aheadMonthlyData[index]?.remainBenjin}</td>
+    
+                                </template>
+                                <template v-else>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <i v-if="item.yearInterest">0 ${' (年省:'+ item.yearInterest +', 累计省:'+ (lastTotalSaveInterest * 1 + extraYearSaves[index] *1) +')'}</i>
+                                    </td>
+                                    <td></td>
+    
+                                </template>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <button class="gotop-btn" @click="goTop">Top</button>

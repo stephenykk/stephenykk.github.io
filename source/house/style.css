@@ -18,6 +18,17 @@ aside.l_left,
     padding: 3px 0;
 }
 
+.fixed-right {
+    position: fixed;
+    z-index: 10000;
+    top: 0px;
+    right: 20px;
+    opacity: 0.6;
+    padding: 5px;
+    background: #fff;
+    border-radius: 4px;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -46,6 +57,7 @@ input {
     border-radius: 3px;
     font-size: 16px;
 }
+
 input[readonly] {
     background: #eee;
 }
@@ -60,6 +72,10 @@ input[readonly] {
     .label {
         width: 110px;
         font-size: 14px;
+    }
+
+    input {
+        width: 130px;
     }
 }
 
@@ -80,7 +96,6 @@ input[readonly] {
 
 .month-table {
     table-layout: auto;
-    margin-top: 100px;
     border-collapse: collapse;
     text-align: center;
     width: 100%;
@@ -88,18 +103,51 @@ input[readonly] {
 }
 
 .month-table.has-ahead {
-    width: 1200px;
+    width: 1500px;
 }
 
 #loanTable {
     width: 100%;
     overflow: auto;
+    height: 1000px;
+}
+
+.md-text.content {
+    overflow: visible !important;
 }
 
 .month-table td,
 .month-table th {
     border: 1px solid #ccc;
 }
+
+.month-table th {
+    padding: 5px;
+    
+}
+
+.month-table thead tr {
+    background: #eee;
+
+    visibility: hidden;
+}
+
+.month-table.only-header{
+    margin-bottom: -69px;
+    position: sticky;
+    top: 0;
+}
+.month-table.only-header thead tr {
+    visibility: visible;
+
+}
+.month-table.only-header tbody  {
+    visibility: hidden;
+}
+.month-table.only-header th {
+    border: none;
+}
+
 
 .green {
     color: green;
@@ -130,6 +178,7 @@ input[readonly] {
 
 #houseApp .advise-list {
     margin-top: 50px;
+    margin-bottom: 100px;
     padding: 30px;
     background: #eee;
     line-height: 2;

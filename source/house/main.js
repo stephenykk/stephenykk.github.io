@@ -304,10 +304,12 @@ window.myapp = new Vue({
             aheadPayTime: getCurTime(),
             startTime: "2023-04-01",
         };
+
+        const winWidth = window.innerWidth;
         
         return location.pathname.endsWith("bh.html")
-            ? {baseInfo: bhInfo}
-            : {baseInfo: njInfo};
+            ? {baseInfo: bhInfo, winWidth, scrollLeft: 0}
+            : {baseInfo: njInfo, winWidth, scrollLeft: 0};
     },
     computed: {
         house() {
@@ -393,6 +395,19 @@ window.myapp = new Vue({
             showToast(`修改成功，当前用户是 ${this.currentUser || "默认用户"}`);
         },
     },
+    mounted() {
+        console.log(':::refs', this.$refs.loanTable)
+        const loanTableDiv = this.$refs.loanTable;
+        if (loanTableDiv) {
+            loanTableDiv.addEventListener("scroll", () => {
+                const scrollLeft = loanTableDiv.scrollLeft;
+                if (scrollLeft !== this.scrollLeft) {
+                    this.scrollLeft = scrollLeft;
+                    
+                }
+            });
+        }
+    }
 });
 
 
