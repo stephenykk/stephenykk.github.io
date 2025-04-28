@@ -238,7 +238,7 @@ input[readonly] {
 
 @media screen and (max-width: 480px){
     .month-table td {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .md-text.content {
