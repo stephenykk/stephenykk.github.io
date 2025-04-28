@@ -13,6 +13,10 @@ aside.l_left,
 
 /* --------------------------------- */
 
+body {
+    overflow-x: hidden;
+}
+
 .flex {
     display: flex;
     padding: 3px 0;
@@ -184,23 +188,30 @@ input[readonly] {
     line-height: 2;
     font-size: 16px;
 }
-.gotop-btn {
+.gotop-btn, .gobtm-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 70px;
     right: 10px;
     border: 0;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     background: #ccc;
     color: #fff;
-    font-size: 20px;
-    line-height: 60px;
+    transform: rotate(-90deg);
+    font-family: serif;
+    font-size: 30px;
+}
+.gobtm-btn {
+    bottom: 20px;
 }
 
-.gotop-btn:hover {
+.gotop-btn:hover, .gobtm-btn:hover {
     background: #ddd;
 }
+
+
 .advise-ttl {
     font-size: 20px;
     line-height: 1.5;
