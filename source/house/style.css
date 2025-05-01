@@ -107,6 +107,11 @@ input[readonly] {
     height: 1000px;
 }
 
+#loanForm .value select {
+    width: 208px;
+    padding: 6px;
+}
+
 .md-text.content {
     overflow: visible !important;
 }
