@@ -194,7 +194,7 @@ tags:
 | :w <new\_name> | 另存为一份名为 new\_name 的副本并继续编辑原文件 |
 | :<n1>,<n2>w <new\_name> | 将 n1 行到 n2 行的所有内容保存到名为 new\_name 的新文档中 |
 
-### Buffer
+### buffer缓冲区
 
 Buffer（缓冲区）指 vim 中打开的文件所占的内存空间，当未写入磁盘时，所有的修改都发生在内存中。vim 打开过的每个文件都会放到一个 Buffer 中，可以随意切换已打开的 Buffer。
 
