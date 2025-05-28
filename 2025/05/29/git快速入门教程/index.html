@@ -1,0 +1,769 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>git快速入门教程 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_16027093&#x2F;article&#x2F;details&#x2F;130503317  GitGit 是一种分布式版本控制系统，用于管理软件项目的源代码。它是由 Linux 之父 Linus Torvalds 开发的，并已经成为了现代软件开发领域中最流行的版本控制系统之一。 使用 Git 可以追踪代码的历史修改记录，方便团">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git快速入门教程">
+<meta property="og:url" content="https://panzhenjie.fun/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_16027093&#x2F;article&#x2F;details&#x2F;130503317  GitGit 是一种分布式版本控制系统，用于管理软件项目的源代码。它是由 Linux 之父 Linus Torvalds 开发的，并已经成为了现代软件开发领域中最流行的版本控制系统之一。 使用 Git 可以追踪代码的历史修改记录，方便团">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/32f09650551ca04922fa31418fb32ef0.png">
+<meta property="article:published_time" content="2025-05-28T22:51:03.000Z">
+<meta property="article:modified_time" content="2025-05-28T22:53:06.510Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i-blog.csdnimg.cn/blog_migrate/32f09650551ca04922fa31418fb32ef0.png">
+  
+  
+  
+  <meta name="keywords" content="git">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">git快速入门教程</span></a><a class="item title" href="/2025/05/28/vim%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">vim快速入门教程</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item title" href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><span class="title">浅说虚拟列表实现原理</span></a><a class="item title" href="/2025/04/10/three-js%E8%BD%BB%E6%9D%BE%E5%85%A5%E9%97%A8/"><span class="title">three.js轻松入门</span></a><a class="item title" href="/2025/04/21/%E4%B8%80%E8%B5%B7%E8%81%8A%E8%81%8AIPv4-IPv6%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><span class="title">一起聊聊IPv4/IPv6和局域网</span></a><a class="item title" href="/2025/04/21/IPv6%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3/"><span class="title">IPv6地址格式详解</span></a><a class="item title" href="/2025/04/08/canvas%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%A7%A3/"><span class="title">canvas进阶知识图解</span></a><a class="item title" href="/2025/03/29/%E5%BC%BA%E5%A4%A7%E7%9A%84canvas%E5%BA%93Fabric-js%E5%9F%BA%E7%A1%80%E5%9B%BE%E8%A7%A3/"><span class="title">强大的canvas库Fabric.js基础图解</span></a><a class="item title" href="/2025/02/21/%E5%80%BC%E5%BE%97%E4%BA%86%E8%A7%A3%E7%9A%84Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"><span class="title">值得了解的Python虚拟环境</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-28T22:51:03.000Z">2025-05-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-28T22:53:06.510Z">2025-05-29</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>git快速入门教程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_16027093/article/details/130503317">https://blog.csdn.net/qq_16027093&#x2F;article&#x2F;details&#x2F;130503317</a></p>
+</blockquote>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>Git 是一种分布式版本控制系统，用于管理软件项目的源代码。它是由 Linux 之父 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Linus&spm=1001.2101.3001.7020">Linus</a> Torvalds 开发的，并已经成为了现代软件开发领域中最流行的版本控制系统之一。</p>
+<p>使用 Git 可以追踪代码的历史修改记录，方便团队协作、代码共享和代码重构。Git 的基本工作流程如下：</p>
+<ol>
+<li>在开始编写代码之前，首先需要创建一个 Git 仓库（repository），用于存储代码和版本历史记录。</li>
+<li>在编写代码时，可以通过 <code>git add</code> 命令将更改的文件添加到 Git 的暂存区（staging area）中。</li>
+<li>通过 <code>git commit</code> 命令将暂存区中的更改提交到 Git 仓库中，并生成一个新的版本号（commit hash）。</li>
+<li>如果需要撤销某个提交，可以使用 <code>git revert</code> 命令来创建一个新的提交，该提交将会抵消先前的提交效果。</li>
+<li>如果需要合并不同分支的代码，可以使用 <code>git merge</code> 命令进行合并。</li>
+<li>如果需要查看代码的历史提交记录，可以使用 <code>git log</code> 命令来获取详细信息。</li>
+<li>如果需要将代码推送到远程仓库，可以使用 <code>git push</code> 命令将本地代码推送到远程仓库。</li>
+<li>如果需要从远程仓库中获取代码，可以使用 <code>git pull</code> 命令将远程代码拉取到本地。</li>
+</ol>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://i-blog.csdnimg.cn/blog_migrate/32f09650551ca04922fa31418fb32ef0.png"></p>
+<ul>
+<li>Workspace：工作区</li>
+<li>Index &#x2F; Stage：暂存区</li>
+<li>Repository：仓库区（或本地仓库）</li>
+<li>Remote：远程仓库</li>
+</ul>
+<h3 id="SVN与Git的的区别"><a href="#SVN与Git的的区别" class="headerlink" title="SVN与Git的的区别"></a>SVN与Git的的区别</h3><p>SVN和Git都是版本控制系统，但它们有以下区别：</p>
+<ol>
+<li>分布式 vs 集中式：Git 是一种分布式版本控制系统，而 SVN 是一种集中式版本控制系统。在 Git 中，每个开发者都拥有本地代码库的完整副本，可以离线工作并在不同的工作流程之间自由转换。而在 SVN 中，所有开发者共享同一个中央代码库，并且需要有网络连接才能进行版本控制操作。</li>
+<li>分支管理：Git 在分支管理方面比 SVN 更加强大和灵活。Git 的分支非常轻量级，创建和合并分支也很容易，因此可以轻松实现多人协作和并行开发。而在 SVN 中，分支比较重量级（即创建和合并分支需要花费相对更多的时间和资源），因此往往只用于重要的版本分支。</li>
+<li>版本号：Git 使用 SHA-1 哈希值来标识每个提交，而 SVN 采用递增的数字版本号来标识每个提交。SHA-1 哈希值保证了每个提交的唯一性，而递增版本号则简化了版本控制过程。</li>
+<li>整体性：由于 SVN 是一种集中式版本控制系统，因此所有数据都存储在中央代码库中。如果中央代码库损坏或丢失，可能会导致数据丢失或无法恢复。而 Git 是一种分布式版本控制系统，每个开发者都拥有完整的代码库副本，保证了代码的整体性和可靠性。</li>
+<li>性能：Git 比 SVN 更快，特别是在处理大型仓库、分支合并以及比较代码差异时。Git 使用基于内容的哈希算法来检测文件是否修改，而 SVN 则需要检查文件的元数据（如时间戳和文件大小）来确定是否修改。</li>
+</ol>
+<p>总之，虽然 SVN 和 Git 都是版本控制系统，但它们的设计和实现方式存在较大差异，开发人员应根据自身需求选择最适合的版本控制系统。</p>
+<h3 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h3><h4 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h4><p>首先，打开终端或命令行界面，进入要创建版本库的目录下。</p>
+<p>接着，使用以下命令初始化一个空的 Git 仓库：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">git initAI写代码<br></code></pre></td></tr></table></figure>
+
+<p>然后，将需要管理的文件添加到暂存区：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git add &lt;file&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>你也可以使用以下命令一次性将所有变更添加到暂存区：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">git <span class="hljs-keyword">add</span> .AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>接下来，提交暂存区中的变更到本地仓库，并添加一个描述信息：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">git <span class="hljs-keyword">commit</span> <span class="hljs-operator">-</span>m &quot;Initial commit&quot;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>现在，你已经成功地创建了一个版本库。你可以使用其他 Git 命令来管理它，例如：</p>
+<ul>
+<li><code>git status</code>：查看当前工作区和暂存区的状态。</li>
+<li><code>git log</code>：查看提交记录。</li>
+<li><code>git branch</code>：管理分支。</li>
+<li><code>git remote</code>：管理远程仓库。</li>
+</ul>
+<h4 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h4><p>要将Git存储库版本回退，请使用git reset命令。如果您想要撤消上次提交并返回到上一个提交，则可以使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git reset HEAD~1AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>这将使HEAD指向上一个提交，但不会删除您最新的更改。如果您希望完全返回到以前的提交并放弃所有更改，则可以添加–hard选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git reset --hard HEAD~1AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>请注意，此操作将永久删除您最新的更改，请谨慎使用。如果您已经将更改推送到远程存储库，则在执行此操作之前应先备份这些更改。</p>
+<h4 id="理解工作区与暂存区的区别"><a href="#理解工作区与暂存区的区别" class="headerlink" title="理解工作区与暂存区的区别"></a>理解工作区与暂存区的区别</h4><p>Git有三个主要的工作区域：工作区（working directory）、暂存区（staging area）和版本库（repository）。</p>
+<p>工作区是指您电脑文件系统上用于修改文件的目录。在这里，您可以创建、编辑和删除文件。</p>
+<p>暂存区是一个中间状态，它充当了您提交更改的缓冲区。在Git中，您必须明确地将文件添加到暂存区，然后才能将其提交到版本库中。这样做的好处是，您可以对每个更改进行精细控制，并确保只提交需要保存的更改。</p>
+<p>版本库包含Git存储库的所有历史记录和元数据。它是Git存储库的核心组成部分，是由Git自动维护的。</p>
+<p>简而言之，工作区是您正在处理的实际文件，而暂存区是下一次提交所需更改的文件列表。它们之间的区别在于，您可以对工作区中的任何文件进行修改，但只有将它们添加到暂存区并将其提交到版本库中，它们才会成为Git跟踪的部分。</p>
+<h4 id="Git撤销修改和删除文件操作"><a href="#Git撤销修改和删除文件操作" class="headerlink" title="Git撤销修改和删除文件操作"></a>Git撤销修改和删除文件操作</h4><p>要撤销对文件的修改，可以使用git checkout命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git checkout -- &lt;filename&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>此命令将覆盖工作树中指定文件的更改，还原为最近提交或上次检出的状态。</p>
+<p>要删除文件并将此更改提交到Git存储库中，可以使用git <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=rm%E5%91%BD%E4%BB%A4&spm=1001.2101.3001.7020">rm命令</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git rm &lt;filename&gt;<br>git commit -m &quot;Remove file&quot;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>这将从工作树和版本历史记录中删除指定的文件。如果只是想从Git版本库中删除文件但保留在工作树中，则可以使用git rm命令的–cached选项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git rm --cached &lt;filename&gt;<br>git commit -m &quot;Remove file from repository&quot;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>这将从版本历史记录中删除指定的文件，但保留在工作树中。</p>
+<h3 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h3><h4 id="如何添加远程仓库"><a href="#如何添加远程仓库" class="headerlink" title="如何添加远程仓库"></a>如何添加远程仓库</h4><p>要将本地代码库连接到远程仓库，可以使用以下git命令：</p>
+<ol>
+<li>首先，将本地代码库初始化为Git仓库（如果尚未完成）：<br>git init</li>
+<li>添加远程仓库的URL，其中<code>&lt;remote-name&gt;</code>是自定义名称，<code>&lt;remote-url&gt;</code>是远程仓库的URL：<br>git remote add <remote-name> <remote-url></li>
+<li>可以使用以下命令确认远程仓库是否已成功添加：<br>git remote -v</li>
+</ol>
+<p>此后，您就可以使用<code>git push</code>命令将代码推送到远程仓库，或使用<code>git pull</code>命令从远程仓库拉取代码。</p>
+<h4 id="如何从远程库克隆"><a href="#如何从远程库克隆" class="headerlink" title="如何从远程库克隆"></a>如何从远程库克隆</h4><p>要从远程仓库克隆代码到本地，可以使用以下git命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git clone &lt;remote-url&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>其中<code>&lt;remote-url&gt;</code>是远程仓库的URL。执行此命令后，Git将在当前目录下创建一个新目录，其中包含克隆的代码库副本。如果想指定不同的目录名，可以将目录名作为可选参数添加到命令中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git clone &lt;remote-url&gt; &lt;directory-name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>在执行<code>git clone</code>命令时，还可以通过添加其他标志来更改默认行为，例如指定要克隆的分支、禁用克隆时自动检查的文件等。有关详细信息，请参阅相应的文档。</p>
+<h3 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h3><p>创建一个新的分支可以使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git branch &lt;branch_name&gt;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>这将在当前所在的提交上创建一个名为 <code>&lt;branch_name&gt;</code> 的新分支。</p>
+<p>要切换到新创建的分支，可以使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git checkout &lt;branch_name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>创建并立即切换到该分支，可以使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git checkout -b &lt;branch_name&gt;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>合并分支可以使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git merge &lt;branch_name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>这将将 <code>&lt;branch_name&gt;</code> 分支中的更改合并到当前分支。</p>
+<h4 id="处理冲突"><a href="#处理冲突" class="headerlink" title="处理冲突"></a>处理冲突</h4><p>当两个分支上的代码修改了同一部分，并且尝试将这两个分支合并时，就会发生代码冲突。Git提供了以下步骤来解决冲突：</p>
+<ol>
+<li>运行 <code>git status</code> 命令查看哪些文件包含冲突。</li>
+<li>编辑有冲突的文件，手动解决文件中的冲突。</li>
+<li>对编辑后的文件进行 <code>git add</code>，标记为已解决冲突的文件。</li>
+<li>使用 <code>git commit</code> 提交更改，Git 会自动生成一个合并提交，其中包含各自分支中的更改。</li>
+</ol>
+<p>注意：在解决冲突前，最好先备份当前的代码状态，以免不小心破坏代码库。另外，在处理冲突之前，可以通过运行 <code>git diff</code> 命令来查看冲突的源代码，以便更好地理解要解决的问题。</p>
+<h4 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h4><p>在 Git 中，常见的分支管理策略包括以下几个方面：</p>
+<ol>
+<li>主分支：主分支通常是最稳定的分支，用于发布生产版本。在 Git 中，主分支通常是 master 分支或者 main 分支。</li>
+<li>开发分支：开发分支通常从主分支派生而来，在其上进行新功能或修复错误的开发。在 Git 中，通常使用 develop 分支作为开发分支。</li>
+<li>特性分支：特性分支是为了开发单独的功能而创建的分支。这些分支通常从开发分支派生而来，并在实现目标后被合并回开发分支。在 Git 中，通常使用 feature&#x2F; 分支命名约定来表示特性分支。</li>
+<li>发布分支：发布分支是用于准备发布版本的分支，通常从主分支派生而来。这些分支应该包含与发布相关的所有更改，并且应该经过全面测试和审核后再合并回主分支。在 Git 中，通常使用 release&#x2F; 分支命名约定来表示发布分支。</li>
+<li>热修复分支：热修复分支通常用于快速修复紧急问题，例如安全漏洞或崩溃。这些分支通常从主分支派生而来，并且只包含必要的更改。在 Git 中，通常使用 hotfix&#x2F; 分支命名约定来表示热修复分支。</li>
+</ol>
+<p>通过采用合适的 Git 分支管理策略，可以帮助团队更好地组织和管理代码，提高团队的协作能力和生产效率。除了上述常见的分支管理策略，还可以根据团队的具体需求和工作流程定制适合自己的分支管理策略。</p>
+<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><p>在 Git 中，通常使用 bug 分支用于修复代码中的错误或缺陷。当发现 bug 时，可以从当前开发分支（如 develop 分支）创建一个 bug 分支，在该分支上进行错误修复。修复完成后，可以将更改提交到 bug 分支，并将其合并回开发分支和主分支。</p>
+<p>以下是一个典型的使用 Git bug 分支的流程：</p>
+<ol>
+<li>从当前开发分支（如 develop 分支）创建一个新的 bug 分支：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git checkout -b bug/fix-xxx<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>在 bug 分支上进行错误修复，包括必要的测试和代码审查。</li>
+<li>提交更改并推送到远程仓库：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git add .<br>git commit -m &quot;Fix xxx bug&quot;<br>git push origin bug/fix-xxx<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>将 bug 分支合并回开发分支（如 develop 分支）：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">git checkout develop<br>git <span class="hljs-keyword">merge</span> <span class="hljs-comment">--no-ff bug/fix-xxx</span><br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>测试修复是否正确，如果一切正常，则将开发分支合并回主分支（如 master 分支）：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">git checkout master<br>git <span class="hljs-keyword">merge</span> <span class="hljs-comment">--no-ff develop</span><br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>通过使用 Git bug 分支，可以帮助团队更好地管理和修复代码中的错误和缺陷，同时保持代码库的稳定性和可靠性。</p>
+<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><p>Git 是一个优秀的多人协作工具，以下是 Git 多人协作的一些最佳实践：</p>
+<ol>
+<li>使用分支：使用分支可以帮助团队成员在不影响主分支的情况下进行开发和测试，避免代码冲突和错误。建议采用主分支、开发分支、特性分支、发布分支、热修复分支等分支管理策略。</li>
+<li>提交规范：每次提交代码时应该附加有意义的提交信息，描述本次提交的更改内容和目的。建议采用语义化版本号和提交信息模板等规范，以便更好地记录和追踪代码变更历史。</li>
+<li>定期合并：团队成员应该定期将自己的分支合并回主分支或者开发分支。这可以避免较大的代码冲突和错误，并且保持代码库的整洁和可维护性。</li>
+<li>代码审查：通过代码审查可以确保代码的质量和一致性，并且可以识别和纠正潜在的问题和错误。建议采用 pull request 和 code review 等工具和流程，以便团队成员对彼此的代码进行审查和反馈。</li>
+<li>团队协作：团队成员之间应该保持及时和有效的沟通，共享技术和经验，并尽可能避免个人行为和偏见对项目和团队产生不良影响。</li>
+</ol>
+<p>通过采用上述最佳实践，可以帮助团队高效协作、保证代码质量和稳定性，并提高团队的生产力和创造力。</p>
+<h4 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h4><p>在 Git 中，推送分支指将本地的分支提交到远程仓库中，使得其他团队成员可以访问和获取该分支的代码。以下是在 Git 中推送分支的一些常用命令：</p>
+<ol>
+<li>推送当前分支到远程仓库，并与远程分支关联：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git push -u origin &lt;branch-name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>推送当前分支到远程仓库，并与远程分支合并：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git push origin &lt;branch-name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>强制推送当前分支到远程仓库：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git push -f origin &lt;branch-name&gt;AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>删除远程分支：</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ruby">git push origin <span class="hljs-symbol">:&lt;branch-name&gt;</span><br>或<br>git push --delete origin &lt;branch-name&gt;<br><span class="hljs-variable constant_">AI</span>写代码<br></code></pre></td></tr></table></figure>
+
+<p>在推送分支时，通常会遇到冲突等问题。如果发生冲突，需要先解决冲突，然后再进行推送。</p>
+<p>另外，在多人协作项目中，建议采用 pull request 和 code review 等工具和流程来对分支进行审查和反馈，以确保代码质量和稳定性。同时，也应该避免直接向主分支（如 master 分支）提交代码，而是应该使用分支管理策略来组织和管理代码。</p>
+<h4 id="抓取分支"><a href="#抓取分支" class="headerlink" title="抓取分支"></a>抓取分支</h4><p>在 Git 中，抓取分支指从远程仓库拉取最新的代码和分支信息，并在本地创建相应的分支。以下是在 Git 中抓取分支的一些常用命令：</p>
+<ol>
+<li>拉取所有远程分支并更新本地分支：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">git <span class="hljs-keyword">fetch</span> <span class="hljs-comment">--allAI写代码</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>拉取一个特定的远程分支到本地：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git fetch origin &lt;branch-name&gt;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>在本地创建基于远程分支的新分支：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git checkout -b &lt;new-branch-name&gt; origin/&lt;remote-branch-name&gt;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>拉取远程分支并自动与本地分支关联：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cobol">git checkout --track origin/&lt;remote-branch-name&gt;<br>或<br>git checkout -t origin/&lt;remote-branch-name&gt;<br>AI写代码<br></code></pre></td></tr></table></figure>
+
+<p>抓取分支时，需要注意避免覆盖当前分支中未提交的更改。如果本地分支和远程分支存在冲突，需要解决冲突后才能将更改合并到本地分支中。</p>
+<p>通过抓取分支可以使得开发者获取最新的代码和分支信息，在本地进行代码修改和测试，并将更改推送回远程仓库以进行协作开发。</p>
+<h3 id="git可视化工具"><a href="#git可视化工具" class="headerlink" title="git可视化工具"></a>git可视化工具</h3><p>Git 可视化工具可以帮助开发者更直观地查看和管理代码版本控制历史，以下是几个常用的 Git 可视化工具：</p>
+<ol>
+<li>GitKraken：GitKraken 是一款简单易用的 Git 可视化工具，支持 Windows、Mac 和 Linux 等多个平台。它提供了强大的图形界面，包括代码历史记录、分支管理、合并冲突解决等功能。</li>
+<li>Sourcetree：Sourcetree 是由 Atlassian 公司开发的一款免费 Git 可视化工具，支持 Windows 和 Mac 平台。它提供了友好的用户界面，可以轻松地进行代码提交、分支管理和冲突解决等操作。</li>
+<li>GitHub Desktop：GitHub Desktop 是 GitHub 公司出品的一款免费 Git 可视化工具，支持 Windows 和 Mac 平台。它提供了清晰明了的界面，可视化显示代码历史记录、分支管理、拉取请求（pull request）等功能，以及与 GitHub 网站的集成支持。</li>
+<li>Git GUI：Git GUI 是 Git 官方提供的一个图形化界面的工具，支持 Windows、Mac 和 Linux 等多个平台。它虽然不如前面提到的工具那样友好易用，但是对于习惯命令行操作的开发者来说，Git GUI 可以提供便捷的图形化界面。</li>
+</ol>
+<p>使用 Git 可视化工具可以帮助开发者更直观地理解和管理 Git 中的代码版本控制历史，提高协作效率和代码质量。</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/&title=git快速入门教程 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://blog.csdn.net/qq_16027093&#x2F;article&#x2F;details&#x2F;130503317
+
+GitGit 是一种分布式版本控制系统，用于管理软件项目的源代码。它是..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=git快速入门教程 - JKK随笔&amp;body=https://panzhenjie.fun/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/05/28/vim%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">vim快速入门教程</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2025\03\21\如何用vimdiff解决合并冲突\" title="如何用vimdiff解决合并冲突"><span class="title">如何用vimdiff解决合并冲突</span></a><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git"><span class="toc-text">Git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVN%E4%B8%8EGit%E7%9A%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">SVN与Git的的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="toc-text">常规操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%89%88%E6%9C%AC%E5%BA%93"><span class="toc-text">创建版本库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80"><span class="toc-text">版本回退</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E5%B7%A5%E4%BD%9C%E5%8C%BA%E4%B8%8E%E6%9A%82%E5%AD%98%E5%8C%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">理解工作区与暂存区的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Git%E6%92%A4%E9%94%80%E4%BF%AE%E6%94%B9%E5%92%8C%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">Git撤销修改和删除文件操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">远程仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">如何添加远程仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BB%8E%E8%BF%9C%E7%A8%8B%E5%BA%93%E5%85%8B%E9%9A%86"><span class="toc-text">如何从远程库克隆</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6%E5%88%86%E6%94%AF"><span class="toc-text">创建与合并分支</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81"><span class="toc-text">处理冲突</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-text">分支管理策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bug%E5%88%86%E6%94%AF"><span class="toc-text">bug分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C"><span class="toc-text">多人协作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E5%88%86%E6%94%AF"><span class="toc-text">推送分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%93%E5%8F%96%E5%88%86%E6%94%AF"><span class="toc-text">抓取分支</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-text">git可视化工具</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
