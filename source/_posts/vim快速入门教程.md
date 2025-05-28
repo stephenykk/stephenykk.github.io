@@ -4,6 +4,8 @@ banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2025-05-28 20:20:49
 tags:
+- linux
+- vim
 ---
 > 转载自: [https://www.jianshu.com/p/af14f639dadb](https://www.jianshu.com/p/af14f639dadb)
 
