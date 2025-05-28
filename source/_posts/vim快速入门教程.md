@@ -66,11 +66,11 @@ tags:
 
 前面带冒号的命令（如 `:+<n>`，命令内容会显示在底部）是需要手动输入回车后才执行的。而不带冒号的命令（如 `<n>gg`）需要在键盘上不间断地按下，之后命令会自动执行。  
 
-![](//upload-images.jianshu.io/upload_images/6875152-e9dc6df7d29e140f.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-e9dc6df7d29e140f.png)
 
 ## 二、文档操作
 
-![](//upload-images.jianshu.io/upload_images/6875152-25c573bf57bf9c80.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-25c573bf57bf9c80.png)
 
 ### 插入
 
@@ -160,15 +160,15 @@ tags:
 
 **PS**：`:%s/<pattern>/<replace>` 命令中的 _<pattern>_ 可以是正则表达式，且该命令只替换每行中的第一个匹配项。如需要全局匹配，可以使用 `:%s/<pattern>/<replace>/g` 命令  
 
-![](//upload-images.jianshu.io/upload_images/6875152-8bd492a0fdd09675.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-8bd492a0fdd09675.png)
 
   
 
-![](//upload-images.jianshu.io/upload_images/6875152-90109f174f58d273.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-90109f174f58d273.png)
 
   
 
-![](//upload-images.jianshu.io/upload_images/6875152-cc12f7ca389fadfc.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-cc12f7ca389fadfc.png)
 
 ### 撤销、重做
 
@@ -206,11 +206,11 @@ Buffer（缓冲区）指 vim 中打开的文件所占的内存空间，当未写
 | :b<n> | 打开缓冲区中第 n 个文件 |
 | :bdelete<n> | 删除需要关闭的缓冲区文件 |
 
-![](//upload-images.jianshu.io/upload_images/6875152-3bca5e8bdd876231.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-3bca5e8bdd876231.png)
 
   
 
-![](//upload-images.jianshu.io/upload_images/6875152-4745f5966c4bddd4.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-4745f5966c4bddd4.png)
 
 ## 三、其他技巧
 
@@ -237,7 +237,7 @@ Buffer（缓冲区）指 vim 中打开的文件所占的内存空间，当未写
 
 ## 四、分屏与标签页
 
-![](//upload-images.jianshu.io/upload_images/6875152-147fd0ea39abd4c7.png)
+![](https://upload-images.jianshu.io/upload_images/6875152-147fd0ea39abd4c7.png)
 
 ### 窗口分屏
 
