@@ -5,31 +5,30 @@ cover: /images/banner_desk.jpg
 date: 2025-05-30 07:55:29
 tags: git
 ---
-# 参考资料
 > 转载自: [https://www.cnblogs.com/anding/p/16987769.html](https://www.cnblogs.com/anding/p/16987769.html)
 
 ![image.png](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216164030916-1232248218.png)
 
-# 01、认识一下Git！—简介
+# 01、认识一下Git
 
-Git是当前最先进、最主流的**分布式**版本控制系统，免费、开源！核心能力就是版本控制。再具体一点，就是面向代码文件的版本控制，代码的任何修改历史都会被记录管理起来，意味着可以恢复到到以前的任意时刻状态。支持跨区域多人协作编辑，是团队项目开发的必备基础，所以Git也就成了程序员的必备技能。
+Git是当前最先进、最主流的**分布式**版本控制系统。代码的任何修改都会被记录并管理起来，意味着可以恢复到到以前任意时刻的状态。支持跨区域多人协作编辑，是团队项目开发的必备基础，所以Git也就成了程序员的必备技能。
 
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216160130686-1461748867.png)
 
 **🟢主要特点**：
 
--   开源免费，使用广泛。
+-   开源免费。
 -   强大的文档（代码）的历史版本管理，直接记录完整快照（完整内容，而非差异），支持回滚、对比。
--   分布式多人协作的的代码协同开发，几乎所有操作都是本地执行的，支持代码合并、代码同步。
+-   分布式多人协作，几乎所有操作都是本地执行的，支持代码合并、代码同步。
 -   简单易用的分支管理，支持高效的创建分支、合并分支。
 
 ![image.png](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216164030858-1372593134.png)
 
-Git是Linux之父被迫开发的，为了解决Linux混乱的代码管理而开发的。Linux和Git之父 **李纳斯·托沃兹**（Linus Benedic Torvalds），来自1969年的芬兰。
+Git是Linux之父（Linus Benedic Torvalds）“被迫”开发的，为了解决Linux混乱的代码管理而开发的。
 
 * * *
 
-# 02、Git是干什么的？—基础概念
+# 02、Git是干什么的？
 
 先了解下Git的基本概念，及基本框架、工作流程。
 
@@ -109,8 +108,8 @@ Git的工作流程核心就下面几个步骤，掌握了就可以开始写Bug�
 
 Git在执行提交的时候，不是直接将工作区的修改保存到仓库，而是将暂存区域的修改保存到仓库。要提交文件，首先需要把文件加入到暂存区域中。因此，Git管理的文件有三（+2）种状态：
 
--   未跟踪（untracked）：新添加的文件，或被移除跟踪的文件，未建立跟踪，通过`git add`添加暂存并建立跟踪。
--   未修改：从仓库签出的文件默认状态，修改后就是“已修改”状态了。
+-   **未跟踪**（untracked）：新添加的文件，或被移除跟踪的文件，未建立跟踪，通过`git add`添加暂存并建立跟踪。
+-   **未修改**：从仓库签出的文件默认状态，修改后就是“已修改”状态了。
 -   **已修改**（modified）：文件被修改后的状态。
 -   **已暂存**（staged）：修改、新增的文件添加到暂存区后的状态。
 -   **已提交**(committed)：从暂存区提交到版本库。
@@ -129,7 +128,9 @@ Git官网：[https://www.git-scm.com/](https://www.git-scm.com/) 下载安装包
 指令`git --version`查看安装版本号
 
 ```bash
-$ git --versiongit version 2.33.0.windows.2
+$ git --version
+
+git version 2.33.0.windows.2
 ```
 
 > 📢 本文是在Windows 平台上完成的，不过这个对学习Git没什么影响。
@@ -145,13 +146,39 @@ Git有三个主要的配置文件：三个配置文件的优先级是**① < ②
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216160733704-781907385.png)
 
 ```bash
-#查看git配置git config --listgit config -l #查看系统配置git config --system --list #查看当前用户（global）全局配置git config --list --global #查看当前仓库配置信息git config --local  --list
+#查看git配置
+git config --list
+git config -l 
+
+#查看系统配置
+git config --system --list 
+
+#查看当前用户（global）全局配置
+git config --list --global 
+
+#查看当前仓库配置信息
+git config --local  --list
 ```
 
 仓库的配置是上面多个配置的集合：
 
 ```bash
-$ git config --list$ git config -ldiff.astextplain.textconv=astextplainhttp.sslbackend=opensslhttp.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crtcore.autocrlf=truecore.fscache=truecore.symlinks=falsepull.rebase=falsecredential.helper=manager-corecredential.https://dev.azure.com.usehttppath=trueinit.defaultbranch=masteruser.name=Kandinguser.email=123anding@163.com
+$ git config --list
+$ git config -l
+
+diff.astextplain.textconv=astextplain
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager-core
+credential.https://dev.azure.com.
+usehttppath=true
+init.defaultbranch=master
+user.name=Kanding
+user.email=123anding@163.com
 ```
 
 ## 3.2、配置-初始化用户
@@ -161,7 +188,15 @@ $ git config --list$ git config -ldiff.astextplain.textconv=astextplainhttp.sslb
 配置用户信息：
 
 ```bash
-$ git config --global user.name "Your Name"$ git config --global user.email "email@example.com"# 配置完后，看看用户配置文件：$ cat 'C:\Users\Kwongad\.gitconfig'[user]        name = Kanding        email = 123anding@163.com
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+# 配置完后，看看用户配置文件：
+$ cat 'C:\Users\Kwongad\.gitconfig'
+
+[user]
+        name = Kanding        
+        email = 123anding@163.com
 ```
 
 -   `user.name`为用户名，`user.email`为邮箱。
@@ -186,7 +221,20 @@ $ git config --global user.name "Your Name"$ git config --global user.email "ema
 -   路径分隔符（f/）**结尾**：，表示要忽略**文件夹**`f`下面的所有文件。
 
 ```bash
-#为注释*.txt #忽略所有“.txt”结尾的文件!lib.txt #lib.txt除外/temp #仅忽略项目根目录下的temp文件,不包括其它目录下的temp，如不包括“src/temp”build/ #忽略build/目录下的所有文件doc/*.txt #会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+#为注释*.txt 
+#忽略所有“.txt”结尾的文件
+
+#lib.txt除外
+!lib.txt 
+
+#仅忽略项目根目录下的temp文件,不包括其它目录下的temp，如不包括“src/temp”
+/temp 
+
+#忽略build/目录下的所有文件
+build/ 
+
+#会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+doc/*.txt 
 ```
 
 > 📢 各种语言项目的常用`.gitignore`文件配置：[https://github.com/github/gitignore](https://github.com/github/gitignore)
@@ -261,7 +309,12 @@ VSCode自带的Git工具基本已经可以满足日常使用了，既有可视�
 -   另一种是克隆远程仓库：`git clone [url]`
 
 ```bash
-# 准备一个文件夹“KwebNote”作为仓库目录，命令行进入该文件夹Kwongad@Kwongad-T14 MINGW64 ~$ cd d:Kwongad@Kwongad-T14 MINGW64 /d$ cd Project_FilesKwongad@Kwongad-T14 MINGW64 /d/Project_Files# 多次cd指令进入到仓库目录KwebNote：“cd <目录名称>”指令进入目录，“cd ..”返回上级目录（有空格）Kwongad@Kwongad-T14 MINGW64 /d/Project_Files/github.kwong/KwebNote # 开始初始化项目，也可指定目录：git init [文件目录]$ git initInitialized empty Git repository in D:/Project_Files/github.Kwong/KwebNote/.git/
+# 准备一个文件夹“KwebNote”作为仓库目录，命令行进入该文件夹
+$ cd /d/Project_Files/github.kwong/KwebNote 
+# 开始初始化项目，也可指定目录：
+# git init [文件目录]
+$ git init
+Initialized empty Git repository in D:/Project_Files/github.Kwong/KwebNote/.git/
 ```
 
 > **📢注意**：Git指令的执行，都需在仓库目录下。
@@ -273,7 +326,7 @@ VSCode自带的Git工具基本已经可以满足日常使用了，既有可视�
 克隆远程仓库，如在github上创建的仓库“`https://github.com/kwonganding/KWebNote.git`”
 
 ```bash
-$ git clone 'https://github.com/kwonganding/KWebNote.git'Cloning into 'KWebNote'...remote: Enumerating objects: 108, done.remote: Counting objects: 100% (108/108), done.remote: Compressing objects: 100% (60/60), done.remote: Total 108 (delta 48), reused 88 (delta 34), pack-reused 0Receiving objects: 100% (108/108), 9.36 KiB | 736.00 KiB/s, done.Resolving deltas: 100% (48/48), done.
+$ git clone https://github.com/kwonganding/KWebNote.git 
 ```
 
 会在当前目录下创建“KWebNote”项目目录。
@@ -292,7 +345,14 @@ $ git clone 'https://github.com/kwonganding/KWebNote.git'Cloning into 'KWebNote'
 | git rm \[file\] | 删除工作区文件，并且将这次删除放入暂存区 |
 
 ```bash
-# 添加指定文件到暂存区，包括被修改的文件$ git add [file1] [file2] ... # 添加当前目录的所有文件到暂存区$ git add . # 删除工作区文件，并且将这次删除放入暂存区$ git rm [file1] [file2] ... # 改名文件，并且将这个改名放入暂存区$ git mv [file-original] [file-renamed]
+# 添加指定文件到暂存区，包括被修改的文件
+$ git add [file1] [file2] ... 
+# 添加当前目录的所有文件到暂存区
+$ git add . 
+# 删除工作区文件，并且将这次删除放入暂存区
+$ git rm [file1] [file2] ... 
+# 改名文件，并且将这个改名放入暂存区
+$ git mv [file-original] [file-renamed]
 ```
 
 修改文件“R.md”，未暂存：
@@ -322,7 +382,7 @@ Sourcetree上的历史记录：
 
 ![image.png](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216164030918-2142605972.png)
 
-> 📢一般情况，每完成一个小功能、一个Bu就可以提交一次，这样会形成比较清晰的历史记录。
+> 📢一般情况，每完成一个小功能、一个Bug就可以提交一次，这样会形成比较清晰的历史记录。
 
 **🔥指令：**
 
@@ -345,7 +405,24 @@ Sourcetree上的历史记录：
 通过`git log`指令可以查看提交记录日志，可以很方便的查看每次提交修改了哪些文件，改了哪些内容，从而进行恢复等操作。
 
 ```bash
-# 提交暂存区到仓库区$ git commit -m [message]# 提交所有修改到仓库$ git commit -a -m'修改README的版权信息' # 提交暂存区的指定文件到仓库区$ git commit [file1] [file2] ... -m [message] # 使用一次新的commit，替代上一次提交# 如果代码没有任何新变化，则用来改写上一次commit的提交信息$ git commit --amend -m [message] $ git log -n2commit 412b56448568ff362ef312507e78797befcf2846 (HEAD -> main)Author: Kanding <123anding@163.com>Date:   Thu Dec 1 19:02:22 2022 +0800 commit c0ef58e3738f7d54545d8c13d603cddeee328fcbAuthor: Kanding <123anding@163.com>Date:   Thu Dec 1 16:52:56 2022 +0800 # 用参数“--oneline”可以让日志输出更简洁（一行）$ git log -n2 --oneline5444126 (HEAD -> main, origin/main, origin/HEAD) Update README.md228362e Merge branch 'main' of github.com:kwonganding/KWebNote
+# 提交暂存区到仓库区
+$ git commit -m [message]
+
+# 提交所有修改到仓库
+$ git commit -a -m'修改README的版权信息' 
+
+# 提交暂存区的指定文件到仓库区
+$ git commit [file1] [file2] ... -m [message] 
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m [message] 
+
+# 查看最近几条提交记录
+$ git log -n2
+
+# 用参数“--oneline”可以让日志输出更简洁（一行）
+$ git log -n2 --oneline
 ```
 
 ## 5.4、Git的“指针”引用们
@@ -367,7 +444,25 @@ Git中最重要的就是提交记录了，其他如**标签**、**分支**、**H
 打开这些文件内容看看，就更容易理解这些“指针”的真面目了。
 
 ```bash
-# tag$ git tag -a 'v1' -m'v1版本'$ cat .git/refs/tags/v1a2e2c9caea35e176cf61e96ad9d5a929cfb82461 # main分支指向最新的提交$ cat .git/refs/heads/main8f4244550c2b6c23a543b741c362b13768442090 # HEAD指向当前活动分支$ cat .git/HEADref: refs/heads/main # 切换到dev分支，HEAD指向了dev$ git switch devSwitched to branch 'dev'$ cat .git/HEADref: refs/heads/dev
+# tag
+$ git tag -a 'v1' -m 'v1版本'
+$ cat .git/refs/tags/v1
+a2e2c9caea35e176cf61e96ad9d5a929cfb82461 
+
+# main分支指向最新的提交
+$ cat .git/refs/heads/main
+8f4244550c2b6c23a543b741c362b13768442090 
+
+# HEAD指向当前活动分支
+$ cat .git/HEAD
+ref: refs/heads/main 
+
+# 切换到dev分支，HEAD指向了dev
+$ git switch dev
+Switched to branch 'dev'
+
+$ cat .git/HEAD
+ref: refs/heads/dev
 ```
 
 这里的主分支名字为“`main`”，是因为该仓库是从Github上克隆的，Github上创建的仓库默认主分支名字就是“`main`”，本地创建的仓库默认主分支名字为“`master`”。
@@ -388,7 +483,18 @@ Git中最重要的就是提交记录了，其他如**标签**、**分支**、**H
 通过`git log`、`git reflog`可以查看历史日志，可以看每次提交的唯一编号（hash）。区别是`git reflog`可以查看所有操作的记录（实际是HEAD变更记录），包括被撤销回退的提交记录。
 
 ```bash
-$ git reflog -n105acc914 (HEAD -> main) HEAD@{0}: reset: moving to HEAD~738748b (dev) HEAD@{1}: reset: moving to HEAD~9312c3e HEAD@{2}: reset: moving to HEAD~db03fcb HEAD@{3}: reset: moving to HEAD~1b81fb3 HEAD@{4}: reset: moving to HEAD~41ea423 HEAD@{5}: reset: moving to HEAD~d3e15f9 HEAD@{6}: reset: moving to d3e15f91b81fb3 HEAD@{7}: reset: moving to HEAD~141ea423 HEAD@{8}: reset: moving to HEAD~d3e15f9 HEAD@{9}: reset: moving to HEAD~
+$ git reflog -n10
+5acc914 (HEAD -> main) 
+HEAD@{0}: reset: moving to HEAD~738748b (dev) 
+HEAD@{1}: reset: moving to HEAD~9312c3e 
+HEAD@{2}: reset: moving to HEAD~db03fcb 
+HEAD@{3}: reset: moving to HEAD~1b81fb3 
+HEAD@{4}: reset: moving to HEAD~41ea423 
+HEAD@{5}: reset: moving to HEAD~d3e15f9 
+HEAD@{6}: reset: moving to d3e15f91b81fb3 
+HEAD@{7}: reset: moving to HEAD~141ea423 
+HEAD@{8}: reset: moving to HEAD~d3e15f9 
+HEAD@{9}: reset: moving to HEAD~
 ```
 
 ## 5.6、比较diff
@@ -412,7 +518,12 @@ $ git reflog -n105acc914 (HEAD -> main) HEAD@{0}: reset: moving to HEAD~738748b 
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216161917813-1123805083.png)
 
 ```bash
-# 查看文件的修改$ git diff README.md # 查看两次提交的差异$ git diff 8f4244 1da22 # 显示今天你写了多少行代码：工作区+暂存区$ git diff --shortstat "@{0 day ago}"
+# 查看文件的修改
+$ git diff README.md 
+# 查看两次提交的差异
+$ git diff 8f4244 1da22 
+# 显示今天你写了多少行代码：工作区+暂存区
+$ git diff --shortstat "@{0 day ago}"
 ```
 
 * * *
@@ -442,7 +553,13 @@ Git服务器一般提供两种登录验证方式：
 ![image.png](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216164030950-2033706758.png)
 
 ```bash
-#查看当前远程仓库使用的那种协议连接：$ git remote -vorigin  git@github.com:kwonganding/KWebNote.git (fetch)origin  https://github.com/kwonganding/KWebNote.git (push) # 更改为https地址，即可切换连接模式。还需要禁用掉SSL, 才能正常使用https管理gitgit config --global http.sslVerify false
+#查看当前远程仓库使用的那种协议连接：
+$ git remote -v origin  
+git@github.com:kwonganding/KWebNote.git (fetch)
+origin  https://github.com/kwonganding/KWebNote.git (push) 
+
+# 更改为https地址，即可切换连接模式。还需要禁用掉SSL, 才能正常使用https管理git
+git config --global http.sslVerify false
 ```
 
 ### 🔑远程用户登录：HTTS
@@ -452,7 +569,14 @@ Git服务器一般提供两种登录验证方式：
 ![image.png](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216164030913-402304550.png)
 
 ```bash
-$ git clone 'https://github.com/kwonganding/KWebNote.git'Cloning into 'KWebNote'... # 仓库配置文件“.git/config”[remote "origin"] 	url = https://github.com/kwonganding/KWebNote.git	fetch = +refs/heads/*:refs/remotes/origin/*	pushurl = https://github.com/kwonganding/KWebNote.git
+$ git clone 'https://github.com/kwonganding/KWebNote.git
+'Cloning into 'KWebNote'... 
+
+# 仓库配置文件“.git/config”
+[remote "origin"]
+ 	url = https://github.com/kwonganding/KWebNote.git	
+    fetch = +refs/heads/*:refs/remotes/origin/*	
+    pushurl = https://github.com/kwonganding/KWebNote.git
 ```
 
 推送（push）代码的时候就会提示输入用户名、密码了，否则无法提交。记住用户密码的方式有两种：
@@ -460,13 +584,22 @@ $ git clone 'https://github.com/kwonganding/KWebNote.git'Cloning into 'KWebNote'
 -   **🔸URL地址配置**：在原本URL地址上加上用户名、密码，`https://`后加`用户名:密码@`
 
 ```bash
-# 直接修改仓库的配置文件“.git/config”[remote "origin"] 	url = https://用户名:密码@github.com/kwonganding/KWebNote.git	fetch = +refs/heads/*:refs/remotes/origin/*	pushurl = https://github.com/kwonganding/KWebNote.git
+# 直接修改仓库的配置文件“.git/config”
+[remote "origin"] 	
+    url = https://用户名:密码@github.com/kwonganding/KWebNote.git	
+    fetch = +refs/heads/*:refs/remotes/origin/*	
+    pushurl = https://github.com/kwonganding/KWebNote.git
 ```
 
 -   **🔸本地缓存**：会创建一个缓存文件`.git-credentials`，存储输入的用户名、密码。
 
 ```bash
-# 参数“--global”全局有效，也可以针对仓库设置“--local”# store 表示永久存储，也可以设置临时存储git config --global credential.helper store # 存储内容如下，打开文件“仓库\.git\.git-credentials”https://kwonganding:[加密内容付费可见]@github.com
+# 参数“--global”全局有效，也可以针对仓库设置“--local”
+# store 表示永久存储，也可以设置临时存储
+git config --global credential.helper store 
+
+# 存储内容如下，打开文件“仓库\.git\.git-credentials”
+https://kwonganding:[加密内容付费可见]@github.com
 ```
 
 ### 🔑远程用户登录：SSH
@@ -488,7 +621,9 @@ SSH（Secure Shell，安全外壳）是一种网络安全协议，通过加密�
 SSH配置完后，可用`ssh -T git@github.com`来检测是否连接成功。
 
 ```bash
-$ ssh -T git@github.comHi kwonganding! You've successfully authenticated, but GitHub does not provide shell access.
+$ ssh -T git@github.com
+Hi kwonganding! You've successfully authenticated, 
+but GitHub does not provide shell access.
 ```
 
 ## 6.2、远程仓库指令🔥
@@ -538,7 +673,19 @@ $ ssh -T git@github.comHi kwonganding! You've successfully authenticated, but Gi
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216162427371-1790284749.png)
 
 ```bash
-# fetch只更新版本库$ git fetchremote: Enumerating objects: 5, done.remote: Counting objects: 100% (5/5), done.remote: Compressing objects: 100% (3/3), done.remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0Unpacking objects: 100% (3/3), 663 bytes | 44.00 KiB/s, done.From github.com:kwonganding/KWebNote   2ba12ca..c64f5b5  main       -> origin/main # 执行合并，合并自己$ git mergeUpdating 2ba12ca..c64f5b5Fast-forward README.md | 2 +- 1 file changed, 1 insertion(+), 1 deletion(-)
+# fetch只更新版本库
+$ git fetch
+remote: Enumerating objects: 5, done.remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0Unpacking 
+objects: 100% (3/3), 663 bytes | 44.00 KiB/s, done.
+From github.com:kwonganding/KWebNote   
+2ba12ca..c64f5b5  main       -> origin/main 
+
+# 执行合并，合并自己
+$ git merge
+Updating 2ba12ca..c64f5b5
+Fast-forward README.md | 2 +- 1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
 * * *
@@ -564,7 +711,9 @@ $ ssh -T git@github.comHi kwonganding! You've successfully authenticated, but Gi
 **分支**就是指向某一个提交记录的“指针”引用，因此创建分支是非常快的，不管仓库多大。当我们运行`git branch dev`创建了一个名字为`dev`的分支，Git实际上是在`.git\refs\heads`下创建一个`dev`的引用文件（没有扩展名）。
 
 ```bash
-$ git branch dev$ cat .git/refs/heads/devca88989e7c286fb4ba56785c2cd8727ea1a07b97
+$ git branch dev
+$ cat .git/refs/heads/dev
+ca88989e7c286fb4ba56785c2cd8727ea1a07b97
 ```
 
 ## 7.2、分支指令🔥
@@ -600,7 +749,10 @@ $ git branch dev$ cat .git/refs/heads/devca88989e7c286fb4ba56785c2cd8727ea1a07b9
 > -   `git reset`：专门用来实现本地修改的撤销，更多可参考后续“reset”内容。
 
 ```bash
-$ git branch  dev* main# 列出了当前的所有分支，星号“*”开头的“main”为当前活动分支。
+# 列出了当前的所有分支，星号“*”开头的“main”为当前活动分支。
+$ git branch  
+dev
+* main
 ```
 
 ## 7.3、分支的切换checkout
@@ -610,7 +762,12 @@ $ git branch  dev* main# 列出了当前的所有分支，星号“*”开头的
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216180158984-1941427063.png)
 
 ```bash
-# 切换到dev分支，HEAD指向了dev# 此处 switch 作用同 checkout，switch只用于切换，不像checkout功能很多$ git switch devSwitched to branch 'dev'$ cat .git/HEADref: refs/heads/dev
+# 切换到dev分支，HEAD指向了dev
+# 此处 switch 作用同 checkout，switch只用于切换，不像checkout功能很多
+$ git switch dev
+Switched to branch 'dev'
+$ cat .git/HEAD
+ref: refs/heads/dev
 ```
 
 使用 `git checkout dev`切换分支时，干了两件事：
@@ -622,7 +779,7 @@ $ git branch  dev* main# 列出了当前的所有分支，星号“*”开头的
 
 **❓切换时还没提交的代码怎么办？**
 
--   如果修改（包括未暂存、已暂存）和待切换的分支没有冲突，则切换成果，且未提交修改会一起带过去，所以要注意！
+-   如果修改（包括未暂存、已暂存）和待切换的分支没有冲突，则切换成功，且未提交修改会一起带过去，所以要注意！
 -   如果有冲突，则会报错，提示先提交或隐藏，关于隐藏可查看后续章节内容“stash”。
 
 ## 7.4、合并merge&冲突
@@ -653,7 +810,7 @@ $ git branch  dev* main# 列出了当前的所有分支，星号“*”开头的
 上图中，创建`dev`分支后，两个分支都有修改提交，因此两个分支就不在一条顺序线上了，此时合并`dev`到`master`就得把他们的修改进行合并操作了。
 
 -   `v5`、`v7`共同祖先是`v4`，从这里开始分叉。
--   Git 会用两个分支的末端`v6` 和 `v8`以及它们的共同祖先`v4`进行三方合并计算。合并之后会生成一个新（和并）提交`v9`。
+-   Git 会用两个分支的末端`v6` 和 `v8`以及它们的共同祖先`v4`进行三方合并计算。合并之后会生成一个新（合并）提交`v9`。
 -   合并提交`v9`就有两个祖先`v6`、`v8`。
 
 ### 🔸处理冲突<<<<<<< HEAD
@@ -673,7 +830,13 @@ $ git branch  dev* main# 列出了当前的所有分支，星号“*”开头的
 -   最终的提交记录就没有分叉了。
 
 ```bash
-$ git rebase master$ git checkout master$ git merge dev
+# 先切换到代合并分支dev, 完成rebase master后，dev和master就没有分叉了
+$ git checkout dev
+$ git rebase master
+
+# dev和master此时并无分叉，直接fast-forward合并
+$ git checkout master
+$ git merge dev
 ```
 
 * * *
@@ -706,7 +869,14 @@ $ git rebase master$ git checkout master$ git merge dev
 > 📢注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。
 
 ```bash
-# tag$ git tag -a 'v1' -m'v1版本'$ cat .git/refs/tags/v1a2e2c9caea35e176cf61e96ad9d5a929cfb82461 # 查看标签列表$ git tagv1
+# tag
+$ git tag -a 'v1' -m'v1版本'
+$ cat .git/refs/tags/v1
+a2e2c9caea35e176cf61e96ad9d5a929cfb82461 
+
+# 查看标签列表
+$ git tag
+v1
 ```
 
 * * *
@@ -718,7 +888,7 @@ $ git rebase master$ git checkout master$ git merge dev
 -   ❓**还没提交的怎么撤销？** —— `checkout`、`reset`
     -   还未提交的修改（工作区、暂存区）不想要了，用签出指令（checkout）进行撤销清除。
     -   或者用`checkout`的新版回滚指令`reset`。
--   ❓**已提交但么有push的提交如何撤销？**—— `reset`、`revert`
+-   ❓**已提交但没有push的提交如何撤销？**—— `reset`、`revert`
 -   ❓**已push的提交如何撤销？**—— 同上，先本地撤销，然后强制推送`git push origin -f`，**⚠️注意慎用！** 记得先`pull`获取更新。
 
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216163448808-617725383.png)
@@ -740,13 +910,19 @@ $ git rebase master$ git checkout master$ git merge dev
 | git reset --hard HEAD~ | 回退到上一个版本，并重置工作区、暂存区内容。 |
 | git reset --hard \[commit\] | 回退到指定版本，并重置工作区、暂存区内容。 |
 |  |  |
-| git **revert**\[commit\] | 撤销一个提交，会用一个新的提交（原提交的逆向操作）来完成撤销操作，如果已`push`则重新`push`即可 |
+| git **revert** \[commit\] | 撤销一个提交，会用一个新的提交（原提交的逆向操作）来完成撤销操作，如果已`push`则重新`push`即可 |
 
 -   `git checkout .`、`git checkout [file]` 会清除工作区中未添加到暂存区的修改，用暂存区内容替换工作区。
 -   `git checkout HEAD .`、 `git checkout HEAD [file]` 会清除工作区、暂存区的修改，用HEAD指向的当前分支最新版本替换暂存区、工作区。
 
 ```bash
-# 只撤销工作区的修改（未暂存）$ git checkout .Updated 1 path from the index # 撤销工作区、暂存区的修改$ git checkout HEAD .Updated 1 path from f951a96
+# 只撤销工作区的修改（未暂存）
+$ git checkout .
+Updated 1 path from the index 
+
+# 撤销工作区、暂存区的修改
+$ git checkout HEAD .
+Updated 1 path from f951a96
 ```
 
 ## 9.2、回退版本reset
@@ -767,16 +943,31 @@ $ git rebase master$ git checkout master$ git merge dev
 
 ![image](https://img2023.cnblogs.com/blog/151257/202212/151257-20221216180604711-1395134601.png)
 
-| **模式名称\\** | **描述** | **HEAD的位置** | **暂存区** | **工作区** |
-| --- | --- | --- | --- | --- |
-| **soft** | 回退到某一个版本，工作区不变，需手动`git checkout` | 修改 | 不修改 | 不修改 |
-| **mixed**(默认) | 撤销暂存区状态，不影响工作区，需手动`git checkout` | 修改 | 修改 | 不修改 |
-| **hard** | 重置未提交修改（工作区、暂存区） | 修改 | 修改 | 修改 |
-
 穿梭前，用`git log`可以查看提交历史，以便确定要回退到哪个版本。要重返未来，用`git reflog`查看命令历史，以便确定要回到未来的哪个版本。
 
 ```bash
-git reset [--soft | --mixed | --hard] [HEAD] # 撤销暂存区$ git resetUnstaged changes after reset:M       R.md # 撤销工作区、暂存区修改$ git reset --hard HEAD # 回退版本库到上一个版本，并重置工作区、暂存$ git reset --hard HEAD~ # 回到原来的版本（恢复上一步的撤销操作），并重置工作区、暂存$ git reset --hard 5f8b961 # 查看所有历史提交记录$ git reflogccb9937 (HEAD -> main, origin/main, origin/HEAD) HEAD@{0}: commit: 报表新增导入功能8f61a60 HEAD@{1}: commit: bug：修复报表导出bug4869ff7 HEAD@{2}: commit: 用户报表模块开发4b1028c HEAD@{3}: commit: 财务报表模块开发完成
+git reset [--soft | --mixed | --hard] [HEAD] 
+# 撤销暂存区
+$ git reset
+Unstaged changes after reset:
+M       R.md 
+
+# 撤销工作区、暂存区修改
+$ git reset --hard HEAD 
+
+# 回退版本库到上一个版本，并重置工作区、暂存
+$ git reset --hard HEAD~ 
+
+# 回到原来的版本（恢复上一步的撤销操作），并重置工作区、暂存
+$ git reset --hard 5f8b961 
+
+# 查看所有历史提交记录
+$ git reflog
+ccb9937 (HEAD -> main, origin/main, origin/HEAD) 
+HEAD@{0}: commit: 报表新增导入功能8f61a60 
+HEAD@{1}: commit: bug：修复报表导出bug4869ff7 
+HEAD@{2}: commit: 用户报表模块开发4b1028c 
+HEAD@{3}: commit: 财务报表模块开发完成
 ```
 
 ## 9.3、撤销提交revert
@@ -792,7 +983,10 @@ git reset [--soft | --mixed | --hard] [HEAD] # 撤销暂存区$ git resetUnstage
 -   如果已`push`则重新`push`即可。
 
 ```bash
-# revert撤销指定的提交，“-m”附加说明$ git revert 41ea42 -m'撤销对***的修改'[main 967560f] Revert "123"                            1 file changed, 1 deletion(-)
+# revert撤销指定的提交，“-m”附加说明
+$ git revert 41ea42 -m '撤销对***的修改'
+[main 967560f] Revert "123"
+    1 file changed, 1 deletion(-)
 ```
 
 ## 9.4、checkout/reset/revert总结
@@ -841,7 +1035,23 @@ Git flow（Git工作流程）是指软件项目中的一种Git分支管理模型
 当你正在`dev`分支开发一个功能时，代码写了一半，突然有一个线上的bug急需要马上修改。`dev`分支Bug没写完，不方便提交，就不能切换到主分支去修复线上bug。Git提供一个`stash`功能，可以把当前**工作区、暂存区** 未提交的内容“隐藏”起来，就像什么都没发生一样。
 
 ```bash
-# 有未提交修改，切换分支时报错$ git checkout deverror: Your local changes to the following files would be overwritten by checkout:        README.mdPlease commit your changes or stash them before you switch branches.Aborting # 隐藏$ git stashSaved working directory and index state WIP on main: 2bc012c s # 查看被隐藏的内容$ git stash liststash@{0}: WIP on main: 2bc012c s # 比较一下，什么都没有，一切都没有发生过！$ git diff # 去其他分支修改bug，修复完成回到当前分支，恢复工作区$ git stash pop
+# 有未提交修改，切换分支时报错
+$ git checkout dev
+error: Your local changes to the following files would be overwritten by checkout:
+        README.mdPlease 
+commit your changes or stash them before you switch branches.
+Aborting 
+# 隐藏
+$ git stash
+Saved working directory and index state WIP on main: 2bc012c 
+# 查看被隐藏的内容
+$ git stash list
+stash@{0}: WIP on main: 2bc012c 
+
+# 比较一下，什么都没有，一切都没有发生过！
+$ git diff 
+# 去其他分支修改bug，修复完成回到当前分支，恢复工作区
+$ git stash pop
 ```
 
 在上面示例中，有未提交修改，切换分支时报错。错误提示信息很明确了，`commit`提交或`stash`隐藏：`Please commit your changes or stash them before you switch branches.`
@@ -857,7 +1067,7 @@ Git flow（Git工作流程）是指软件项目中的一种Git分支管理模型
 | git stash apply | 恢复被隐藏的文件，但是隐藏记录不删除 |
 | git stash drop | 删除隐藏记录 |
 
-> 🪧当然这里先提交到本地也是可以的，只是提交不是一个完整的功能代码，而是残缺的一部分，影响也不大。
+>  📢 当然这里先提交到本地也是可以的，只是提交不是一个完整的功能代码，而是残缺的一部分，影响也不大。
 
 ## 拣选提交cherry-pick
 
@@ -872,7 +1082,8 @@ Git flow（Git工作流程）是指软件项目中的一种Git分支管理模型
 -   同时更新`master`、`HEAD`，以及工作区。
 
 ```bash
-# 选择一个commit，合并进当前分支$ git cherry-pick [commit]
+# 选择一个commit，合并进当前分支
+$ git cherry-pick [commit]
 ```
 
 * * *
