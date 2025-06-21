@@ -1001,7 +1001,7 @@ PHP命名空间里的类可以通过三种方式引用：非限定名称，限�
 
 1. 非限定名称  
 
-非限定名称即不包含前缀的类名称。  
+非限定名称即{% mark 不包含前缀的类名称 color:purple %}。  
 
 用非限定名称访问类和类的静态方法
 ```php
@@ -1010,20 +1010,21 @@ Foo::staticmethod();
 ?>
 ```
 
-如果当前命名空间是 MyBlog, 则 `Foo` 将被解析为 `MyBlog\Foo`。非限定名称的引用默认在当前命名空间查找，找不到的话就会到全局命名空间找
+如果当前命名空间是 `MyBlog`, 则 `Foo` 将被解析为 `MyBlog\Foo`。非限定名称的引用默认在当前命名空间查找，找不到的话就会到全局命名空间找
 
 2. 不完全限定名称  
-不完全限定名称，即包含相对前缀的类名称。  
+不完全限定名称，即{% mark 包含相对前缀的名称 color:purple %}。  
 
 ```php
 $a = new BlogCommon\Foo(); 
 BlogCommon\Foo::staticmethod();
 ?>
-```    
+```
+
 如果当前的命名空间是 `MyBlog` 则 `Foo` 会被解析为 `MyBlog\BlogCommon\Foo`。带相对命名空间前缀的引用，自动在开头添加调用代码所处的命名空间 (*类似相对路径*)
 
 3. 完全限定名称  
-包含了全局前缀操作符的名称
+{% mark 包含了全局前缀操作符的名称 color:purple %}
 ```php
 $a = new \MyBlog\Foo();
 \MyBlog\Foo::staticmethod();
@@ -1035,7 +1036,7 @@ $a = new \MyBlog\Foo();
 
 假设现在有两个文件：`lufy.php` 和 `onePiece.php`，它们分别属于两个不同的命名空间 `OnePiece\Lufy` 和 `OnePiece`   
 
-lufy.php 代码如下
+`lufy.php` 代码如下
 
 ```php
 <?php
@@ -1053,7 +1054,7 @@ class Ability {
 ?>
 ```
 
-onePiece.php 代码如下
+`onePiece.php` 代码如下
 
 ```php
 <?php
@@ -1277,7 +1278,7 @@ NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func
 ?>
 ```
 
-导入操作是在编译执行的，但动态的类名称、函数名称或常量名称则不是。
+导入操作是在编译时执行的，但动态的类名称、函数名称或常量名称则不是。
 
 ```php
 <?php
