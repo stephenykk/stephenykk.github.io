@@ -1,0 +1,782 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>炼气技术栈Shell脚本: linux命令筑基 - JKK随笔</title>
+
+  
+    <meta name="description" content="Shell 脚本程序就是用一条条的 Shell 命令，完成复杂的任务，掌握常见 Shell 命令是编写 Shell 脚本的前提。 从本质上来说，Shell 命令就是系统提供的一个个成熟的程序，而且有的命令非常强大，比如 find、grep、awk、sed 等。 本文总结了一些常用的 Shell 命令，包括文件操作、文本处理和查看系统信息等方面，希望大家能从中有所收获 :) 文件操作在 Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="炼气技术栈Shell脚本: linux命令筑基">
+<meta property="og:url" content="https://panzhenjie.fun/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="Shell 脚本程序就是用一条条的 Shell 命令，完成复杂的任务，掌握常见 Shell 命令是编写 Shell 脚本的前提。 从本质上来说，Shell 命令就是系统提供的一个个成熟的程序，而且有的命令非常强大，比如 find、grep、awk、sed 等。 本文总结了一些常用的 Shell 命令，包括文件操作、文本处理和查看系统信息等方面，希望大家能从中有所收获 :) 文件操作在 Linux">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-08-10T04:04:08.000Z">
+<meta property="article:modified_time" content="2025-08-10T04:15:11.694Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="frontend">
+<meta property="article:tag" content="IT blog">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <meta name="keywords" content="frontend,IT blog">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/"><span class="title">炼气技术栈Shell脚本: linux命令筑基</span></a><a class="item title" href="/2024/03/01/PHP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP基础知识总结</span></a><a class="item title" href="/2025/06/04/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC%EF%BC%9A%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%90%AF%E7%A8%8B/"><span class="title">炼气技术栈Shell脚本：从基础启程</span></a><a class="item title" href="/2025/06/03/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88shell%EF%BC%9A%E5%88%9D%E8%AF%86/"><span class="title">炼气技术栈shell 初识</span></a><a class="item title" href="/2025/05/28/vim%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">vim快速入门教程</span></a><a class="item title" href="/2024/03/12/%E5%8D%81%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9AWebSocket/"><span class="title">十分钟学会WebSocket</span></a><a class="item title" href="/2025/05/30/%E5%BC%BA%E7%83%88%E6%8E%A8%E8%8D%90git%E5%85%A5%E9%97%A8%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">强烈推荐git入门图文教程</span></a><a class="item title" href="/2025/05/30/%E9%9D%9E%E5%B8%B8%E8%AF%A6%E7%BB%86%E7%9A%84git%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">非常详细的git图文教程</span></a><a class="item title" href="/2025/05/29/git%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">git快速入门教程</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-10T04:04:08.000Z">2025-08-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-10T04:15:11.694Z">2025-08-10</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>炼气技术栈Shell脚本: linux命令筑基</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>Shell 脚本程序就是用一条条的 Shell 命令，完成复杂的任务，掌握常见 Shell 命令是编写 Shell 脚本的前提。</p>
+<p>从本质上来说，Shell 命令就是系统提供的一个个成熟的程序，而且有的命令非常强大，比如 <code>find</code>、<code>grep</code>、<code>awk</code>、<code>sed</code> 等。</p>
+<p>本文总结了一些常用的 Shell 命令，包括文件操作、文本处理和查看系统信息等方面，希望大家能从中有所收获 :)</p>
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><p>在 Linux 系统中，一切皆文件，因而文件操作是 Shell 脚本最基础的操作，包括文件创建、删除、复制、移动、重命名等。</p>
+<h3 id="创建文件和文件夹"><a href="#创建文件和文件夹" class="headerlink" title="创建文件和文件夹"></a>创建文件和文件夹</h3><p><code>touch</code>命令主要功能是修改文件的访问时间，如果文件不存在，则创建一个空文件；但是大家都习惯用它来创建文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">touch</span> data.txt <span class="hljs-comment"># 创建文件</span><br><br><span class="hljs-comment"># 创建多个文件</span><br><span class="hljs-built_in">touch</span> data1.txt data2.txt<br><br></code></pre></td></tr></table></figure>
+
+<p>支持大括号扩展，让 Shell 命令可以做很 cool 的事情，比如：一下子创建 100 个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">touch</span> data&#123;1..100&#125;.txt<br></code></pre></td></tr></table></figure>
+
+<p><code>touch</code> 命令的其他选项</p>
+<ul>
+<li><code>-a</code> 只更新访问时间, 用 <code>ls -lt -u</code> 查看新的访问时间<code>atime</code></li>
+<li><code>-m</code> 只更新修改时间, 用 <code>ls -lt</code> 查看新的修改时间<code>mtime</code></li>
+<li><code>-r</code> 用指定文件的时间替代当前时间</li>
+<li><code>-t</code> 更新为指定时间</li>
+<li><code>-c</code> 不创建文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 修改 hello.js 的atime为当前时间</span><br><span class="hljs-built_in">touch</span> -a hello.js<br><span class="hljs-comment"># 修改 hello.js 的mtime为当前时间</span><br><span class="hljs-built_in">touch</span> -m hello.js<br><span class="hljs-comment"># 把 b.js 的mtime改为和 a.js 的mtime一样</span><br><span class="hljs-built_in">touch</span> -r a.js b.js<br><br><span class="hljs-comment"># 长列表格式，时间字段默认是文件的修改时间 mtime</span><br><span class="hljs-built_in">ls</span> -l .<br><span class="hljs-comment"># 长列表格式，时间字段显示文件的访问时间 atime</span><br><span class="hljs-built_in">ls</span> -lt -u .<br><br><span class="hljs-comment"># 更新为2025年6月7日11点20分</span><br><span class="hljs-comment"># 时间格式: [[CC]YY]MMDDhhmm[.ss].</span><br><span class="hljs-built_in">touch</span> -t 202506071120 hello.txt<br></code></pre></td></tr></table></figure>
+
+<p>创建目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建目录</span><br><span class="hljs-built_in">mkdir</span> images<br><span class="hljs-comment"># 创建多个目录</span><br><span class="hljs-built_in">mkdir</span> images styles<br><span class="hljs-comment"># 递归创建目录层级</span><br><span class="hljs-built_in">mkdir</span> -p src/static/images<br><br><span class="hljs-comment"># 指定目录的权限</span><br><span class="hljs-built_in">mkdir</span> -p -m 777 backup/code<br><span class="hljs-built_in">mkdir</span> -p -m a=rwx backup/code <span class="hljs-comment"># 同上</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="删除文件和文件夹"><a href="#删除文件和文件夹" class="headerlink" title="删除文件和文件夹"></a>删除文件和文件夹</h3><p><code>rm</code>命令用于删除文件或目录，<code>-r</code>参数表示递归删除，即删除目录及其内容，<code>-f</code>参数表示强制删除，直接删除不会提示确认。</p>
+<p>语法:</p>
+<ul>
+<li><code>rm file1 file2..</code></li>
+<li><code>rm -r dir</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除文件</span><br><span class="hljs-built_in">rm</span> data.txt<br><span class="hljs-comment"># 删除目录及其内容</span><br><span class="hljs-built_in">rm</span> -r <span class="hljs-built_in">dir</span><br><span class="hljs-comment"># 删除空目录, 如果目录非空，则无法删除</span><br><span class="hljs-built_in">rmdir</span> <span class="hljs-built_in">dir</span><br></code></pre></td></tr></table></figure>
+
+<p><code>rm</code>命令比较危险，因为一旦删除文件或目录，就无法恢复。为了避免误删，可以使用<code>-i</code>参数，即交互模式，删除文件或目录之前会提示确认。</p>
+<p>网上流传删库跑路的段子，就是指用 <code>rm -rf /</code> 彻底删除服务器系统所有文件。如果不太确定的话就把 <code>-f</code> 换成 <code>-i</code> 参数。</p>
+<p><code>rm</code>命令支持文件名通配符，如 <code>*</code>、<code>?</code>、<code>[...]</code>等，用于匹配多个文件，同时还支持大括号扩展 <code>&#123;&#125;</code>, 十分灵活。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 创建a.jpg、b.jpg、c.jpg</span><br><span class="hljs-built_in">touch</span> &#123;a..c&#125;.jpg<br><span class="hljs-comment"># 删除jpg图片文件</span><br><span class="hljs-built_in">rm</span> *.jpg<br><br><span class="hljs-comment"># 创建a.png、b.png、c.png</span><br><span class="hljs-built_in">touch</span> &#123;a..c&#125;.png<br><span class="hljs-comment"># 文件名扩展 + 大括号扩展，删除jpg、png文件</span><br><span class="hljs-built_in">rm</span> *.&#123;jpg,png&#125;<br><span class="hljs-comment"># 注意：[a,b,c] 文件名扩展，元素只能是单字符，所以大括号扩展更好用一点</span><br><span class="hljs-built_in">rm</span> *.[jpg,png] <span class="hljs-comment"># error</span><br><br><span class="hljs-comment"># 注意：区分大括号扩展和文件名扩展</span><br><span class="hljs-built_in">touch</span> data&#123;K,Q&#125;.txt<br><span class="hljs-built_in">rm</span> data[K,Q].txt<br><span class="hljs-built_in">rm</span> data&#123;K,Q&#125;.txt <span class="hljs-comment"># 同上</span><br><br><br><span class="hljs-comment"># 强制删除目录所有内容</span><br><span class="hljs-built_in">rm</span> -rf <span class="hljs-built_in">dir</span><br><br><span class="hljs-comment"># 使用文件名扩展进行删除</span><br><span class="hljs-built_in">rm</span> *.<span class="hljs-built_in">log</span><br><span class="hljs-comment"># 删除前提示</span><br><span class="hljs-built_in">rm</span> -i  *.js<br><span class="hljs-comment"># 文件名只有3个字符</span><br><span class="hljs-built_in">rm</span> ???<br><span class="hljs-built_in">rm</span> *.??<br><span class="hljs-built_in">rm</span> a*<br><span class="hljs-comment"># 删除a.js b.js</span><br><span class="hljs-built_in">rm</span> [ab].js<br></code></pre></td></tr></table></figure>
+
+<h3 id="复制文件和文件夹"><a href="#复制文件和文件夹" class="headerlink" title="复制文件和文件夹"></a>复制文件和文件夹</h3><p><code>cp</code>命令用于复制文件或目录，<code>-r</code>参数表示递归复制，即复制目录及其内容，<code>-i</code>参数表示存在同名文件时提示确认，因为<code>cp</code>默认会覆盖已有同名文件。</p>
+<p>多种语法：</p>
+<ul>
+<li><code>cp &lt;srcFile&gt; &lt;dstFile&gt;</code></li>
+<li><code>cp &lt;file1&gt; &lt;file2&gt;... &lt;dstFolder&gt;</code></li>
+<li><code>cp -t &lt;dstFolder&gt; &lt;file1&gt; &lt;file2&gt;...</code></li>
+<li><code>cp -r &lt;srcFolder&gt; &lt;dstFolder&gt;</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制文件</span><br><span class="hljs-built_in">cp</span> a.jpg a2.jpg<br><span class="hljs-comment"># 复制文件夹</span><br><span class="hljs-built_in">cp</span> -r codes codes_bk<br><br><span class="hljs-comment"># 复制多文件</span><br><span class="hljs-built_in">cp</span> a.js b.js src<br><span class="hljs-built_in">cp</span> -t src a.js b.js<br><br><span class="hljs-comment"># 复制当前目录下所有文件到tmp</span><br><span class="hljs-built_in">cp</span> * /tmp<br><span class="hljs-comment"># 保留所有文件属性(所有者 权限 访问时间等)</span><br><span class="hljs-built_in">cp</span> -p server.js /codes/test/server.js<br><br></code></pre></td></tr></table></figure>
+
+<p>存在同名文件的提示确认</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制文件，如果lufy.txt已存在，则提示确认</span><br><span class="hljs-built_in">cp</span> -i data.txt lufy.txt<br></code></pre></td></tr></table></figure>
+
+<p>如果被复制的对象是文件夹，那么有两种可能: 复制源文件夹为新的目标文件夹，或者将源文件夹复制到目标文件夹中。这取决于目标文件夹是否已经存在。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 列出以folder开头的目录 folder1 folder2</span><br><span class="hljs-built_in">ls</span> -d folder*<br><br><span class="hljs-comment"># 因为 folder2 已存在，结果是将 folder1 复制到 folder2 内</span><br><span class="hljs-built_in">cp</span> -r folder1 folder2<br><br><span class="hljs-comment"># 因为 folder_back 不存在，结果是把 folder1 复制为 folder_back</span><br><span class="hljs-built_in">cp</span> -r folder1 folder_back<br><br></code></pre></td></tr></table></figure>
+
+<p><code>cp</code>命令支持文件名通配符，如 <code>*</code>、<code>?</code>、<code>[...]</code>等，用于匹配多个文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 复制jpg图片文件到images目录</span><br><span class="hljs-built_in">cp</span> *.jpg images<br></code></pre></td></tr></table></figure>
+
+<h3 id="移动和重命名"><a href="#移动和重命名" class="headerlink" title="移动和重命名"></a>移动和重命名</h3><p><code>mv</code>命令用于移动文件或目录，<code>-r</code>参数表示递归移动，即移动目录及其内容。如果把文件或文件夹移动到当前目录下，则相当于重命名；所以移动和重命名都用 <code>mv</code>命令。</p>
+<p>语法:</p>
+<ul>
+<li><code>mv &lt;oldName&gt; &lt;newName&gt;</code></li>
+<li><code>mv file1 file2... dest</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 重命名</span><br><span class="hljs-built_in">mv</span> a.jpg b.jpg<br><span class="hljs-comment"># 移动</span><br><span class="hljs-built_in">mv</span> a.jpg images/<br><span class="hljs-built_in">mv</span> a.jpg b.jpg images/<br><br><span class="hljs-comment"># 若目标文件夹已有同名文件，则提示</span><br><span class="hljs-built_in">mv</span> -i a.jpg images<br><br><span class="hljs-comment"># 仅仅将dstDir没有的文件，移动进去</span><br><span class="hljs-built_in">mv</span> -u dirSrc/*  dstDir<br></code></pre></td></tr></table></figure>
+
+<p>如果被移动的对象是文件夹，那么有和<code>cp</code>命令相同的特性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 列出所有以f开头的文件夹  folder1  folder2</span><br><span class="hljs-built_in">ls</span> -d folder*<br><br><span class="hljs-comment"># folder1 移入 folder2 文件夹</span><br><span class="hljs-built_in">mv</span> folder1  folder2<br><span class="hljs-comment"># 因为 folder_bk 不存在, 结果是把 folder1 重命名为 folder_bk</span><br><span class="hljs-built_in">mv</span> folder1  folder_bk<br></code></pre></td></tr></table></figure>
+
+<h3 id="查看文件夹内容"><a href="#查看文件夹内容" class="headerlink" title="查看文件夹内容"></a>查看文件夹内容</h3><p><code>ls</code>是最最最常用的命令，用于查看文件夹。个人觉得<code>ls</code>很强大，可以满足我们绝大部分的需求。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 长列表显示，默认按文件名排序</span><br><span class="hljs-built_in">ls</span> -l<br><span class="hljs-comment"># 显示隐藏文件</span><br><span class="hljs-built_in">ls</span> -a<br><span class="hljs-comment"># 显示文件大小（以KB,MB等人类易读的方式）</span><br><span class="hljs-built_in">ls</span> -lh<br><span class="hljs-comment"># 按文件修改时间倒序显示(最新的在前面)</span><br><span class="hljs-built_in">ls</span> -lt<br><span class="hljs-comment">#  按文件大小倒序显示(最大的在前面)</span><br><span class="hljs-built_in">ls</span> -lS<br><span class="hljs-comment"># 反序显示</span><br><span class="hljs-built_in">ls</span> -r<br><span class="hljs-comment"># 按文件修改时间顺序显示</span><br><span class="hljs-built_in">ls</span> -ltr<br><span class="hljs-comment"># 显示所有文件夹</span><br><span class="hljs-built_in">ls</span> -F | grep <span class="hljs-string">&quot;/$&quot;</span><br><span class="hljs-comment"># 显示dir开头的目录自身（不加 -d 显示dir开头的目录内的文件)</span><br><span class="hljs-built_in">ls</span> -d <span class="hljs-built_in">dir</span>*<br><span class="hljs-comment"># 递归地显示目录下的所有内容</span><br><span class="hljs-built_in">ls</span> -R my_project<br><span class="hljs-comment"># 显示文件或目录的inode编号</span><br><span class="hljs-built_in">ls</span> -li<br><span class="hljs-comment"># 所有者和组用id表示</span><br><span class="hljs-built_in">ls</span> -<span class="hljs-built_in">ln</span><br></code></pre></td></tr></table></figure>
+
+<p>长列表显示的时间默认是文件的修改时间 mtime, 可以通过 <code>--time</code> 参数指定时间类型，如 <code>atime</code>、<code>ctime</code>、<code>mtime</code>等。</p>
+<h3 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h3><p><code>cat</code> 命令是 <code>concatenate</code> 的简写(意思为：连接)，当然我们也可以理解它为“猫”，要查看文件内容，就用“猫”抓一下 :)</p>
+<p>语法: <code>cat [option] [file]...</code></p>
+<p><code>cat</code> 的主要功能是把多个文件的内容合并输出到标准输出。如果我们只提供一个文件，那么其实就是把该文件的内容输出到标准输出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#  合并输出多个文件</span><br><span class="hljs-built_in">cat</span> file1 file2<br><span class="hljs-comment"># 把多个文件的内容合并到 file3</span><br><span class="hljs-built_in">cat</span> file1 file2 &gt; file3<br><span class="hljs-comment"># 输出文件内容</span><br><span class="hljs-built_in">cat</span> file1<br></code></pre></td></tr></table></figure>
+
+<p><code>cat</code> 命令可以带行号输出内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 显示行号</span><br><span class="hljs-built_in">cat</span> -n file1<br><span class="hljs-comment"># 仅非空行加行号</span><br><span class="hljs-built_in">cat</span> -b file1<br></code></pre></td></tr></table></figure>
+
+<p><code>cat</code>命令查看的数据源可以是文件，也可以是键盘输入，比如我们想创建一个文件，但是文件内容比较长，我们就可以使用 <code>cat</code> 命令，从键盘输入内容，然后输出到文件中。</p>
+<blockquote>
+<p>按 ctrl + d 结束输入</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 从键盘输入内容保存到指定文件中</span><br><span class="hljs-built_in">cat</span> &gt; daily.txt<br></code></pre></td></tr></table></figure>
+
+<p><code>cat</code> 的反序词就是 <code>tac</code>, <code>tac</code> 也是一个命令(<em>Linux 有很多类似有意思的地方</em>)，它的作用就是反序序输出文件内容，即从最后一行开始输出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 倒序显示文件内容</span><br><span class="hljs-built_in">tac</span> file<br></code></pre></td></tr></table></figure>
+
+<p><code>less</code> 是一个查看文件内容的强大命令，打开文件后默认也是命令模式(<em>同 vim</em>), 具体用法，可以按 <code>h</code> 查看帮助。</p>
+<blockquote>
+<p><code>u</code> 向上翻页， <code>d</code> 向下翻页 ，<code>/</code>或<code>?</code> 搜索 ，<code>gg</code> 跳到顶部， <code>G</code> 跳到底部</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">less file<br></code></pre></td></tr></table></figure>
+
+<p>less 打开多个文件</p>
+<ul>
+<li><code>:e</code> 然后输入新文件名</li>
+<li><code>:p</code> 上一个文件</li>
+<li><code>:n</code> 下一个文件</li>
+</ul>
+<p>less 书签功能</p>
+<ul>
+<li><code>m</code> 然后按任意字母，标记当前位置</li>
+<li>单引号 + 之前字母，定位到对应标签</li>
+</ul>
+<p>less 可以实时显示文件新增加的内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> -1 . &gt; files.txt<br>less -F files.txt<br><br><span class="hljs-comment"># 新开终端</span><br><span class="hljs-built_in">echo</span> new content &gt;&gt; files.txt<br></code></pre></td></tr></table></figure>
+
+<p><code>more</code> 命令和 <code>less</code> 命令类似，但是 <code>more</code> 命令只能向下翻页，不能向上翻页，所以 <code>more</code> 命令的功能没有 <code>less</code> 命令强大。</p>
+<blockquote>
+<p>有句戏言： more is less, less is more 是不是充满哲学的意味? :)</p>
+</blockquote>
+<p><code>more</code> 命令主要是分块显示文件内容， <code>-5</code> 表示显示前 5 行；因为当输出内容很长，有时回滚也很麻烦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">more file<br>more -5 index.html<br><span class="hljs-built_in">cat</span> order.tsx | more -5<br></code></pre></td></tr></table></figure>
+
+<p>head 显示文件顶部开始的若干行&#x2F;字符， <code>-n</code> 参数用于指定末行的位置，支持负数，表示倒数第几行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 从开头到第10行</span><br><span class="hljs-built_in">head</span> -n 10 file<br><span class="hljs-comment"># 同上</span><br><span class="hljs-built_in">head</span> -10 file<br><span class="hljs-comment"># 从开头到倒数第3行(首行总是从第1行开始，末行用负数，则表示倒数第几行)</span><br><span class="hljs-built_in">head</span> -n -3 file<br><span class="hljs-comment"># 显示前5个字符</span><br><span class="hljs-built_in">head</span> -c 5 file<br><br></code></pre></td></tr></table></figure>
+
+<p>tail 显示文件末尾的若干行&#x2F;字符，<code>-n</code> 参数用于指定首行的位置，支持负数，表示顺数第几行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">tail</span> -n 3 file<br><span class="hljs-built_in">tail</span> -3 file<br><span class="hljs-comment"># 监听文件中新写入的行</span><br><span class="hljs-built_in">tail</span> -f file<br><span class="hljs-comment"># 进程结束时终止tail</span><br><span class="hljs-built_in">tail</span> -f file --pid 3012<br><span class="hljs-comment"># 持续尝试打开目前还不存在的文件</span><br><span class="hljs-built_in">tail</span> -f notExistFile --retry<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="查看文件类型"><a href="#查看文件类型" class="headerlink" title="查看文件类型"></a>查看文件类型</h2><p>语法: <code>file &lt;filename&gt;</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">file hello.txt<br><span class="hljs-comment"># MIME格式的文件类型信息</span><br>file -i hello.txt<br><span class="hljs-comment"># 键值对格式的输出 file --help 查看说明</span><br>file -N *.txt<br></code></pre></td></tr></table></figure>
+
+<h2 id="统计文件信息"><a href="#统计文件信息" class="headerlink" title="统计文件信息"></a>统计文件信息</h2><p><code>wc</code> 命令用于统计文件中的行数、单词数、字符数等。</p>
+<p>语法: <code>wc [options] [file...]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 统计行数 单词数和字符数</span><br><span class="hljs-built_in">wc</span> hello.txt<br><span class="hljs-comment"># 行数</span><br><span class="hljs-built_in">wc</span> -l hello.txt<br><span class="hljs-comment"># 单词数</span><br><span class="hljs-built_in">wc</span> -w hello.txt<br><span class="hljs-comment"># 字符数</span><br><span class="hljs-built_in">wc</span> -c hello.txt<br><span class="hljs-comment"># 最长行的长度</span><br><span class="hljs-built_in">wc</span> -L hello.txt<br></code></pre></td></tr></table></figure>
+
+<h2 id="查找文件和目录"><a href="#查找文件和目录" class="headerlink" title="查找文件和目录"></a>查找文件和目录</h2><p><code>find</code> 是 linux 系统中最常用和重要的命令之一,可以根据文件名、文件大小、修改时间、权限等属性进行查找。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs bash">find /etc -name init-tab<br><span class="hljs-comment"># 支持文件名扩展</span><br>find /etc -name <span class="hljs-string">&quot;*.conf&quot;</span><br><span class="hljs-comment"># 不区分文件名大小写</span><br>find . -iname server.js<br><span class="hljs-comment"># 查找当前目录下名称为 tmp 目录</span><br>find . -<span class="hljs-built_in">type</span> d -name tmp<br><span class="hljs-comment"># 查找当前目录下的所有php文件</span><br>find . -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">&quot;*.php&quot;</span><br><span class="hljs-comment"># 限制搜索深度</span><br>find . -maxdepth 2 -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">&quot;*.js&quot;</span><br><span class="hljs-comment"># 找 dotfile</span><br>find . -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">&quot;.*&quot;</span><br><br><span class="hljs-comment"># 查找文件后默认执行的命令是 echo, 可以通过 -exec 指定要执行的命令, &#123;&#125; 表示匹配到的文件名</span><br><span class="hljs-comment"># 查找log文件并删除</span><br>find /tmp -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">&quot;*.log&quot;</span> -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">rm</span> -f &#123;&#125; \;<br><br><span class="hljs-comment"># ! 在条件选项前，表示取反</span><br><span class="hljs-comment"># 查找当前目录下非 txt 文件</span><br>find . -<span class="hljs-built_in">type</span> f ! -name <span class="hljs-string">&quot;*.txt&quot;</span><br><br><span class="hljs-comment"># () 进行条件组合</span><br><span class="hljs-comment"># 找 txt 和 sh 文件</span><br>find . -<span class="hljs-built_in">type</span> f \( -name <span class="hljs-string">&quot;*.txt&quot;</span> -o -name <span class="hljs-string">&quot;*.sh&quot;</span> \)<br><br><span class="hljs-comment"># 查找当前目录下权限不是 777 的文件</span><br>find . -<span class="hljs-built_in">type</span> f ! -perm 777<br><span class="hljs-comment"># 查找只读文件</span><br>find . -<span class="hljs-built_in">type</span> f ! -perm /a+w<br><span class="hljs-comment"># 查找可执行文件</span><br>find . -<span class="hljs-built_in">type</span> f -perm /a+x<br><br><span class="hljs-comment"># 找空文件</span><br>find . -<span class="hljs-built_in">type</span> f -empty<br><span class="hljs-comment"># 找空文件夹</span><br>find . -<span class="hljs-built_in">type</span> d -empty<br><br><span class="hljs-comment"># 所有者为root的文件</span><br>find /tmp -user root<br><span class="hljs-comment"># 所属组为sudo的文件</span><br>find /tmp -group sudo<br><br><span class="hljs-comment"># 3天前修改的文件</span><br>find ~ -<span class="hljs-built_in">type</span> f -mtime 3<br><span class="hljs-comment"># [-5, -3] 3天前5天内修改过的文件</span><br><span class="hljs-comment"># +3 -&gt; 3+ 3表示过去的3天， + 表示大于</span><br><span class="hljs-comment"># -5 -&gt; 5- 5表示过去的5天， - 减表示小于</span><br>find ~ -<span class="hljs-built_in">type</span> f -mtime +3 -mtime -5<br><br><span class="hljs-comment"># 1小时内修改过的文件</span><br>find . -<span class="hljs-built_in">type</span> f -cmin -60<br><span class="hljs-comment"># 1小时内访问过的文件</span><br>find . -<span class="hljs-built_in">type</span> f -amin -60<br><br><span class="hljs-comment"># 大小是50M的文件</span><br>find . -<span class="hljs-built_in">type</span> f -size 50M<br><span class="hljs-comment"># 大于50M小于100M的文件</span><br>find . -<span class="hljs-built_in">type</span> f -size +50M -size -100M<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="创建软链接和硬链接"><a href="#创建软链接和硬链接" class="headerlink" title="创建软链接和硬链接"></a>创建软链接和硬链接</h2><p>ln 命令用于创建软链接或硬链接</p>
+<ul>
+<li>软链接<br>又称 符号链接，可以指向文件或目录, 对符号文件的读写，系统会转换为对源文件或目录的操<br>作, 但是删除时，仅仅删除链接文件, 链接文件和源文件由各自的 inode, 是不同的文件</li>
+<li>硬链接<br>多个文件路径指向同一个文件(inode 相同), 其实是创建另一个文件路径，指向同一个 inode, 硬链接只能指向文件，硬链接数为 0，文件才真正被删除</li>
+</ul>
+<p>语法:</p>
+<ul>
+<li><code>ln &lt;src&gt; &lt;dstLink&gt;</code></li>
+<li><code>ln -s &lt;src&gt; &lt;dstLink&gt;</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 默认创建的是硬链接</span><br><span class="hljs-built_in">ln</span> hello.txt /tmp/hello.txt<br><span class="hljs-comment"># -s 指定创建软链接</span><br><span class="hljs-built_in">ln</span> -s images /tmp/images<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="文件和目录权限"><a href="#文件和目录权限" class="headerlink" title="文件和目录权限"></a>文件和目录权限</h2><p>三种角色的权限</p>
+<ul>
+<li>所有者 <code>u</code></li>
+<li>所属用户组 <code>g</code></li>
+<li>其他用户 <code>o</code></li>
+</ul>
+<p>文件夹的执行权限(x) 控制用户能否打开文件夹</p>
+<p>语法：<br><code>chmod [ugoa] [+-=][rwxug] file...</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> a+x hi.js<br><span class="hljs-built_in">chmod</span> a=rx hi.js<br><span class="hljs-built_in">chmod</span> o-x hi.js<br><span class="hljs-built_in">chmod</span> 777 hi.js<br><br><span class="hljs-comment"># 设置所有者权限同用户组的权限</span><br><span class="hljs-built_in">chmod</span> u=g hi.js<br><span class="hljs-comment"># 设置所有者权限同其他用户的权限</span><br><span class="hljs-built_in">chmod</span> u=o hi.js<br><span class="hljs-comment"># 递归地修改目录下所有文件的权限</span><br><span class="hljs-built_in">chmod</span> -R 664 <span class="hljs-built_in">dir</span><br><span class="hljs-comment"># 修改所有子目录的权限</span><br>find . -<span class="hljs-built_in">type</span> d -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">chmod</span> -R 775 &#123;&#125; \;<br><br></code></pre></td></tr></table></figure>
+
+<p>修改文件&#x2F;目录的所有者&#x2F;所有组</p>
+<p>语法:</p>
+<ul>
+<li><code>chown &lt;user&gt; dir</code></li>
+<li><code>chgrp &lt;group&gt; dir</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 同时修改所有者和所属组</span><br><span class="hljs-built_in">chown</span> alice:pan codes<br><br><span class="hljs-comment"># 递归地修改所有文件的所有者</span><br><span class="hljs-built_in">chown</span> -R alice src<br><br><span class="hljs-built_in">chgrp</span> pan codes<br><span class="hljs-comment"># 只修改用户组</span><br><span class="hljs-built_in">chown</span> :lucy images<br><br><span class="hljs-comment"># 修改软连接的所有者等，其实修改的是源文件的</span><br><span class="hljs-built_in">chown</span> alice:lucy images_symlink<br><span class="hljs-comment"># 修改软链接的所有者等</span><br><span class="hljs-built_in">chown</span> -h alice:lucy images_symlink<br><br><span class="hljs-comment"># 从所有者alice,修改到新的所有者</span><br><span class="hljs-built_in">chown</span> --from=alice lucy:lucy images<br></code></pre></td></tr></table></figure>
+
+<p>设置用户和组的权限位</p>
+<ul>
+<li><code>setuid</code> 设置用户标识 允许用户以所有者权限执行文件</li>
+<li><code>setgid</code> 设置组标识 允许用户以所属组的权限执行文件</li>
+</ul>
+<blockquote>
+<p>注意: 若对文件设置 <code>setuid</code> 权限位，且文件所有者是 root, 则任意用户都可以用 root 权限执行该文件</p>
+</blockquote>
+<blockquote>
+<p><code>stat</code> 命令十分有用，可以查看文件完整的信息，包括权限和修改时间等</p>
+</blockquote>
+<p>查看是否设置 <code>setuid</code>, <code>setgid</code> 权限位</p>
+<ul>
+<li><code>ls -l</code></li>
+<li><code>stat filename</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> -l /usr/bin/passwd<br><span class="hljs-built_in">stat</span> /usr/bin/passwd<br><br><span class="hljs-comment"># 设置uid</span><br><span class="hljs-built_in">chmod</span> u+s hello.sh<br><span class="hljs-comment"># 4代表设置uid 同上</span><br><span class="hljs-built_in">chmod</span> 4775 hello.sh<br><span class="hljs-comment"># 设置gid</span><br><span class="hljs-built_in">chmod</span> g+s hello.sh<br><span class="hljs-comment"># 2代表设置gid 同上</span><br><span class="hljs-built_in">chmod</span> 2775 hello.sh<br><span class="hljs-comment"># 移除uid/gid权限位</span><br><span class="hljs-built_in">chmod</span> 0775 hello.sh<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="文本处理"><a href="#文本处理" class="headerlink" title="文本处理"></a>文本处理</h2><h3 id="文本排序"><a href="#文本排序" class="headerlink" title="文本排序"></a>文本排序</h3><p><code>sort</code> 将文本的行排序，字母顺序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 按字母顺序，对文件内的行进行排序</span><br><span class="hljs-built_in">sort</span> filename<br><span class="hljs-comment"># 按数字顺序，对文件内的行进行排序</span><br><span class="hljs-built_in">sort</span> -n filename<br><span class="hljs-comment"># 按数字倒序，对文件内的行进行排序</span><br><span class="hljs-built_in">sort</span> -nr filename<br><br><span class="hljs-comment"># 移除重复的行</span><br><span class="hljs-built_in">sort</span> -u filename<br><br><span class="hljs-comment"># 可对多个文件的内容排序</span><br><span class="hljs-built_in">sort</span> -u data data2<br><br><span class="hljs-comment"># 逗号分割为多个字段，按第2个字段排序</span><br><span class="hljs-built_in">sort</span> -t <span class="hljs-string">&#x27;,&#x27;</span> -k2 data<br><span class="hljs-built_in">sort</span> -t <span class="hljs-string">&#x27;,&#x27;</span> -k2 -n -r data<br></code></pre></td></tr></table></figure>
+
+<h3 id="文本去重"><a href="#文本去重" class="headerlink" title="文本去重"></a>文本去重</h3><p><code>uniq</code> 去除重复的行，必须和 <code>sort</code> 命令一起使用</p>
+<p>语法:<br><code>uniq [options] [input_file]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span><br><span class="hljs-comment"># 重复行计数</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -c<br><span class="hljs-comment"># 只显示重复的行 去重只显示一次</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -d<br><span class="hljs-comment"># 显示重复行，并且不去重</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -D<br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -d -c<br><span class="hljs-comment"># 只显示不重复的行 与 -d 相反</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -u<br><span class="hljs-comment"># 只通过前面2个字符判断是否重复</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -w 2<br><span class="hljs-comment"># 显示重复的行</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -w 2 -D<br><span class="hljs-comment"># 跳过比较前3个字符，与 -w 相反</span><br><span class="hljs-built_in">sort</span> data | <span class="hljs-built_in">uniq</span> -s 3<br><span class="hljs-comment"># 空格分割成多列，跳过第1列</span><br><span class="hljs-built_in">uniq</span> -f 1 text<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除和替换字符"><a href="#删除和替换字符" class="headerlink" title="删除和替换字符"></a>删除和替换字符</h3><p>语法: <code>tr [OPTION]... SET1 [SET2]</code><br><code>tr</code> 命令用于转换、删除和压缩重复字符<br><code>tr set1 set2</code> set1 对应位置的字符被替换为 set2 对应位置的字符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 小写转换为大写</span><br><span class="hljs-built_in">echo</span> linuxShell | <span class="hljs-built_in">tr</span> lin LIN  <br><span class="hljs-comment"># 所有字符转换为大写</span><br><span class="hljs-built_in">echo</span> how are you | <span class="hljs-built_in">tr</span> a-z A-Z <br><br><span class="hljs-comment"># &#123;&#125; 转换为 ()</span><br><span class="hljs-built_in">echo</span> &#123;linuxShell&#125; &gt; source.txt<br><span class="hljs-comment"># 同时重定向输入和输出</span><br><span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27;&#123;&#125;&#x27;</span> <span class="hljs-string">&#x27;()&#x27;</span> &lt; source.txt &gt; result.txt <br><span class="hljs-built_in">cat</span> result.txt<br><br><span class="hljs-comment"># 空格转换为tab</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;it is a long time&quot;</span> | <span class="hljs-built_in">tr</span> [:space:] <span class="hljs-string">&quot;\t&quot;</span><br><br><span class="hljs-comment"># 压缩重复字符</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello----world&quot;</span> | <span class="hljs-built_in">tr</span> -s <span class="hljs-string">&quot;-&quot;</span> <span class="hljs-string">&quot; &quot;</span> <span class="hljs-comment"># hello world</span><br><br><span class="hljs-comment"># 删除指定字符</span><br><br><span class="hljs-comment"># 删除小写字母</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;LongTimeAgo&quot;</span> | <span class="hljs-built_in">tr</span> -d a-z  <br><span class="hljs-comment"># 删除数字</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello123&quot;</span> | <span class="hljs-built_in">tr</span> -d 0-9<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;it is time 2:30&quot;</span> | <span class="hljs-built_in">tr</span> -d [:digit:] <br><span class="hljs-comment"># 删除数字以外的字符</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;it is time 2:30&quot;</span> | <span class="hljs-built_in">tr</span> -c -d [:digit:] <br></code></pre></td></tr></table></figure>
+
+<h3 id="文本搜索"><a href="#文本搜索" class="headerlink" title="文本搜索"></a>文本搜索</h3><p><code>grep</code>是非常强大的文本查询命令, 可以用来查询文本或者文件, 只显示匹配的行</p>
+<p>语法: <code>grep [OPTIONS] PATTERN [FILE...]</code></p>
+<ul>
+<li><code>grep pattern file</code></li>
+<li><code>grep -e pattern -f file</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">grep alice /etc/passwd<br><br><span class="hljs-comment"># 忽略大小写</span><br>grep -i one content.txt <br><br><span class="hljs-comment"># 搜索目录, 递归地查找包含指定内容的文件</span><br>grep -r console  src/utils <br><br><span class="hljs-comment"># 只显示包含指定内容文件的名称</span><br>grep -r -l console src/utils <br><br><span class="hljs-comment"># 单词匹配 不匹配 gone</span><br>grep -w one content.txt <br><br><span class="hljs-comment"># 匹配计数</span><br>grep -c one content.txt <br><br><span class="hljs-comment"># 显示行号</span><br>grep -n one content.txt <br><br><span class="hljs-comment"># 反转 显示不匹配的行</span><br>grep -v one content.txt <br></code></pre></td></tr></table></figure>
+
+<h3 id="文件比较"><a href="#文件比较" class="headerlink" title="文件比较"></a>文件比较</h3><p><code>diff</code> 比较两个文件的差异</p>
+<p>语法: <code>diff [option] file1 file2</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 忽略空格差异，比较文件</span><br>diff -w file1 file2 <br><span class="hljs-comment"># 并排的格式，显示差异</span><br>diff -y file1 file2 <br><span class="hljs-comment"># -w 忽略空格</span><br>diff -y -w file1 file2 <br><span class="hljs-comment"># -W 指定列宽</span><br>diff -y -W 100 file1 file2 <br><span class="hljs-comment"># 上下对比的格式显示差异</span><br>diff -cw file1 file2 <br></code></pre></td></tr></table></figure>
+
+<h2 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h2><h3 id="查看主机名"><a href="#查看主机名" class="headerlink" title="查看主机名"></a>查看主机名</h3><p><code>hostname</code> 查看&#x2F;修改系统的主机名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看系统主机名</span><br>hostname <br><span class="hljs-comment"># 修改主机名, 只是临时修改，重启将恢复</span><br>sudo hostname my-notebook <br><span class="hljs-comment"># 从文件读取主机名</span><br>sudo hostname -F host.txt <br><br></code></pre></td></tr></table></figure>
+
+<h3 id="查看登录用户"><a href="#查看登录用户" class="headerlink" title="查看登录用户"></a>查看登录用户</h3><p><code>w</code> <code>who</code> 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 比较详细</span><br>w  <br><span class="hljs-comment"># 信息较少</span><br><span class="hljs-built_in">who</span> <br><span class="hljs-comment"># 系统启动时间</span><br><span class="hljs-built_in">who</span> -b <br><span class="hljs-comment"># 显示系统登录进程</span><br><span class="hljs-built_in">who</span> -l <br><span class="hljs-comment"># 显示与当前标准输入关联的用户</span><br><span class="hljs-built_in">who</span> -m <br><span class="hljs-comment"># 显示系统的运行级别</span><br><span class="hljs-built_in">who</span> -r <br><br></code></pre></td></tr></table></figure>
+
+<p>显示系统运行时间</p>
+<p>语法：<code>uptime [option]</code></p>
+<h3 id="查看系统信息"><a href="#查看系统信息" class="headerlink" title="查看系统信息"></a>查看系统信息</h3><p>语法: <code>uname [option]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 所有信息</span><br><span class="hljs-built_in">uname</span> -a <br><span class="hljs-comment"># 显示内核名称</span><br><span class="hljs-built_in">uname</span> <br><span class="hljs-comment"># 显示主机名 同 hostname</span><br><span class="hljs-built_in">uname</span> -n <br><span class="hljs-comment"># 内核发行版本</span><br><span class="hljs-built_in">uname</span> -r <br><span class="hljs-comment"># 系统硬件名称</span><br><span class="hljs-built_in">uname</span> -m <br><span class="hljs-comment"># 处理器信息</span><br><span class="hljs-built_in">uname</span> -p <br><span class="hljs-comment"># 硬件平台</span><br><span class="hljs-built_in">uname</span> -i <br><span class="hljs-built_in">uname</span> --<span class="hljs-built_in">help</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="显示和设置日期"><a href="#显示和设置日期" class="headerlink" title="显示和设置日期"></a>显示和设置日期</h3><p>语法: <code>date [option] [+format]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 以默认格式显示当前日期</span><br><span class="hljs-built_in">date</span> <br><br><span class="hljs-comment"># 以默认格式显示指定日期</span><br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span> <span class="hljs-string">&#x27;20/2/2012&#x27;</span> <br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span>=<span class="hljs-string">&#x27;1 Oct 2012&#x27;</span><br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span>=<span class="hljs-string">&#x27;next week&#x27;</span><br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span>=<span class="hljs-string">&#x27;last month&#x27;</span><br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span>=<span class="hljs-string">&#x27;2 months ago&#x27;</span><br><span class="hljs-built_in">date</span> --<span class="hljs-built_in">date</span>=<span class="hljs-string">&#x27;last day&#x27;</span><br><br><span class="hljs-comment"># 从文件读取多个日期按默认格式显示</span><br><span class="hljs-built_in">date</span> -f date.txt <br><br><span class="hljs-comment"># 修改系统日期/时间 并没有设置日期的效果</span><br>sudo <span class="hljs-built_in">date</span> --<span class="hljs-built_in">set</span> <span class="hljs-string">&#x27;last day&#x27;</span> <br><br><span class="hljs-comment"># utc时间</span><br><span class="hljs-built_in">date</span> -u <br><span class="hljs-built_in">stat</span> host.txt<br><br><span class="hljs-comment"># 打印文件最近修改时间</span><br><span class="hljs-built_in">date</span> -r host.txt <br><br><span class="hljs-comment"># 指定格式</span><br><span class="hljs-built_in">date</span> +%Y-%m-%d <br><br></code></pre></td></tr></table></figure>
+
+<h3 id="查看用户id"><a href="#查看用户id" class="headerlink" title="查看用户id"></a>查看用户id</h3><p>语法: <code>id [options] [username]</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 显示当前用户 uid gid 用户名 组名 属于哪些组</span><br><span class="hljs-built_in">id</span> <br><span class="hljs-built_in">id</span> -u<br><br><span class="hljs-comment"># 查看指定用户的uid</span><br><span class="hljs-built_in">id</span> -u root <br><br><span class="hljs-comment"># 显示用户名</span><br><span class="hljs-built_in">id</span> -un <br><br><span class="hljs-comment"># 查看用户所属组的gid</span><br><span class="hljs-built_in">id</span> -g<br><span class="hljs-comment"># 查看用户所属组的组名</span><br><span class="hljs-built_in">id</span> -gn <br><br><span class="hljs-comment"># 查看用户属于哪些组</span><br><span class="hljs-built_in">id</span> -G <br><span class="hljs-built_in">id</span> -Gn<br><span class="hljs-built_in">id</span> -Gn alice<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>作为一个开发者，我发现掌握Linux命令真的能让我事半功倍。</p>
+<p>当我需要处理一大堆日志文件时，用 grep 快速搜索关键字比手动查找快了不知道多少倍。有时候需要重命名几十个文件，用 mv 配合通配符一下子就能搞定，再也不用手动一个个改名了。</p>
+<p>最让我印象深刻的是，当我需要分析服务器上的问题时，用 tail -f 实时查看日志，用 find 快速定位问题文件，这些命令组合起来就像我的”问题排查工具箱”，帮我快速定位和解决问题。</p>
+<p>特别是在云服务器上部署项目时，没有图形界面，全靠命令行操作。如果不懂这些命令，我根本没法完成部署工作。</p>
+<p>说实话，刚开始觉得命令行很枯燥，但用习惯了才发现它真的很强大。现在我每天都会用到这些命令，它们已经成为我工作中不可缺少的工具了。学会这些命令，我觉得是每个想在技术路上走得更远的人必须要做的事情。</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/&title=炼气技术栈Shell脚本: linux命令筑基 - JKK随笔&pics=/images/banner_desk.jpg&summary=Shell 脚本程序就是用一条条的 Shell 命令，完成复杂的任务，掌握常见 Shell 命令是编写 Shell 脚本的前提。
+从本质上来说，Shell 命令就是系统提供的一个个成熟的程序，而且有的命令非常强大，比如 find、gr..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=炼气技术栈Shell脚本: linux命令筑基 - JKK随笔&amp;body=https://panzhenjie.fun/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/06/04/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC%EF%BC%9A%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%90%AF%E7%A8%8B/">炼气技术栈Shell脚本：从基础启程</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">创建文件和文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">删除文件和文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">复制文件和文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E5%92%8C%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-text">移动和重命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E5%86%85%E5%AE%B9"><span class="toc-text">查看文件夹内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">查看文件内容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-text">查看文件类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">统计文件信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="toc-text">查找文件和目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="toc-text">创建软链接和硬链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90"><span class="toc-text">文件和目录权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="toc-text">文本处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%8E%92%E5%BA%8F"><span class="toc-text">文本排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%8E%BB%E9%87%8D"><span class="toc-text">文本去重</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%92%8C%E6%9B%BF%E6%8D%A2%E5%AD%97%E7%AC%A6"><span class="toc-text">删除和替换字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2"><span class="toc-text">文本搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83"><span class="toc-text">文件比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">其他常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-text">查看主机名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7"><span class="toc-text">查看登录用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="toc-text">查看系统信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%92%8C%E8%AE%BE%E7%BD%AE%E6%97%A5%E6%9C%9F"><span class="toc-text">显示和设置日期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7id"><span class="toc-text">查看用户id</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
