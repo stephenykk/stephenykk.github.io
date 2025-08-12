@@ -1,0 +1,626 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>二维码登录详解 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7389952503041884170  前言二维码其实是一个包含参数的链接，二维码登录就是通过用包含登录态的手机扫描二维码，将参数和token传递给后端，请求授权登录到展示二维码系统，从而实现登录。 二维码登录让用户省去了输入账号密码的麻烦。 登录简单点来说可以概括为俩点  告诉系统我是谁 向系统证明我是谁  下面我们就会围绕着这俩点来展">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二维码登录详解">
+<meta property="og:url" content="https://panzhenjie.fun/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7389952503041884170  前言二维码其实是一个包含参数的链接，二维码登录就是通过用包含登录态的手机扫描二维码，将参数和token传递给后端，请求授权登录到展示二维码系统，从而实现登录。 二维码登录让用户省去了输入账号密码的麻烦。 登录简单点来说可以概括为俩点  告诉系统我是谁 向系统证明我是谁  下面我们就会围绕着这俩点来展">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9b916b04070c43e28ab329d1670e6ceb~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=lejbjUndr8WYyB5dLlXNwYf5cnY%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/212bde16762d40ff8dd8fefbdcf82117~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=3pa%2B%2Ft2nVq2nlqdMU47U7IBiQKo%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/61340dc477254b9f95c29b0b94aa8356~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=JxEQj%2Bz%2BvD7ucSo3L4PjGQ3uKu0%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/fb9b81b707c042caaa1f59e3b75f8b7d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=Usf1DCkGDWvlz%2Bc4Y4MSgDaWngM%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/4484062f3d8f4669bc09edb1d3c1a47c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=lHZCTBiDQVSyPoZg6uZHZwVMilc%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/316b50791cca4f068242cc57f228d992~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=W0cpzhKBeGC38ACltMDJBnvr70Q%3D">
+<meta property="article:published_time" content="2024-11-04T07:22:20.000Z">
+<meta property="article:modified_time" content="2025-08-12T02:13:57.922Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="frontend">
+<meta property="article:tag" content="IT blog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9b916b04070c43e28ab329d1670e6ceb~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=lejbjUndr8WYyB5dLlXNwYf5cnY%3D">
+  
+  
+  
+  <meta name="keywords" content="frontend,IT blog">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/08/12/Flex%E5%B8%83%E5%B1%80%E7%9A%84%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88flex-1%E7%9A%84%E5%AD%90%E5%85%83%E7%B4%A0%E4%BC%9A%E6%84%8F%E5%A4%96%E6%BA%A2%E5%87%BA%EF%BC%9F/"><span class="title">Flex布局的常见陷阱：为什么flex-1的子元素会意外溢出？</span></a><a class="item title" href="/2025/05/30/%E9%9D%9E%E5%B8%B8%E8%AF%A6%E7%BB%86%E7%9A%84git%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B/"><span class="title">非常详细的git图文教程</span></a><a class="item title" href="/2024/12/13/%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%B0%8F%E7%99%BD%E6%96%87/"><span class="title">软硬链接小白文</span></a><a class="item title" href="/2025/04/08/%E8%81%8A%E8%81%8Acanvas%E7%BB%98%E5%9B%BE%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/"><span class="title">聊聊canvas绘图状态管理</span></a><a class="item title" href="/2025/06/03/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88shell%EF%BC%9A%E5%88%9D%E8%AF%86/"><span class="title">炼气技术栈shell 初识</span></a><a class="item title" href="/2025/06/04/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC%EF%BC%9A%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%90%AF%E7%A8%8B/"><span class="title">炼气技术栈Shell脚本：从基础启程</span></a><a class="item title" href="/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/"><span class="title">炼气技术栈Shell脚本: linux命令筑基</span></a><a class="item title" href="/2025/04/21/%E6%B5%85%E8%AF%B4%E8%99%9A%E6%8B%9F%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><span class="title">浅说虚拟列表实现原理</span></a><a class="item title" href="/2025/02/21/%E6%9C%89%E5%BF%85%E8%A6%81%E4%BA%86%E8%A7%A3python%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6requirements-txt/"><span class="title">有必要了解python项目的依赖管理文件requirements.txt</span></a><a class="item title" href="/2024/03/12/%E6%89%8B%E6%8A%8A%E6%89%8B%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8NextJs/"><span class="title">手把手带你入门NextJs</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-11-04T07:22:20.000Z">2024-11-04</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-12T02:13:57.922Z">2025-08-12</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>二维码登录详解</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7389952503041884170">https://juejin.cn/post/7389952503041884170</a></p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>二维码其实是一个包含参数的链接，二维码登录就是通过用包含登录态的手机扫描二维码，将参数和token传递给后端，请求授权登录到展示二维码系统，从而实现登录。</p>
+<p>二维码登录让用户省去了输入账号密码的麻烦。</p>
+<p>登录简单点来说可以概括为俩点</p>
+<ul>
+<li>告诉系统<code>我是谁</code></li>
+<li>向系统证明<code>我是谁</code></li>
+</ul>
+<p>下面我们就会围绕着这俩点来展开详细说明</p>
+<h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><p>其实大部分的二维码就是一个<code>url</code>地址</p>
+<p>我们以掘金扫码登录为例来进行剖析</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9b916b04070c43e28ab329d1670e6ceb~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=lejbjUndr8WYyB5dLlXNwYf5cnY%3D" alt="image-20240711145306580"></p>
+<p>我们进行一个解析</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/212bde16762d40ff8dd8fefbdcf82117~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=3pa%2B%2Ft2nVq2nlqdMU47U7IBiQKo%3D" alt="image-20240711145434556"></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/app?next_url=https://juejin.cn/passport/web/scan_qrcode/&qr_source_aid=2608&token=d1bb96caff8ad54e758fc943c9bfd287_lf" title="https://juejin.cn/app?next_url=https%3A%2F%2Fjuejin.cn%2Fpassport%2Fweb%2Fscan_qrcode%2F&amp;qr_source_aid=2608&amp;token=d1bb96caff8ad54e758fc943c9bfd287_lf">juejin.cn&#x2F;app?next_ur…</a></p>
+<p>我们可以发现它实际就是这样的一个url</p>
+<p>整个三端交互的过程大概是这样子的：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/61340dc477254b9f95c29b0b94aa8356~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=JxEQj%2Bz%2BvD7ucSo3L4PjGQ3uKu0%3D" alt="image-20240711150137958"></p>
+<h2 id="流程概述"><a href="#流程概述" class="headerlink" title="流程概述"></a>流程概述</h2><p>简单来说氛围下面的步骤：</p>
+<ol>
+<li><strong>PC端</strong>：进入二维码登录页面，请求<strong>服务端</strong>获取二维码的ID。</li>
+<li><strong>服务端</strong>：生成二维码ID，并将其与请求的设备绑定后，返回有效的二维码ID。</li>
+<li><strong>PC端</strong>：根据二维码ID生成二维码图片，并展示出来。</li>
+<li><strong>移动端</strong>：扫描二维码，解析出二维码ID。</li>
+<li><strong>移动端</strong>：使用移动端的token和二维码ID请求<strong>服务端</strong>进行登录。</li>
+<li><strong>服务端</strong>：解析验证请求，绑定用户信息，并返回给移动端一个用于二次确认的临时token。</li>
+<li><strong>PC端</strong>：展示二维码为“待确认”状态。</li>
+<li><strong>移动端</strong>：使用二维码ID、临时token和移动端的token进行确认登录。</li>
+<li><strong>服务端</strong>：验证通过后，修改二维码状态，并返回给PC端一个登录的token。</li>
+</ol>
+<p>下面我们来用一个python的代码来描述一下这个过程。</p>
+<p>首先是服务端：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, jsonify<br><span class="hljs-keyword">import</span> uuid<br><span class="hljs-keyword">import</span> time<br>​<br>app = Flask(__name__)<br>​<br><span class="hljs-comment"># 存储二维码ID和对应的设备信息以及临时token</span><br>qr_code_store = &#123;&#125;<br>temporary_tokens = &#123;&#125;<br>​<br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/generate_qr&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_qr</span>():<br>    device_id = request.json[<span class="hljs-string">&#x27;device_id&#x27;</span>]<br>    qr_id = <span class="hljs-built_in">str</span>(uuid.uuid4())<br>    qr_code_store[qr_id] = &#123;<span class="hljs-string">&#x27;device_id&#x27;</span>: device_id, <span class="hljs-string">&#x27;timestamp&#x27;</span>: time.time(), <span class="hljs-string">&#x27;status&#x27;</span>: <span class="hljs-string">&#x27;waiting&#x27;</span>&#125;<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;qr_id&#x27;</span>: qr_id&#125;)<br>​<br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/scan_qr&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">scan_qr</span>():<br>    qr_id = request.json[<span class="hljs-string">&#x27;qr_id&#x27;</span>]<br>    token = request.json[<span class="hljs-string">&#x27;token&#x27;</span>]<br>    <span class="hljs-keyword">if</span> qr_id <span class="hljs-keyword">in</span> qr_code_store:<br>        qr_code_store[qr_id][<span class="hljs-string">&#x27;status&#x27;</span>] = <span class="hljs-string">&#x27;scanned&#x27;</span><br>        temp_token = <span class="hljs-built_in">str</span>(uuid.uuid4())<br>        temporary_tokens[temp_token] = &#123;<span class="hljs-string">&#x27;qr_id&#x27;</span>: qr_id, <span class="hljs-string">&#x27;timestamp&#x27;</span>: time.time()&#125;<br>        <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;temp_token&#x27;</span>: temp_token&#125;)<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;error&#x27;</span>: <span class="hljs-string">&#x27;Invalid QR code&#x27;</span>&#125;), <span class="hljs-number">400</span><br>​<br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/confirm_login&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">confirm_login</span>():<br>    qr_id = request.json[<span class="hljs-string">&#x27;qr_id&#x27;</span>]<br>    temp_token = request.json[<span class="hljs-string">&#x27;temp_token&#x27;</span>]<br>    mobile_token = request.json[<span class="hljs-string">&#x27;mobile_token&#x27;</span>]<br>    <span class="hljs-keyword">if</span> temp_token <span class="hljs-keyword">in</span> temporary_tokens <span class="hljs-keyword">and</span> temporary_tokens[temp_token][<span class="hljs-string">&#x27;qr_id&#x27;</span>] == qr_id:<br>        login_token = <span class="hljs-built_in">str</span>(uuid.uuid4())<br>        qr_code_store[qr_id][<span class="hljs-string">&#x27;status&#x27;</span>] = <span class="hljs-string">&#x27;confirmed&#x27;</span><br>        <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;login_token&#x27;</span>: login_token&#125;)<br>    <span class="hljs-keyword">return</span> jsonify(&#123;<span class="hljs-string">&#x27;error&#x27;</span>: <span class="hljs-string">&#x27;Invalid confirmation&#x27;</span>&#125;), <span class="hljs-number">400</span><br>​<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run(debug=<span class="hljs-literal">True</span>)<br>​<br></code></pre></td></tr></table></figure>
+
+<p>之后来看PC端(<mark class="tag-plugin colorful mark" color="purple">这里应该用H5页面比较合适</mark>)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br>​<br><span class="hljs-comment"># 1. 请求生成二维码ID</span><br>response = requests.post(<span class="hljs-string">&#x27;http://localhost:5000/generate_qr&#x27;</span>, json=&#123;<span class="hljs-string">&#x27;device_id&#x27;</span>: <span class="hljs-string">&#x27;PC_device&#x27;</span>&#125;)<br>qr_id = response.json()[<span class="hljs-string">&#x27;qr_id&#x27;</span>]<br>​<br><span class="hljs-comment"># 2. 根据二维码ID生成二维码图片 (此处省略，可以使用第三方库生成二维码图片)</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;QR Code ID: <span class="hljs-subst">&#123;qr_id&#125;</span>&quot;</span>)<br>​<br><span class="hljs-comment"># 7. 显示二维码进入“待确认”状态</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;QR Code Status: Waiting for confirmation&quot;</span>)<br>​<br></code></pre></td></tr></table></figure>
+
+<p>之后再来看移动端的代码 (<mark class="tag-plugin colorful mark" color="purple">这里也用python模拟发起请求</mark>)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>​<br><span class="hljs-comment"># 4. 扫描二维码，解析出二维码ID</span><br>qr_id = <span class="hljs-string">&#x27;解析出的二维码ID&#x27;</span><br>token = <span class="hljs-string">&#x27;移动端token&#x27;</span><br>​<br><span class="hljs-comment"># 5. 请求服务端进行登录</span><br>response = requests.post(<span class="hljs-string">&#x27;http://localhost:5000/scan_qr&#x27;</span>, json=&#123;<span class="hljs-string">&#x27;qr_id&#x27;</span>: qr_id, <span class="hljs-string">&#x27;token&#x27;</span>: token&#125;)<br>temp_token = response.json()[<span class="hljs-string">&#x27;temp_token&#x27;</span>]<br>​<br><span class="hljs-comment"># 8. 使用二维码ID、临时token和移动端的token进行确认登录</span><br>response = requests.post(<span class="hljs-string">&#x27;http://localhost:5000/confirm_login&#x27;</span>, json=&#123;<span class="hljs-string">&#x27;qr_id&#x27;</span>: qr_id, <span class="hljs-string">&#x27;temp_token&#x27;</span>: temp_token, <span class="hljs-string">&#x27;mobile_token&#x27;</span>: token&#125;)<br>login_token = response.json().get(<span class="hljs-string">&#x27;login_token&#x27;</span>)<br>​<br><span class="hljs-keyword">if</span> login_token:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;登录成功！&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;登录失败！&quot;</span>)<br>​<br></code></pre></td></tr></table></figure>
+
+<p>这样一个简单的二维码登录的流程就出来了</p>
+<h2 id="案例解析"><a href="#案例解析" class="headerlink" title="案例解析"></a>案例解析</h2><p>了解了流程之后我们来看看其他大型网站是如何实施的 这里拿哔哩哔哩来举例。</p>
+<p>我们可以看到它的那个json实例</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123;<br>    &quot;<span class="hljs-selector-tag">code</span>&quot;: <span class="hljs-number">0</span>,<br>    <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;0&quot;</span>,<br>    <span class="hljs-string">&quot;ttl&quot;</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-string">&quot;data&quot;</span>: &#123;<br>        &quot;url&quot;: <span class="hljs-string">&quot;&quot;</span>,<br>        <span class="hljs-string">&quot;refresh_token&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,<br>        <span class="hljs-string">&quot;timestamp&quot;</span>: <span class="hljs-number">0</span>,<br>        <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-number">86101</span>,<br>        <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;未扫码&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以发现b站是不断的去发送这个请求，去轮询得到最新的扫码状态，请求间隔大约1s</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/fb9b81b707c042caaa1f59e3b75f8b7d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=Usf1DCkGDWvlz%2Bc4Y4MSgDaWngM%3D" alt="image-20240711151538374"></p>
+<p>之后当我们扫描后发现已经变成等待确认</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/4484062f3d8f4669bc09edb1d3c1a47c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=lHZCTBiDQVSyPoZg6uZHZwVMilc%3D" alt="image-20240711151702348"></p>
+<p>当我们确认后，会返回</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/316b50791cca4f068242cc57f228d992~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCPdQ==:q75.awebp?rk3s=f64ab15b&x-expires=1731053780&x-signature=W0cpzhKBeGC38ACltMDJBnvr70Q%3D" alt="image-20240711151803795"></p>
+<p>和我们说的流程大概的相同。</p>
+<blockquote>
+<p>PS: 移动端和服务端确认登录后，服务端怎么通知到PC端，并发送token过去，这个实现细节其实一直比较好奇，原来是由前端一直轮询实现的。 :)</p>
+</blockquote>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/&title=二维码登录详解 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://juejin.cn/post/7389952503041884170
+
+前言二维码其实是一个包含参数的链接，二维码登录就是通过用包含登录态的手机扫描二维码，将参数和token传递给后端，请求授权登录到展示二..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=二维码登录详解 - JKK随笔&amp;body=https://panzhenjie.fun/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2024/11/04/%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%99%BB%E5%BD%95%E8%AF%A6%E8%A7%A3/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/11/28/web%E5%BC%80%E5%8F%91%E7%9A%84%E8%B6%81%E6%89%8B%E5%85%B5%E5%99%A8Fiddler/">web开发的趁手兵器Fiddler</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/07/31/%E4%B8%80%E6%96%87%E5%90%83%E9%80%8F-React-SSR-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%E5%92%8C%E5%90%8C%E6%9E%84%E5%8E%9F%E7%90%86/">一文吃透 React SSR 服务端渲染和同构原理</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90"><span class="toc-text">原理解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-text">流程概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-text">案例解析</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
