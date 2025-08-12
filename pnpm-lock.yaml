@@ -38,9 +38,6 @@ dependencies:
   hexo-server:
     specifier: ^3.0.0
     version: 3.0.0
-  hexo-theme-stellar:
-    specifier: ^1.27.0
-    version: 1.27.0
   hexo-util:
     specifier: ^3.2.0
     version: 3.2.0
@@ -1184,7 +1181,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -1530,15 +1527,6 @@ packages:
       open: 8.4.2
       picocolors: 1.0.0
       serve-static: 1.15.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /hexo-theme-stellar@1.27.0:
-    resolution: {integrity: sha512-Bq2la67rA4KDYGIuKFG8mjp2VCXKFDJG4lItJQJfaqLZbB416Ml3cmK1kAQj/ikxokXCOeaYpJo0uCqUpyi/zA==}
-    dependencies:
-      hexo-renderer-ejs: 2.0.0
-      hexo-renderer-stylus: 3.0.1
     transitivePeerDependencies:
       - supports-color
     dev: false
