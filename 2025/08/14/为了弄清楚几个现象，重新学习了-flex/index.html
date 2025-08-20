@@ -1,0 +1,745 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>为了弄清楚几个现象，重新学习了 flex - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7273025171111444540  flex 布局作为开发中的常规手段，使用起来简直不要太爽。其特点：  相对于常规布局（float, position），它具备更高的灵活性； 相对于 grid 布局，它具有更强的兼容性； 使用简单，几个属性就能解决常规布局需求（当然 grid 布局也可以哈）  但是在开发使用 flex 布局的过程中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为了弄清楚几个现象，重新学习了 flex">
+<meta property="og:url" content="https://panzhenjie.fun/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7273025171111444540  flex 布局作为开发中的常规手段，使用起来简直不要太爽。其特点：  相对于常规布局（float, position），它具备更高的灵活性； 相对于 grid 布局，它具有更强的兼容性； 使用简单，几个属性就能解决常规布局需求（当然 grid 布局也可以哈）  但是在开发使用 flex 布局的过程中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9af8c2eeb0f444398859087e1a57cce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1106&h=648&s=108709&e=png&b=f5e8cd">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ccedd7e086a44a5f8bbe98216496429f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=926&h=936&s=32085&e=png&b=e4e3e3">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18964e47a612404e90d3c7801b86b7de~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1058&h=786&s=77061&e=png&b=fdfbfb">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/56883495685b4fe3842e9a8b5842e340~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1550&h=764&s=219036&e=png&b=fdfcfc">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/78561d1b1cf946e68b51fc8f5106121e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1474&h=370&s=64305&e=png&b=fefefe">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c3f809c94704f708ca066da7924a6c7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=900&h=900&s=21428&e=png&b=e3e2e2">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cda97d391df74118bd446d6021b48bed~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1638&h=768&s=33472&e=png&b=e4e3e3">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/105aee48fded4595838cea8bf41ad642~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=814&h=650&s=34248&e=png&b=e9e8e8">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbcb14eda37e4520bceb724e9990ddbf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1772&h=826&s=74214&e=png&b=e3e2e2">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d9278ab3317642cf8866e237de4ce2ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=838&h=834&s=31167&e=png&b=e1e0e0">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/008a43aa53994f7bb80cc9a2d2235ead~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1168&h=828&s=165529&e=png&b=fdfcfc">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/920a0ba0f3834812ba8a4356a5140d28~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1316&h=800&s=20962&e=png&b=fcf8f6">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8598439ebc2345209c28db35a5f0fe4c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1824&h=1102&s=60764&e=png&b=eeeceb">
+<meta property="article:published_time" content="2025-08-14T03:31:51.000Z">
+<meta property="article:modified_time" content="2025-08-20T15:44:09.130Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="frontend">
+<meta property="article:tag" content="IT blog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9af8c2eeb0f444398859087e1a57cce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1106&h=648&s=108709&e=png&b=f5e8cd">
+  
+  
+  
+  <meta name="keywords" content="frontend,IT blog">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/"><span class="title">为了弄清楚几个现象，重新学习了 flex</span></a><a class="item title" href="/2025/08/12/Flex%E5%B8%83%E5%B1%80%E7%9A%84%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88flex-1%E7%9A%84%E5%AD%90%E5%85%83%E7%B4%A0%E4%BC%9A%E6%84%8F%E5%A4%96%E6%BA%A2%E5%87%BA%EF%BC%9F/"><span class="title">Flex布局的常见陷阱：为什么flex-1的子元素会意外溢出？</span></a><a class="item title" href="/2025/08/20/%E4%B8%BA%E4%BB%80%E4%B9%88web3%E4%B8%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E6%9C%89%E5%85%B3/"><span class="title">为什么web3与区块链有关</span></a><a class="item title" href="/2025/08/20/%E6%AF%94%E7%89%B9%E5%B8%81%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">比特币入门教程</span></a><a class="item title" href="/2025/08/20/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">区块链入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%BA%8C/"><span class="title">SSH原理与运用(二)</span></a><a class="item title" href="/2025/08/20/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">树莓派新手入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%B8%80/"><span class="title">SSH原理与运用(一)</span></a><a class="item title" href="/2025/08/10/%E7%82%BC%E6%B0%94%E6%8A%80%E6%9C%AF%E6%A0%88Shell%E8%84%9A%E6%9C%AC-linux%E5%91%BD%E4%BB%A4%E7%AD%91%E5%9F%BA/"><span class="title">炼气技术栈Shell脚本: linux命令筑基</span></a><a class="item title" href="/2024/03/01/PHP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="title">PHP基础知识总结</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-14T03:31:51.000Z">2025-08-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-20T15:44:09.130Z">2025-08-20</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>为了弄清楚几个现象，重新学习了 flex</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7273025171111444540">https://juejin.cn/post/7273025171111444540</a></p>
+</blockquote>
+<p><strong>flex 布局</strong>作为开发中的常规手段，使用起来简直不要太爽。其特点：</p>
+<ul>
+<li>相对于常规布局（float, position），它具备更高的灵活性；</li>
+<li>相对于 grid 布局，它具有更强的兼容性；</li>
+<li>使用简单，几个属性就能解决常规布局需求（当然 grid 布局也可以哈）</li>
+</ul>
+<p>但是在开发使用 flex 布局的过程中，也会遇到一些自己难以解释的现象；通俗表述：<strong>为什么会是这样效果，跟自己想象的不一样啊？</strong> 。</p>
+<p>那么针对自己提出的<strong>为什么</strong>，自己有去研究过？为什么是这样的效果？如何解决呢？</p>
+<p>自己也存在同样的问题。所以最近有时间，重新学习了一遍 flex，发现自己对 flex 的某些属性了解少之又少，也就导致针对一些现象确实说不清楚。</p>
+<p>下面我就针对自己遇到的几种疑惑现象进行学习，来对 flex 部分属性深入理解。</p>
+<blockquote>
+<p>每天多问几个为什么，总有想象不到的意外收获 —我的学习座右铭</p>
+</blockquote>
+<h2 id="回顾-flex-模型"><a href="#回顾-flex-模型" class="headerlink" title="回顾 flex 模型"></a>回顾 flex 模型</h2><p>flex 的基本知识和基本熟悉就不介绍了，只需要简单的回顾一下 flex 模型。</p>
+<p>在使用 flex 布局的时候，脑海中就要呈现出清晰的 flex 模型，利于正确的使用 flex 属性，进行开发。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9af8c2eeb0f444398859087e1a57cce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1106&h=648&s=108709&e=png&b=f5e8cd" alt="flex1.png"></p>
+<p>理解如下的几个概念：</p>
+<ul>
+<li>主轴（main axis）</li>
+<li>交叉轴（cross axis）</li>
+<li>flex 容器（flex container）</li>
+<li>flex 项（flex item）</li>
+</ul>
+<blockquote>
+<p><strong>main size</strong> 也可以简单理解下，后面内容 <strong>flex-basis</strong> 会涉及到。</p>
+</blockquote>
+<p>还顺便理解一下 <strong>flex-item 的基本特点</strong>：</p>
+<ol>
+<li>flex item 的布局将由 flex container 属性的设置来进行控制的。</li>
+<li>flex item 不在严格区分块级元素和行内级元素。</li>
+<li>flex item 默认情况下是包裹内容的，但是可以设置的高度和宽度。</li>
+</ol>
+<h2 id="现象一：flex-wrap-换行引起的间距"><a href="#现象一：flex-wrap-换行引起的间距" class="headerlink" title="现象一：flex-wrap 换行引起的间距"></a>现象一：flex-wrap 换行引起的间距</h2><p>关键代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;!-- css --&gt;<br>&lt;style&gt;<br>  .father &#123;<br>    width: 400px;<br>    height: 400px;<br>    background-color: #ddd;<br>    display: flex;<br>    flex-wrap: wrap;<br>  &#125;<br>  .son &#123;<br>    width: 120px;<br>    height: 120px;<br>  &#125;<br>&lt;/style&gt;<br>​<br>&lt;!-- html --&gt;<br>&lt;body&gt;<br>  &lt;div class=&quot;father&quot;&gt;<br>    &lt;div class=&quot;son&quot; style=&quot;background-color: aqua&quot;&gt;1&lt;/div&gt;<br>    &lt;div class=&quot;son&quot; style=&quot;background-color: blueviolet&quot;&gt;2&lt;/div&gt;<br>    &lt;div class=&quot;son&quot; style=&quot;background-color: burlywood&quot;&gt;3&lt;/div&gt;<br>    &lt;div class=&quot;son&quot; style=&quot;background-color: chartreuse&quot;&gt;4&lt;/div&gt;<br>  &lt;/div&gt;<br>&lt;/body&gt;<br></code></pre></td></tr></table></figure>
+
+<p>具体现象：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ccedd7e086a44a5f8bbe98216496429f~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=926&h=936&s=32085&e=png&b=e4e3e3" alt="flex2.png"></p>
+<p><strong>疑惑</strong>：为什么使用 flex-wrap 换行后，不是依次排列，而是排列之间存在间距？</p>
+<blockquote>
+<p>一般来说，父元素的高度不会固定的，而是由内容撑开的。但是我们也不能排除父元素的高度固定这种情况。</p>
+</blockquote>
+<p><strong>排查问题</strong>：针对多行，并且在交叉轴上，不能想到是 <code>align-content</code> 属性的影响。但是又由于代码中根本都没有设置该属性，那么问题肯定出现在该属性的<strong>默认值</strong>身上。</p>
+<p>那么通过 MDN 查询：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18964e47a612404e90d3c7801b86b7de~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1058&h=786&s=77061&e=png&b=fdfbfb" alt="flex3.png"></p>
+<p>align-content 的默认值为 normal，其解释是按照默认位置填充。这里默认位置填充到底代表什么呢，MDN 上没有明确说明。</p>
+<p>但是在 MDN 上查看 <strong>align-items</strong> 时，却发现了有用的信息（align-items 是单行，align-content 是多行），normal 在不同布局中有不同的表现形式。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/56883495685b4fe3842e9a8b5842e340~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1550&h=764&s=219036&e=png&b=fdfcfc" alt="flex4.png"></p>
+<p>可以发现，针对弹性盒子，normal 与 stretch 的表现形式一样。</p>
+<p>自己又去测试 align-content，果然发现 normal 和 stretch 的表现形式一样。那么看看 stretch 属性的解释：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/78561d1b1cf946e68b51fc8f5106121e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1474&h=370&s=64305&e=png&b=fefefe" alt="flex6.png"></p>
+<p>那么只需简单的需改，去掉 height 属性，那么 height 属性默认值就为 auto。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;!-- css --&gt;<br>&lt;style&gt;<br>  .son &#123;<br>    width: 120px;<br>    /* 注释掉 height */<br>    /* height: 120px */<br>  &#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
+
+<p>看效果：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c3f809c94704f708ca066da7924a6c7~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=900&h=900&s=21428&e=png&b=e3e2e2" alt="flex5.png"></p>
+<p>可以发现，子元素被拉伸了，这是子元素在默认情况下应该占据的空间大小。</p>
+<blockquote>
+<p>这里就需要理解 flex item 的特点之一：<strong>flex item 的布局将由 flex container 属性的设置来进行控制的</strong></p>
+</blockquote>
+<p>那么当子元素设置高度时，是子元素自己把自己的高度限制了，但是并没有改变 flex container 对 flex item 布局占据的空间大小，所以就会多出一点空间，也就是所谓的间距。</p>
+<p>所以针对上面这个案例，<strong>换行存在间隔</strong>的现象也就理解了，因为第四个元素本身就排布在弹性盒子的正确位置，只是我们把子元素高度固定了，造成的现象是有存在间隔。</p>
+<blockquote>
+<p>可以想一下，如果子元素的高度加起来大于父元素的高度，又是什么效果呢？可以自己尝试一下，看自己能够解释不？</p>
+</blockquote>
+<h2 id="现象二：flex-item-拉伸？压缩？"><a href="#现象二：flex-item-拉伸？压缩？" class="headerlink" title="现象二：flex item 拉伸？压缩？"></a>现象二：flex item 拉伸？压缩？</h2><p>在使用 flex 时，最常见的现象是这样的：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cda97d391df74118bd446d6021b48bed~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1638&h=768&s=33472&e=png&b=e4e3e3" alt="flex7.png"></p>
+<p>当子元素为 3 个时，不会被拉伸，为什么呢？</p>
+<p>当子元素为 6 个事，会被压缩，又是为什么呢？</p>
+<p>其实上面这两个疑问❓，只需了解两个属性：<code>flex-grow</code> 和 <code>flex-shrink</code>。因为这两个属性不常用，所以容易忽略，从而不去了解，那么就会造成疑惑。</p>
+<p><code>flex-grow</code> 属性指定了 flex 元素的拉伸规则。flex 元素当存在剩余空间时，根据 flex-grow 的系数去分配剩余空间。 <strong>flex-grow 的默认值为 0，元素不拉伸</strong>。</p>
+<p><code>flex-shrink</code> 属性指定了 flex 元素的收缩规则。flex 元素仅在默认宽度之和大于容器的时候才会发生收缩，其收缩的大小是依据 flex-shrink 的值。<strong>flex-shrink 的默认值为 1，元素压缩</strong>。</p>
+<blockquote>
+<p>该两个属性都是针对 _主轴方向的剩余空间_。</p>
+</blockquote>
+<p><strong>所以</strong>：</p>
+<ul>
+<li>当子元素数量较少时，存在剩余空间，但是又由于 flex-grow 的值为 0，所以子元素宽度不会进行拉伸。</li>
+<li>当子元素数量较多时，空间不足，但是又由于 flex-shrink 的值为 1，那么子元素就会根据相应的计算，来进行压缩。</li>
+</ul>
+<p><strong>特殊场景</strong>： 当空间不足时，子元素一定会压缩？试试单词很长（字符串很长）的时候呢？</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/105aee48fded4595838cea8bf41ad642~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=814&h=650&s=34248&e=png&b=e9e8e8" alt="flex8.png"></p>
+<h2 id="现象三：文本溢出，flex-basis？width？"><a href="#现象三：文本溢出，flex-basis？width？" class="headerlink" title="现象三：文本溢出，flex-basis？width？"></a>现象三：文本溢出，flex-basis？width？</h2><p>在布局中，如果指定了宽度，当内容很长的时候，就会换行。但是会存在一种特殊情况，就是如果一个<strong>单词很长</strong>为内容时，则不会进行换行；跟汉字是一样的道理，不可能从把汉字分成两半。</p>
+<p>那么在 flex 布局中，会存在两种情况：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbcb14eda37e4520bceb724e9990ddbf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1772&h=826&s=74214&e=png&b=e3e2e2" alt="flex9.png"></p>
+<p>可以发现：</p>
+<ul>
+<li>设置了固定的 <strong>width</strong> 属性，字符串超出宽度之后，就会截取。</li>
+<li>而设置了固定的 <strong>flex-basis</strong> 属性，字符串超出宽度之后，会自动扩充宽度。</li>
+</ul>
+<p>其实在这里可能有人会有疑惑：为什么把 width 和 flex-basis 进行对比？或者说 flex-basis 这个属性到底是干什么？</p>
+<blockquote>
+<p>其实我也是刚刚才熟悉到这个属性，哈哈哈，不知道吧！！！</p>
+</blockquote>
+<p><strong>因为 flex-basis 是使用在 flex item 上，而 flex-basis（主轴上的基础尺寸）属性在大多数情况下跟 width 属性是等价的，都是设置 flex-item 的宽度。</strong></p>
+<p><strong>上面的案例就是属于特殊情况，针对单词超长不换行时，flex-basis 就会表现出不一样的形式，自动扩充宽度</strong>。</p>
+<p>简单学习一下 flex-basis 的基本语法吧。</p>
+<p>flex-basis 属性值：</p>
+<ul>
+<li>auto: <strong>默认值</strong>，参照自身 <code>width</code> 或者 <code>height</code> 属性。</li>
+<li>content: 自动尺寸，根据内容撑开。</li>
+<li><code>&lt;&#39;width&#39;&gt;</code>: 指定宽度。</li>
+</ul>
+<p>当一个属性同时设置 flex-basis（属性值不为 auto） 和 width 时，flex-basis 具有更高的<strong>优先级</strong>。</p>
+<h2 id="现象四：flex-平分"><a href="#现象四：flex-平分" class="headerlink" title="现象四：flex 平分"></a>现象四：flex 平分</h2><p>当相对父容器里面的子元素进行平分时，我们会毫不犹豫的写出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs auto">.father &#123;<br>  width: 400px;<br>  height: 400px;<br>  background-color: #ddd;<br>  display: flex;<br>&#125;<br>.son &#123;<br>  flex: 1; /* 平分 */<br>  height: 90px;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d9278ab3317642cf8866e237de4ce2ad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=838&h=834&s=31167&e=png&b=e1e0e0" alt="flex10.png"></p>
+<p>那么我们是否会想过为什么会<strong>平分空间？ 其中 flex:1 起了什么作用？</strong></p>
+<p>我们也许都知道 <strong>flex</strong> 属性是一个简写，是 <code>flex-grow</code>、<code>flex-shrink</code>、<code>flex-basis</code> 的简写。所以，flex 的属性值应该是三个组合值。</p>
+<p>但是呢，flex 又类似于 font 属性一样，是一个很多属性的简写，其中一些属性值是可以不用写的，采用其默认值。</p>
+<p>所以 flex 的属性值就会分析三种情况：一个值，两个值，三个值。</p>
+<p>MDN 对其做了总结：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/008a43aa53994f7bb80cc9a2d2235ead~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1168&h=828&s=165529&e=png&b=fdfcfc" alt="flex11.png"></p>
+<p>看图，规则挺多的，如果要死记的话，还是挺麻烦的。</p>
+<p>针对上面的规则，其实只需要理解 flex 的语法形式，还是能够完全掌握（有公式，谁想背呢）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs auto">flex = none | auto | [ &lt;&#x27;flex-grow&#x27;&gt; &lt;&#x27;flex-shrink&#x27;&gt;? || &lt;&#x27;flex-basis&#x27;&gt; ]  <br></code></pre></td></tr></table></figure>
+
+<p>希望你能看懂这个语法，很多 api 都有类似的组合。</p>
+<ul>
+<li><code>|</code> 表示要么是 none, 要么是 auto, 要么是后面这一坨，三选一。</li>
+<li><code>||</code> 逻辑或</li>
+<li><code>?</code> 可选</li>
+</ul>
+<p>理解上面这种语法之后，总结起来就是如下：</p>
+<p><strong>一个值</strong>：</p>
+<ol>
+<li><code>none（0 0 auto）</code>和<code>auto（1 1 auto）</code> 是需要单独记一下的，这个无法避免。</li>
+<li><code>无单位</code>，就是 flex-grow，因为存在单位，就是 flex-grow 属性值规定为一个 number 类型的</li>
+<li><code>有单位</code>，就是 flex-basis，因为类似 width 属性是需要单位的，不然没有效果。</li>
+</ol>
+<p><strong>两个值</strong>：</p>
+<ol>
+<li>无单位，就是 flex-grow 和 flow-shrink，理由如上</li>
+<li>其中一个有单位，就是 flex-grow 和 flex-basis，因为 flex-shrink 是可选的（这种情况是没有任何实际意义的，flex-basis设置了根本无效）。</li>
+</ol>
+<p><strong>三个值</strong></p>
+<p>三个值不用多说，一一对应。</p>
+<p>理解了上面的语法形式，再来看 flex: 1 的含义就轻而易举了。<strong>一个值，没有单位，就是 flex-grow，剩余空间平均分配</strong>。</p>
+<h2 id="现象五：多行，两边对齐布局"><a href="#现象五：多行，两边对齐布局" class="headerlink" title="现象五：多行，两边对齐布局"></a>现象五：多行，两边对齐布局</h2><p>无论是 app 开发，还是网页开发，遇到最多的场景就是这样的：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/920a0ba0f3834812ba8a4356a5140d28~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1316&h=800&s=20962&e=png&b=fcf8f6" alt="flex12.png"></p>
+<p>两边对齐，一行元素之间的间距相同；如果一行显示不下，就换行依次对齐排布。</p>
+<p>那么不难想到的就是 flex 布局，会写下如此代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs auto">.father &#123;<br>  display: flex;<br>  justify-content: space-between;<br>  flex-wrap: wrap;<br>&#125;<br>.son &#123;<br>  width: 90px;<br>  height: 90px;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那么你就会遇到如下情况：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8598439ebc2345209c28db35a5f0fe4c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp#?w=1824&h=1102&s=60764&e=png&b=eeeceb" alt="flex13.png"></p>
+<p>其中的第二、三种情况布局是不可以接受，数据数量不齐的问题。但是数据是动态的，所以不能避免出现类似情况。</p>
+<p>你们遇到过这种类似的布局吗？会存在这种情况吗？是怎么解决的呢？</p>
+<p>第一种解决方案：<strong>硬算</strong>。</p>
+<p>不使用 flex 的 justify-content 属性，直接算出元素的 margin 间隔。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs auto">.father &#123;<br>  width: 400px;<br>  background-color: #ddd;<br>  display: flex;<br>  flex-wrap: wrap;<br>&#125;<br>.son &#123;<br>  margin-right: calc(40px / 3); /* 40px 为 父元素的宽度 - 子元素的宽度总和，    然后平分剩余空间*/<br>  width: 90px;<br>  height: 90px;<br>  background-color: #5adacd;<br>  margin-bottom: 10px;<br>&#125;<br>/* 针对一行最后一个，清空边距 */<br>.son:nth-child(4n) &#123;<br>  margin-right: 0;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>缺点：只要其中的一个宽度发生变化，又要重新计算。</p>
+<p>第二种解决方案：<strong>添加空节点</strong></p>
+<p>为什么要添加空节点呢？因为在 flex 布局中，没有严格的区分块级元素和行内元素。那么就可以使用空节点，来占据空间，引导正确的布局。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;style&gt;<br>  .father &#123;<br>    width: 400px;<br>    background-color: #ddd;<br>    display: flex;<br>    justify-content: space-between;<br>    flex-wrap: wrap;<br>  &#125;<br>  .son &#123;<br>    width: 90px;<br>    height: 90px;<br>    background-color: #5adacd;<br>    margin-bottom: 10px;<br>  &#125;<br>  <br>  /* height 设置为 0 */<br>  .father span &#123; <br>    width: 90px; /*空节点也是 flex-item, width 是必须一致的，只是设置高度为0，不占据空间*/<br>  &#125;<br>&lt;/style&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div&gt;&lt;/div&gt;<br>  &lt;div class=&quot;father&quot;&gt;<br>    &lt;div class=&quot;son&quot;&gt;1&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;2&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;3&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;4&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;5&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;6&lt;/div&gt;<br>    &lt;div class=&quot;son&quot;&gt;7&lt;/div&gt;<br>    &lt;!-- 添加空节点，个数为 n-2 --&gt;<br>    &lt;i&gt;&lt;/i&gt;<br>    &lt;i&gt;&lt;/i&gt;<br>  &lt;/div&gt;<br>&lt;/body&gt;<br></code></pre></td></tr></table></figure>
+
+<p>这样也能解决上面的问题。</p>
+<p><strong>添加空节点的个数</strong>：n(一行的个数) - 2（行头和行尾，就是类似第一种情况和第四种情况本身就是正常的，就不需要空间点占据）</p>
+<p><strong>缺点</strong>：添加了dom节点</p>
+<p>上面两种方案都解决问题，但是都有着各自的缺点，具体采用哪种方式，就看自己的选择了。</p>
+<p>那么你们还有其他的解决方案吗？</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实本篇所解释的现象是自己对 flex 知识掌握不牢而造成的，从而记录此篇，提升熟悉度。也希望能够帮助对这些现象有困惑的码友。</p>
+<p>如果存在错误解释，评论区留言。</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/&title=为了弄清楚几个现象，重新学习了 flex - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://juejin.cn/post/7273025171111444540
+
+flex 布局作为开发中的常规手段，使用起来简直不要太爽。其特点：
+
+相对于常规布局（float, position），它具备更高的灵..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=为了弄清楚几个现象，重新学习了 flex - JKK随笔&amp;body=https://panzhenjie.fun/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/08/20/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">树莓派新手入门教程</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/08/12/Flex%E5%B8%83%E5%B1%80%E7%9A%84%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88flex-1%E7%9A%84%E5%AD%90%E5%85%83%E7%B4%A0%E4%BC%9A%E6%84%8F%E5%A4%96%E6%BA%A2%E5%87%BA%EF%BC%9F/">Flex布局的常见陷阱：为什么flex-1的子元素会意外溢出？</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E9%A1%BE-flex-%E6%A8%A1%E5%9E%8B"><span class="toc-text">回顾 flex 模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E4%B8%80%EF%BC%9Aflex-wrap-%E6%8D%A2%E8%A1%8C%E5%BC%95%E8%B5%B7%E7%9A%84%E9%97%B4%E8%B7%9D"><span class="toc-text">现象一：flex-wrap 换行引起的间距</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E4%BA%8C%EF%BC%9Aflex-item-%E6%8B%89%E4%BC%B8%EF%BC%9F%E5%8E%8B%E7%BC%A9%EF%BC%9F"><span class="toc-text">现象二：flex item 拉伸？压缩？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E4%B8%89%EF%BC%9A%E6%96%87%E6%9C%AC%E6%BA%A2%E5%87%BA%EF%BC%8Cflex-basis%EF%BC%9Fwidth%EF%BC%9F"><span class="toc-text">现象三：文本溢出，flex-basis？width？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E5%9B%9B%EF%BC%9Aflex-%E5%B9%B3%E5%88%86"><span class="toc-text">现象四：flex 平分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1%E4%BA%94%EF%BC%9A%E5%A4%9A%E8%A1%8C%EF%BC%8C%E4%B8%A4%E8%BE%B9%E5%AF%B9%E9%BD%90%E5%B8%83%E5%B1%80"><span class="toc-text">现象五：多行，两边对齐布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
