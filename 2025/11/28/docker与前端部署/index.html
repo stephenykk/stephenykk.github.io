@@ -1,0 +1,788 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>docker与前端部署 - JKK随笔</title>
+
+  
+    <meta name="description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7551268250888749090  需求开发场景在说docker之前，我们先来看看一般的需求开发和部署场景，是否需要安装node 需求开发部署场景开发环境，我们使用windows或mac，开发前端项目，正常来说，都是要安装好对应node版本 ，使用node提供的npm包管理（构建）工具【除非是一个简单的只有hello world的ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker与前端部署">
+<meta property="og:url" content="https://panzhenjie.fun/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7551268250888749090  需求开发场景在说docker之前，我们先来看看一般的需求开发和部署场景，是否需要安装node 需求开发部署场景开发环境，我们使用windows或mac，开发前端项目，正常来说，都是要安装好对应node版本 ，使用node提供的npm包管理（构建）工具【除非是一个简单的只有hello world的ht">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9d15b3a8dfea4a0388fcc2479d7619a6~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=JZegcLmbCYLOm5e%2BzfcXTQjC8jg%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/a2fdc476b54e424da51b148cf37bfabb~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=VnTd0oHQ0sLgd%2FqhLPhvFOr6oJY%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/df73099545ca4338aab7cf129decda5b~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=b%2B6TOiuvwSbY90cvP7jfWLtMNrA%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/89dea7b5269b46029ea2e3f4a3e9fd8b~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=UlNH%2BKN2izkHRMHej2cRe6b%2FGgg%3D">
+<meta property="og:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1be6cf90036e400a911261e379cc6e9a~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=PvRPKh6dJllgj75tZM5jWSPaRnA%3D">
+<meta property="article:published_time" content="2025-11-28T12:00:11.000Z">
+<meta property="article:modified_time" content="2025-11-28T12:01:07.121Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="frontend">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9d15b3a8dfea4a0388fcc2479d7619a6~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=JZegcLmbCYLOm5e%2BzfcXTQjC8jg%3D">
+  
+  
+  
+  <meta name="keywords" content="docker,frontend">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/"><span class="title">docker与前端部署</span></a><a class="item title" href="/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/"><span class="title">认识docker和k8s</span></a><a class="item title" href="/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/"><span class="title">为了弄清楚几个现象，重新学习了 flex</span></a><a class="item title" href="/2025/08/12/Flex%E5%B8%83%E5%B1%80%E7%9A%84%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88flex-1%E7%9A%84%E5%AD%90%E5%85%83%E7%B4%A0%E4%BC%9A%E6%84%8F%E5%A4%96%E6%BA%A2%E5%87%BA%EF%BC%9F/"><span class="title">Flex布局的常见陷阱：为什么flex-1的子元素会意外溢出？</span></a><a class="item title" href="/2025/08/20/%E4%B8%BA%E4%BB%80%E4%B9%88web3%E4%B8%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E6%9C%89%E5%85%B3/"><span class="title">为什么web3与区块链有关</span></a><a class="item title" href="/2025/08/20/%E6%AF%94%E7%89%B9%E5%B8%81%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">比特币入门教程</span></a><a class="item title" href="/2025/08/20/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">区块链入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%BA%8C/"><span class="title">SSH原理与运用(二)</span></a><a class="item title" href="/2025/08/20/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">树莓派新手入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%B8%80/"><span class="title">SSH原理与运用(一)</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-11-28T12:00:11.000Z">2025-11-28</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-11-28T12:01:07.121Z">2025-11-28</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>docker与前端部署</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7551268250888749090">https://juejin.cn/post/7551268250888749090</a></p>
+</blockquote>
+<h2 id="需求开发场景"><a href="#需求开发场景" class="headerlink" title="需求开发场景"></a>需求开发场景</h2><p>在说docker之前，我们先来看看一般的需求开发和部署场景，是否需要安装node</p>
+<h3 id="需求开发部署场景"><a href="#需求开发部署场景" class="headerlink" title="需求开发部署场景"></a>需求开发部署场景</h3><p><em>开发环境，我们使用windows或mac，开发前端项目，正常来说，都是要安装好对应<a target="_blank" rel="noopener" href="https://nodejs.cn/download/" title="https://nodejs.cn/download/">node版本</a> ，使用node提供的npm包管理（构建）工具【除非是一个简单的只有hello world的html文件不用node】</em></p>
+<p><em>生产环境，要发布到服务器上</em></p>
+<ul>
+<li><strong>1. 静态SPA单页面应用部署</strong></li>
+<li>服务器上不需要安装nodejs，使用使用nginx代理一下请求即可</li>
+<li>就算是多个单页面项目，我们在本地开发使用nvm管理一下node版本（比如有node12的老项目，也有node24的新项目）</li>
+<li>打包的dist，丢到服务器上后，依旧不需要在在服务器上安装node</li>
+</ul>
+<hr>
+<ul>
+<li><strong>2. SSR服务端渲染部署</strong></li>
+<li>除了静态SPA以外，我们也可能也要去写SSR应用</li>
+<li>SSR实际上就是通过nodejs运行环境，在服务器上执行js代码</li>
+<li>比如解析路由、发请求拿后端数据、拼接生成html返回给前端的浏览器请求</li>
+<li>因此，SSR服务端渲染的生产环境的部署，服务器上，必须安装nodejs（当然，也要使用到nginx代理请求）</li>
+<li>如果，某个服务器上，只是部署一个SSR项目还好，我们只需要安装对应的node版本</li>
+<li>但是，如果有两个甚至多个SSR项目，且对应的node版本不一致（如需要node12和node24版本）</li>
+<li>那么，我们就需要在服务器上，安装nvm进行node版本的管理，不同的node版本前端项目，使用nvm切换到对应的node版本，然后，npm start跑起来项目【可使用pm2管理多进程】</li>
+</ul>
+<hr>
+<ul>
+<li><strong>3. BFF中间层部署</strong></li>
+<li>BFF中间层，相当于一个服务层（中间层）</li>
+<li>就是，把后端的 “通用接口” 转化为前端的 “专属接口”</li>
+<li>比如，使用Express&#x2F;Koa启一个服务（依赖node）（当然，也要使用到nginx代理请求）</li>
+<li>流程：用户 → 前端应用（PC&#x2F;移动端&#x2F;小程序） → BFF 中间层 → 后端服务 → 去数据库捞数据</li>
+<li>同样的，这个情况，和上述一样</li>
+<li>安装nvm进行node版本的管理，不同的BFF中间层，要切换对应node才能跑起来【可使用pm2管理多进程】</li>
+</ul>
+<h3 id="Web前端常见的三种部署方式"><a href="#Web前端常见的三种部署方式" class="headerlink" title="Web前端常见的三种部署方式"></a>Web前端常见的三种部署方式</h3><ol>
+<li>对于Vue或React的单页面应用，打包的dist静态资源，再搭配nginx</li>
+<li>对于ssr（服务器渲染）或者bff（接口中间层），使用nvm管理node版本，同时使用pm2统一管理，再搭配nginx</li>
+<li>使用docker镜像技术，一次构建，到处运行（最灵活的方式），基本上适合所有的前端部署方式。（辅以nginx）</li>
+</ol>
+<p>接下来，说说docker镜像部署的好处</p>
+<h3 id="docker镜像部署前端项目的好处"><a href="#docker镜像部署前端项目的好处" class="headerlink" title="docker镜像部署前端项目的好处"></a>docker镜像部署前端项目的好处</h3><p><strong>1. 彻底解决环境一致性，不用再使用nvm做node版本切换</strong></p>
+<p><em>初学者，可以把docker容器镜像理解成：一个依赖宿主机的、封闭的、‘微型’服务器的内存运行环境空间吗（非虚拟机那么冗余、且凭借宿主机的操作系统内核可在此内存运行环境空间跑服务程序）</em></p>
+<ul>
+<li>假设多个ssr或者bff且node版本依赖不同的项目，有几个，就打包几个镜像</li>
+<li>可以对应依赖的node版本等打包到镜像里面（当然nginx也可以选择连带着打包到镜像里面）</li>
+<li>镜像与镜像之间是独立的，虽然node依赖版本不一样，但是ssr的服务不会和bff的服务产生冲突</li>
+<li>不用再想以前那样，还得额外注意node版本的切换管理</li>
+<li>收益，比较明显！！！</li>
+</ul>
+<p><strong>2. 实现 “一次构建，各个服务器环境上都能直接运行”</strong></p>
+<p>无论是Linux还是Windows服务器，都能运行打包好的镜像（可移植性强）</p>
+<ul>
+<li>假设，有一天，原来的生产服务器爆炸了、死机了、因不可抗力直接挂了。</li>
+<li>老板赶紧买了一台新的服务器，让把原来生产的前端项目，移植到新的服务器上，越快越好。</li>
+<li>传统情况就是，在新的服务器上装各个版本的node，安装nvm，再打包使用pm2管理部署（耗时，约为一个小时）</li>
+<li>但是，如果是使用docker，直接把原本的镜像，复制粘贴到新服务器上即可（耗时约10分钟）</li>
+<li>收益，十分明显！！！</li>
+</ul>
+<p><strong>3. docker版本管理与回滚更简单方便安全</strong></p>
+<ul>
+<li>假设新项目上线后发现bug，需紧急切回上一版本</li>
+<li>若是传统项目部署方式，需要本地git回滚，再重新打包，再发布到服务器上（耗时5分钟）</li>
+<li>若是docker镜像部署方式，直接使用其自带的版本标签tag管理</li>
+<li>每个版本的项目对应一个镜像标签（如 <code>v1.0.0</code>、<code>v1.0.1</code>），标签与代码版本一一对应，可追溯回滚</li>
+<li>回滚时，只需停止当前容器，用旧版本标签的镜像重新启动容器（如 <code>docker run my-app:v1.0.0</code>）</li>
+<li>整个过程秒级完成，且不会影响当前文件（容器销毁后文件自动清理），安全可靠（耗时1分钟）</li>
+<li>收益，十分明显！！！</li>
+</ul>
+<p><strong>4. docker部署流程标准化、自动化</strong></p>
+<ul>
+<li>传统前端部署流程通常是</li>
+<li>本地打包 → 用winscp等工具传文件到服务器 → 然后手动配置ngixn或者手动启动node服务</li>
+<li>步骤繁琐且依赖人工操作，有一定概率手抖了，人工操作出问题（虽然概率不大，但也是一个隐患，假设概率千分之一）</li>
+<li>如果使用docker搭配cicd持续集成工具可以将部署流程自动化</li>
+<li>实现 代码在gitlab提交后 → 点一点，就能够自动构建镜像 → 然后自动推送到镜像仓库 → 最后服务器自动拉取镜像并重启容器</li>
+<li>全程无需人工干预，基本不会出问题（假设出问题概率百万分之一）</li>
+<li>节省人工操作时间、隐患概率大大降低</li>
+<li>收益，十分明显！！！</li>
+</ul>
+<blockquote>
+<p>如果只是简单的spa单页面应用的部署，且暂时没有cicd工具的公司项目，也可以自己搞一个效能工具，类似于cicd的自动化发布脚本，参考笔者的这篇文章：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7330549231935766563" title="https://juejin.cn/post/7330549231935766563">juejin.cn&#x2F;post&#x2F;733054…</a></p>
+</blockquote>
+<blockquote>
+<p>实际上，因为前端部署项目的依赖比较少，主要是可能依赖node环境，如果是后端部署项目，那依赖的就多了，使用docker技术的优势，能够进一步加大的明显体现出来</p>
+</blockquote>
+<h2 id="记录docker部署一个简单的单页面spa前端项目"><a href="#记录docker部署一个简单的单页面spa前端项目" class="headerlink" title="记录docker部署一个简单的单页面spa前端项目"></a>记录docker部署一个简单的单页面spa前端项目</h2><h3 id="提前启动电脑的虚拟化、并下载安装-Docker-Desktop、并启用-WSL-2"><a href="#提前启动电脑的虚拟化、并下载安装-Docker-Desktop、并启用-WSL-2" class="headerlink" title="提前启动电脑的虚拟化、并下载安装 Docker Desktop、并启用 WSL 2"></a>提前启动电脑的虚拟化、并下载安装 Docker Desktop、并启用 WSL 2</h3><p>首先，windows电脑的虚拟化要开启的，如下图</p>
+<p>按下<code>Ctrl + Shift + Esc</code> 打开任务管理器、然后选择 <code>性能</code> 标签</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9d15b3a8dfea4a0388fcc2479d7619a6~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=JZegcLmbCYLOm5e%2BzfcXTQjC8jg%3D" alt="111.png"></p>
+<p>然后，打开 powershell 执行 <code>wsl --list --online</code>，查看可安装的linux发行版，初始条件下，肯定是没安装的，然后执行 <code>wsl --install</code> 自动安装默认linux发行版（笔者用的是Ubuntu）</p>
+<p>再然后，就是安装完成后重启电脑，使 WSL2 生效</p>
+<p>最后，访问 <a target="_blank" rel="noopener" href="https://www.docker.com/products/docker-desktop" title="https://www.docker.com/products/docker-desktop">Docker 官网</a> 下载适用于 Windows或者MAC 的安装包，这样docker的前置准备工作，就做好了</p>
+<blockquote>
+<p>本文不做安装的赘述，可以另行查阅文章，实践安装（若是网络不行，就使用小梯子吧）</p>
+</blockquote>
+<h3 id="单页面应用的docker打包"><a href="#单页面应用的docker打包" class="headerlink" title="单页面应用的docker打包"></a>单页面应用的docker打包</h3><ul>
+<li>假设，笔者有一个vue或者react项目</li>
+<li>这个项目最终，打包成了一个html文件，如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs auto">&lt;!DOCTYPE html&gt;<br>&lt;html lang=&quot;en&quot;&gt;<br>&lt;head&gt;<br>    &lt;meta charset=&quot;UTF-8&quot;&gt;<br>    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;<br>    &lt;title&gt;Document&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>    &lt;h1&gt;每天学点新知识——docker&lt;/h1&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="编写Dockerfile文件"><a href="#编写Dockerfile文件" class="headerlink" title="编写Dockerfile文件"></a>编写Dockerfile文件</h3><ul>
+<li>想要使用docker打包镜像，就得告诉docker，这个镜像要打包那些东西</li>
+<li>本案例中，是打包一个单纯的html文件</li>
+<li>同时，还要告诉docker，有哪些依赖也需要连带着打包进去</li>
+<li>本案例中，打包单纯的html文件不太够用</li>
+<li>还需要搭配nginx（把nginx也打包进镜像中去）</li>
+<li>没办法，单纯的静态文件，没法自己提供网页服务，必须搭配一个 “服务器软件”</li>
+<li>这样打包出来的镜像，就像一个 “自带服务器的小盒子”，不管放到哪台装了 Docker 的服务器上的机器上，都能直接跑起来</li>
+</ul>
+<p>本案例的Dockerfile文件的编写很简单，就四行</p>
+<ul>
+<li><code>FROM nginx:alpine</code></li>
+<li><code>COPY index.html /usr/share/nginx/html/</code></li>
+<li><code>EXPOSE 80</code></li>
+<li><code>CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]</code></li>
+</ul>
+<p>注释，释义如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs auto"># 默认从 Docker Hub上下载基于Alpine Linux的轻量级版本的nginx，当执行docker打包镜像命令后，流程是：<br># 自己windows电脑的命令行会触发Docker Desktop依据 WSL2 Linux内核从而下载nginx:alpine到WSL2文件系统<br># 自己的nginx:alpine会下载到C:\Users\lss13\AppData\Local\Docker\wsl\disk文件夹中<br># 有一个docker_data.vhdx硬盘映像文件<br># 文件很大，类似压缩包，包含很多东西，其中就有下载的nginx:alpine镜像，也有构建出的新镜像和以往构建的老镜像<br>FROM nginx:alpine<br><br># 将当前目录下的HTML文件复制到镜像中的/usr/share/nginx/html/目录<br># 镜像最终存储在docker_data.vhdx虚拟磁盘中<br># /usr/share/nginx/html/这个文件夹路径，是nginx用来默认存放静态资源的路径（规定，不用去修改）<br># 至此，镜像文件中，已经包含了nginx的一堆东西和html，当然还有别的docker的一堆东西<br>COPY index.html /usr/share/nginx/html/<br><br># EXPOSE不会实际开放端口，单纯的语法，不写也行（NGINX默认就是80端口）<br>EXPOSE 80<br><br># 启动nginx  -g是全局配置命令  daemon off关闭后台运行模式<br># （能够确保 nginx 前台运行，避免容器启动后立即退出）<br># 这个cmd指令，会被存放在镜像文件中，当镜像被丢到服务器上后<br># 当在服务器上执行docker run这个镜像的时候，才会进一步触发镜像里面的这个cmd命令执行<br># 才会让镜像中的nginx启动起来，有这样的web服务，才能访问到镜像里面的html文件<br>CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]<br></code></pre></td></tr></table></figure>
+
+<h3 id="编写打包构建镜像的js脚本"><a href="#编写打包构建镜像的js脚本" class="headerlink" title="编写打包构建镜像的js脚本"></a>编写打包构建镜像的js脚本</h3><p>构建镜像，就一个核心的命令：<code>docker build -t $&#123;IMAGE_NAME&#125; .</code></p>
+<ul>
+<li><code>docker build</code>：Docker 的构建命令，告诉 Docker “我要根据 Dockerfile文件里面的内容去构建镜像了”。</li>
+<li><code>-t $&#123;IMAGE_NAME&#125;</code>：给镜像 “贴标签”（指定名称），比如 <code>-t my-nginx</code> 就会把镜像命名为 <code>my-nginx</code>（<code>$&#123;IMAGE_NAME&#125;</code> 通常是一个变量，实际使用时会替换成具体名称，比如 <code>my-webapp:v1</code>）。</li>
+<li><code>.</code>：指定 Dockerfile 所在的路径（<code>.</code> 表示 “当前目录”），Docker 会从这个目录找 <code>Dockerfile</code> 文件，并读取里面的构建步骤。</li>
+</ul>
+<blockquote>
+<p>当然，现在的我的 html 和 Dockerfile 和 要准备编写的 打包构建镜像的js脚本 在同一个文件夹里面（同级目录）</p>
+</blockquote>
+<p>主要的核心，就是使用node的child_process的execSync，在命令行执行docker命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs auto">const &#123; execSync &#125; = require(&#x27;child_process&#x27;); // 引入同步执行命令模块<br><br>const IMAGE_NAME = &#x27;my-html-app&#x27;; // 给镜像起个名字<br><br>execSync(`docker build -t $&#123;IMAGE_NAME&#125; .`, &#123; stdio: &#x27;inherit&#x27; &#125;); // 派发命令执行打包构建镜像<br></code></pre></td></tr></table></figure>
+
+<p>完整<code>export-image.js</code>脚本如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs auto">const &#123; execSync &#125; = require(&#x27;child_process&#x27;); // 引入同步执行命令模块<br>const fs = require(&#x27;fs&#x27;); // 引入文件系统模块<br><br>console.log(&#x27;📦 开始构建和导出Docker镜像...&#x27;);<br><br>// 配置变量<br>const IMAGE_NAME = &#x27;my-html-app&#x27;;<br>const TAR_FILE = `$&#123;IMAGE_NAME&#125;.tar`;<br><br>try &#123;<br>    // 检查Dockerfile是否存在<br>    if (!fs.existsSync(&#x27;./Dockerfile&#x27;)) &#123;<br>        console.error(&#x27;❌ 找不到Dockerfile文件&#x27;);<br>        process.exit(1);<br>    &#125;<br><br>    // 检查index.html是否存在<br>    if (!fs.existsSync(&#x27;./index.html&#x27;)) &#123;<br>        console.error(&#x27;❌ 找不到index.html文件&#x27;);<br>        process.exit(1);<br>    &#125;<br><br>    console.log(&#x27;🔨 正在构建Docker镜像...&#x27;);<br>    <br>    // 构建Docker镜像<br>    execSync(`docker build -t $&#123;IMAGE_NAME&#125; .`, &#123; stdio: &#x27;inherit&#x27; &#125;);<br>    <br>    console.log(&#x27;\n✅ 镜像构建成功，开始导出镜像...&#x27;);<br>    <br>    // 删除旧的tar文件（如果存在）<br>    if (fs.existsSync(TAR_FILE)) &#123;<br>        fs.unlinkSync(TAR_FILE);<br>        console.log(&#x27;🗑️  已删除旧的镜像文件&#x27;);<br>    &#125;<br>    <br>    // 导出镜像<br>    execSync(`docker save -o $&#123;TAR_FILE&#125; $&#123;IMAGE_NAME&#125;:latest`, &#123; stdio: &#x27;inherit&#x27; &#125;);<br>    <br>    // 检查文件是否成功创建<br>    if (fs.existsSync(TAR_FILE)) &#123;<br>        const stats = fs.statSync(TAR_FILE);<br>        const fileSizeMB = (stats.size / (1024 * 1024)).toFixed(2);<br>        console.log(&#x27;\n✅ 镜像导出成功！&#x27;);<br>        console.log(`📁 导出文件: $&#123;TAR_FILE&#125; 文件大小: $&#123;fileSizeMB&#125; MB`);<br>        console.log(&#x27;\n📋 接下来：&#x27;);<br>        console.log(&#x27;1. 复制 my-html-app.tar 和 deploy-to-server.sh 到Ubuntu&#x27;);<br>        console.log(&#x27;2. 在Ubuntu上运行: ./deploy-to-server.sh&#x27;);<br>        <br>    &#125; else &#123;<br>        console.error(&#x27;❌ 镜像导出失败&#x27;);<br>        process.exit(1);<br>    &#125;<br>    <br>&#125; catch (error) &#123;<br>    console.error(&#x27;\n❌ 操作失败：&#x27;);<br>    console.error(error.message);<br>    process.exit(1);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>我们可以在命令行中，执行这个脚本，比如：<code>node export-image.js</code></li>
+<li>也可以，写一个bat脚本，这样也行，直接<code>./build.bat</code>回车</li>
+</ul>
+<p><em>build.bat</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs auto">@echo off<br>echo Let&#x27;s start building Docker images...<br>node export-image.js<br></code></pre></td></tr></table></figure>
+
+<h3 id="执行构建脚本"><a href="#执行构建脚本" class="headerlink" title="执行构建脚本"></a>执行构建脚本</h3><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/a2fdc476b54e424da51b148cf37bfabb~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=VnTd0oHQ0sLgd%2FqhLPhvFOr6oJY%3D" alt="PixPin_2025-09-18_22-00-25.gif"></p>
+<p>构建出来的镜像产物</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/df73099545ca4338aab7cf129decda5b~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=b%2B6TOiuvwSbY90cvP7jfWLtMNrA%3D" alt="333.png"></p>
+<h3 id="编写服务器发布镜像的shell脚本"><a href="#编写服务器发布镜像的shell脚本" class="headerlink" title="编写服务器发布镜像的shell脚本"></a>编写服务器发布镜像的shell脚本</h3><p>逻辑很简单，就是把当前服务器上的，原来的容器镜像删除掉（如果有的话），然后，在执行<code>docker run -d -p $PORT:80 --name $CONTAINER_NAME $IMAGE_NAME:latest</code> 命令</p>
+<p>上述命令释义：</p>
+<ul>
+<li>docker run（Docker 启动容器的核心命令）</li>
+<li>-d （后台运行模式detach 的缩写）</li>
+<li>-p $PORT:80<ul>
+<li>-p是端口映射publish的缩写</li>
+<li>$PORT 是笔者自己的服务器（宿主机）端口，我这里用20000端口，外部通过这个端口访问容器；</li>
+<li>80 是容器内部的端口（Nginx 默认监听 80 端口）</li>
+<li>意思是：把我服务器（宿主机）上的20000端口，和容器的80端口连起来，外部访问我服务器上的20000端口，就会被转到这个docker容器镜像的80端口，也就会访问到镜像里面的nginx，也就能够访问到镜像里面的对应目录<code>/usr/share/nginx/html/</code>中的index.html文件（就能看到对应内容了）</li>
+</ul>
+</li>
+</ul>
+<p>当然了 服务器不随便开放端口，这个20000端口，我不会开放，我只会使用我服务器上nginx，进行请求的转发到20000端口，如下 nginx 配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs auto"># docker的demo<br>location /dockerDemo/ &#123;<br>    proxy_pass http://localhost:20000/;<br>    proxy_set_header Host $host;<br>    proxy_set_header X-Real-IP $remote_addr;<br>    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>    proxy_set_header X-Forwarded-Proto $scheme;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><em>部署脚本如下：</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs auto">#!/bin/bash<br><br>echo &quot;🚀 开始部署Docker镜像到服务器...&quot;<br><br># 配置变量（镜像名称在构建时指定，容器名称在运行时指定）<br>CONTAINER_NAME=&quot;html-app-container&quot;<br>IMAGE_NAME=&quot;my-html-app&quot;<br>TAR_FILE=&quot;$&#123;IMAGE_NAME&#125;.tar&quot;<br>PORT=&quot;20000&quot;<br><br># 检查tar文件是否存在<br>if [ ! -f &quot;$TAR_FILE&quot; ]; then<br>    echo &quot;❌ 找不到镜像文件: $TAR_FILE&quot;<br>    echo &quot;请确保已将镜像文件复制到当前目录&quot;<br>    exit 1<br>fi<br><br>echo &quot;📁 找到镜像文件: $TAR_FILE&quot;<br><br># 停止并删除现有容器（如果存在）<br>echo &quot;🛑 停止并删除现有容器...&quot;<br>docker stop $CONTAINER_NAME 2&gt;/dev/null || true<br>docker rm $CONTAINER_NAME 2&gt;/dev/null || true<br><br># 删除现有镜像（如果存在）<br>echo &quot;🗑️  删除现有镜像...&quot;<br>docker rmi $IMAGE_NAME:latest 2&gt;/dev/null || true<br><br># 导入镜像<br>echo &quot;📥 导入Docker镜像...&quot;<br>docker load -i $TAR_FILE<br><br># 运行容器<br>echo &quot;🚀 启动新容器...&quot;<br>docker run -d -p $PORT:80 --name $CONTAINER_NAME $IMAGE_NAME:latest<br><br># 检查容器状态<br>if [ $? -eq 0 ]; then<br>    echo &quot;&quot;<br>    echo &quot;✅ 部署成功！&quot;<br>    echo &quot;📊 容器状态:&quot;<br>    docker ps | grep $CONTAINER_NAME<br>    echo &quot;&quot;<br>    echo &quot;🌐 访问地址:&quot;<br>    echo &quot;   直接访问: http://localhost:$PORT&quot;<br>    echo &quot;   通过nginx代理: https://ashuai.site/dockerDemo/&quot;<br>    echo &quot;&quot;<br>    echo &quot;📋 有用的命令:&quot;<br>    echo &quot;   查看日志: docker logs $CONTAINER_NAME&quot;<br>    echo &quot;   停止容器: docker stop $CONTAINER_NAME&quot;<br>    echo &quot;   重启容器: docker restart $CONTAINER_NAME&quot;<br>else<br>    echo &quot;❌ 容器启动失败&quot;<br>    exit 1<br>fi<br></code></pre></td></tr></table></figure>
+
+<h3 id="最后一步，在服务器上，部署构建好的镜像"><a href="#最后一步，在服务器上，部署构建好的镜像" class="headerlink" title="最后一步，在服务器上，部署构建好的镜像"></a>最后一步，在服务器上，部署构建好的镜像</h3><p>把镜像文件和构建脚本都丢到服务器上，在对应文件夹中，执行部署脚本，如下图：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/89dea7b5269b46029ea2e3f4a3e9fd8b~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=UlNH%2BKN2izkHRMHej2cRe6b%2FGgg%3D" alt="444.png"></p>
+<ul>
+<li>这样，我们的构建好了的，镜像，就成功部署了</li>
+<li>由于笔者是通过nginx代理的</li>
+<li>所以，访问：<a target="_blank" rel="noopener" href="https://ashuai.site/dockerDemo/" title="https://ashuai.site/dockerDemo/">ashuai.site&#x2F;dockerDemo&#x2F;</a></li>
+<li>就可以 看到对应的内容了</li>
+</ul>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1be6cf90036e400a911261e379cc6e9a~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rC05YaX5rC05a2a:q75.awebp?rk3s=f64ab15b&x-expires=1764563474&x-signature=PvRPKh6dJllgj75tZM5jWSPaRnA%3D" alt="555.png"></p>
+<h3 id="docker-compose的应用场景——统一编排管理多个镜像服务"><a href="#docker-compose的应用场景——统一编排管理多个镜像服务" class="headerlink" title="docker-compose的应用场景——统一编排管理多个镜像服务"></a>docker-compose的应用场景——统一编排管理多个镜像服务</h3><ul>
+<li>比如我现在有一个项目，其中包括了，前端、后端、数据库、缓存层</li>
+<li>对应的我要在本地电脑上，打包构建四个镜像，分别是nginx.tar、mysql.tar、java-app.tar、redis.tar</li>
+<li>然后把这四个镜像上传到服务器上（通过dockerhub也行）</li>
+<li>针对以这样的部署应用场景 如果不使用docker-compose，就得手动执行如下的几次docker脚本命令，如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs auto"># 1. 创建自定义网络，让容器可以互相通信<br>docker network create app-network<br><br># 2. 启动 MySQL<br>docker run -d \<br>  --name mysql-container \<br>  --network app-network \<br>  -p 3306:3306 \<br>  -e MYSQL_ROOT_PASSWORD=123456 \<br>  -v mysql-data:/var/lib/mysql \<br>  mysql:latest<br><br># 3. 启动 Redis<br>docker run -d \<br>  --name redis-container \<br>  --network app-network \<br>  -p 6379:6379 \<br>  redis:alpine<br><br># 4. 启动 Java 应用（依赖 MySQL 和 Redis）<br>docker run -d \<br>  --name java-app-container \<br>  --network app-network \<br>  -p 8080:8080 \<br>  -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/mydb \<br>  java-app:latest<br><br># 5. 启动 Nginx（前端）<br>docker run -d \<br>  --name nginx-container \<br>  --network app-network \<br>  -p 80:80 \<br>  nginx:latest<br></code></pre></td></tr></table></figure>
+
+<p>当然 ，也可以把上述的五次命令，都放在一个shell脚本里面，但是不优雅</p>
+<p><strong><code>使用docker-compose.yml优雅地管理同一个项目中的多个镜像</code></strong></p>
+<ul>
+<li>首先，<code>docker-compose.yml</code> 默认就会让所有服务（比如我的四个镜像）处于同一个网络中，实现自动互通，自带此功能</li>
+<li>其次，有了<code>docker-compose.yml</code>以后，就可以通过<code>docker-compose up -d</code>一键启动所有服务，也可以通过<code>docker-compose down</code>一键关闭所有服务</li>
+<li>然后，将整个应用栈（前端、后端、数据库、缓存）的配置都被记录在一个 <code>.yaml</code> 文件中。这样方便，做版本控制，追踪每一次变更；保持环境一致性、易于团队分享和协作</li>
+<li>可以在<code>docker-compose.yml</code>文件中，设置镜像服务启动顺序（比如，<code>要先启动mysql和redis，然后再启动java-app，最后再启动nginx——有服务依赖先后顺序</code>）</li>
+<li>另外，日志，也能够统一管理，等等等等的好处</li>
+<li><code>docker-compose</code>的功能强大，管理优雅，赞👍👍👍</li>
+</ul>
+<p>简单如下示例，实际项目，会稍微完整完善不少</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs auto"># 定义 Compose 文件版本<br>version: &#x27;3.8&#x27;<br><br>services:<br>  # 后端 Java 应用服务<br>  java-app:<br>    image: java-app:latest # 使用本地构建的 Java 应用镜像<br>    container_name: my-java-app # 指定容器名称<br>    environment:<br>      # 配置数据库连接地址（通过服务名访问）<br>      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/my_database<br>      # 配置 Redis 连接地址<br>      - SPRING_REDIS_HOST=redis<br>    depends_on:<br>      - mysql # 依赖 MySQL 服务先启动<br>      - redis # 依赖 Redis 服务先启动<br>    networks:<br>      - app-network # 加入应用内部网络<br><br>  # 前端 Nginx 服务<br>  nginx:<br>    image: nginx:latest # 使用 Nginx 镜像<br>    container_name: my-nginx # 指定容器名称<br>    ports:<br>      - &quot;80:80&quot; # 将主机80端口映射到容器80端口<br>    volumes:<br>      # 挂载自定义 Nginx 配置文件<br>      - ./nginx.conf:/etc/nginx/conf.d/default.conf<br>    depends_on:<br>      - java-app # 依赖 Java 应用先启动<br>    networks:<br>      - app-network # 加入应用内部网络<br><br>  # MySQL 数据库服务<br>  mysql:<br>    image: mysql:8.0 # 使用 MySQL 8.0 镜像<br>    container_name: my-mysql # 指定容器名称<br>    environment:<br>      # 设置 MySQL root 用户密码<br>      MYSQL_ROOT_PASSWORD: rootpassword<br>    volumes:<br>      # 持久化数据库数据到主机<br>      - mysql_data:/var/lib/mysql<br>    networks:<br>      - app-network # 加入应用内部网络<br><br>  # Redis 缓存服务<br>  redis:<br>    image: redis:7-alpine # 使用 Redis Alpine 版本（轻量）<br>    container_name: my-redis # 指定容器名称<br>    networks:<br>      - app-network # 加入应用内部网络<br><br># 定义自定义网络，使服务间可通过服务名通信<br>networks:<br>  app-network:<br>    driver: bridge # 使用桥接网络驱动<br><br># 定义数据卷，用于持久化数据<br>volumes:<br>  mysql_data: # MySQL 数据持久化卷<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此外，Docker Compose还可以做服务健康检查和服务等待机制，能通过各种策略，能够让部署更可靠，具体看文档：<a target="_blank" rel="noopener" href="https://docs.docker.com/compose/" title="https://docs.docker.com/compose/">docs.docker.com&#x2F;compose&#x2F;</a></p>
+</blockquote>
+<blockquote>
+<p>其他：上述的depends_on仅确保容器按顺序启动，但不确保服务就绪。需要配合应用的重试机制或Docker Compose的healthcheck和condition选项、Compose v2中支持</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>docker镜像打包，好像看起来麻烦一点点，还得写Dockerfile，还得写构建脚本、和部署脚本啥的。</li>
+<li>但是它解决了环境版本一致性问题</li>
+<li>比如，bff和ssr不同node版本等场景，人工手动切换管理起来，还是有些麻烦的</li>
+<li>此外，还有服务器更换场景，要是重新安装各种依赖包等版本，那的确耗时。</li>
+<li>（打包前端项目，明显、打包后端项目更加明显）</li>
+</ul>
+<p>如果打包bff，我们可以编写如下的Dockerfile</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs auto"># 基础镜像：用轻量的 Node.js 16 版本（alpine 版本体积小）<br>FROM node:16-alpine<br><br># 创建工作目录（类似在服务器上建一个专门的文件夹放代码）<br>WORKDIR /app<br><br># 复制 package.json 和 package-lock.json（先复制依赖文件，利用 Docker 缓存加速构建）<br>COPY package*.json ./<br><br># 安装依赖（npm install 会根据 package.json 下载所需的库）<br>RUN npm install --production  # --production 只装生产环境依赖，减小体积<br><br># 复制 BFF 源代码（比如 server.js、路由文件等）<br>COPY . .<br><br># 暴露 BFF 服务的端口（假设我的BFF的服务监听3000端口）<br>EXPOSE 3000<br><br># 启动命令：运行 BFF 服务<br>CMD [&quot;node&quot;, &quot;server.js&quot;]<br></code></pre></td></tr></table></figure>
+
+<p>所以，docker的优势有：</p>
+<ol>
+<li>环境版本依赖一致性、隔离性与安全性</li>
+<li>简化团队配置协作</li>
+<li>可快速部署与扩展</li>
+<li>而且，有了docker以后，CI&#x2F;CD就更加好操作了（更好实现，标准化和自动化）</li>
+<li>首次一劳————而后永逸</li>
+</ol>
+<blockquote>
+<p>A good memory is better than a bad pen. Record it down…</p>
+</blockquote>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/&title=docker与前端部署 - JKK随笔&pics=/images/banner_desk.jpg&summary=
+转载自: https://juejin.cn/post/7551268250888749090
+
+需求开发场景在说docker之前，我们先来看看一般的需求开发和部署场景，是否需要安装node
+需求开发部署场景开发环境，我们使用win..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=docker与前端部署 - JKK随笔&amp;body=https://panzhenjie.fun/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/">认识docker和k8s</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%BC%80%E5%8F%91%E5%9C%BA%E6%99%AF"><span class="toc-text">需求开发场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2%E5%9C%BA%E6%99%AF"><span class="toc-text">需求开发部署场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web%E5%89%8D%E7%AB%AF%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%89%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="toc-text">Web前端常见的三种部署方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F%E9%83%A8%E7%BD%B2%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-text">docker镜像部署前端项目的好处</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BD%95docker%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%8D%95%E9%A1%B5%E9%9D%A2spa%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE"><span class="toc-text">记录docker部署一个简单的单页面spa前端项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%89%8D%E5%90%AF%E5%8A%A8%E7%94%B5%E8%84%91%E7%9A%84%E8%99%9A%E6%8B%9F%E5%8C%96%E3%80%81%E5%B9%B6%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85-Docker-Desktop%E3%80%81%E5%B9%B6%E5%90%AF%E7%94%A8-WSL-2"><span class="toc-text">提前启动电脑的虚拟化、并下载安装 Docker Desktop、并启用 WSL 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84docker%E6%89%93%E5%8C%85"><span class="toc-text">单页面应用的docker打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99Dockerfile%E6%96%87%E4%BB%B6"><span class="toc-text">编写Dockerfile文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E7%9A%84js%E8%84%9A%E6%9C%AC"><span class="toc-text">编写打包构建镜像的js脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC"><span class="toc-text">执行构建脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E5%B8%83%E9%95%9C%E5%83%8F%E7%9A%84shell%E8%84%9A%E6%9C%AC"><span class="toc-text">编写服务器发布镜像的shell脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5%EF%BC%8C%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%EF%BC%8C%E9%83%A8%E7%BD%B2%E6%9E%84%E5%BB%BA%E5%A5%BD%E7%9A%84%E9%95%9C%E5%83%8F"><span class="toc-text">最后一步，在服务器上，部署构建好的镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E2%80%94%E2%80%94%E7%BB%9F%E4%B8%80%E7%BC%96%E6%8E%92%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AA%E9%95%9C%E5%83%8F%E6%9C%8D%E5%8A%A1"><span class="toc-text">docker-compose的应用场景——统一编排管理多个镜像服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>

@@ -1,0 +1,717 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0" theme-name="Stellar" theme-version="1.27.0">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="referrer" content="no-referrer">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>认识docker和k8s - JKK随笔</title>
+
+  
+    <meta name="description" content="一文带你认识「Docker」与「k8s」 转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7015729458959089701  随着 k8s 作为容器编排解决方案变得越来越流行，有些人开始拿 Docker 和 k8s 进行对比，不禁问道：Docker 不香吗？  k8s 是 kubernetes 的缩写，’8’ 代表中间的八个字符。  其实 Docker 和 k8s 并非直接的竞争对手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识docker和k8s">
+<meta property="og:url" content="https://panzhenjie.fun/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/index.html">
+<meta property="og:site_name" content="JKK随笔">
+<meta property="og:description" content="一文带你认识「Docker」与「k8s」 转载自: https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7015729458959089701  随着 k8s 作为容器编排解决方案变得越来越流行，有些人开始拿 Docker 和 k8s 进行对比，不禁问道：Docker 不香吗？  k8s 是 kubernetes 的缩写，’8’ 代表中间的八个字符。  其实 Docker 和 k8s 并非直接的竞争对手">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abe0dc5283824d9bb3aa5565065f69e8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bd35d422abd45f1a853c5b17bb89a70~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7d9be2ccf724f4b9c3e2e59daa134da~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1fd79e4477f44bc8a33aca2275293118~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41e423e70f6d467396c6b5472ae85dde~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6ba6304b6be4e049365cf4af05b5d73~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c7eee0ecf4d346b79013ed32bedc6ee6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/50b66f8432a049e4ac69d4d06de5bc04~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a776257043904f76ad4eec1c762ed001~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3523019989d64ecd94e82e5e7b8064bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c0c7e8ccc0248d0afa1965e5c995927~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/004a063589604ef6905d2153f592cbd9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af02d13b53094e90adeb7018efc92cda~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed549c3cd2e74653a745a13c44ccc869~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b1905af7421f45c8b9ed3fcb5f8750bc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1808c54a02f5467484059ad60861175c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41e29b7b742743a4a00ad33afdcb1285~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7463a2873efc4a7da28458530dfe4c76~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+<meta property="article:published_time" content="2025-09-20T04:05:55.000Z">
+<meta property="article:modified_time" content="2025-09-20T04:06:13.530Z">
+<meta property="article:author" content="stephenykk">
+<meta property="article:tag" content="frontend">
+<meta property="article:tag" content="IT blog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abe0dc5283824d9bb3aa5565065f69e8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp">
+  
+  
+  
+  <meta name="keywords" content="frontend,IT blog">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.27.0">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img referrerpolicy="no-referrer" no-lazy class="avatar" src="https://avatars.githubusercontent.com/u/7259892?s=400&u=01563911436a79d809f95ca8d1191c8a7ecc6f56&v=4" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">JKK随笔</div><div class="sub normal cap">搬砖工</div><div class="sub hover cap" style="opacity:0"> 但行好事 莫问前程</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="小学堂" href="/study/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/"><span class="title">docker与前端部署</span></a><a class="item title" href="/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/"><span class="title">认识docker和k8s</span></a><a class="item title" href="/2025/08/14/%E4%B8%BA%E4%BA%86%E5%BC%84%E6%B8%85%E6%A5%9A%E5%87%A0%E4%B8%AA%E7%8E%B0%E8%B1%A1%EF%BC%8C%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0%E4%BA%86-flex/"><span class="title">为了弄清楚几个现象，重新学习了 flex</span></a><a class="item title" href="/2025/08/12/Flex%E5%B8%83%E5%B1%80%E7%9A%84%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88flex-1%E7%9A%84%E5%AD%90%E5%85%83%E7%B4%A0%E4%BC%9A%E6%84%8F%E5%A4%96%E6%BA%A2%E5%87%BA%EF%BC%9F/"><span class="title">Flex布局的常见陷阱：为什么flex-1的子元素会意外溢出？</span></a><a class="item title" href="/2025/08/20/%E4%B8%BA%E4%BB%80%E4%B9%88web3%E4%B8%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E6%9C%89%E5%85%B3/"><span class="title">为什么web3与区块链有关</span></a><a class="item title" href="/2025/08/20/%E6%AF%94%E7%89%B9%E5%B8%81%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">比特币入门教程</span></a><a class="item title" href="/2025/08/20/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">区块链入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%BA%8C/"><span class="title">SSH原理与运用(二)</span></a><a class="item title" href="/2025/08/20/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%96%B0%E6%89%8B%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><span class="title">树莓派新手入门教程</span></a><a class="item title" href="/2025/08/20/SSH%E5%8E%9F%E7%90%86%E4%B8%8E%E8%BF%90%E7%94%A8-%E4%B8%80/"><span class="title">SSH原理与运用(一)</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img referrerpolicy="no-referrer" class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/banner_camera.jpg">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-09-20T04:05:55.000Z">2025-09-20</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-09-20T04:06:13.530Z">2025-09-20</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>认识docker和k8s</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="一文带你认识「Docker」与「k8s」"><a href="#一文带你认识「Docker」与「k8s」" class="headerlink" title="一文带你认识「Docker」与「k8s」"></a>一文带你认识「Docker」与「k8s」</h1><blockquote>
+<p>转载自: <a target="_blank" rel="noopener" href="https://juejin.cn/post/7015729458959089701">https://juejin.cn/post/7015729458959089701</a></p>
+</blockquote>
+<p>随着 k8s 作为容器编排解决方案变得越来越流行，有些人开始拿 Docker 和 k8s 进行对比，不禁问道：Docker 不香吗？</p>
+<blockquote>
+<p>k8s 是 kubernetes 的缩写，’8’ 代表中间的八个字符。</p>
+</blockquote>
+<p>其实 Docker 和 k8s 并非直接的竞争对手，它俩相互依存。 Docker 是一个容器化平台，而 k8s 是 Docker 等容器平台的协调器。</p>
+<h2 id="1-容器化时代来了"><a href="#1-容器化时代来了" class="headerlink" title="1. 容器化时代来了"></a>1. 容器化时代来了</h2><p>虚拟化技术已经走过了三个时代，没有容器化技术的演进就不会有 Docker 技术的诞生。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abe0dc5283824d9bb3aa5565065f69e8~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="虚拟化技术的演进"></p>
+<p>（1）<strong>物理机时代</strong>：多个应用程序可能会跑在一台机器上。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bd35d422abd45f1a853c5b17bb89a70~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="物理机时代"></p>
+<p>（2）<strong>虚拟机时代</strong>：一台物理机器安装多个虚拟机（VM），一个虚拟机跑多个程序。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7d9be2ccf724f4b9c3e2e59daa134da~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="虚拟机时代"></p>
+<p>（3）<strong>容器化时代</strong>：一台物理机安装多个容器实例（container），一个容器跑多个程序。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1fd79e4477f44bc8a33aca2275293118~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="容器化时代"></p>
+<p>容器化解决了软件开发过程中一个令人非常头疼的问题，用一段对话描述：</p>
+<blockquote>
+<p>测试人员：你这个功能有问题。</p>
+<p>开发人员：我<strong>本地</strong>是好的呀！</p>
+</blockquote>
+<p>开发人员编写代码，在自己本地环境测试完成后，将代码部署到测试或生产环境中，经常会遇到各种各样的问题。明明本地完美运行的代码为什么部署后出现很多 bug，原因有很多：<strong>不同的操作系统、不同的依赖库等，总结一句话就是因为本地环境和远程环境不一致</strong>。</p>
+<p><strong>容器化技术正好解决了这一关键问题，它将软件程序和运行的基础环境分开。开发人员编码完成后将程序打包到一个容器镜像中，镜像中详细列出了所依赖的环境，在不同的容器中运行标准化的镜像，从根本上解决了环境不一致的问题。</strong></p>
+<p>⭐虽然容器概念已经出现不短的时间，但 2013 年推出的开源项目 Docker 在很大程度上帮助推广了容器这项技术，并推动了软件开发中<strong>容器化</strong>和<strong>微服务</strong>的趋势，<strong>这种趋势后来被称为云原生开发</strong>。</p>
+<h2 id="2-容器化技术的尖刀武器"><a href="#2-容器化技术的尖刀武器" class="headerlink" title="2. 容器化技术的尖刀武器"></a>2. 容器化技术的尖刀武器</h2><p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41e423e70f6d467396c6b5472ae85dde~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="容器化技术的特点"></p>
+<ul>
+<li><strong>可移植性</strong>：不依赖具体的操作系统或云平台，比如在阿里云或腾讯云直接随意迁移。</li>
+<li><strong>占地小</strong>：容器只需要其应用程序以及它需要运行的所有容器和库的依赖清单，不需要将所有的依赖库都打包在一起。</li>
+<li><strong>共享 bin 和 lib</strong>：不同的容器可以共享 bin 和 lib，进一步节省了空间。</li>
+</ul>
+<h2 id="3-Docker-横空出世"><a href="#3-Docker-横空出世" class="headerlink" title="3. Docker 横空出世"></a>3. Docker 横空出世</h2><p>2010 年一位年轻小伙子在美国旧金山成立了一家名叫【dotCloud】的公司， 开发了 Docker 的核心技术，从此开启了容器技术的时代。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6ba6304b6be4e049365cf4af05b5d73~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Docker原公司"></p>
+<p>后面 dotCloud 公司将自己的容器技术进行了简化和标准化，取名为 Docker，就是大家熟悉的鲸鱼 logo。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c7eee0ecf4d346b79013ed32bedc6ee6~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Docker新Logo"></p>
+<p>2013 年 dotCloud 公司宣布将 Docker 开源，随着越来越多的工程师发现了它的优点， Docker 的人气迅速攀升，成为当时最火爆的开源技术之一。</p>
+<p>当前有 30％ 以上的企业在其 AWS 环境中使用 Docker，并且这个数字还在继续增长。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/50b66f8432a049e4ac69d4d06de5bc04~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Docker使用率越来越高"></p>
+<p>此时的 Docker，已经成为行业里人气最火爆的开源技术，没有之一。甚至像 Google、微软、Amazon、VMware 这样的巨头，都对它青睐有加，表示将全力支持。</p>
+<p>Docker 火了之后，dotCloud 公司干脆把公司名字也改成了 Docker Inc. 。</p>
+<p>Docker 和容器技术为什么会这么火爆？说白了，就是因为它 “<strong>轻</strong>”。</p>
+<p>在容器技术之前，业界的网红是<strong>虚拟机</strong>。虚拟机技术的代表，是 <strong>VMWare</strong> 和 <strong>OpenStack</strong> 。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a776257043904f76ad4eec1c762ed001~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>相信很多人都用过虚拟机。虚拟机，就是在你的操作系统里面，装一个软件，然后通过这个软件，再模拟一台甚至多台“子电脑”出来。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3523019989d64ecd94e82e5e7b8064bf~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="img"></p>
+<p>在 “子电脑” 里，你可以和正常电脑一样运行程序，例如登录 QQ。如果你愿意，你可以变出好几个 “子电脑”，里面都登录上 QQ。“子电脑” 和 “子电脑” 之间，是<strong>相互隔离</strong>的，互不影响。</p>
+<p>虚拟机属于虚拟化技术。而 Docker 这样的容器技术，也是虚拟化技术，属于<strong>轻量级的虚拟化</strong>。</p>
+<p>虚拟机虽然可以隔离出很多 “子电脑”，但占用空间更大，启动更慢，虚拟机软件可能还要花钱（例如：VMWare）。</p>
+<p>而容器技术恰好没有这些缺点。它不需要虚拟出整个操作系统，只需要虚拟一个小规模的环境（类似 “<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/678d8836cdbd" title="https://www.jianshu.com/p/678d8836cdbd">沙箱</a>”）。Docker 可以轻松创建容器和基于容器的应用程序，<strong>最初是为 Linux 构建的</strong>，现在也可以在 Windows 和 MacOS 上运行。</p>
+<p>它启动时间很快，几秒钟就能完成。而且，它对资源的利用率很高（一台主机可以同时运行几千个 Docker 容器）。此外，它占的空间很小，虚拟机一般要几 GB 到几十 GB 的空间，而容器只需要 MB 级甚至 KB 级。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c0c7e8ccc0248d0afa1965e5c995927~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="容器和虚拟机的对比"></p>
+<p>正因为如此，容器技术受到了热烈的欢迎和追捧，发展迅速。大家需要注意，<strong>Docker 本身并不是容器</strong>，它是创建容器的工具，是应用容器引擎。想要搞懂 Docker，其实看它的两句口号就行。</p>
+<p>第一句，是 <strong>“Build, Ship and Run”</strong>。</p>
+<p>第二句口号则是：<strong>“Build once，Run anywhere（搭建一次，到处能用）”。</strong></p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/004a063589604ef6905d2153f592cbd9~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Build, Ship and Run"></p>
+<ul>
+<li><strong>Build（构建镜像）</strong>： 镜像就像是集装箱，包含文件以及运行环境等等资源；</li>
+<li><strong>Ship（运输镜像）</strong>：在<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cdh?from=10680" title="https://cloud.tencent.com/product/cdh?from=10680">宿主机</a>和仓库间进行运输，这里仓库就像是超级码头；</li>
+<li><strong>Run（运行镜像）</strong>：运行的镜像就是一个容器，容器就是运行程序的地方。</li>
+</ul>
+<p>⭐说白了，这个 Docker 镜像，是一个特殊的文件系统。它除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（例如：环境变量）。<strong>镜像不包含任何动态数据，其内容在构建之后也不会被改变</strong>。</p>
+<p>⭐综上所述，Docker 的运行过程，也就是去仓库把镜像拉到本地，然后用执行命令把镜像运行起来变成容器，这也就是为什么人们常常将 Docker 称为码头工人或码头装卸工。</p>
+<p>⭐负责对 Docker 镜像进行管理的，是 <strong>Docker Registry 服务</strong>（类似仓库管理员）。当然，不是任何人建的任何镜像都是合法的。万一有人构建的镜像存在问题呢？所以，Docker Registry 服务对镜像的管理是非常严格的。最常使用的 Registry 公开服务，是官方的 **<a target="_blank" rel="noopener" href="https://hub.docker.com/" title="https://hub.docker.com/">Docker Hub</a>**，这也是默认的 Registry，并拥有大量的高质量的官方镜像。</p>
+<h2 id="4-Docker-如何使用"><a href="#4-Docker-如何使用" class="headerlink" title="4. Docker 如何使用"></a>4. Docker 如何使用</h2><p>其实大多数人谈论 Docker 时说的是 <strong>Docker Engine</strong>，这只是一个构建和运行的容器。</p>
+<p>在运行容器前需要编写 Docker File，通过 <strong>dockerFile</strong> 生成镜像，然后才能运行 Docker 容器。</p>
+<p>Docker File 定义了运行镜像（<strong>image</strong>）所需的所有内容，包括操作系统和软件安装位置。一般情况下都不需要从头开始编写 Docker File，在 Docker Hub 中有来自世界各地的工程师编写好的镜像，你可以基于此修改。</p>
+<p>📚此外，Docker 容器提供了一种构建企业应用程序和业务流程应用程序的方法，这些应用程序比传统应用程序更容易安装、维护和移动。</p>
+<p>⭐Docker 容器支持<strong>隔离</strong>：Docker 容器使应用程序不仅彼此隔离，而且与底层系统隔离。这不仅使软件栈更干净，而且更容易使容器化应用程序使用系统资源，例如 <strong>CPU、GPU、内存、I&#x2F;O、网络</strong>等，它还可以<strong>确保数据和代码保持独立</strong>。</p>
+<p>⭐Docker 容器支持<strong>可移植性</strong>：Docker 容器在支持容器运行环境的任何机器上运行。应用程序不必绑定到主机操作系统，因此可以保持应用程序环境和底层操作环境的整洁和最小化。<br>例如，采用容器的 MySQL 将在大多数支持容器的 Linux 系统上运行，应用程序的所有依赖项通常都在同一个容器中提供。基于容器的应用程序可以轻易从 on-prem 系统迁移到云环境中，或从开发人员的笔记本电脑移到服务器上，只要目标系统支持 Docker 以及可能与之一起使用的任何第三方工具，比如 Kubernetes。</p>
+<p>⭐通常，Docker 容器镜像必须为特定的平台构建。例如 Windows 容器不能在 Linux 上运行，反之亦然；以前，绕过此限制的一种方法是启动运行所需操作系统实例的虚拟机，并在虚拟机中运行容器。<br>然而 Docker 团队后来设计了一个更优雅的解决方案，称为 <strong>manifest</strong>，它允许多个操作系统的镜像并行打包。尽管 manifest 还处于试验阶段，但这暗示了容器可能成为跨平台应用程序解决方案和跨环境应用程序解决方案。</p>
+<p>⭐Docker 容器支持<strong>可组合性</strong>：大多数业务应用程序由几个独立的组件组成，web 服务器、数据库和 cache 缓存。<strong>Docker 容器可以将这些部件组合成一个容易更换的功能单元。每个部分由不同的容器提供，可以独立于其他容器进行维护、更新、交换和修改。</strong></p>
+<p>🔥 这本质上是应用程序设计的<strong>微服务模型</strong>。通过将应用程序功能划分为独立的、自包含的服务，微服务模型为过程缓慢的传统开发和单一僵化的应用程序提供了一种解决方案，轻量级和便携式容器使构建和维护基于微服务的应用程序变得更加容易。</p>
+<h2 id="5-编排系统的需求催生-k8s"><a href="#5-编排系统的需求催生-k8s" class="headerlink" title="5. 编排系统的需求催生 k8s"></a>5. 编排系统的需求催生 k8s</h2><p>尽管 Docker 为容器化的应用程序提供了开放标准，但随着容器越来越多出现了一系列新问题：</p>
+<ul>
+<li>如何<strong>协调、调度和管理</strong>这些容器？</li>
+<li>如何在升级应用程序时<strong>不中断服务</strong>？</li>
+<li>如何<strong>监视</strong>应用程序的运行状况？</li>
+<li>如何批量重新启动容器里的程序？</li>
+</ul>
+<p>解决这些问题需要容器编排技术，可以将众多机器抽象，对外呈现出一台超大机器。现在业界比较流行的有：<strong>k8s</strong>、Mesos、<strong>Docker Swarm</strong>。</p>
+<p>在业务发展初期只有几个微服务，这时用 Docker 就足够了，但随着业务规模逐渐扩大，容器越来越多，运维人员的工作越来越复杂，这个时候就需要编排系统解救 opers。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af02d13b53094e90adeb7018efc92cda~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="应用程序的声明周期"></p>
+<p>一个成熟的容器编排系统需要具备以下能力：</p>
+<ul>
+<li>处理大量的容器和用户</li>
+<li>负载均衡</li>
+<li>鉴权和安全性</li>
+<li>管理服务通信</li>
+<li>多平台部署</li>
+</ul>
+<hr>
+<p>🌊 <strong>其中，K8S，就是基于容器的集群管理平台，它的全称，是 kubernetes。</strong></p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed549c3cd2e74653a745a13c44ccc869~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp"></p>
+<p>和 Docker 不同，K8S 的创造者，是众人皆知的行业巨头——<strong>Google</strong>。</p>
+<p>然而，K8S 并不是一件全新的发明。它的前身，是 Google 自己捣鼓了十多年的 <strong>Borg 系统</strong>。K8S 是 Google 研发的容器协调器，已捐赠给 CNCF，现已开源。</p>
+<p>Google 利用在容器管理多年的经验和专业知识推出了 k8s，主要用于<strong>自动化部署应用程序容器</strong>，可以支持众多容器化工具包括现在非常流行的 Docker。</p>
+<p>目前 k8s 是容器编排市场的领导者，开源并公布了一系列标准化方法，主流的公有云平台都宣布支持。</p>
+<p>一流的厂商都在抢占标准的制高点，一堆小厂商跟着一起玩，这就叫<strong>生态</strong>了。国内的大厂商都在干嘛呢？抢社区团购市场，玩资本游戏，哎？！</p>
+<h2 id="6-k8s-架构和组件"><a href="#6-k8s-架构和组件" class="headerlink" title="6. k8s 架构和组件"></a>6. k8s 架构和组件</h2><p>k8s 由众多组件组成，组件间通过 API 互相通信，归纳起来主要分为三个部分：</p>
+<ul>
+<li>controller manager</li>
+<li>nodes</li>
+<li>pods</li>
+</ul>
+<p><strong>k8s 集群架构图</strong>：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b1905af7421f45c8b9ed3fcb5f8750bc~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="k8s集群架构图"></p>
+<ul>
+<li><strong>Controller Manager</strong>，即控制平面，用于<strong>调度</strong>程序以及节点状态<strong>检测</strong>。</li>
+<li><strong>Nodes</strong>，构成了 Kubernetes 集群的集体计算能力，<strong>实际部署容器运行的地方</strong>。</li>
+<li><strong>Pods</strong>，Kubernetes 集群中<strong>资源的最小单位</strong>。</li>
+</ul>
+<p>下图是 <strong>Kubernetes 集成 Jenkins 实现 CICD</strong>（一图胜千言，需要对其有一个大致的认识）：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1808c54a02f5467484059ad60861175c~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Kubernetes集成Jenkins实现CICD"></p>
+<p>而下图则是 <strong>GitLab + Jenkins Pipeline + Doker + k8s + Helm 自动化部署</strong>：</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41e29b7b742743a4a00ad33afdcb1285~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="GitLab + Jenkins Pipeline + Doker + k8s + Helm 自动化部署"></p>
+<h2 id="7-k8s-与-Docker-Swarm-江湖恩怨"><a href="#7-k8s-与-Docker-Swarm-江湖恩怨" class="headerlink" title="7. k8s 与 Docker Swarm 江湖恩怨"></a>7. k8s 与 Docker Swarm 江湖恩怨</h2><p><strong>Docker Swarm</strong> 与 <strong>k8s</strong> 同为容器编排技术。</p>
+<p><img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7463a2873efc4a7da28458530dfe4c76~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp" alt="Docker Swarm VS k8s"></p>
+<p>如果你非要拿 Docker 和 k8s 进行比较，其实你更应该拿 <strong>Docker Swarm</strong> 和 <strong>k8s</strong> 比较。</p>
+<p>Docker Swarm 是 Docker 自家针对集群化部署管理的解决方案，优点很明显，可以更紧密集成到 Docker 生态系统中。</p>
+<p>虽说 Swarm 是 Docker 亲儿子，但依旧没有 k8s 流行，不流行很大程度是因为商业、生态的原因，不多解释。</p>
+<h2 id="8-Docker-与-k8s-难舍难分"><a href="#8-Docker-与-k8s-难舍难分" class="headerlink" title="8. Docker 与 k8s 难舍难分"></a>8. Docker 与 k8s 难舍难分</h2><p>Docker 和 k8s 在业界非常流行，都已经是事实上的标准。</p>
+<p>Docker 是用于构建、分发、运行（Build, Ship and Run）容器的平台和工具。</p>
+<p>而 k8s 实际上是一个使用 Docker 容器进行编排的系统，主要围绕 pods 进行工作。<strong>Pods 是 k8s 生态中最小的调度单位，可以包含一个或多个容器。</strong></p>
+<p>Docker 和 k8s 是根本上不同的技术，两者可以很好的协同工作。</p>
+<h2 id="9-开发实践，灵魂追问"><a href="#9-开发实践，灵魂追问" class="headerlink" title="9. 开发实践，灵魂追问"></a>9. 开发实践，灵魂追问</h2><p>（1）<strong>为什么还要用 k8s？没有 k8s 可以使用 docker 吗？</strong></p>
+<p>可以。实际上一些小型公司，在业务不太复杂的情况下都是直接使用 Docker。尽管 k8s 有很多好处，但是众所周知它非常复杂，业务比较简单可以放弃使用 k8s。但 k8s 在业务达到一定规模后也得启用！</p>
+<p>（2）<strong>没有 Docker 可以使用 k8s 吗？</strong></p>
+<p>k8s 只是一个容器编排器，没有容器拿什么编排？！</p>
+<p>k8s 经常与 Docker 进行搭配使用，但是也可以使用其他容器，如 RunC、Containerted 等。</p>
+<p>（3）<strong>Docker Swarm 和 k8s 怎么选？</strong></p>
+<p>选 k8s。2019 年底 Docker Enterprise 已经出售给 Mirantis，Mirantis 声明要逐步淘汰 Docker Swarm，后续会将 k8s 作为默认编排工具。</p>
+<p>🔥<strong>Reference</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6913568633813729294" title="https://juejin.cn/post/6913568633813729294">juejin.cn&#x2F;post&#x2F;691356…</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/623446" title="https://cloud.tencent.com/developer/news/623446">cloud.tencent.com&#x2F;developer&#x2F;n…</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53260098" title="https://zhuanlan.zhihu.com/p/53260098">zhuanlan.zhihu.com&#x2F;p&#x2F;53260098</a></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://panzhenjie.fun/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://panzhenjie.fun/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/&title=认识docker和k8s - JKK随笔&pics=/images/banner_desk.jpg&summary=一文带你认识「Docker」与「k8s」
+转载自: https://juejin.cn/post/7015729458959089701
+
+随着 k8s 作为容器编排解决方案变得越来越流行，有些人开始拿 Docker 和 k8s 进行..."><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=认识docker和k8s - JKK随笔&amp;body=https://panzhenjie.fun/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img referrerpolicy="no-referrer" class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img referrerpolicy="no-referrer" class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://panzhenjie.fun/2025/09/20/%E8%AE%A4%E8%AF%86docker%E5%92%8Ck8s/"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/11/28/docker%E4%B8%8E%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2/">docker与前端部署</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/08/20/%E4%B8%BA%E4%BB%80%E4%B9%88web3%E4%B8%8E%E5%8C%BA%E5%9D%97%E9%93%BE%E6%9C%89%E5%85%B3/">为什么web3与区块链有关</a></div></section></div>
+
+<div class="related-wrap" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2024\04\01\163邮箱发邮件550错误解决方法\" title="163邮箱发邮件550错误解决方法"><span class="title">163邮箱发邮件550错误解决方法</span></a></div></section></div>
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body utterances'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="utterances" repo="stephenykk/discussion" issue-term="pathname" theme="preferred-color-scheme"></div>
+
+    </section>
+  </div>
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">stephenykk</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.27.0">Stellar 1.27.0</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E6%96%87%E5%B8%A6%E4%BD%A0%E8%AE%A4%E8%AF%86%E3%80%8CDocker%E3%80%8D%E4%B8%8E%E3%80%8Ck8s%E3%80%8D"><span class="toc-text">一文带你认识「Docker」与「k8s」</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%B9%E5%99%A8%E5%8C%96%E6%97%B6%E4%BB%A3%E6%9D%A5%E4%BA%86"><span class="toc-text">1. 容器化时代来了</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%B9%E5%99%A8%E5%8C%96%E6%8A%80%E6%9C%AF%E7%9A%84%E5%B0%96%E5%88%80%E6%AD%A6%E5%99%A8"><span class="toc-text">2. 容器化技术的尖刀武器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Docker-%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96"><span class="toc-text">3. Docker 横空出世</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Docker-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-text">4. Docker 如何使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BC%96%E6%8E%92%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9C%80%E6%B1%82%E5%82%AC%E7%94%9F-k8s"><span class="toc-text">5. 编排系统的需求催生 k8s</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-k8s-%E6%9E%B6%E6%9E%84%E5%92%8C%E7%BB%84%E4%BB%B6"><span class="toc-text">6. k8s 架构和组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-k8s-%E4%B8%8E-Docker-Swarm-%E6%B1%9F%E6%B9%96%E6%81%A9%E6%80%A8"><span class="toc-text">7. k8s 与 Docker Swarm 江湖恩怨</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Docker-%E4%B8%8E-k8s-%E9%9A%BE%E8%88%8D%E9%9A%BE%E5%88%86"><span class="toc-text">8. Docker 与 k8s 难舍难分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5%EF%BC%8C%E7%81%B5%E9%AD%82%E8%BF%BD%E9%97%AE"><span class="toc-text">9. 开发实践，灵魂追问</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`,
+    marked: `https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.27.0" async></script>
+
+<!-- optional -->
+
+  <script>
+  function loadUtterances() {
+    const els = document.querySelectorAll("#comments #utterances");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+      loadUtterances();
+  });
+</script>
+
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?02fb88f7bf299c2e9c095c0f64f432d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"></script><script defer src="https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css`,
+    js: `https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || null
+        }
+      });
+    })
+  }
+</script><script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script><script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
