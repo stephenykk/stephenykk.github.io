@@ -3,7 +3,9 @@ title: 认识docker和k8s
 banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2025-09-20 12:05:55
-tags:
+tags: 
+- docker
+- k8s
 ---
 # 一文带你认识「Docker」与「k8s」
 > 转载自: [https://juejin.cn/post/7015729458959089701](https://juejin.cn/post/7015729458959089701)

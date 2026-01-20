@@ -3,7 +3,7 @@ title: '炼气技术栈Shell脚本: linux命令筑基'
 banner: /images/banner_camera.jpg
 cover: /images/banner_desk.jpg
 date: 2025-08-10 12:04:08
-tags:
+tags: shell
 ---
 
 Shell 脚本程序就是用一条条的 Shell 命令，完成复杂的任务，掌握常见 Shell 命令是编写 Shell 脚本的前提。
